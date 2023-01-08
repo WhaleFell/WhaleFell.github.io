@@ -1,0 +1,868 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WhaleFall">
+  <meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控">
+  
+    <meta name="description" content="服务器备忘录 2022年3月19日 Update.    落落家X86服务器配置 运行内存(RAM)：4GB（笔记本ddr3内存条）  CPU：4 x Intel(R) Atom(TM) CPU D2550 @ 1.86GHz &#x2F; 512 KB cache 英特尔凌动® 处理器 D2550 (intel.cn) 2核4线程  服务器系统：Ubuntu 18.04 Server Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器备忘录✨">
+<meta property="og:url" content="https://lskyl.xyz/Server-all/index.html">
+<meta property="og:site_name" content="😊落落のBlog😊">
+<meta property="og:description" content="服务器备忘录 2022年3月19日 Update.    落落家X86服务器配置 运行内存(RAM)：4GB（笔记本ddr3内存条）  CPU：4 x Intel(R) Atom(TM) CPU D2550 @ 1.86GHz &#x2F; 512 KB cache 英特尔凌动® 处理器 D2550 (intel.cn) 2核4线程  服务器系统：Ubuntu 18.04 Server Linux">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://images.samsung.com/is/image/samsung/p5/semiconductor/solutions/applications/server/3-kf-energy-efficiency-mobile.jpg?$ORIGIN_JPG$">
+<meta property="article:published_time" content="2022-03-20T19:37:48.000Z">
+<meta property="article:modified_time" content="2022-03-20T19:37:48.000Z">
+<meta property="article:author" content="WhaleFall">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Server">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://images.samsung.com/is/image/samsung/p5/semiconductor/solutions/applications/server/3-kf-energy-efficiency-mobile.jpg?$ORIGIN_JPG$">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>服务器备忘录✨ - 😊落落のBlog😊</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lskyl.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["-picsmall",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":"G-Q6KQ3FW2SP","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.google-analytics.com/analytics.js', function() {
+          window.ga = window.ga || function() { (ga.q = ga.q || []).push(arguments) };
+          ga.l = +new Date;
+          ga('create', 'G-Q6KQ3FW2SP', 'auto');
+          ga('send', 'pageview');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>😊落落のBlog😊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://images.samsung.com/is/image/samsung/p5/semiconductor/solutions/applications/server/3-kf-energy-efficiency-mobile.jpg?$ORIGIN_JPG$') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="服务器备忘录✨"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        WhaleFall
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-03-20 19:37" pubdate>
+          2022年3月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">服务器备忘录✨</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="服务器备忘录"><a href="#服务器备忘录" class="headerlink" title="服务器备忘录"></a>服务器备忘录</h1><blockquote>
+<p><strong>2022年3月19日</strong> Update.  </p>
+</blockquote>
+<h1 id="落落家X86"><a href="#落落家X86" class="headerlink" title="落落家X86"></a>落落家X86</h1><h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ul>
+<li><p><strong>运行内存(RAM)：</strong>4GB（笔记本ddr3内存条）</p>
+</li>
+<li><p><strong>CPU：</strong>4 x Intel(R) Atom(TM) CPU D2550 @ 1.86GHz &#x2F; 512 KB cache <a target="_blank" rel="noopener" href="https://www.intel.cn/content/www/cn/zh/products/sku/65470/intel-atom-processor-d2550-1m-cache-1-86-ghz/specifications.html">英特尔凌动® 处理器 D2550 (intel.cn)</a> 2核4线程</p>
+</li>
+<li><p><strong>服务器系统</strong>：Ubuntu 18.04 Server</p>
+<p>Linux whalefall 4.15.0-171-generic #180-Ubuntu SMP Wed Mar 2 17:25:05 UTC 2022 x86_64</p>
+</li>
+<li><p><strong>硬盘：</strong><code>df -h</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">Filesystem      Size  Used Avail Use% Mounted on<br>/dev/sdb2       146G   18G  122G  13% /  # 系统盘 150GB<br>/dev/sda1       299G  294G  5.0G  99% /mnt/disk  # 3.5寸硬盘1 300GB (跑wx)<br>/dev/sdc1       466G  129G  338G  28% /mnt/mainDisk  # 2.5寸硬盘2 500GB (NAS)<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>网络：</strong> <code>ifconfig</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">enp2s0:  # 主网卡 <br>        inet 192.168.5.123  netmask 255.255.255.0  broadcast 192.168.5.255<br>enp1s0:  # 副网卡<br>        inet 192.168.5.124  netmask 255.255.255.0  broadcast 192.168.5.255<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>enp2s0：主网卡，跑 <strong>qBittorrent</strong></li>
+<li>enp1s0：副网卡，docker network —— macnet （openwrt），网心云docker</li>
+</ul>
+</li>
+</ul>
+<h2 id="运行服务"><a href="#运行服务" class="headerlink" title="运行服务"></a>运行服务</h2><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><blockquote>
+<p>配置文件：<code>/etc/nginx/conf.d</code>; <code>/etc/nginx/sites-enabled</code></p>
+<p>默认配置：<a href="#Nginx-default-config">Nginx默认配置</a></p>
+</blockquote>
+<ol>
+<li><p>Port: 80  </p>
+<p>Desc: 运行探针服务。</p>
+<p>Path: <code>/var/www/html</code>  </p>
+</li>
+<li><p>Port: 86  </p>
+<p>Desc: python3-cookbook 3.0.0 文档。  </p>
+<p>Path: <code>/www/openvpn_admin/</code>  </p>
+</li>
+<li><p>Port: 88</p>
+<p>Desc: 可道云 Kodcloud.</p>
+<p>Path: <code>/www/kodcloud</code></p>
+</li>
+<li><p>Port: 89</p>
+<p>Desc: AiraNg 下载器。（已反向代理Aira2 6800）<a href="#AiraNg-download-config">配置文件</a></p>
+<p>Path: <code>/www/kodcloud</code></p>
+</li>
+</ol>
+<h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><ol>
+<li><p>Port：9090</p>
+<p>Desc：Portainer web admin</p>
+<p>command：<a href="#run-portainer-command">source</a></p>
+</li>
+<li><p>Port：8989</p>
+<p>Desc：qBittorrent download</p>
+<p>command：<a href="#run-qBittorrent-command">source</a></p>
+</li>
+<li><p>Port：18888</p>
+<p>Desc：网心云（容器魔方）</p>
+<p>command：<a href="#run-wxedge-command">source</a></p>
+</li>
+<li><p>network：macnet</p>
+<p>ip：192.168.5.66</p>
+<p>Desc：openwrt 软路由</p>
+<p>coomand：<a href="#run-openwrt-by-docker">source</a></p>
+</li>
+</ol>
+<h1 id="部分配置文件"><a href="#部分配置文件" class="headerlink" title="部分配置文件"></a>部分配置文件</h1><h2 id="Nginx-default-config"><a href="#Nginx-default-config" class="headerlink" title="Nginx_default_config"></a>Nginx_default_config</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs shell">server &#123;<br>        listen 80 default_server;<br>        listen [::]:80 default_server;<br>        root /www/;<br>        index index.php index.html index.htm index.nginx-debian.html;<br>        server_name _;<br>        location / &#123;<br>                try_files $uri $uri/ =404;<br>        &#125;<br>        location ~ .*\.php(\/.*)*$ &#123;<br>                include snippets/fastcgi-php.conf;<br>                # With php-fpm (or other unix sockets):<br>                fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;<br>                # With php-cgi (or other tcp sockets):<br>        #       fastcgi_pass 127.0.0.1:9000;<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="AiraNg-download-config"><a href="#AiraNg-download-config" class="headerlink" title="AiraNg_download_config"></a>AiraNg_download_config</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span> <span class="hljs-number">89</span> default_server;<br>        <span class="hljs-attribute">listen</span> [::]:<span class="hljs-number">89</span> default_server;<br>        <span class="hljs-attribute">root</span> /www/AiraNg/;<br>        <span class="hljs-attribute">index</span> index.php index.html index.htm index.nginx-debian.html;<br>        <span class="hljs-attribute">server_name</span> _;<br>        <span class="hljs-section">location</span> / &#123;<br>                <span class="hljs-attribute">try_files</span> <span class="hljs-variable">$uri</span> <span class="hljs-variable">$uri</span>/ =<span class="hljs-number">404</span>;<br>        &#125;<br>        <span class="hljs-section">location</span> <span class="hljs-regexp">~ .*\.php(\/.*)*$</span> &#123;<br>                <span class="hljs-attribute">include</span> snippets/fastcgi-php.conf;<br>                <span class="hljs-comment"># With php-fpm (or other unix sockets):</span><br>                <span class="hljs-attribute">fastcgi_pass</span> unix:/var/run/php/php7.4-fpm.sock;<br>                <span class="hljs-comment"># With php-cgi (or other tcp sockets):</span><br>        <span class="hljs-comment">#       fastcgi_pass 127.0.0.1:9000;</span><br>        &#125;<br>        <span class="hljs-comment"># 反向代理 Aria ws</span><br>        <span class="hljs-section">location</span> /jsonrpc &#123;<br>        <span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;<br>        <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:6800/jsonrpc;<br>        <span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;<br>        <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;<br>        &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="run-qBittorrent-command"><a href="#run-qBittorrent-command" class="headerlink" title="run qBittorrent command"></a>run qBittorrent command</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">运行 qbittorrent docker 版</span><br> docker create \<br>    --name=qbittorrent \<br>    -e QB_WEBUI_PORT=8989 \<br>    -e QB_EE_BIN=false \<br>    -e UID=0 \<br>    -e GID=0 \<br>    -e QB_TRACKERS_UPDATE_AUTO=true \<br>    -e QB_TRACKERS_LIST_URL=https://trackerslist.com/all.txt \<br>    -e TZ=Asia/Shanghai \<br>    -e UMASK=022 \<br>    -p 6881:6881 \<br>    -p 6881:6881/udp \<br>    -p 8989:8989 \<br>    -v /root/qb_config:/config \<br>    -v /mnt/mainDisk/download/:/Downloads \<br>    --restart unless-stopped \<br>    johngong/qbittorrent:latest<br></code></pre></td></tr></table></figure>
+
+<h3 id="run-portainer-command"><a href="#run-portainer-command" class="headerlink" title="run_portainer_command"></a>run_portainer_command</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">运行汉化版 Portainer</span><br>docker run -d -p 9000:9000 <br>--name portainer \ <br>--restart always \ <br>-v /var/run/docker.sock:/var/run/docker.sock \ <br>-v portainer_data:/data \ <br>-v /root/public:/public \ <br>portainer/portainer<br></code></pre></td></tr></table></figure>
+
+<h3 id="run-wxedge-command"><a href="#run-wxedge-command" class="headerlink" title="run_wxedge_command"></a>run_wxedge_command</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -d --name=wxedge --restart=always --privileged --net=host  --tmpfs /run --tmpfs /tmp -v /mnt/disk/wxedge_storage:/storage:rw -e NIC=enp2s0  onething1/wxedge<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>-e NIC：指定网卡</p>
+</blockquote>
+<h3 id="run-openwrt-by-docker"><a href="#run-openwrt-by-docker" class="headerlink" title="run_openwrt_by_docker"></a>run_openwrt_by_docker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">新建一个网络 指定网卡</span><br>docker network create -d macvlan --subnet=192.168.5.0/24 --gateway=192.168.5.1 -o parent=enp2s0 macnet<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">运行 openwrt 镜像 指定ip</span><br>docker run --restart always --name openwrt -d --network macnet --ip=192.168.5.66 --privileged openwrt_myself:latest<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">进入容器命令行，修改 /etc/network/config</span><br>config interface &#x27;loopback&#x27;<br>        option proto &#x27;static&#x27;<br>        option ipaddr &#x27;127.0.0.1&#x27;<br>        option netmask &#x27;255.0.0.0&#x27;<br>        option device &#x27;lo&#x27;<br><br>config interface &#x27;lan&#x27;<br>        option type &#x27;bridge&#x27;<br>        option ifname &#x27;eth0&#x27;<br>        option proto &#x27;static&#x27;<br>        option netmask &#x27;255.255.255.0&#x27;<br>        option gateway &#x27;192.168.5.1&#x27;<br>        option dns &#x27;192.168.5.1&#x27;<br>        option ipaddr &#x27;192.168.5.66&#x27;<br>        <br><span class="hljs-meta prompt_"># </span><span class="language-bash">openwrt 防火墙自定义规则添加</span><br>iptables -t nat -I POSTROUTING -o eth0 -jMASQUERADE<br></code></pre></td></tr></table></figure>
+
+<h3 id="run-ttnode-by-docker"><a href="#run-ttnode-by-docker" class="headerlink" title="run_ttnode_by_docker"></a>run_ttnode_by_docker</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo docker run -d \<br>  -v /tiptime_dir:/mnt/data/ttnode \<br>  -v /var/run/docker.sock:/var/run/docker.sock \<br>  --name ttnode \<br>  --hostname ttnode \<br>  --net=host \<br>  --restart=always \<br>  tiptime/ttnode:latest<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Server/" class="category-chain-item">Server</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/">#Linux</a>
+      
+        <a href="/tags/Server/">#Server</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>服务器备忘录✨</div>
+      <div>https://lskyl.xyz/Server-all/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WhaleFall</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年3月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Github-workflow/" title="GitHub Workflow 工作流使用笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">GitHub Workflow 工作流使用笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Linux-note/" title="Linux 运维笔记(持续更新)">
+                        <span class="hidden-mobile">Linux 运维笔记(持续更新)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.7/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-repo-ten.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP证865412236号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11426336"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备11426336号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,892 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WhaleFall">
+  <meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控">
+  
+    <meta name="description" content="Linux iptables 命令笔记 认识iptables 是运行在用户空间的应用软件，通过控制 Linux 内核 netfilter 模块，来管理网络数据包的处理和转发。 iptables 操作需要超级用户权限，以上命令通常只用于处理 IPv4 数据包；而对于 IPv6 数据包，则使用类似的 ip6tables 命令。 原理iptables 的原理主要是对数据包的控制，看下图：     一个数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux iptables 命令笔记">
+<meta property="og:url" content="https://lskyl.xyz/Linux-iptables/index.html">
+<meta property="og:site_name" content="😊落落のBlog😊">
+<meta property="og:description" content="Linux iptables 命令笔记 认识iptables 是运行在用户空间的应用软件，通过控制 Linux 内核 netfilter 模块，来管理网络数据包的处理和转发。 iptables 操作需要超级用户权限，以上命令通常只用于处理 IPv4 数据包；而对于 IPv6 数据包，则使用类似的 ip6tables 命令。 原理iptables 的原理主要是对数据包的控制，看下图：     一个数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pic.lskyl.xyz/blog/img/Iptables-banner.png-picsmall">
+<meta property="article:published_time" content="2022-12-25T22:51:48.000Z">
+<meta property="article:modified_time" content="2022-12-25T22:59:48.000Z">
+<meta property="article:author" content="WhaleFall">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Network">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://pic.lskyl.xyz/blog/img/Iptables-banner.png-picsmall">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Linux iptables 命令笔记 - 😊落落のBlog😊</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lskyl.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["-picsmall",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":"G-Q6KQ3FW2SP","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.google-analytics.com/analytics.js', function() {
+          window.ga = window.ga || function() { (ga.q = ga.q || []).push(arguments) };
+          ga.l = +new Date;
+          ga('create', 'G-Q6KQ3FW2SP', 'auto');
+          ga('send', 'pageview');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>😊落落のBlog😊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://pic.lskyl.xyz/blog/img/Iptables-banner.png-picsmall') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Linux iptables 命令笔记"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        WhaleFall
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-25 22:51" pubdate>
+          2022年12月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          32 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Linux iptables 命令笔记</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：14 天前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Linux-iptables-命令笔记"><a href="#Linux-iptables-命令笔记" class="headerlink" title="Linux iptables 命令笔记"></a>Linux iptables 命令笔记</h1><p><img src="http://pic.lskyl.xyz/blog/img/Iptables-banner.png-picsmall" srcset="/img/loading.gif" lazyload alt="banner"></p>
+<h2 id="认识"><a href="#认识" class="headerlink" title="认识"></a>认识</h2><p><code>iptables</code> 是运行在用户空间的应用软件，通过控制 Linux 内核 netfilter 模块，来管理网络数据包的处理和转发。</p>
+<p><code>iptables</code> 操作需要超级用户权限，以上命令通常只用于处理 IPv4 数据包；而对于 IPv6 数据包，则使用类似的 <code>ip6tables</code> 命令。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>iptables 的原理主要是对数据包的控制，看下图：</p>
+<p><img src="http://pic.lskyl.xyz/blog/img/linux-iptables-1.png-picsmall" srcset="/img/loading.gif" lazyload alt="iptables 原理">  </p>
+<ol>
+<li>一个数据包进入网卡时，它首先进入 <strong>PREROUTING(预路由)</strong> 链，内核根据数据包目的IP判断是否需要转发出去.</li>
+<li>如果数据包就是进入本机的，它就会沿着图向下移动，到达 <strong>INPUT</strong> 链。数据包到了 INPUT 链后，任何进程都会收到它。本机上运行的程序可以发送数据包，这些数据包会经过 OUTPUT 链，然后到达 <strong>POSTROUTING(路由后)</strong> 链输出。</li>
+<li>如果数据包是要转发出去的，且内核允许转发，数据包就会如图所示向右移动，经过 FORWARD 链，然后到达 POSTROUTING 链输出。</li>
+</ol>
+<h2 id="规则-表-链"><a href="#规则-表-链" class="headerlink" title="规则 表 链"></a>规则 表 链</h2><blockquote>
+<p>iptables 由链组成,链中有规则</p>
+</blockquote>
+<p><img src="http://pic.lskyl.xyz/blog/img/linux-iptables-2.png-picsmall" srcset="/img/loading.gif" lazyload alt="iptables 结构"></p>
+<h3 id="规则-rules"><a href="#规则-rules" class="headerlink" title="规则(rules)"></a>规则(rules)</h3><p>规则（rules）其实就是网络管理员预定义的条件，规则一般的定义为“如果数据包头符合这样的条件，就这样处理这个数据包”。规则存储在内核空间的信息包过滤表中，这些规则分别指定了 <strong>源地址、目的地址、传输协议</strong>（如TCP、UDP、ICMP）和服务类型（如HTTP、FTP和SMTP）等。当数据包与规则匹配时，iptables就根据规则所定义的方法来处理这些数据包，如放行（accept）、拒绝（reject）和丢弃（drop）等。配置防火墙的主要工作就是添加、修改和删除这些规则。</p>
+<h3 id="链-chains"><a href="#链-chains" class="headerlink" title="链(chains)"></a>链(chains)</h3><p>链（chains）是数据包传播的路径，每一条链中可以有一条或数条规则。当一个数据包到达一个链时，iptables 就会从链中第一条规则开始检查，看该数据包是否满足规则所定义的条件。如果满足，系统就会根据该条规则所定义的方法处理该数据包；否则iptables 将继续检查下一条规则，如果该数据包不符合链中任一条规则，iptables 就会根据该链预先定义的默认策略来处理数据包。</p>
+<h3 id="表-tables"><a href="#表-tables" class="headerlink" title="表(tables)"></a>表(tables)</h3><p>表（tables）提供特定的功能，iptables内置了4个表，即 raw 表、filter 表、nat 表和 mangle 表，分别用于实现包过滤，网络地址转换和包重构的功能。</p>
+<p>其中 nat filter 表是常用的.</p>
+<h4 id="filter-表"><a href="#filter-表" class="headerlink" title="filter 表"></a>filter 表</h4><p>主要用于过滤数据包，主要利用在 filter 表中指定的规则来实现对数据包的过滤。<strong>Filter 表是默认的表，如果没有指定哪个表，iptables 就默认使用filter表来执行所有命令</strong>.</p>
+<p>filter表包含了INPUT链（处理进入的数据包），RORWARD链（处理转发的数据包），OUTPUT链（处理本地生成的数据包）在 filter 表中只能允许对数据包进行接受,丢弃的操作，而无法对数据包进行更改</p>
+<h4 id="nat-表"><a href="#nat-表" class="headerlink" title="nat 表"></a>nat 表</h4><p><strong>主要用于网络地址转换 NAT,用于端口和&#x2F;或地址的转换.</strong></p>
+<p>NAT表包含了PREROUTING链（修改即将到来的数据包），POSTROUTING链（修改即将出去的数据包），OUTPUT链（修改路由之前本地生成的数据包）</p>
+<h2 id="iptables-命令"><a href="#iptables-命令" class="headerlink" title="iptables 命令"></a>iptables 命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables [-t 表名] 命令选项 [链名] [条件匹配] [-j 目标动作或跳转] <br></code></pre></td></tr></table></figure>
+
+<h3 id="表名"><a href="#表名" class="headerlink" title="表名"></a>表名</h3><p>表名：Filter, NAT, Mangle, Raw</p>
+<p>起包过滤功能的为表Filter，可以不填，不填默认为Filter</p>
+<h3 id="命令选项"><a href="#命令选项" class="headerlink" title="命令选项"></a>命令选项</h3><p>-A 在指定链的末尾添加（–append）一条新的规则</p>
+<p>-D 删除（–delete）指定链中的某一条规则，按规则序号或内容确定要删除的规则</p>
+<p>-I 在指定链中插入（–insert）一条新的规则，默认在链的开头插入</p>
+<p>-R 修改、替换（–replace）指定链中的一条规则，按规则序号或内容确定</p>
+<p>-L 列出（–list）指定链中的所有的规则进行查看，默认列出表中所有链的内容</p>
+<p>-F 清空（–flush）指定链中的所有规则，默认清空表中所有链的内容</p>
+<p>-N 新建（–new-chain）一条用户自己定义的规则链</p>
+<p>-X 删除指定表中用户自定义的规则链（–delete-chain）</p>
+<p>-P 设置指定链的默认策略（–policy）</p>
+<p>-n 用数字形式（–numeric）显示输出结果，若显示主机的 IP地址而不是主机名</p>
+<p>-P 设置指定链的默认策略（–policy）</p>
+<p>-v 查看规则列表时显示详细（–verbose）的信息</p>
+<p>-V 查看iptables命令工具的版本（–Version）信息</p>
+<p>-h 查看命令帮助信息（–help）</p>
+<p>–line-number 查看规则列表时，同时显示规则在链中的顺序号</p>
+<h3 id="链名"><a href="#链名" class="headerlink" title="链名"></a>链名</h3><p>可以根据数据流向来确定具体使用哪个链，在Filter中的使用情况如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">INPUT链 – 处理来自外部的数据。 <br>OUTPUT链 – 处理向外发送的数据。 <br>FORWARD链 – 将数据转发到本机的其他网卡设备上。<br></code></pre></td></tr></table></figure>
+
+<h3 id="条件匹配"><a href="#条件匹配" class="headerlink" title="条件匹配"></a>条件匹配</h3><p>-p 指定规则协议，如tcp, udp,icmp等，可以使用all来指定所有协议</p>
+<p>-s 指定数据包的源地址参数，可以使IP地址、网络地址、主机名</p>
+<p>-d 指定目的地址</p>
+<p>-i 输入接口</p>
+<p>-o 输出接口</p>
+<p><img src="http://pic.lskyl.xyz/blog/img/linux-iptable-3.jpeg-picsmall" srcset="/img/loading.gif" lazyload alt="扩展参数1">  </p>
+<p><img src="http://pic.lskyl.xyz/blog/img/linux-iptables-4.jpeg-picsmall" srcset="/img/loading.gif" lazyload alt="扩展参数2"></p>
+<h3 id="目标值"><a href="#目标值" class="headerlink" title="目标值"></a>目标值</h3><p>数据包控制方式包括四种为：</p>
+<ol>
+<li>ACCEPT：允许数据包通过。</li>
+<li>DROP：直接丢弃数据包，不给出任何回应信息。</li>
+<li>REJECT：拒绝数据包通过，必须时会给数据发送端一个响应信息。</li>
+<li>LOG：在&#x2F;var&#x2F;log&#x2F;messages 文件中记录日志信息，然后将数据包传递给下一条规则。</li>
+<li>QUEUE：防火墙将数据包移交到用户空间</li>
+<li>RETURN：防火墙停止执行当前链中的后续Rules，并返回到调用链(the calling chain)</li>
+</ol>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="NAT-转发"><a href="#NAT-转发" class="headerlink" title="NAT 转发"></a>NAT 转发</h3><p>实现将本机（192.168.1.7:7410）端口流量转发给（192.168.1.160:9200）。</p>
+<h4 id="1-内核允许转发"><a href="#1-内核允许转发" class="headerlink" title="1. 内核允许转发"></a>1. 内核允许转发</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">vim /etc/sysctl.conf<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">添加如下代码：</span><br>net.ipv4.ip_forward=1<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">重启network服务</span><br>systemctl restart network<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">查看是否修改成功</span><br>sysctl net.ipv4.ip_forward<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-设置filter表基础策略：允许入包-x2F-出包-x2F-转发"><a href="#2-设置filter表基础策略：允许入包-x2F-出包-x2F-转发" class="headerlink" title="2. 设置filter表基础策略：允许入包&#x2F;出包&#x2F;转发"></a>2. 设置filter表基础策略：允许入包&#x2F;出包&#x2F;转发</h4><p>-P 设置链的基础策略</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -P INPUT ACCEPT<br>iptables -P OUTPUT ACCEPT<br>iptables -P FORWARD ACCEPT<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-端口转发流量"><a href="#3-端口转发流量" class="headerlink" title="3. 端口转发流量"></a>3. 端口转发流量</h4><p>建立一个双向映射</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">访问时转发</span><br>iptables -t nat -A PREROUTING -d 192.168.1.7/32 -p tcp --dport 7410 -j DNAT --to-destination 192.168.1.160:9200<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">接受来源于远程机器的数据包</span><br><span class="hljs-meta prompt_"># </span><span class="language-bash">SNAT 地址伪装</span><br>iptables -t nat -A POSTROUTING -d 192.168.1.160/32 -p tcp --dport 9200 -j SNAT --to-source 192.168.1.7<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo iptables -t nat -I PREROUTING -p tcp -d 10.10.40.40 --dport 3079 -j DNAT --to-destination 10.10.66.12:22<br>sudo iptables -t nat -I POSTROUTING -p tcp --dport 22 -d 10.10.66.12 -j SNAT --to-source 10.10.40.40<br></code></pre></td></tr></table></figure>
+
+<h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><p>显示nat规则列表：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -L -n --line-numbers<br></code></pre></td></tr></table></figure>
+
+<p>删除指定规则：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -D PREROUTING 1<br></code></pre></td></tr></table></figure>
+
+<p>允许出站的DNS连接:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -A OUTPUT -p udp -o eth0 --dport 53 -j ACCEPT<br>iptables -A INPUT -p udp -i eth0 --sport 53 -j ACCEPT<br></code></pre></td></tr></table></figure>
+
+<p>将来自422端口的流量全部转到22端口:</p>
+<p>这意味着我们既能通过422端口又能通过22端口进行ssh连接。启用DNAT转发。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -A PREROUTING -p tcp -d 192.168.102.37 --dport 422 -j DNAT --to 192.168.102.37:22<br></code></pre></td></tr></table></figure>
+
+<p>除此之外，还需要允许连接到422端口的请求:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -A INPUT -i eth0 -p tcp --dport 422 -m state --state NEW,ESTABLISHED -j ACCEPT<br>iptables -A OUTPUT -o eth0 -p tcp --sport 422 -m state --state ESTABLISHED -j ACCEPT<br></code></pre></td></tr></table></figure>
+
+<p>本机端口转发:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -A PREROUTING -p tcp --dport 422 -j REDIRECT --to-ports 22<br></code></pre></td></tr></table></figure>
+
+<p>注意,在本机请求无法经过 PREROUTING 链,所以本机的 422 端口访问不了 22.</p>
+<p>如果需要本机也可以访问，则需要配置OUTPUT链</p>
+<p>特别注意:本机访问外网的端口会转发到本地,导致访不到外网.实际上是访问到本地,建议不做80端口的转发或者指定目的 -d localhost：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">iptables -t nat -A OUTPUT -d localhost -p tcp --dport 80 -j REDIRECT --to-ports 8080<br></code></pre></td></tr></table></figure>
+
+<p>原因：外网访问需要经过PREROUTING链，但是localhost不经过该链，因此需要用OUTPUT。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/">#Linux</a>
+      
+        <a href="/tags/Network/">#Network</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Linux iptables 命令笔记</div>
+      <div>https://lskyl.xyz/Linux-iptables/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WhaleFall</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Golang-goruntine-note/" title="Golang 学习笔记——Goruntine并发协程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Golang 学习笔记——Goruntine并发协程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Samba4-config/" title="Samba4 服务器配置最佳实践">
+                        <span class="hidden-mobile">Samba4 服务器配置最佳实践</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.7/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-repo-ten.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP证865412236号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11426336"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备11426336号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

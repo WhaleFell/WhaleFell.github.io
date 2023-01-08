@@ -1,0 +1,929 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WhaleFall">
+  <meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控">
+  
+    <meta name="description" content="Go 接口面向对象 世界中的接口的一般定义是”接口定义对象的行为“。它表示让指定对象应该做什么。实现这种行为的方法（实现细节）是针对对象的。   在 Go 中，接口是 一组方法签名。当类型为接口中的所有方法提供定义时，它被称为 实现接口。它与OOP非常相似。接口指定了类型 应该具有 的方法，类型决定了 如何实现 这些方法。  它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Golang 学习笔记——Go 接口">
+<meta property="og:url" content="https://lskyl.xyz/Golang-interface-note/index.html">
+<meta property="og:site_name" content="😊落落のBlog😊">
+<meta property="og:description" content="Go 接口面向对象 世界中的接口的一般定义是”接口定义对象的行为“。它表示让指定对象应该做什么。实现这种行为的方法（实现细节）是针对对象的。   在 Go 中，接口是 一组方法签名。当类型为接口中的所有方法提供定义时，它被称为 实现接口。它与OOP非常相似。接口指定了类型 应该具有 的方法，类型决定了 如何实现 这些方法。  它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pic.lskyl.xyz/blog/Golang/icon_img.png-picsmall">
+<meta property="article:published_time" content="2022-05-16T18:30:48.000Z">
+<meta property="article:modified_time" content="2022-05-16T18:30:48.000Z">
+<meta property="article:author" content="WhaleFall">
+<meta property="article:tag" content="Coding">
+<meta property="article:tag" content="Golang">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://pic.lskyl.xyz/blog/Golang/icon_img.png-picsmall">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Golang 学习笔记——Go 接口 - 😊落落のBlog😊</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lskyl.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["-picsmall",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":"G-Q6KQ3FW2SP","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.google-analytics.com/analytics.js', function() {
+          window.ga = window.ga || function() { (ga.q = ga.q || []).push(arguments) };
+          ga.l = +new Date;
+          ga('create', 'G-Q6KQ3FW2SP', 'auto');
+          ga('send', 'pageview');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>😊落落のBlog😊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://pic.lskyl.xyz/blog/Golang/icon_img.png-picsmall') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Golang 学习笔记——Go 接口"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        WhaleFall
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-16 18:30" pubdate>
+          2022年5月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          66 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Golang 学习笔记——Go 接口</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Go-接口"><a href="#Go-接口" class="headerlink" title="Go 接口"></a>Go 接口</h1><p><strong>面向对象</strong> 世界中的接口的一般定义是”<strong>接口定义对象的行为</strong>“。它表示让指定对象应该做什么。实现这种行为的方法（实现细节）是<strong>针对对象</strong>的。  </p>
+<p>在 <code>Go</code> 中，接口是 <strong>一组方法签名</strong>。当类型为接口中的所有方法提供定义时，它被称为 <strong>实现接口</strong>。它与OOP非常相似。接口指定了类型 <strong>应该具有</strong> 的方法，类型决定了 <strong>如何实现</strong> 这些方法。</p>
+<blockquote>
+<p>它把所有的具有共性的方法定义在一起，任何其他类型只要实现了这些方法就是实现了这个接口  </p>
+<p>接口定义了一组方法，如果某个对象实现了某个接口的所有方法，则此对象就实现了该接口。</p>
+</blockquote>
+<h2 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h2><p><img src="http://pic.lskyl.xyz/blog/Golang/interface-1.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p><strong>表达一个类型属于某个接口只要这个类型实现这个接口。</strong></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer<br>w = os.Stdout <span class="hljs-comment">// OK: *os.File has Write method</span><br>w = <span class="hljs-built_in">new</span>(bytes.Buffer) <span class="hljs-comment">// OK: *bytes.Buffer has Write method</span><br>w = time.Second <span class="hljs-comment">// compile error: time.Duration lacks Write method</span><br><br><span class="hljs-keyword">var</span> rwc io.ReadWriteCloser<br>rwc = os.Stdout <span class="hljs-comment">// OK: *os.File has Read, Write, Close methods</span><br>rwc = <span class="hljs-built_in">new</span>(bytes.Buffer) <span class="hljs-comment">// compile error: *bytes.Buffer lacks Close method</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-2.png-picsmall" srcset="/img/loading.gif" lazyload><br><img src="http://pic.lskyl.xyz/blog/Golang/interface-4.png-picsmall" srcset="/img/loading.gif" lazyload><br><img src="http://pic.lskyl.xyz/blog/Golang/interface-3.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<blockquote>
+<p>Go语言中接口和类型的实现方式是 <strong>非侵入式</strong> 的,接口定义的方法没有具体代码.</p>
+</blockquote>
+<h2 id="通过接口模拟多态"><a href="#通过接口模拟多态" class="headerlink" title="通过接口模拟多态"></a>通过接口模拟多态</h2><h3 id="多态的定义"><a href="#多态的定义" class="headerlink" title="多态的定义"></a>多态的定义</h3><p>“一个事物的多种形态”  </p>
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-5.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<p>就一个接口的实现:  </p>
+<ol>
+<li>看成 <strong>实现本身的类型</strong>，能够访问 <strong>实现类中的属性和方法</strong>.  </li>
+<li>看成 <strong>对应的接口类型</strong>，那就 <strong>只能够访问接口中的方法</strong>.</li>
+</ol>
+<p>接口的用法：  </p>
+<ol>
+<li>一个函数如果接受 <strong>接口类型作为参数</strong>，那么实际上 <strong>可以传入该接口的任意实现类</strong> 对象作为参数。  </li>
+<li>定义一个类型为 <strong>接口类型</strong>，实际上可以 <strong>赋值为任意实现类的对象</strong>.</li>
+</ol>
+<p>鸭子类型:  </p>
+<blockquote>
+<p>待补充…</p>
+</blockquote>
+<h2 id="空接口"><a href="#空接口" class="headerlink" title="空接口"></a>空接口</h2><p><code>interface&#123;&#125;</code> 不包含任何的方法,所以<strong>任何类型都是空接口的实现类</strong>,因此空接口可以储存任何类型的数值.<br><img src="http://pic.lskyl.xyz/blog/Golang/interface-7.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="空接口定义任意类型的数据"><a href="#空接口定义任意类型的数据" class="headerlink" title="空接口定义任意类型的数据"></a>空接口定义任意类型的数据</h3><p><img src="http://pic.lskyl.xyz/blog/Golang/interface-6.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<h3 id="空接口作为函数的参数"><a href="#空接口作为函数的参数" class="headerlink" title="空接口作为函数的参数"></a>空接口作为函数的参数</h3><p>表示函数的参数可以是任意类型,相当于 Python 的 <code>typing.Any</code>  </p>
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-8.png-picsmall" srcset="/img/loading.gif" lazyload><br><code>fmt</code> 包就是应用了空接口,可以传入任何参数.<br><code>fmt</code> 包下的 <code>Print</code> 系列函数:  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Print</span><span class="hljs-params">(a ...<span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> (n <span class="hljs-type">int</span>,err <span class="hljs-type">error</span>)<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Printf</span><span class="hljs-params">(format <span class="hljs-type">string</span>,a ...<span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> (n <span class="hljs-type">int</span>,err <span class="hljs-type">error</span>)<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Println</span><span class="hljs-params">(a ...<span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> (n <span class="hljs-type">int</span>,err <span class="hljs-type">error</span>)<br></code></pre></td></tr></table></figure>
+
+<h3 id="复合数据结构使用空接口"><a href="#复合数据结构使用空接口" class="headerlink" title="复合数据结构使用空接口"></a>复合数据结构使用空接口</h3><p><img src="http://pic.lskyl.xyz/blog/Golang/interface-9.png-picsmall" srcset="/img/loading.gif" lazyload><br><img src="http://pic.lskyl.xyz/blog/Golang/interface-10.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<h2 id="接口嵌套"><a href="#接口嵌套" class="headerlink" title="接口嵌套"></a>接口嵌套</h2><p>接口允许多继承.  </p>
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-11.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<p>如果 Cat 想实现接口C,不仅要实现接口C自己的方法,还要实现接口C继承的接口A B中的方法.  </p>
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-12.png-picsmall" srcset="/img/loading.gif" lazyload><br><img src="http://pic.lskyl.xyz/blog/Golang/interface-13.png-picsmall" srcset="/img/loading.gif" lazyload><br><img src="http://pic.lskyl.xyz/blog/Golang/insterface-14.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<h2 id="接口断言"><a href="#接口断言" class="headerlink" title="接口断言"></a>接口断言</h2><p>前面说过，因为空接口 <code>interface</code> 没有定义任何函数，因此 <code>Go</code> 中 <strong>所有类型都实现了空接口</strong>。当一个函数的形参是 <code>interface&#123;&#125;</code> ，那么在函数中，需要对形参 <strong>进行断言</strong>，从而 <strong>得到它的真实类型</strong>。</p>
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-15.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<p>方法一:  通过 <code>x.(T)</code> 的方式断言</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer<br>w = os.Stdout<br>f := w.(*os.File)      <span class="hljs-comment">// success: f == os.Stdout</span><br>c := w.(*bytes.Buffer) <span class="hljs-comment">// panic: interface holds *os.File, not *bytes.Buffer</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>如果断言的类型T是一个接口类型</strong>，然后类型断言检查是否x的动态类型满足T。如果这个检查成功了，动态值没有获取到；这个结果仍然是一个有相同动态类型（type）和值部分（value）的接口值，但是结果为类型T。</p>
+<p>用于判断 <code>x.(T)</code> x 是否满足 T 接口。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer <span class="hljs-comment">// io.Writer 接口</span><br>w = os.Stdout <span class="hljs-comment">// os.Stdout接口 实现了 io.Writer 接口</span><br>rw := w.(io.ReadWriter) <span class="hljs-comment">// success: *os.File has both Read and Write</span><br>w = <span class="hljs-built_in">new</span>(ByteCounter)<br>rw = w.(io.ReadWriter) <span class="hljs-comment">// panic: *ByteCounter has no Read method</span><br></code></pre></td></tr></table></figure>
+
+<p>如果一个类型满足下面的这个接口，然后 <code>WriteString(s)</code> 方法就必须和<code>Write([]byte(s))</code>有相同的效果。</p>
+<p>Write 方法需要传入一个 byte 切片而我们希望写入的值是一个字符串，所以我们需要使用<code>[]byte(...)</code>进行转换。<strong>这个转换分配内存并且做一个拷贝</strong>，但是这个拷贝在转换后几乎立马就被丢弃掉，会影响一丢丢性能。</p>
+<p>我们知道在这个程序中的 w 变量持有的动态类型也有一个<strong>允许字符串高效写入</strong>的 <code>WriteString</code> 方法；这个方法会避免去分配一个临时的拷贝。</p>
+<p>许多满足io.Writer接口的重要类型同时也有 WriteString 方法，包括<code>*bytes.Buffer</code>，<code>*os.File</code>和<code>*bufio.Writer</code>。</p>
+<p>我们不能对任意实现 <code>io.Writer</code> 接口类型的变量w，假设它也拥有<code>WriteString</code> 方法。但是我们可以定义一个只有这个方法的新接口并且使用类型断言来检测是否 w 的动态类型满足这个新接口。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">writeString</span><span class="hljs-params">(w io.Writer, s <span class="hljs-type">string</span>)</span></span> (n <span class="hljs-type">int</span>, err <span class="hljs-type">error</span>) &#123;<br>    <span class="hljs-comment">// 定义一个实现了 WriteString 方法的接口</span><br>    <span class="hljs-keyword">type</span> stringWriter <span class="hljs-keyword">interface</span> &#123;<br>        WriteString(<span class="hljs-type">string</span>) (n <span class="hljs-type">int</span>, err <span class="hljs-type">error</span>)<br>    &#125;<br>    <span class="hljs-comment">// 检查 w 是否实现了 WriteString 方法</span><br>    <span class="hljs-keyword">if</span> sw, ok := w.(stringWriter); ok &#123;<br>        <span class="hljs-comment">// 实现了就调用这个方法</span><br>        <span class="hljs-keyword">return</span> sw.WriteString(s) <span class="hljs-comment">// avoid a copy</span><br>    &#125;<br>    <span class="hljs-comment">// 没有实现 WriteString 方法就回退到使用 w.Write 方法</span><br>    <span class="hljs-keyword">return</span> w.Write([]<span class="hljs-type">byte</span>(s)) <span class="hljs-comment">// allocate temporary copy</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它太有用了以致于标准库将它作为 <code>io.WriteString</code> 函数提供。<strong>这是向一个 io.Writer 接口写入字符串的推荐方法。</strong></p>
+<p>上面的 writeString 函数使用一个<strong>类型断言来获知一个普遍接口类型的值是否满足一个更加具体的接口类型</strong>；并且如果满足，它会使用这个更具体接口的行为。</p>
+<p><strong>如果断言操作的对象是一个nil接口值</strong>，那么不论被断言的类型是什么这个类型断言都会失败。</p>
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-16.png-picsmall" srcset="/img/loading.gif" lazyload alt="通过x.(T)方式断言">  </p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer = os.Stdout<br>f, ok := w.(*os.File)      <span class="hljs-comment">// success:  ok, f == os.Stdout</span><br>b, ok := w.(*bytes.Buffer) <span class="hljs-comment">// failure: !ok, b == nil</span><br><br><span class="hljs-comment">// 更简洁的结构</span><br><span class="hljs-keyword">if</span> f, ok := w.(*os.File); ok &#123;<br>    <span class="hljs-comment">// ...use f...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当类型断言的操作对象是一个变量时，if 内层其实是声明了一个同名的新的本地变量，外层原来的 w 不会被改变。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">if</span> w, ok := w.(*os.File); ok &#123;<br>    <span class="hljs-comment">// ...use w...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>方法二：使用 <code>switch...case...</code> 语句，断言类型分支。</p>
+<p>一个类型分支隐式的创建了一个词法块，因此新变量 x 的定义不会和外面块中的 x 变量冲突。每一个 case 也会隐式的创建一个单独的词法块。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">switch</span> x := x.(<span class="hljs-keyword">type</span>) &#123;<br>    <span class="hljs-keyword">case</span> <span class="hljs-literal">nil</span>:       <span class="hljs-comment">// ...</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-type">int</span>, <span class="hljs-type">uint</span>: <span class="hljs-comment">// ...</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-type">bool</span>:      <span class="hljs-comment">// ...</span><br>    <span class="hljs-keyword">case</span> <span class="hljs-type">string</span>:    <span class="hljs-comment">// ...</span><br>    <span class="hljs-keyword">default</span>:        <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://pic.lskyl.xyz/blog/Golang/interface-17.png-picsmall" srcset="/img/loading.gif" lazyload>  </p>
+<h2 id="接口值"><a href="#接口值" class="headerlink" title="接口值"></a>接口值</h2><p>接口值由两部分组成：一个具体的类型（type）和这个类型的值（value）。<strong>接口是动态类型。</strong>一个接口值可以持有任意大的动态值。实现了这个接口的类型都可以赋值这个接口。</p>
+<p><img src="http://pic.lskyl.xyz/blog/img/20221229121130.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<p>定义一个 nil 接口：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer <span class="hljs-comment">// 空接口</span><br>w.Writer([]<span class="hljs-type">byte</span>(<span class="hljs-string">&quot;hello&quot;</span>)) <span class="hljs-comment">// panic: nil pointer</span><br><span class="hljs-comment">// 可以通过 w == nil 判断接口值是否为空</span><br></code></pre></td></tr></table></figure>
+
+<p>将 <code>*os.File</code> 类型赋值给变量 w，因为 <code>*os.File</code> 实现了 <code>io.Writer</code> 接口，所以赋值合法。赋值过程调用了一个 <strong>具体类型到接口类型</strong> 的隐式转换（变成T类型 <code>T(type)</code> ） <code>io.Writer(os.Stdout)</code></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go">w = os.Stdout<br><span class="hljs-comment">// 隐式转换 </span><br>io.Writer(os.Stdout)<br></code></pre></td></tr></table></figure>
+
+<p>接口的 value 持有 <code>os.Stdout</code> 的拷贝，这是一个代表处理标准输出的 <code>os.File</code> 类型的指针。</p>
+<p><img src="http://pic.lskyl.xyz/blog/img/20221229122508.png-picsmall" srcset="/img/loading.gif" lazyload alt="接口的赋值"></p>
+<p>调用一个包含 <code>*os.File</code> 类型指针的接口值的 <code>Write</code> 方法，得<code>(*os.File).Write</code> 方法被调用。这个调用输出 “hello”。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go">w.Write([]<span class="hljs-type">byte</span>(<span class="hljs-string">&quot;hello&quot;</span>)) <span class="hljs-comment">// &quot;hello&quot;</span><br>(*os.File).Write <span class="hljs-comment">// 等效</span><br></code></pre></td></tr></table></figure>
+
+<p>当我们处理错误或者调试的过程中，得知接口值的动态类型是非常有帮助的。所以我们使用 <code>fmt</code> 包的 <code>%T</code> 动作，在fmt包内部，使用反射来获取接口动态类型的名称。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer<br>fmt.Printf(<span class="hljs-string">&quot;%T\n&quot;</span>, w) <span class="hljs-comment">// &quot;&lt;nil&gt;&quot;</span><br>w = os.Stdout<br>fmt.Printf(<span class="hljs-string">&quot;%T\n&quot;</span>, w) <span class="hljs-comment">// &quot;*os.File&quot;</span><br>w = <span class="hljs-built_in">new</span>(bytes.Buffer)<br>fmt.Printf(<span class="hljs-string">&quot;%T\n&quot;</span>, w) <span class="hljs-comment">// &quot;*bytes.Buffer&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="⚠️一个包含nil指针的接口不是nil接口"><a href="#⚠️一个包含nil指针的接口不是nil接口" class="headerlink" title="⚠️一个包含nil指针的接口不是nil接口"></a>⚠️一个包含nil指针的接口不是nil接口</h3><p>一个不包含任何值的 nil 接口值：</p>
+<p><img src="http://pic.lskyl.xyz/blog/img/20221229121130.png-picsmall" srcset="/img/loading.gif" lazyload alt="一个不包含任何值的 nil 接口值"></p>
+<p>一个刚好包含nil指针的接口值：</p>
+<p><img src="http://pic.lskyl.xyz/blog/img/20221229123705.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">var</span> w io.Writer<br>w = <span class="hljs-built_in">new</span>(bytes.Buffer)  <span class="hljs-comment">// new函数返回类型的初始化值的指针 nil w: *bytes.Buffer</span><br><span class="hljs-comment">// w not nil</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    <span class="hljs-keyword">var</span> w io.Writer<br>    w = <span class="hljs-built_in">new</span>(bytes.Buffer)<br>    fmt.Printf(<span class="hljs-string">&quot;w: %T\n&quot;</span>, w)<br>    <span class="hljs-keyword">if</span> w == <span class="hljs-literal">nil</span>&#123;<br>        fmt.Println(<span class="hljs-string">&quot;w is nil&quot;</span>)<br>    &#125; <span class="hljs-keyword">else</span> &#123;<br>        fmt.Println(<span class="hljs-string">&quot;w not nil&quot;</span>)<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// output:</span><br><span class="hljs-comment">// w: *bytes.Buffer</span><br><span class="hljs-comment">// w not nil</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="sort-Interface-接口"><a href="#sort-Interface-接口" class="headerlink" title="sort.Interface  接口"></a><code>sort.Interface</code>  接口</h3><p>在很多语言中，排序算法都是和序列数据类型关联，但 Go 语言的 <code>sort.Sort</code> 函数不会对具体的序列和它的元素做限定。它使用一个接口类型 <code>sort.Interface</code> 来指定通用的序列算法。</p>
+<p>一个内置的排序算法需要知道三个东西：序列的长度，表示两个元素比较的结果，一种交换两个元素的方式；这就是 <code>sort.Interface</code> 接口的三个方法：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> sort<br><span class="hljs-keyword">type</span> Interface <span class="hljs-keyword">interface</span> &#123;<br>    Len() <span class="hljs-type">int</span> <span class="hljs-comment">// 序列长度</span><br>    Less(i, j <span class="hljs-type">int</span>) <span class="hljs-type">bool</span> <span class="hljs-comment">// 两个元素比较的结果</span><br>    Swap(i, j <span class="hljs-type">int</span>) <span class="hljs-comment">// 交换两个元素</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>排列字符串切片：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go">sort.Sort(StringSlice(names)) <span class="hljs-comment">// 将切片转换为实现 `sort.Interface` 接口的类型</span><br>sort.Strings(names) <span class="hljs-comment">// 简化</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="http-Handler-接口"><a href="#http-Handler-接口" class="headerlink" title="http.Handler 接口"></a><code>http.Handler</code> 接口</h3><p><u><em>net&#x2F;http</em></u></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> http<br><span class="hljs-keyword">type</span> Handler <span class="hljs-keyword">interface</span> &#123; <br>    ServeHTTP(w ResponseWriter, r*Request)<br>&#125; <br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ListenAndServe</span><span class="hljs-params">(address <span class="hljs-type">string</span>, h Handler)</span></span> <span class="hljs-type">error</span><br></code></pre></td></tr></table></figure>
+
+<p><code>ListenAndServe</code> 函数需要一个例如“localhost:8000”的服务器地址，和一个所有请求都可以分派的 Handler 接口实例。它会一直运行，直到这个服务因为一个错误而失败（或者启动失败），它的返回值一定是一个非空的错误。</p>
+<p>使用不同的 URL 触发不同的行为</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(db database)</span></span> ServeHTTP(w http.ResponseWriter, req *http.Request) &#123;<br><span class="hljs-keyword">switch</span> req.URL.Path &#123;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;/list&quot;</span>:<br>    <span class="hljs-keyword">for</span> item, price := <span class="hljs-keyword">range</span> db &#123;<br>    fmt.Fprintf(w, <span class="hljs-string">&quot;%s: %s\n&quot;</span>, item, price)<br>    &#125;<br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;/price&quot;</span>:<br>    <span class="hljs-comment">// Quary 方法可以将 http 请求参数解析为一个 map</span><br>    item := req.URL.Query().Get(<span class="hljs-string">&quot;item&quot;</span>)<br>    price, ok := db[item]<br>    <span class="hljs-keyword">if</span> !ok &#123;<br>    w.WriteHeader(http.StatusNotFound) <span class="hljs-comment">// 404</span><br>    fmt.Fprintf(w, <span class="hljs-string">&quot;no such item: %q\n&quot;</span>, item)<br>    <span class="hljs-keyword">return</span><br>    &#125;<br>    fmt.Fprintf(w, <span class="hljs-string">&quot;%s\n&quot;</span>, price)<br><span class="hljs-keyword">default</span>:<br>    w.WriteHeader(http.StatusNotFound) <span class="hljs-comment">// 404</span><br>    fmt.Fprintf(w, <span class="hljs-string">&quot;no such page: %s\n&quot;</span>, req.URL)<br>&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在 handler 基于URL的路径部分（<code>req.URL.Path</code>）来决定执行什么逻辑。如果不能识别，调用 <code>w.WriteHeader(http.StatusNotFound)</code> 返回客户端一个 HTTP 404 错误。</p>
+<p><code>http.ResponseWriter</code> 是另一个接口。它在 <code>io.Writer</code> 上增加了发送HTTP相应头的方法。另外，还可以使用 <code>http.Error</code> 函数。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go">http.Error(w, msg, http.StatusNotFound)<br></code></pre></td></tr></table></figure>
+
+<p>net&#x2F;http 包提供了一个请求多路器 <code>ServeMux</code> 来简化 URL 和 handlers 的联系（路由映射）。一个 ServeMux 将一批 <code>http.Handler</code> 聚集到一个单一 <code>http.Handler</code> 中。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    mux := http.NewServeMux()<br>    mux.Handle(<span class="hljs-string">&quot;/list&quot;</span>, http.HandlerFunc(db.list))<br>    mux.Handle(<span class="hljs-string">&quot;/price&quot;</span>, http.HandlerFunc(db.price))<br>    log.Fatal(http.ListenAndServe(<span class="hljs-string">&quot;localhost:8000&quot;</span>, mux))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以 <code>db.list</code> 是一个实现了handler类似行为的函数，但是因为它没有方法，所以它不满足 <code>http.Handler</code> 接口并且不能直接传给 <code>mux.Handle</code>。</p>
+<p>语句<code>http.HandlerFunc(db.list)</code>是一个转换而非一个函数调用，因为<code>http.HandlerFunc</code>是一个类型。它有如下的定义：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> http<br><span class="hljs-keyword">type</span> HandlerFunc <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">(w ResponseWriter, r *Request)</span></span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(f HandlerFunc)</span></span> ServeHTTP(w ResponseWriter, r *Request) &#123;<br>    f(w, r)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>因为handler通过这种方式注册非常普遍，ServeMux有一个方便的HandleFunc方法，它帮我们简化handler注册代码成这样：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs go">mux.HandleFunc(<span class="hljs-string">&quot;/list&quot;</span>, db.list)<br>mux.HandleFunc(<span class="hljs-string">&quot;/price&quot;</span>, db.price)<br></code></pre></td></tr></table></figure>
+
+<p>为了方便，net&#x2F;http包提供了一个全局的ServeMux实DefaultServerMux和包级别的<code>http.Handle</code>和<code>http.HandleFunc</code>函数。现在，为了使用DefaultServeMux作为服务器的主handler，我们不需要将它传给ListenAndServe函数；nil值就可以工作。</p>
+<p>使用包级别的 <code>http.HandleFunc</code> 注册路由：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;<br>    db := database&#123;<span class="hljs-string">&quot;shoes&quot;</span>: <span class="hljs-number">50</span>, <span class="hljs-string">&quot;socks&quot;</span>: <span class="hljs-number">5</span>&#125;<br>    http.HandleFunc(<span class="hljs-string">&quot;/list&quot;</span>, db.list)<br>    http.HandleFunc(<span class="hljs-string">&quot;/price&quot;</span>, db.price)<br>    log.Fatal(http.ListenAndServe(<span class="hljs-string">&quot;localhost:8000&quot;</span>, <span class="hljs-literal">nil</span>))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>最后，web服务器在一个新的协程 Goruntine 中调用每一个 handler，所以当 handler 获取其它协程的共享变量时一定要使用预防措施比如 <strong>锁机制</strong>。</p>
+<h3 id="Error-接口"><a href="#Error-接口" class="headerlink" title="Error 接口"></a>Error 接口</h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">type</span> <span class="hljs-type">error</span> <span class="hljs-keyword">interface</span> &#123;<br>    Error() <span class="hljs-type">string</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>创建一个 error 最简单的方法就是 <code>error.New</code> 函数，其实整个 error 包只有 4 行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> errors<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">New</span><span class="hljs-params">(text <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">error</span> &#123; <span class="hljs-keyword">return</span> &amp;errorString&#123;text&#125; &#125;<br><span class="hljs-keyword">type</span> errorString <span class="hljs-keyword">struct</span> &#123; text <span class="hljs-type">string</span> &#125;<br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(e *errorString)</span></span> Error() <span class="hljs-type">string</span> &#123; <span class="hljs-keyword">return</span> e.text &#125;<br></code></pre></td></tr></table></figure>
+
+<p>指针类型<code>*errorString</code>满足error接口而非<code>errorString</code>类型，承载<code>errorString</code> 的类型是一个结构体而非一个字符串，所以每个 New 函数的调用都分配了一个独一无二的错误示例。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs go">fmt.Println(errors.New(<span class="hljs-string">&quot;EOF&quot;</span>) == errors.New(<span class="hljs-string">&quot;EOF&quot;</span>)) <span class="hljs-comment">// &quot;false&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>有一个方便的封装函数 <code>fmt.Errorf</code>，允许对错误信息进行字符串格式化 ：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs go"><span class="hljs-keyword">package</span> fmt<br><span class="hljs-keyword">import</span> <span class="hljs-string">&quot;errors&quot;</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Errorf</span><span class="hljs-params">(format <span class="hljs-type">string</span>, args ...<span class="hljs-keyword">interface</span>&#123;&#125;)</span></span> <span class="hljs-type">error</span> &#123;<br>    <span class="hljs-keyword">return</span> errors.New(Sprintf(format, args...))<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/cheyunhua/p/16007219.html">详解 Go 语言的 rune 类型</a></p>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><p>当设计一个新的包时，小白 Gopher 总是先创建一套接口，然后再定义一些满足它们的具体类型。这种方式的结果就是有很多的接口，它们中的每一个仅只有一个实现。<strong>接口只有当有两个或两个以上的具体类型必须以相同的方式进行处理时才需要</strong>。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Golang/" class="category-chain-item">Golang</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Coding/">#Coding</a>
+      
+        <a href="/tags/Golang/">#Golang</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Golang 学习笔记——Go 接口</div>
+      <div>https://lskyl.xyz/Golang-interface-note/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WhaleFall</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Golang-type-keyword-note/" title="Golang 学习笔记——Type关键字">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Golang 学习笔记——Type关键字</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Golang-method-note/" title="Golang 学习笔记——method方法">
+                        <span class="hidden-mobile">Golang 学习笔记——method方法</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.7/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-repo-ten.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP证865412236号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11426336"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备11426336号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

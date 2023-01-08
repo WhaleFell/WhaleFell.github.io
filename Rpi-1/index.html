@@ -1,0 +1,941 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WhaleFall">
+  <meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控">
+  
+    <meta name="description" content="😃 树莓派折腾手册 (一)——准备系统 😃烧录官方Debian 10 buster系统镜像 先用 SDFormatter 格式化一下内存卡叭:  1. 烧写镜像用到的软件： Win32 Disk Image  然后在U盘的根目录建立一个空白的 ssh文件  方便ssh远程连接  用 Windows PowerShell 连接树莓派sshshift+右键 呼出Windows PowerShell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="😃 树莓派折腾手册 (一)——准备系统 😃">
+<meta property="og:url" content="https://lskyl.xyz/Rpi-1/index.html">
+<meta property="og:site_name" content="😊落落のBlog😊">
+<meta property="og:description" content="😃 树莓派折腾手册 (一)——准备系统 😃烧录官方Debian 10 buster系统镜像 先用 SDFormatter 格式化一下内存卡叭:  1. 烧写镜像用到的软件： Win32 Disk Image  然后在U盘的根目录建立一个空白的 ssh文件  方便ssh远程连接  用 Windows PowerShell 连接树莓派sshshift+右键 呼出Windows PowerShell">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pic.lskyl.xyz/blog/old/20210619154345.jpg">
+<meta property="article:published_time" content="2021-06-18T19:37:48.000Z">
+<meta property="article:modified_time" content="2021-06-18T19:37:48.000Z">
+<meta property="article:author" content="WhaleFall">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Respi">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://pic.lskyl.xyz/blog/old/20210619154345.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>😃 树莓派折腾手册 (一)——准备系统 😃 - 😊落落のBlog😊</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lskyl.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["-picsmall",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":"G-Q6KQ3FW2SP","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.google-analytics.com/analytics.js', function() {
+          window.ga = window.ga || function() { (ga.q = ga.q || []).push(arguments) };
+          ga.l = +new Date;
+          ga('create', 'G-Q6KQ3FW2SP', 'auto');
+          ga('send', 'pageview');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>😊落落のBlog😊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://pic.lskyl.xyz/blog/old/20210619154345.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="😃 树莓派折腾手册 (一)——准备系统 😃"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        WhaleFall
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-06-18 19:37" pubdate>
+          2021年6月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">😃 树莓派折腾手册 (一)——准备系统 😃</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="😃-树莓派折腾手册-一-——准备系统-😃"><a href="#😃-树莓派折腾手册-一-——准备系统-😃" class="headerlink" title="😃 树莓派折腾手册 (一)——准备系统 😃"></a>😃 树莓派折腾手册 (一)——准备系统 😃</h1><h2 id="烧录官方Debian-10-buster系统镜像"><a href="#烧录官方Debian-10-buster系统镜像" class="headerlink" title="烧录官方Debian 10 buster系统镜像"></a>烧录官方<code>Debian 10 buster</code>系统镜像</h2><p> 先用 <strong>SDFormatter</strong> 格式化一下内存卡叭:</p>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210619152409.png-picsmall" srcset="/img/loading.gif" lazyload alt="hZkDB8qxtRgQz3S"></p>
+<h3 id="1-烧写镜像用到的软件：-Win32-Disk-Image"><a href="#1-烧写镜像用到的软件：-Win32-Disk-Image" class="headerlink" title="1. 烧写镜像用到的软件： Win32 Disk Image"></a>1. 烧写镜像用到的软件： <strong>Win32 Disk Image</strong></h3><p><img src="http://pic.lskyl.xyz/blog/old/20210619152403.png-picsmall" srcset="/img/loading.gif" lazyload alt="Zb6CEHnf17oqO5Q"></p>
+<ul>
+<li>然后在U盘的根目录建立一个空白的 <strong>ssh文件  方便ssh远程连接</strong><br> <img src="http://pic.lskyl.xyz/blog/old/sasw.png-picsmall" srcset="/img/loading.gif" lazyload alt="FV5qpvWz7LtsOgi"></li>
+<li>用 <strong>Windows PowerShell</strong> 连接树莓派ssh<br><code>shift+右键</code> 呼出<strong>Windows PowerShell</strong><br><strong>完整连接语法</strong>:</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">ssh -p 端口号 用户名@主机地址<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>树莓派默认的用户名 <strong>pi</strong> 密码 <strong>raspberry</strong><img src="http://pic.lskyl.xyz/blog/old/20210619152448.png-picsmall" srcset="/img/loading.gif" lazyload alt="QLA74lscbwzRWY2"></p>
+</blockquote>
+<ul>
+<li>树莓派扩展TF卡分区:<br> sudo raspi-config –&gt; Advanced options –&gt;Expand Filesystem, 确认重启</li>
+</ul>
+<h3 id="2-启动树莓派HDMI功能"><a href="#2-启动树莓派HDMI功能" class="headerlink" title="2. 启动树莓派HDMI功能"></a>2. 启动树莓派HDMI功能</h3><ul>
+<li><p>编辑<code>config.txt</code>文件，修改以下参数:<br>sudo nano &#x2F;boot&#x2F;config.txt</p>
+<ul>
+<li>把下面#注释符号去掉<br>hdmi_force_hotplug&#x3D;1  #启用HDMI热插拔功能<br>config_hdmi_boost&#x3D;4    #启用加强HDMI信号</li>
+</ul>
+<blockquote>
+<p>不出意外的话应该可以接上，但是我的没有声音输出诶<br>注：如果还是不能的话，找到#hdmi_group&#x3D;1这句话，把前面的#注释符号去掉，把数字改成 2强行指定显示器类型：1是连接老式电视，2代表连接新电视。</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="树莓派-Debian-10-buster-换清华源"><a href="#树莓派-Debian-10-buster-换清华源" class="headerlink" title="树莓派 Debian 10 buster 换清华源"></a>树莓派 <code>Debian 10 buster</code> 换清华源</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano /etc/apt/sources.list<br>deb http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib<br>deb-src http://mirrors.tuna.tsinghua.edu.cn/raspbian/raspbian/ buster main non-free contrib<br><br>sudo nano /etc/apt/sources.list.d/raspi.list<br>deb http://mirrors.tuna.tsinghua.edu.cn/raspberrypi/ buster main ui<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>更新源列表: <code>sudo apt-get update</code></li>
+<li>更新软件版本，升级软件包: <code>sudo apt-get upgrade</code></li>
+</ul>
+<h2 id="树莓派rasp-config相关设置"><a href="#树莓派rasp-config相关设置" class="headerlink" title="树莓派rasp-config相关设置"></a>树莓派<code>rasp-config</code>相关设置</h2><h3 id="1-设置pi，root用户密码，并解锁"><a href="#1-设置pi，root用户密码，并解锁" class="headerlink" title="1. 设置pi，root用户密码，并解锁"></a>1. 设置pi，root用户密码，并解锁</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">树莓派修改密码，顺便解锁root用户</span><br>sudo passwd pi<br>sudo passwd root<br><span class="hljs-meta prompt_">#</span><span class="language-bash">解锁root用户</span><br>sudo passwd --unlock root<br><span class="hljs-meta prompt_">#</span><span class="language-bash">如果想在终端直接用root用户登录，编辑</span><br>sudo nano /etc/ssh/sshd_config<br>修改 PermitRootLogin without-password 为 PermitRootLogin yes<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-respi本地化操作"><a href="#2-respi本地化操作" class="headerlink" title="2. respi本地化操作"></a>2. <strong>respi本地化</strong>操作</h3><ul>
+<li>安装中文字体，提供几个Linux中文字体库:</li>
+</ul>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get install xfonts-wqy<br>sudo apt-get install ttf-wqy-zenhei ttf-wqy-microhei<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>设置终端中文显示: <code>sudo raspi-config</code>:<br>选择change_locale，在Default locale for the system environment:中选择zh_CN.UTF-8。<br>往下翻一会儿直到找到zh_CN UTF-8把光标移动到前面，然后按下空格键打上*<br><img src="http://pic.lskyl.xyz/blog/old/20210619152513.png-picsmall" srcset="/img/loading.gif" lazyload alt="3hQeD8k9L1mgTZc"></p>
+</li>
+<li><p>改变键盘布局: <code>sudo dpkg-reconfigure keyboard-configuration</code></p>
+</li>
+</ul>
+<h3 id="3-设置-vnc桌面-连接"><a href="#3-设置-vnc桌面-连接" class="headerlink" title="3. 设置 vnc桌面 连接"></a>3. 设置 vnc桌面 连接</h3><blockquote>
+<p>注:这里放弃了树莓派自带的 <strong>realvnc</strong> 因为不支持网页 <strong>novnc</strong> 且功能很少，所以用 <strong>Tightvnc</strong> 代替</p>
+</blockquote>
+<ul>
+<li>安装<strong>Tightvncserver</strong>: <code>sudo apt-get install tightvncserver</code></li>
+<li>安装好之后设置一个<strong>VNC密码</strong>:  vncpasswd</li>
+</ul>
+<blockquote>
+<p>注: 先输入操作密码两次，然后会询问是否设置一个查看(view-only)密码，按自己喜欢，一般没必要。</p>
+</blockquote>
+<ul>
+<li>设置<strong>开机自启动</strong> :</li>
+</ul>
+<blockquote>
+<p>设置<strong>开机启动</strong>，需要在 <strong>&#x2F;etc&#x2F;init.d&#x2F;</strong> 中创建一个文件。例如<strong>tightvncserver</strong>:  (启动脚本的名称，有和程序名一致的习惯)</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo nano /etc/init.d/tightvncserver<br><span class="hljs-comment"># 内容如下:</span><br><span class="hljs-comment">#!/bin/sh</span><br><span class="hljs-comment">### BEGIN INIT INFO</span><br><span class="hljs-comment"># Provides:          tightvncserver</span><br><span class="hljs-comment"># Required-Start:    $local_fs</span><br><span class="hljs-comment"># Required-Stop:     $local_fs</span><br><span class="hljs-comment"># Default-Start:     2 3 4 5</span><br><span class="hljs-comment"># Default-Stop:      0 1 6</span><br><span class="hljs-comment"># Short-Description: Start/stop tightvncserver</span><br><span class="hljs-comment">### END INIT INFO</span><br><br><span class="hljs-comment"># More details see:</span><br><span class="hljs-comment"># http://www.penguintutor.com/linux/tightvnc</span><br><br><span class="hljs-comment">### Customize this entry</span><br><span class="hljs-comment"># Set the USER variable to the name of the user to start tightvncserver under</span><br><span class="hljs-built_in">export</span> USER=<span class="hljs-string">&#x27;pi&#x27;</span><br><span class="hljs-comment">### End customization required</span><br><br><span class="hljs-built_in">eval</span> <span class="hljs-built_in">cd</span> ~<span class="hljs-variable">$USER</span><br><br><span class="hljs-keyword">case</span> <span class="hljs-string">&quot;<span class="hljs-variable">$1</span>&quot;</span> <span class="hljs-keyword">in</span><br>  start)<br>    <span class="hljs-comment"># 启动命令行。此处自定义分辨率、控制台号码或其它参数。</span><br>    su <span class="hljs-variable">$USER</span> -c <span class="hljs-string">&#x27;/usr/bin/tightvncserver -depth 16 -geometry 800x600 :1&#x27;</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Starting TightVNC server for <span class="hljs-variable">$USER</span> &quot;</span><br>    ;;<br>  stop)<br>    <span class="hljs-comment"># 终止命令行。此处控制台号码与启动一致。</span><br>    su <span class="hljs-variable">$USER</span> -c <span class="hljs-string">&#x27;/usr/bin/tightvncserver -kill :1&#x27;</span><br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Tightvncserver stopped&quot;</span><br>    ;;<br>  *)<br>    <span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;Usage: /etc/init.d/tightvncserver &#123;start|stop&#125;&quot;</span><br>    <span class="hljs-built_in">exit</span> 1<br>    ;;<br><span class="hljs-keyword">esac</span><br><span class="hljs-built_in">exit</span> 0<br></code></pre></td></tr></table></figure>
+
+<p>然后给<strong>tightvncserver文件</strong>加<strong>执行权限</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo chmod 755 /etc/init.d/tightvncserver<br></code></pre></td></tr></table></figure>
+
+<p>并更新<strong>开机启动列表</strong>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo update-rc.d tightvncserver defaults<br></code></pre></td></tr></table></figure>
+
+<p>一些<strong>service命令</strong> :</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo service tightvncserver restart #重启服务<br>sudo service tightvncserver start/stop #关闭/开启服务<br>sudo service tightvncserver status #查看服务运行状态<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>附:   vnc客户端下载<br><a target="_blank" rel="noopener" href="https://www.realvnc.com/en/connect/download/viewer/">vnc官网</a></p>
+</blockquote>
+<p>连接成功惹~:<br><img src="http://pic.lskyl.xyz/blog/old/20210619152521.png-picsmall" srcset="/img/loading.gif" lazyload><br><img src="http://pic.lskyl.xyz/blog/old/20210619152531.png-picsmall" srcset="/img/loading.gif" lazyload><br>编辑 .&#x2F;vnc&#x2F;xstartup 配置文件使其能与windown共享剪贴板</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano .vnc/xstartup<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">在后方追加</span><br>vncconfig -nowin -iconic &amp;<br><span class="hljs-meta prompt_">#</span><span class="language-bash">重启Tightvncserver</span><br>sudo service tightvncserver restart<br></code></pre></td></tr></table></figure>
+
+<h3 id="4-部署novnc网页"><a href="#4-部署novnc网页" class="headerlink" title="4.部署novnc网页"></a>4.部署<strong>novnc网页</strong></h3><blockquote>
+<p>方便在网页上控制树莓派屏幕，但是<strong>不支持realvnc</strong></p>
+</blockquote>
+<ul>
+<li>安装 <strong>git 支持</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get install git<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>克隆</strong> novnc项目:</li>
+</ul>
+<blockquote>
+<p>在中国大陆听说<del>加上 <em><a target="_blank" rel="noopener" href="https://gproxy.cn/">https://gproxy.cn</a></em> 就可以加速 <strong>克隆</strong> 速度丫</del> 改口 应换成  <a target="_blank" rel="noopener" href="https://github.com.cnpmjs.org/">https://github.com.cnpmjs.org/</a></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">git clone https://github.com/kanaka/noVNC #源地址<br>git clone https://github.com.cnpmjs.org/kanaka/noVNC #加速地址<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>运行 <strong>novnc</strong> 并设置<strong>开机自启动</strong>:</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">cd noVNC<br><span class="hljs-meta prompt_"># </span><span class="language-bash">初始化可能有点点慢</span><br>./utils/launch.sh --vnc localhost:5901 #监听5901 vnc端口<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://pic.lskyl.xyz/blog/old/20210619152538.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>尝试访问: <a target="_blank" rel="noopener" href="http://raspiberry:6080/">http://raspiberry:6080</a>  可<br><img src="http://pic.lskyl.xyz/blog/old/20210619152542.png-picsmall" srcset="/img/loading.gif" lazyload></li>
+<li>一些<strong>高级设置</strong> :</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">./utils/websockify --web ./ 8787 localhost:5901  #修改6080默认端口<br>./utils/websockify --web ./ 8787 192.168.1.10:5901 #可以讲localhost改成所有安装了vncserver的IP地址<br></code></pre></td></tr></table></figure>
+
+<p> <strong>连接速度太慢可以安装Python的numpy库解决</strong></p>
+<ul>
+<li>设置<strong>开机启动</strong>：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">编辑开机启动项</span><br>sudo nano /etc/rc.local<br><span class="hljs-meta prompt_">#</span><span class="language-bash">以pi用户运行程序</span><br>su pi -c &quot;/home/pi/noVNC/utils/launch.sh --vnc localhost:5901&quot; &amp;<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://pic.lskyl.xyz/blog/old/20210619152617.png-picsmall" srcset="/img/loading.gif" lazyload alt="fEVci5dlNCMaUs4"></p>
+<h3 id="5-安装cockpit-web可视化管理"><a href="#5-安装cockpit-web可视化管理" class="headerlink" title="5.安装cockpit web可视化管理"></a>5.安装<code>cockpit</code> web可视化管理</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo apt-get update<br>sudo apt-get install cockpit<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>安装的依赖有  <strong>一丢丢多</strong></p>
+</blockquote>
+<ul>
+<li>默认是用<code>https</code>访问，需要修改配置文件使其能<code>http</code>访问</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo nano /etc/cockpit/cockpit.conf #这个文件默认是不存在的需要新建<br><br>[WebService]<br>AllowUnencrypted=true<br>LoginTitle=鲸云pi<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>配置<strong>开机启动</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo systemctl enable cockpit.socket<br>sudo systemctl start cockpit.socket<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>页面</p>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210619152626.png-picsmall" srcset="/img/loading.gif" lazyload alt="image-20200805174634421"></p>
+</li>
+</ul>
+<h2 id="Python设置"><a href="#Python设置" class="headerlink" title="Python设置"></a>Python设置</h2><h3 id="概况"><a href="#概况" class="headerlink" title="概况"></a>概况</h3><blockquote>
+<p>树莓派默认安装了两个版本的<strong>Python</strong></p>
+</blockquote>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210619152632.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<h3 id="树莓派pip换源"><a href="#树莓派pip换源" class="headerlink" title="树莓派pip换源"></a>树莓派pip换源</h3><blockquote>
+<p><strong>pip</strong>更换为<strong>国内源</strong>，可以大大的提高安装成功率和速度。不管你用的是<strong>pip3还是pip，方法都是一样的</strong></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs shell">mkdir ~/.pip<br>nano ~/.pip/pip.conf<br><span class="hljs-meta prompt_"></span><br><span class="hljs-meta prompt_">#</span><span class="language-bash">写入</span><br>[global]<br>timeout = 5000<br>index-url = https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple<br>[install]<br>use-mirrors = true<br>mirrors = https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>更新pip版本</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">python3 -m pip install --upgrade pip<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://pic.lskyl.xyz/blog/old/20210619152649.png-picsmall" srcset="/img/loading.gif" lazyload alt="seVOiSZrBKgE827"></p>
+<ul>
+<li><strong>树莓派指定Python版本安装模块</strong></li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">sudo pip3 install XXX   #Python3版本<br>sudo pip install XXX   #Python2版本<br></code></pre></td></tr></table></figure>
+
+<h2 id="部署zsh"><a href="#部署zsh" class="headerlink" title="部署zsh"></a>部署zsh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">sh -c &quot;$(wget -O- https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)&quot;<br><br>git clone https://github.com.cnpmjs.org/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions<br><br> git clone https://github.com.cnpmjs.org/zsh-users/zsh-syntax-highlighting.git $&#123;ZSH_CUSTOM:-~/.oh-my-zsh/custom&#125;/plugins/zsh-syntax-highlighting<br> <br> ZSH_DISABLE_COMPFIX=true<br></code></pre></td></tr></table></figure>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Linux/" class="category-chain-item">Linux</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Linux/">#Linux</a>
+      
+        <a href="/tags/Respi/">#Respi</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>😃 树莓派折腾手册 (一)——准备系统 😃</div>
+      <div>https://lskyl.xyz/Rpi-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WhaleFall</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年6月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Python-Concurrent/" title="Python 并发编程笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Python 并发编程笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Rpi-2/" title="😏 树莓派折腾手册（三）——搭建离线下载器 👀">
+                        <span class="hidden-mobile">😏 树莓派折腾手册（三）——搭建离线下载器 👀</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.7/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-repo-ten.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP证865412236号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11426336"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备11426336号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

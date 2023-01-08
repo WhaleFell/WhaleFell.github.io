@@ -1,0 +1,1005 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&amp;nk=2734184475&amp;s=640">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="WhaleFall">
+  <meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控">
+  
+    <meta name="description" content="Python 迭代器生成器修饰器,Python 中三大名器的完全总结！个人总结，算是比较详细的了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 迭代器生成器修饰器">
+<meta property="og:url" content="https://lskyl.xyz/Python-Generator-Iterator-decorater/index.html">
+<meta property="og:site_name" content="😊落落のBlog😊">
+<meta property="og:description" content="Python 迭代器生成器修饰器,Python 中三大名器的完全总结！个人总结，算是比较详细的了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://pic.lskyl.xyz/blog/old/20210630201524.png">
+<meta property="article:published_time" content="2021-08-18T19:37:48.000Z">
+<meta property="article:modified_time" content="2021-08-18T19:37:48.000Z">
+<meta property="article:author" content="WhaleFall">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Coding">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://pic.lskyl.xyz/blog/old/20210630201524.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Python 迭代器生成器修饰器 - 😊落落のBlog😊</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"lskyl.xyz","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["-picsmall",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":false,"baidu":null,"google":"G-Q6KQ3FW2SP","gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+    <!-- Google Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript('https://www.google-analytics.com/analytics.js', function() {
+          window.ga = window.ga || function() { (ga.q = ga.q || []).push(arguments) };
+          ga.l = +new Date;
+          ga('create', 'G-Q6KQ3FW2SP', 'auto');
+          ga('send', 'pageview');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>😊落落のBlog😊</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('http://pic.lskyl.xyz/blog/old/20210630201524.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Python 迭代器生成器修饰器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        WhaleFall
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2021-08-18 19:37" pubdate>
+          2021年8月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          14k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          115 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Python 迭代器生成器修饰器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><blockquote>
+<p><strong>迭代器</strong>指的是迭代取值的工具，迭代是一个重复的过程，并且每次重复都是基于上一次的结果而继续的，</p>
+<p>单纯的重复并不是迭代!</p>
+</blockquote>
+<ol>
+<li><p>可迭代对象</p>
+<p>元组;列表;字典;集合;字符串等</p>
+<p>生成器.</p>
+</li>
+<li><p>用 for 循环迭代</p>
+</li>
+<li><p>验证一个东西是否可迭代</p>
+<blockquote>
+<p><strong>可迭代不一定是迭代对象</strong></p>
+<p>(列表不是可迭代对象,但是可迭代.)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> Iterable<br><span class="hljs-comment"># 判断是否是可迭代对象(迭代器)</span><br><span class="hljs-built_in">isinstance</span>(<span class="hljs-string">&quot;adb&quot;</span>,Iterable) <span class="hljs-comment"># instance:实例</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>生成器可迭代,但可以迭代的不一定是生成器</p>
+</li>
+<li><p><code>iter()</code> 可以将列表变成可迭代对象</p>
+</li>
+</ol>
+<h3 id="迭代器的作用"><a href="#迭代器的作用" class="headerlink" title="迭代器的作用"></a>迭代器的作用</h3><p>迭代器是用来<strong>迭代取值</strong>的工具，而涉及到把多个值循环取出来的类型</p>
+<blockquote>
+<p>有：列表、字符串、元组、字典、集合、打开文件</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">l = [<span class="hljs-string">&#x27;egon&#x27;</span>, <span class="hljs-string">&#x27;liu&#x27;</span>, <span class="hljs-string">&#x27;alex&#x27;</span>]<br>i = <span class="hljs-number">0</span><br><span class="hljs-keyword">while</span> i &lt; <span class="hljs-built_in">len</span>(l):<br>    <span class="hljs-built_in">print</span>(l[i])<br>    i += <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>上述<strong>迭代取值的方式</strong>只适用于<strong>有索引</strong>的数据类型：<strong>列表、字符串、元组.</strong><br>为了解决基于索引迭代器取值的局限性<br>python必须提供一种能够不<strong>依赖于索引的取值方式</strong>，这就是<strong>迭代器</strong>.</p>
+<h3 id="迭代器详解"><a href="#迭代器详解" class="headerlink" title="迭代器详解"></a>迭代器详解</h3><p>但凡内置有<code>__iter__()</code>方法的对象都称之为<strong>可迭代的对象</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python">s1=<span class="hljs-string">&#x27;&#x27;</span><br>s1.__iter__()<br><br>l=[]<br>l.__iter__()<br><br>t=(<span class="hljs-number">1</span>,)<br>t.__iter__()<br><br>d=&#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-number">1</span>&#125;<br>d.__iter__()<br><br>set1=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;<br>set1.__iter__()<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;a.txt&#x27;</span>,mode=<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.__iter__()<br>    <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>迭代器对象</strong>:</p>
+<p>内置有<code>__next__</code>方法并且内置有<code>__iter__</code>方法的对象<br>迭代器对象<code>__next()__</code>：得到迭代器的下一个值.<br>迭代器对象<code>__iter__()</code>：得到迭代器的本身，调用和没调用相同.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python">d=&#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;b&#x27;</span>:<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-number">3</span>&#125;<br>d_iterator=d.__iter__()<br><span class="hljs-built_in">print</span>(d_iterator)    <span class="hljs-comment"># &lt;dict_keyiterator object at 0x0000022FF0E13A90&gt;</span><br><br><span class="hljs-built_in">print</span>(d_iterator.__next__()) <span class="hljs-comment"># a</span><br><span class="hljs-built_in">print</span>(d_iterator.__next__()) <span class="hljs-comment"># b</span><br><span class="hljs-built_in">print</span>(d_iterator.__next__()) <span class="hljs-comment"># c</span><br><span class="hljs-built_in">print</span>(d_iterator.__next__()) <span class="hljs-comment"># 抛出异常StopIteration,值取完了</span><br>d=&#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;b&#x27;</span>:<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-number">3</span>&#125;<br>d_iterator=d.__iter__()<br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(d_iterator.__next__())<br>    <span class="hljs-keyword">except</span> StopIteration:<br>        <span class="hljs-keyword">break</span><br><span class="hljs-comment"># 得到&quot;a&quot;,&quot;b&quot;,&quot;c&quot;</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;====&gt;&gt;&gt;&gt;&gt;&gt;&#x27;</span>) <span class="hljs-comment"># 在一个迭代器取值取完后，再对其取值就会报错</span><br>d_iterator=d.__iter__()<br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(d_iterator.__next__())<br>    <span class="hljs-keyword">except</span> StopIteration:<br>        <span class="hljs-keyword">break</span><br><span class="hljs-comment"># 什么都得不到,因为迭代器值已取完</span><br><br><br>l=[<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]<br>l_iterator=l.__iter__()<br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(l_iterator.__next__())<br>    <span class="hljs-keyword">except</span> StopIteration:<br>        <span class="hljs-keyword">break</span><br><span class="hljs-comment"># 得到1,2,3,4,5</span><br></code></pre></td></tr></table></figure>
+
+<p>常见<strong>数据类型</strong>的分类:</p>
+<blockquote>
+<p>可迭代对象：<strong>字符串、列表、元组、字典、集合、文件对象</strong><br>迭代器对象：<strong>文件对象</strong></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python">s1=<span class="hljs-string">&#x27;&#x27;</span><br>s1.__iter__()<br><br>l=[]<br>l.__iter__()<br><br>t=(<span class="hljs-number">1</span>,)<br>t.__iter__()<br><br><br>d=&#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-number">1</span>&#125;<br>d.__iter__()<br><br>set1=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;<br>set1.__iter__()<br><br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;a.txt&#x27;</span>,mode=<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.__iter__()<br>    f.__next__()<br></code></pre></td></tr></table></figure>
+
+<h3 id="创建一个迭代器"><a href="#创建一个迭代器" class="headerlink" title="创建一个迭代器"></a>创建一个迭代器</h3><p>把一个类作为一个迭代器使用需要在类中实现两个方法 <code>iter()</code> 与 <code>next()</code> 。</p>
+<ol>
+<li><p><code>iter()</code>方法返回一个特殊的迭代器对象,这个迭代器对象实现了<code>next()</code>方法并通过<code>StopIteration</code>异常标识迭代的完成。</p>
+</li>
+<li><p><code>next()</code>方法会返回<strong>下一个迭代器对象</strong>。</p>
+</li>
+<li><p><strong>StopIteration</strong></p>
+<p><code>StopIteration</code> 异常用于标识<strong>迭代的完成</strong>，防止出现无限循环的情况，在 <strong>next</strong>() 方法中我们可以设置在完成指定循环次数后触发 <code>StopIteration</code> 异常来结束迭代。</p>
+</li>
+</ol>
+<blockquote>
+<p>创建一个返回数字的迭代器，初始值为 1，逐步递增 1</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyNumbers</span>:<br>  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__iter__</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-comment"># 初始化迭代器</span><br>    self.a = <span class="hljs-number">1</span><br>    <span class="hljs-keyword">return</span> self<br> <br>  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__next__</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-comment"># 迭代器返回值</span><br>    <span class="hljs-keyword">if</span> self.a &lt;= <span class="hljs-number">20</span>:<br>      x = self.a<br>      self.a += <span class="hljs-number">1</span><br>      <span class="hljs-keyword">return</span> x<br>    <span class="hljs-keyword">else</span>:<br>      <span class="hljs-keyword">raise</span> StopIteration<br> <br>myclass = MyNumbers()<br>myiter = <span class="hljs-built_in">iter</span>(myclass)<br> <br><span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> myiter:<br>  <span class="hljs-built_in">print</span>(x)<br><br><span class="hljs-comment"># fun2:</span><br>myiter = <span class="hljs-built_in">iter</span>(myclass)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(myiter))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(myiter))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(myiter))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(myiter))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(myiter))<br></code></pre></td></tr></table></figure>
+
+<h3 id="for-循环的工作原理"><a href="#for-循环的工作原理" class="headerlink" title="for 循环的工作原理"></a>for 循环的工作原理</h3><p>for循环可以称之为叫<strong>迭代器循环</strong></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">d = <span class="hljs-punctuation">&#123;</span>&#x27;a&#x27;<span class="hljs-punctuation">:</span><span class="hljs-number">1</span><span class="hljs-punctuation">,</span>&#x27;b&#x27;<span class="hljs-punctuation">:</span><span class="hljs-number">2</span><span class="hljs-punctuation">,</span>&#x27;c&#x27;<span class="hljs-punctuation">:</span><span class="hljs-number">3</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<ol>
+<li><code>d.iter()</code> 得到一个迭代器对象</li>
+<li><code>迭代器对象.next()</code> 拿到一个返回值，然后将该返回值赋值给k</li>
+<li>循环往复,直到抛出<code>StopIteration</code>异常<strong>for循环会捕捉异常然后结束循环.</strong></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">d = &#123;<span class="hljs-string">&#x27;a&#x27;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&#x27;b&#x27;</span>:<span class="hljs-number">2</span>,<span class="hljs-string">&#x27;c&#x27;</span>:<span class="hljs-number">3</span>&#125;<br><span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> d:   <span class="hljs-comment"># d_it = d.__iter__()</span><br>    <span class="hljs-built_in">print</span>(k)  <span class="hljs-comment"># 循环k = d_it.__next__()直到抛出异常结束循环</span><br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;a.txt&#x27;</span>,mode=<span class="hljs-string">&#x27;rt&#x27;</span>,encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> f: <span class="hljs-comment"># f.__iter__()</span><br>        <span class="hljs-built_in">print</span>(line)<br><br><span class="hljs-built_in">list</span>(<span class="hljs-string">&#x27;hello&#x27;</span>) <span class="hljs-comment"># 原理同for循环</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>在 Python 中，使用了 <code>yield</code> 的函数被称为<strong>生成器</strong>（generator）。</p>
+<p>跟普通函数不同的是，生成器是<strong>一个返回迭代器的函数</strong>，只能用于<strong>迭代操作</strong>，更简单点理解<strong>生成器就是一个迭代器</strong>。</p>
+<p>在<strong>调用生成器</strong>运行的过程中，每次遇到 <code>yield</code> 时函数会<strong>暂停并保存当前所有的运行信息</strong>，<strong>返回 <code>yield</code> 的值</strong>, 并在下一次执行 <code>next()</code> 方法时<strong>从当前位置继续运行</strong>。</p>
+<p><strong>调用一个生成器函数，返回的是一个迭代器对象。</strong></p>
+<h3 id="生成器的使用"><a href="#生成器的使用" class="headerlink" title="生成器的使用"></a>生成器的使用</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">func</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第一次&#x27;</span>)<br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">1</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第二次&#x27;</span>)<br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">2</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第三次&#x27;</span>)<br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">3</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第四次&#x27;</span>)<br><br>g = func()<br><span class="hljs-built_in">print</span>(g)<br><span class="hljs-comment"># 生成器就是迭代器</span><br><span class="hljs-comment"># 生成器函数返回的是可迭代对象.</span><br>g.__iter__()<br><br><span class="hljs-comment"># g.__next__()会触发函数体代码的运行，然后遇到yield停下来，将yield后的值</span><br><span class="hljs-comment"># 当做本次调用的结果返回</span><br>g = func()<br><span class="hljs-comment"># 可以用iter将可迭代对象转化为迭代器.用next()方法</span><br><span class="hljs-built_in">print</span>(g)<br><br>g.__iter__()<br><br>res1 = g.__next__()<br><span class="hljs-comment"># 第一次</span><br><span class="hljs-built_in">print</span>(res1)<br><span class="hljs-comment"># 1</span><br><br>res2 = g.__next__()<br><span class="hljs-comment"># 第二次</span><br><span class="hljs-built_in">print</span>(res2)<br><span class="hljs-comment"># 2</span><br><br>res3 = g.__next__()<br><span class="hljs-comment"># 第三次</span><br><span class="hljs-built_in">print</span>(res3)<br><span class="hljs-comment"># 3</span><br><br>res4 = g.__next__()<br><span class="hljs-comment"># 第四次</span><br><span class="hljs-comment"># StopIteration</span><br></code></pre></td></tr></table></figure>
+
+<p>实例:使用 <code>yield</code> 实现斐波那契数列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">fibonacci</span>(<span class="hljs-params">n</span>):  <span class="hljs-comment"># 生成器函数 - 斐波那契</span><br>    a, b, counter = <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        <span class="hljs-keyword">if</span> (counter &gt; n):<br>            <span class="hljs-keyword">return</span><br>        <span class="hljs-keyword">yield</span> a<br>        a, b = b, a + b<br>        counter += <span class="hljs-number">1</span><br><br><br>f = fibonacci(<span class="hljs-number">10</span>)  <span class="hljs-comment"># f 是一个迭代器，由生成器返回生成</span><br><br><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(f), end=<span class="hljs-string">&quot; &quot;</span>)<br>    <span class="hljs-keyword">except</span> StopIteration:<br>        <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="yield关键字"><a href="#yield关键字" class="headerlink" title="yield关键字"></a><code>yield</code>关键字</h3><p>yield关键字的作用是<strong>函数与调用者</strong>的通信，它不光能够将<strong>值返回给调用者</strong>，它还可以<strong>接收调用者传过来的值</strong>，那么怎么实现呢？ 调用者通过<code>send()</code>函数将值传递给<strong>generator</strong>，<strong>generator</strong>通过 <code>yield</code> 前面的变量(形如:<code>n = yield)</code>来接收</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br> number = <span class="hljs-number">0</span><br> <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>  n = <span class="hljs-keyword">yield</span> number<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我是yield关键字下面一行代码&#x27;</span>)<br>  <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;调用者传递过来的值为:&#x27;</span>, n)<br> <br>  <br><span class="hljs-meta">&gt;&gt;&gt; </span>t = test()<br><span class="hljs-meta">&gt;&gt;&gt; </span>t.send(<span class="hljs-literal">None</span>)  <br><span class="hljs-comment"># 当第一次执行生成器的时候，需要传入None</span><br><br><span class="hljs-meta">&gt;&gt;&gt; </span>t.send(<span class="hljs-number">1</span>)<br>我是<span class="hljs-keyword">yield</span>关键字下面一行代码<br>调用者传递过来的值为: <span class="hljs-number">1</span><br><br><span class="hljs-meta">&gt;&gt;&gt; </span>t.send(<span class="hljs-number">2</span>)<br>我是<span class="hljs-keyword">yield</span>关键字下面一行代码<br>调用者传递过来的值为: <span class="hljs-number">2</span><br>t.close() 关闭generator后再调用，会出现StopIteration异常<br><span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">next</span>(t)<br>我是<span class="hljs-keyword">yield</span>关键字下面一行代码<br>调用者传递过来的值为: <span class="hljs-literal">None</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>可以发现，<code>send</code>函数和<code>next</code>函数的区别就是 <code>send</code>函数可以在执行generator的<strong>过程中</strong>，给<strong>generator</strong>发送消息。<strong>而next仅仅是接收yield右边的变量值</strong>。</p>
+</blockquote>
+<h3 id="send-方法用法"><a href="#send-方法用法" class="headerlink" title="send()方法用法"></a><code>send()</code><strong>方法用法</strong></h3><ol start="0">
+<li><p><strong>send过来的数值 &#x3D; yield next出来的数值</strong></p>
+</li>
+<li><p>它的主要作用是，当我需要<strong>手动更改生成器里面的某一个值并且使用它</strong>，则<strong>send发送进去一个数据</strong>，然后<strong>保存到yield语句的返回值</strong>，以提供使用.</p>
+</li>
+<li><p><code>send()</code>的返回值就是那个<strong>本来应该被迭代出来的那个值</strong>。这样既可以<strong>保证我能够传入新的值，原来的值也不会弄丢.</strong></p>
+</li>
+<li><p>实例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>(<span class="hljs-params">n</span>):<br>    <span class="hljs-string">&#x27;&#x27;&#x27;定义一个生成器&#x27;&#x27;&#x27;</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(n):<br>        <span class="hljs-comment"># send来的数值 = yield 数值</span><br>        num = <span class="hljs-keyword">yield</span> i<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;传入的<span class="hljs-subst">&#123;num&#125;</span>&#x27;</span>)<br><br>g = my_generator(<span class="hljs-number">5</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br>a = g.send(<span class="hljs-number">100</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;我是&#123;0&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(a))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-string">&#x27;&#x27;&#x27; 结果</span><br><span class="hljs-string">0</span><br><span class="hljs-string">传入的None</span><br><span class="hljs-string">1</span><br><span class="hljs-string">传入的100 </span><br><span class="hljs-string">我是2     </span><br><span class="hljs-string">传入的None</span><br><span class="hljs-string">3</span><br><span class="hljs-string">传入的None</span><br><span class="hljs-string">4</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="throw-方法用法"><a href="#throw-方法用法" class="headerlink" title="throw()方法用法"></a><code>throw()</code>方法用法</h3><blockquote>
+<p>简单来说就是:<strong>向生成器扔去一个异常,使生成器停止.</strong></p>
+</blockquote>
+<p><code>raise exception in generator，return next yielded value or StopIteration</code>，即在<strong>生成器中抛出异常</strong>，并且这个throw函数会<strong>返回下一个要迭代的值</strong>或者是<strong>StopIteration</strong>。还是通过几个例子来看吧！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;a&#x27;</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;b&#x27;</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;c&#x27;</span><br>g = my_generator()<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-------------------------&#x27;</span>)<br><span class="hljs-built_in">print</span>(g.throw(StopIteration))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">a</span><br><span class="hljs-string">b</span><br><span class="hljs-string">-------------------------</span><br><span class="hljs-string">StopIteration</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="生成器的启动与关闭close"><a href="#生成器的启动与关闭close" class="headerlink" title="生成器的启动与关闭close"></a><strong>生成器的启动与关闭close</strong></h3><ol>
+<li><p><strong>生成器的启动</strong></p>
+<p><strong>方法1：</strong>直接使用<code>next(g)</code>，这会<strong>直接开始迭代第一个元素</strong>（<strong>推荐使用这个启动</strong>）</p>
+<p><strong>方法2：</strong>使用<code>g.send(None)</code>进行启动，注意<strong>第一次启动的时候只能传入<code>None</code><strong>，如果传入其他具体的指则会</strong>报错</strong>哦！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">1</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">2</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">3</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">4</span><br> <br>g = my_generator()<br>g.send(<span class="hljs-literal">None</span>)   <span class="hljs-comment">#第一次启动，本来第一次应该迭代的1，这里被取代了，但是send(None)会返回1</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br> <br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">2</span><br><span class="hljs-string">3</span><br><span class="hljs-string">4</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>生成器的关闭</strong></p>
+<p>如果一个生成器被<strong>中途关闭</strong>之后，在此调用<code>next()</code>方法，则会显示错误，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">1</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">2</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">3</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">4</span><br> <br>g = my_generator()<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br>g.close()<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))   <span class="hljs-comment">#在此处会显示错误</span><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))<br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">1</span><br><span class="hljs-string">2</span><br><span class="hljs-string">显示StopIteration</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="生成器的终止迭代——StopIteration"><a href="#生成器的终止迭代——StopIteration" class="headerlink" title="生成器的终止迭代——StopIteration"></a><strong>生成器的终止迭代——<code>StopIteration</code></strong></h3><blockquote>
+<p>前面讲的手动关闭生成器，使用<code>close()</code>方法，后面的迭代会抛出<code>StopIteration</code>异常。</p>
+</blockquote>
+<p>在一个生成器中，如果没有<code>return</code>，则默认执行到函数完毕时返回<code>StopIteration</code>:</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">g1</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-number">1</span><br>g = g1()<br><span class="hljs-built_in">next</span>(g)    <span class="hljs-comment">#第一次调用next(g)时，会在执行完yield语句后挂起，所以此时程序并没有执行结束。</span><br><span class="hljs-built_in">next</span>(g)    <span class="hljs-comment">#程序试图从yield语句的下一条语句开始执行，发现已经到了结尾，所以抛出StopIteration异常。</span><br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">1</span><br><span class="hljs-string">Traceback (most recent call last):</span><br><span class="hljs-string">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="hljs-string">StopIteration</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p> 如果遇到<code>return</code>,如果在执行过程中return，则直接抛出 <code>StopIteration</code> 终止迭代:</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">g2</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;a&#x27;</span><br>    <span class="hljs-keyword">return</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;b&#x27;</span><br>g=g2()<br><span class="hljs-built_in">next</span>(g)    <span class="hljs-comment">#程序停留在执行完yield &#x27;a&#x27;语句后的位置。</span><br><span class="hljs-built_in">next</span>(g)    <span class="hljs-comment">#程序发现下一条语句是return，所以抛出StopIteration异常，这样yield &#x27;b&#x27;语句永远也不会执行。</span><br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">a</span><br><span class="hljs-string">b</span><br><span class="hljs-string">Traceback (most recent call last):</span><br><span class="hljs-string">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="hljs-string">StopIteration</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>如果在<code>return</code>后返回一个值，那么这个值为<code>StopIteration</code>异常的说明，不是程序的返回值。</p>
+   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">g3</span>():<br> <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;a&#x27;</span><br> <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;这是错误说明&#x27;</span><br> <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;b&#x27;</span>   <span class="hljs-comment">#有一些编辑器会提示错误，此处为unreachable code，即不可到达的代码</span><br>g=g3()<br><span class="hljs-built_in">next</span>(g)<br><span class="hljs-built_in">next</span>(g)<br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">a</span><br><span class="hljs-string">Traceback (most recent call last):</span><br><span class="hljs-string"> File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="hljs-string">StopIteration: 这是错误说明</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意：</strong>生成器没有办法使用<code>return</code>来返回值。因为<code>return</code>返回的那个值是通过<strong>StopIteration的异常信息</strong>返回的，所以没办法<strong>直接获取这个return返回的值</strong>。</p>
+</blockquote>
+<p>当然上面所说的无法获取<strong>return返回值</strong>，我们指的是没有办法通过<code>result=g3()</code>这种形式获取<strong>return的返回值</strong>。实际上还是有手段获取这个<strong>return的值的</strong>，有两种方法：</p>
+<ol>
+<li><p>使用<code>yield from</code>语句</p>
+</li>
+<li><p>因为<code>return</code>返回的值是作为<strong>StopIteration的一个value属性存在的</strong>，StopIteration本质上是<strong>一个类</strong>，所以可以通过访问它的<strong>value属性获取这个return返回的值</strong>。使用下面的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">g3</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;a&#x27;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;这是错误说明&#x27;</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;b&#x27;</span><br>g=g3()<br> <br><span class="hljs-keyword">try</span>:   <br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))  <span class="hljs-comment">#a</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(g))  <span class="hljs-comment">#触发异常</span><br><span class="hljs-keyword">except</span> StopIteration <span class="hljs-keyword">as</span> exc:<br>    result=exc.value<br>    <span class="hljs-built_in">print</span>(result)<br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">a</span><br><span class="hljs-string">这是错误说明</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="yield实现协程"><a href="#yield实现协程" class="headerlink" title="yield实现协程"></a><strong><code>yield</code>实现协程</strong></h3><p>在Python中，协程通过<code>yield</code>实现。因为当<strong>一个函数中有yield存在</strong>的时候，这个函数是<strong>生成器</strong>，那么当你调用这个函数的时候，你在函数体中写的代码<strong>并没有被执行</strong>，而是<strong>只返回了一个生成器对象</strong>，这个需要特别注意。然后，你的代码将会在每次使用这个生成器的时候被执行。</p>
+<p>前面讲过<strong>yield表达式</strong>的两个关键作用：<strong>①返回一个值、②接收调用者的参数</strong></p>
+<p><strong>“调用者”与“被调用者”</strong>之间的通信是通过<code>send()</code>进行联系的</p>
+<p>正是因为<code>yield</code>实现的生成器具备<strong>“中断等待的功能”</strong>，才使得yield可以实现<strong>协程</strong>。</p>
+<ol>
+<li><p>例子1:<strong>生产者-消费者模型</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">consumer</span>():<br>    r = <span class="hljs-string">&#x27;&#x27;</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        n = <span class="hljs-keyword">yield</span> r  <span class="hljs-comment">#执行的中断点</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> n:<br>            <span class="hljs-keyword">return</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;[消费者] 正在消费:&#123;0&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(n))<br>        r = <span class="hljs-string">&#x27;200 人民币&#x27;</span><br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">produce</span>(<span class="hljs-params">c</span>):<br>    c.send(<span class="hljs-literal">None</span>)  <span class="hljs-comment">#启动消费者（生成器）——实际上是函数调用，只不过生成器不是直接象函数那般调用的</span><br>    n = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">while</span> n &lt; <span class="hljs-number">5</span>:<br>        n = n + <span class="hljs-number">1</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;[生产者] 正在生产:&#123;0&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(n))<br>        r = c.send(n) <span class="hljs-comment">#给消费者传入值——实际上也是函数调用</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;[生产者] 消费者返回:&#123;0&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(r))<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;-------------------------------------------------&#x27;</span>)<br>    c.close()<br> <br>c = consumer()<span class="hljs-comment">#构造一个生成器</span><br>produce(c)<br> <br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">[生产者] 正在生产:1</span><br><span class="hljs-string">[消费者] 正在消费:1</span><br><span class="hljs-string">[生产者] 消费者返回:200 人民币</span><br><span class="hljs-string">-------------------------------------------------</span><br><span class="hljs-string">[生产者] 正在生产:2</span><br><span class="hljs-string">[消费者] 正在消费:2</span><br><span class="hljs-string">[生产者] 消费者返回:200 人民币</span><br><span class="hljs-string">-------------------------------------------------</span><br><span class="hljs-string">[生产者] 正在生产:3</span><br><span class="hljs-string">[消费者] 正在消费:3</span><br><span class="hljs-string">[生产者] 消费者返回:200 人民币</span><br><span class="hljs-string">-------------------------------------------------</span><br><span class="hljs-string">[生产者] 正在生产:4</span><br><span class="hljs-string">[消费者] 正在消费:4</span><br><span class="hljs-string">[生产者] 消费者返回:200 人民币</span><br><span class="hljs-string">-------------------------------------------------</span><br><span class="hljs-string">[生产者] 正在生产:5</span><br><span class="hljs-string">[消费者] 正在消费:5</span><br><span class="hljs-string">[生产者] 消费者返回:200 人民币</span><br><span class="hljs-string">-------------------------------------------------</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>协程其实就是一个<strong>可以暂停执行</strong>的函数，并且<strong>可以恢复继续执行</strong>。那么<code>yield</code>已经可以<strong>暂停执行</strong>了，如果在暂停后有办法把一些 <code>value</code> 发回到<strong>暂停执行的函数</strong>中，那么 Python 就有了<strong>『协程』</strong>。于是有了, <strong>“把东西发送到已经暂停的生成器中”</strong> 的方法，这个方法就是<code>send()</code>。</p>
+<h3 id="yield-from-的简单实现"><a href="#yield-from-的简单实现" class="headerlink" title="yield from 的简单实现"></a><code>yield from</code> 的简单实现</h3><p>yield是每次<strong>“惰性返回”一个值</strong>，其实从名字中就能看出，<code>yield from</code> 是<code>yield</code>的升级改进版本，如果将<strong>yield理解成“返回”</strong>，那么yield from就是<strong>“从什么（生成器）里面返回”</strong>，这就构成了<code>yield from</code>的一般语法，即:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> 生成器()<br></code></pre></td></tr></table></figure>
+
+<p><strong>其实她等同于:</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> 生成器():<br>    <span class="hljs-keyword">yield</span> item<br></code></pre></td></tr></table></figure>
+
+<p>这样的形式。我们通过一个简单例子来看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">generator2</span>():<br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;a&#x27;</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;b&#x27;</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-string">&#x27;c&#x27;</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> generator1() <span class="hljs-comment">#yield from iterable本质上等于 for item in iterable: yield item的缩写版</span><br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> [<span class="hljs-number">11</span>,<span class="hljs-number">22</span>,<span class="hljs-number">33</span>,<span class="hljs-number">44</span>]<br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> (<span class="hljs-number">12</span>,<span class="hljs-number">23</span>,<span class="hljs-number">34</span>)<br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>)<br>    <br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> generator2():<br>    <span class="hljs-built_in">print</span>(i,end=<span class="hljs-string">&#x27; , &#x27;</span>)<br><span class="hljs-string">&#x27;&#x27;&#x27;运行的结果为：</span><br><span class="hljs-string">a , b , c , 0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 , 11 , 22 , 33 , 44 , 12 , 23 , 34 , 0 , 1 , 2 ,</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>yield from</code> 后面可以跟的可以是  <strong>“ 生成器 、元组、 列表、range()函数产生的序列等可迭代对象”</strong></p>
+<p>简单地说,<code>yield from  generator</code> 。实际上就是返回<strong>另外一个生成器</strong>。而<code>yield</code>只是返回<strong>一个元素</strong>。从这个层面来说，有下面的等价关系：<strong>yield from iterable本质上等于 for item in iterable: yield item 。</strong></p>
+<h3 id="yield-from的高级应用"><a href="#yield-from的高级应用" class="headerlink" title="yield from的高级应用"></a><code>yield from</code>的高级应用</h3><h4 id="1-针对yield无法获取生成器return的返回值"><a href="#1-针对yield无法获取生成器return的返回值" class="headerlink" title="1. 针对yield无法获取生成器return的返回值"></a><strong>1. 针对yield无法获取生成器return的返回值</strong></h4><blockquote>
+<p>在使用<strong>yield生成器</strong>的时候，如果使用<strong>for语句去迭代生成器</strong>，则不会显式的发出<strong>StopIteration异常</strong>，而是<strong>自动捕获StopIteration异常</strong>，所以如果<strong>遇到return，只是会终止迭代，而不会触发异常</strong>，故而也就<strong>没办法获取return的值</strong>。如下：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        <span class="hljs-keyword">if</span> i==<span class="hljs-number">2</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;我被迫中断了&#x27;</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">yield</span> i<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">generator</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> generator:  <span class="hljs-comment">#不会显式触发异常，故而无法获取到return的值</span><br>            <span class="hljs-built_in">print</span>(i)<br>    <span class="hljs-keyword">except</span> StopIteration <span class="hljs-keyword">as</span> exc:<br>        <span class="hljs-built_in">print</span>(exc.value)<br> <br>g = my_generator()  <span class="hljs-comment">#调用</span><br>main(g)<br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">0</span><br><span class="hljs-string">1</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>for迭代语句不会显式触发异常</strong>，故而无法获取到<strong>return的值</strong>，迭代到2的时候<strong>遇到return语句</strong>，<strong>隐式的触发了StopIteration异常</strong>，就<strong>终止迭代</strong>了，但是在程序中<strong>不会显示出来</strong>。</p>
+<p>如果是使用<code>next()</code><strong>一次一次迭代</strong>，则会<strong>显式触发异常</strong>，但要获取return的返回值，我需要如下操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        <span class="hljs-keyword">if</span> i==<span class="hljs-number">2</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;我被迫中断了&#x27;</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">yield</span> i<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">generator</span>):<br>    <span class="hljs-keyword">try</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(generator))   <span class="hljs-comment">#每次迭代一个值，则会显式出发StopIteration</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(generator))<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(generator))<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(generator))<br>        <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(generator))<br>    <span class="hljs-keyword">except</span> StopIteration <span class="hljs-keyword">as</span> exc:<br>        <span class="hljs-built_in">print</span>(exc.value)     <span class="hljs-comment">#获取返回的值</span><br><br>g=my_generator()<br>main(g)<br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">0</span><br><span class="hljs-string">1</span><br><span class="hljs-string">我被迫中断了</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>现在我们使用<code>yield from</code>来完成上面的同样的功能：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">生成器中<span class="hljs-keyword">return</span>的值 = <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> 生成器对象<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">my_generator</span>():<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>        <span class="hljs-keyword">if</span> i == <span class="hljs-number">2</span>:<br>            <span class="hljs-comment"># 遇到return自动触发StopIteration异常</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;我被迫中断了&#x27;</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">yield</span> i<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_my_generator</span>(<span class="hljs-params">generator</span>):  <span class="hljs-comment"># 定义一个包装“生成器”的生成器，它的本质还是生成器</span><br>    result = <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> generator    <span class="hljs-comment"># 自动触发StopIteration异常，并且将return的返回值赋值给yield from表达式的结果，即result</span><br>    <span class="hljs-built_in">print</span>(result)<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">generator</span>):<br>    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> generator:<br>        <span class="hljs-built_in">print</span>(j)<br> <br>g = my_generator()<br>wrap_g = wrap_my_generator(g)<br>main(wrap_g)  <span class="hljs-comment">#调用</span><br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">0</span><br><span class="hljs-string">1</span><br><span class="hljs-string">我被迫中断了</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>从上面的比较可以看出，<code>yield from</code>具有以下几个<strong>特点</strong>：</p>
+<ol>
+<li><p><strong>单独<code>yield</code>时</strong>：的my_generator是原始的生成器，main是调用方，使用yield的时候，只涉及到这两个函数，即“调用方”与“生成器（协程函数）”是<strong>直接进行交互的，不涉及其他方法</strong>，即<strong>“调用方——&gt;生成器函数(协程函数)”；</strong></p>
+</li>
+<li><p><strong>在使用<code>yield from</code>的时</strong>：多了一个对原始my_generator的<strong>包装函数</strong>，然后<strong>调用方是通过这个包装函数</strong>（后面会讲到它专有的名词）来与<strong>生成器进行交互</strong>的，即<strong>“调用方——&gt;生成器包装函数——&gt;生成器函数(协程函数)”</strong>；</p>
+</li>
+<li><p><code>yield from iteration</code>结构会在内部<strong>自动捕获 iteration生成器的StopIteration 异常</strong>。这种处理方式与 for 循环处理 StopIteration 异常的方式一样。而且对 <code>yield from</code>结构来说，<strong>解释器不仅会捕获 StopIteration 异常，还会把return返回的值或者是StopIteration的value 属性的值变成 yield from 表达式的值，即上面的result。</strong></p>
+</li>
+</ol>
+<blockquote>
+<p>委派生成器：包含 <code>yield from</code> <iterable> <strong>表达式的生成器函数</strong>；即上面的wrap_my_generator<strong>生成器包装函数</strong></p>
+</blockquote>
+<blockquote>
+<p>子生成器：从 <code>yield from</code> 表达式中 <iterable> 部分获取的生成器；即上面的my_generator<strong>生成器函数</strong></p>
+</blockquote>
+<blockquote>
+<p>调用方：<strong>调用委派生成器的客户端代码</strong>；即上面的<strong>main调用方函数</strong></p>
+</blockquote>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210814184753.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<h4 id="2-yield-from的管道传输用法示例"><a href="#2-yield-from的管道传输用法示例" class="headerlink" title="2. yield from的管道传输用法示例"></a>2. yield from的管道传输用法示例</h4><p>其实<code>yield from</code>最重要的作用就是提供了一个<strong>“数据传输的管道”</strong>，下面通过一个简单的例子加以说明为什么是管道：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">average</span>():<br>    total = <span class="hljs-number">0.0</span>  <span class="hljs-comment">#数字的总和</span><br>    count = <span class="hljs-number">0</span>    <span class="hljs-comment">#数字的个数</span><br>    avg = <span class="hljs-literal">None</span>   <span class="hljs-comment">#平均值</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        num = <span class="hljs-keyword">yield</span> avg<br>        total += num<br>        count += <span class="hljs-number">1</span><br>        avg = total/count<br> <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">wrap_average</span>(<span class="hljs-params">generator</span>):<br>    <span class="hljs-keyword">yield</span> <span class="hljs-keyword">from</span> generator<br> <br><span class="hljs-comment">#定义一个函数，通过这个函数向average函数发送数值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>(<span class="hljs-params">wrap</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>(wrap))  <span class="hljs-comment">#启动生成器</span><br>    <span class="hljs-built_in">print</span>(wrap.send(<span class="hljs-number">10</span>))  <span class="hljs-comment"># 10</span><br>    <span class="hljs-built_in">print</span>(wrap.send(<span class="hljs-number">20</span>))  <span class="hljs-comment"># 15</span><br>    <span class="hljs-built_in">print</span>(wrap.send(<span class="hljs-number">30</span>))  <span class="hljs-comment"># 20</span><br>    <span class="hljs-built_in">print</span>(wrap.send(<span class="hljs-number">40</span>))  <span class="hljs-comment"># 25</span><br>  <br>g = average()<br>wrap = wrap_average(g)<br>main(wrap)<br> <br><span class="hljs-string">&#x27;&#x27;&#x27;运行结果为：</span><br><span class="hljs-string">None</span><br><span class="hljs-string">10.0</span><br><span class="hljs-string">15.0</span><br><span class="hljs-string">20.0</span><br><span class="hljs-string">25.0</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>从上面我们可以发现，调用方发送的数据是发给<code>wrap_average</code>的，怎么依然到了生成器函数<code>average</code>里面呢？这就是<strong>“数据传输管道的作用”</strong>。即<strong>主函数调用方main把各个value传给grouper</strong> ，而这个传入的值<strong>最终到达averager函数中</strong>； <strong>grouper并不知道传入的是什么值</strong>，因为从上面的代码看出，**<code>wrap_average</code>里面完全没有处理这个值的任何代码！**</p>
+<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><h3 id="函数引用"><a href="#函数引用" class="headerlink" title="函数引用"></a>函数引用</h3>   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;1&quot;</span>)<br><span class="hljs-built_in">print</span>(test)<br><span class="hljs-comment"># &lt;function __main__.test&gt;</span><br>a = test <span class="hljs-comment"># 变量A指向函数对象</span><br>a() <span class="hljs-comment"># 变量A可调用函数</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="什么是闭包"><a href="#什么是闭包" class="headerlink" title="什么是闭包"></a>什么是闭包</h3><blockquote>
+<p><strong>在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这些函数以及用到的一些变量称之为闭包。</strong></p>
+</blockquote>
+<h3 id="闭包的应用"><a href="#闭包的应用" class="headerlink" title="闭包的应用"></a>闭包的应用</h3>   <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">parse</span>(<span class="hljs-params">number: <span class="hljs-built_in">int</span></span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;第一层函数&quot;</span>, number)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">sum</span>(<span class="hljs-params">number2</span>):<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;第二层函数加和后&quot;</span>, number+number2)<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">sum</span><br><span class="hljs-comment"># 接受函数对象的引用</span><br>func = parse(<span class="hljs-number">100</span>)<br>func(<span class="hljs-number">100</span>)<br></code></pre></td></tr></table></figure>
+
+<p>   <img src="http://pic.lskyl.xyz/blog/old/20210719211704.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210719215011.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210719215459.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210719215842.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210719220126.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 编写闭包函数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">checkLogin</span>(<span class="hljs-params">func</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;准备检查权限&quot;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">inner</span>():<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;权限正确!&quot;</span>)<br>        func()  <span class="hljs-comment"># 执行函数的变量</span><br><br>    <span class="hljs-keyword">return</span> inner  <span class="hljs-comment"># 返回一个函数对象</span><br><br><span class="hljs-comment"># main变量指向的是mian函数</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;执行业务1&quot;</span>)<br><br><span class="hljs-comment"># 不用修改主函数的内容,就可以扩展主函数.</span><br>main = checkLogin(main)  <span class="hljs-comment"># 此时main变量指向的是inner函数</span><br>main()<br><span class="hljs-comment"># 等效于</span><br><span class="hljs-comment"># 到这里python会运行 checkLogin函数,并把下面的函数名变量指向 checkLogin 函数的返回值,即 inner 函数</span><br><span class="hljs-meta">@checkLogin</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mian</span>():<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;执行业务2&quot;</span>)<br><br><span class="hljs-comment"># 在调用main之前已经被装饰了</span><br>mian()<br></code></pre></td></tr></table></figure>
+
+<h3 id="多个修饰器，从下到上修饰"><a href="#多个修饰器，从下到上修饰" class="headerlink" title="多个修饰器，从下到上修饰"></a>多个修饰器，从下到上修饰</h3><p><img src="http://pic.lskyl.xyz/blog/old/20210720161511.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p><strong>装饰是倒着装的，执行是顺着执行的。</strong></p>
+</blockquote>
+<h3 id="装饰有参数的函数"><a href="#装饰有参数的函数" class="headerlink" title="装饰有参数的函数"></a>装饰有参数的函数</h3><p><img src="http://pic.lskyl.xyz/blog/old/20210720162540.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>对不定长参数的传递</p>
+</blockquote>
+<p><img src="http://pic.lskyl.xyz/blog/old/20210720162754.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<h3 id="装饰有返回值的参数"><a href="#装饰有返回值的参数" class="headerlink" title="装饰有返回值的参数"></a>装饰有返回值的参数</h3><p><img src="http://pic.lskyl.xyz/blog/old/20210720163328.png-picsmall" srcset="/img/loading.gif" lazyload alt="image-20210720163327239"></p>
+<h3 id="通用修饰器"><a href="#通用修饰器" class="headerlink" title="通用修饰器"></a>通用修饰器</h3><p><img src="http://pic.lskyl.xyz/blog/old/20210720164146.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<h3 id="带参数的修饰器"><a href="#带参数的修饰器" class="headerlink" title="带参数的修饰器"></a>带参数的修饰器</h3><p><img src="http://pic.lskyl.xyz/blog/old/20210818144548.png-picsmall" srcset="/img/loading.gif" lazyload></p>
+<blockquote>
+<p>在函数中嵌套闭包函数</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Python/" class="category-chain-item">Python</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Python/">#Python</a>
+      
+        <a href="/tags/Coding/">#Coding</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Python 迭代器生成器修饰器</div>
+      <div>https://lskyl.xyz/Python-Generator-Iterator-decorater/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>WhaleFall</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2021年8月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/Flask-Web-note/" title="Flask Web 框架学习笔记">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Flask Web 框架学习笔记</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/Python-Tkinter-GUI/" title="Python Tkinter 框架学习">
+                        <span class="hidden-mobile">Python Tkinter 框架学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.7/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo-repo-ten.vercel.app/","region":"ap-shanghai","path":"window.location.pathname"},
+          {
+            el: '#twikoo',
+            path: 'window.location.pathname',
+            onCommentLoaded: function() {
+              var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+              Fluid.plugins.imageCaption(imgSelector);
+              Fluid.plugins.fancyBox(imgSelector);
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+    <!-- 备案信息 ICP for China -->
+    <div class="beian">
+  <span>
+    <a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow noopener">
+      粤ICP证865412236号
+    </a>
+  </span>
+  
+    
+      <span>
+        <a
+          href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11426336"
+          rel="nofollow noopener"
+          class="beian-police"
+          target="_blank"
+        >
+          
+            <span style="visibility: hidden; width: 0">|</span>
+            <img src="/img/police_beian.png" srcset="/img/loading.gif" lazyload alt="police-icon"/>
+          
+          <span>粤公网安备11426336号</span>
+        </a>
+      </span>
+    
+  
+</div>
+
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
