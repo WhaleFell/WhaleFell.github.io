@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>😏 树莓派折腾手册（三）——搭建离线下载器 👀 | 😊落落のBlog😊</title><meta name="keywords" content="Linux, Respi, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="😏 树莓派折腾手册（三）——搭建离线下载器 👀1.挂载硬盘&#x2F;U 盘 注意：开始之前先把存储设备格式化成 fat32 文件系统   树莓派 4B Debian10 系统插上储存设备后默认自动挂载到 &#x2F;media 目录我们先卸载 U 盘： 查询硬盘状态: sudo fdisk -l    sudo umount &#x2F;media&#x2F;pi&#x2F;PI   #这里不能照抄命令，要根据实际情况更改   #"><meta property="og:type" content="article"><meta property="og:title" content="😏 树莓派折腾手册（三）——搭建离线下载器 👀"><meta property="og:url" content="https://whaleluo.top/raspberrypi-note-2/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="😏 树莓派折腾手册（三）——搭建离线下载器 👀1.挂载硬盘&#x2F;U 盘 注意：开始之前先把存储设备格式化成 fat32 文件系统   树莓派 4B Debian10 系统插上储存设备后默认自动挂载到 &#x2F;media 目录我们先卸载 U 盘： 查询硬盘状态: sudo fdisk -l    sudo umount &#x2F;media&#x2F;pi&#x2F;PI   #这里不能照抄命令，要根据实际情况更改   #"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619154345.jpg"><meta property="article:published_time" content="2021-06-18T19:37:48.000Z"><meta property="article:modified_time" content="2021-06-18T19:37:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Respi"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619154345.jpg"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">😏 树莓派折腾手册（三）——搭建离线下载器 👀</h1><div class="post-title__meta"><a href="/archives/2021/06/" class="post-meta__date button">2021-06-18</a> <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8C%82%E8%BD%BD%E7%A1%AC%E7%9B%98-U-%E7%9B%98"><span class="toc-number">1.</span> <span class="toc-text">1.挂载硬盘&#x2F;U 盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%83%A8%E7%BD%B2-Aria2-%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">2.部署 Aria2 离线下载器</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8C%82%E8%BD%BD%E7%A1%AC%E7%9B%98-U-%E7%9B%98"><span class="toc-number">1.</span> <span class="toc-text">1.挂载硬盘&#x2F;U 盘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%83%A8%E7%BD%B2-Aria2-%E7%A6%BB%E7%BA%BF%E4%B8%8B%E8%BD%BD%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">2.部署 Aria2 离线下载器</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619154345.jpg"></div><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2021-06-18"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="😏-树莓派折腾手册（三）——搭建离线下载器-👀"><a href="#😏-树莓派折腾手册（三）——搭建离线下载器-👀" class="headerlink" title="😏 树莓派折腾手册（三）——搭建离线下载器 👀"></a>😏 树莓派折腾手册（三）——搭建离线下载器 👀</h1><h2 id="1-挂载硬盘-U-盘"><a href="#1-挂载硬盘-U-盘" class="headerlink" title="1.挂载硬盘&#x2F;U 盘"></a>1.挂载硬盘&#x2F;U 盘</h2><blockquote><p><strong>注意：开始之前先把存储设备格式化成</strong> <strong>fat32 文件系统</strong></p></blockquote><ul><li><p>树莓派 4B Debian10 系统插上储存设备后默认自动挂载到 <code>/media</code> 目录我们先卸载 U 盘：</p><p>查询硬盘状态: <code>sudo fdisk -l</code></p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153119.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153119.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p></li></ul><pre><code class="hljs shell">sudo umount /media/pi/PI   #这里不能照抄命令，要根据实际情况更改 
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash">如果出现 target is busy 的情况，我们要强行结束U盘目录下的进程</span> 
+sudo fuser -mv -k /media/U盘 名字    # 然后再执行umount卸载命令</code></pre><ul><li>编辑 <code>/etc/fstab</code> 中添加像下面这样的挂载配置：</li></ul><pre><code class="hljs plaintext">sudo nano /etc/fstab
+
+/dev/sda1 /home/pi/disk vfat utf8,uid=1000,gid=1000,umask=000 0 0 #挂载点需要自行更改 sda1要加数字
+
+sudo reboot
+
+mount /dev/sda1 /home/pi/disk -o utf8,uid=1000,gid=1000,umask=000 -t vfat</code></pre><ul><li><p>重启 ，不出意外的话开机 应该 会自动挂载，且有写权限，用户是 pi：如图挂载至 <code>/home/pi/disk</code> 目录，有<strong>777 权限</strong></p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153142.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153142.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p></li></ul><h2 id="2-部署-Aria2-离线下载器"><a href="#2-部署-Aria2-离线下载器" class="headerlink" title="2.部署 Aria2 离线下载器"></a>2.部署 Aria2 离线下载器</h2><ul><li>下载安装 <code>Aria2</code>:</li></ul><pre><code class="hljs plaintext">sudo apt-get update
+sudo apt-get install aria2</code></pre><ul><li><p>安装 nginx：</p><blockquote><p>上面已经安装过的<strong>小可爱</strong>可以<strong>跳过</strong></p></blockquote></li></ul><pre><code class="hljs plaintext">sudo apt-get install nginx</code></pre><ul><li><p>配置 Aria2， 创建配置文件：</p><pre><code class="hljs plaintext">#创建目录 
+sudo mkdir /etc/aria2/ 
+#创建配置文件 
+sudo touch /etc/aria2/aria2.conf 
+#创建aria2用户 
+sudo useradd -M -s /usr/sbin/nologin aria2 
+#创建session文件，用于保存进度: 
+sudo touch /etc/aria2/aria2.session 
+#修改文件拥有者为aria2： 
+sudo chown aria2 /etc/aria2 /etc/aria2/aria2.session</code></pre></li><li><p>编辑 <code>Aria2配置</code> 文件:</p><pre><code class="hljs plaintext">#根据需要编辑文件: 
+sudo nano /etc/aria2/aria2.conf 
+#配置实例
+
+#默认下载位置，需要改这里！！ 
+dir=/home/pi/disk 
+#断点续传 
+continue=true 
+min-split-size=10M 
+input-file=/etc/aria2/aria2.session 
+save-session=/etc/aria2/aria2.session 
+enable-rpc=true 
+rpc-allow-origin-all=true 
+#只让本机访问6800端口，因为下面让nginx代理 
+rpc-listen-all=false 
+#rpc秘钥，需要改这里 
+rpc-secret=123456 
+rpc默认端口为6800
+#rpc-listen-port=6800 
+listen-port=51413  
+enable-dht=false 
+enable-peer-exchange=false 
+peer-id-prefix=-TR2770- 
+user-agent=Transmission/2.77 
+seed-ratio=0 
+bt-seed-unverified=true 
+bt-save-metadata=true</code></pre></li><li><p>创建<strong>systemd</strong>文件在 <code>/lib/systemd/system/aria2.service</code> 为如下:</p><pre><code class="hljs plaintext">sudo nano /lib/systemd/system/aria2.service
+
+#配置实例 
+[Unit] 
+Description=Aria2c download manager 
+After=network.target  
+[Service] 
+Type=simple 
+User=aria2 
+ExecStart=/usr/bin/aria2c  --conf-path=/etc/aria2/aria2.conf  [Install] 
+WantedBy=multi-user.target</code></pre></li><li><p>启动<strong>Aria2</strong>:</p><pre><code class="hljs plaintext">#启动Aria2 
+sudo systemctl start aria2.service 
+#可以设置开机启动 
+sudo systemctl enable aria2.service 
+#如果要关闭开机启动 
+sudo systemctl disable aria2.service</code></pre></li><li><p>配置<strong>nginx+ariaNg</strong>可视化管理页面：</p><blockquote><p>到 <a target="_blank" rel="noopener" href="https://github.com/mayswind/AriaNg/releases"><strong>AriaNG</strong></a>​<a target="_blank" rel="noopener" href="https://github.com/mayswind/AriaNg/releases">开源项目页面</a> 获取最新版版本</p></blockquote><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153158.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153158.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><p><strong>把源码克隆到</strong> <code>/website/AriaNg/</code>：</p><pre><code class="hljs shell">sudo mkdir /website
+sudo chmod 777 -R /website
+cd /website
+mkdir AriaNg
+cd AriaNg
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">自己复制最新版链接</span>
+wget https://github.com/mayswind/AriaNg/releases/download/1.1.6/AriaNg-1.1.6.zip
+<span class="hljs-meta prompt_"># </span><span class="language-bash">祖国加速通道</span>
+wget https://gproxy.cn/https://github.com/mayswind/AriaNg/releases/download/1.1.6/AriaNg-1.1.6.zip
+<span class="hljs-meta prompt_"># </span><span class="language-bash">解压</span>
+unzip AriaNg-1.1.6.zip
+rm AriaNg-1.1.6.zip
+<span class="hljs-meta prompt_"># </span><span class="language-bash">授权</span>
+sudo chmod 777 -R /website</code></pre></li></ul><blockquote><p>为了方便使用，我把<strong>AriaNg</strong>和<strong>jsonrpc</strong>都配置在了 <strong>80 端口</strong>，利用 nginx 的<strong>代理功能</strong>，把本机 6800 端口隐藏,对外<strong>只暴露 80 端口.</strong></p></blockquote><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">修改nginx配置文件</span> 
+sudo nano /etc/nginx/sites-enabled/default
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash">添加配置aria2Ng</span> 
+location /aria2 &#123; 
+            alias /website/AriaNg/; 
+            index index.html; 
+    &#125; 
+<span class="hljs-meta prompt_">#</span><span class="language-bash">代理jsonrpc</span> 
+location /jsonrpc &#123; 
+       proxy_pass http://localhost:6800/jsonrpc; 
+            proxy_redirect off; 
+            proxy_set_header        X-Real-IP       $remote_addr; 
+            proxy_set_header        X-Forwarded-For     $proxy_add_x_forwarded_for; 
+            proxy_set_header Host $host; 
+            #以下代码使支持WebSocket 
+            proxy_http_version 1.1; 
+            proxy_set_header Upgrade $http_upgrade; 
+            proxy_set_header Connection &quot;upgrade&quot;; 
+&#125; 
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash">最后别忘记重启nginx</span> 
+sudo systemctl restart nginx</code></pre><ul><li>尝试访问 <a target="_blank" rel="noopener" href="http://树莓派ip/aria2">http:&#x2F;&#x2F;树莓派ip&#x2F;aria2</a> ，<strong>设置参数</strong></li><li><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153219.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153219.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></li></ul><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153228.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210619153228.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/raspberrypi-note-2/">https://whaleluo.top/raspberrypi-note-2/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2021-06-18</p></div><div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/Respi/" class="post-tags__link button"># Respi</a></div></article><div class="nav"><div class="nav__prev"><a href="/depression-medicine/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">抑郁症用药大全对照表</div></div></a></div><div class="nav__next"><a href="/raspberrypi-note-1/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">😃 树莓派折腾手册 (一)——准备系统 😃</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

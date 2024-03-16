@@ -1,0 +1,902 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Linux 运维笔记(持续更新) | 😊落落のBlog😊</title><meta name="keywords" content="Linux, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="Linux Operation Note​​ 硬盘操作了解两个特殊的设备：  &#x2F;dev&#x2F;null：回收站、无底洞。   &#x2F;dev&#x2F;zero：产生字符。  格式化硬盘为 ETX4 格式mkfs.ext4 &#x2F;dev&#x2F;*** #将硬盘格式化成 ext4 格式  设置硬盘开机挂载# 1.通过 lsblk 命令获取磁盘分区，并挂载磁盘到mnts目录。 lsblk  #"><meta property="og:type" content="article"><meta property="og:title" content="Linux 运维笔记(持续更新)"><meta property="og:url" content="https://whaleluo.top/linux-note/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Linux Operation Note​​ 硬盘操作了解两个特殊的设备：  &#x2F;dev&#x2F;null：回收站、无底洞。   &#x2F;dev&#x2F;zero：产生字符。  格式化硬盘为 ETX4 格式mkfs.ext4 &#x2F;dev&#x2F;*** #将硬盘格式化成 ext4 格式  设置硬盘开机挂载# 1.通过 lsblk 命令获取磁盘分区，并挂载磁盘到mnts目录。 lsblk  #"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Linux-Operation-Note-Banner.png"><meta property="article:published_time" content="2022-03-20T16:37:48.000Z"><meta property="article:modified_time" content="2022-03-20T16:37:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Linux"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Linux-Operation-Note-Banner.png"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Linux 运维笔记(持续更新)</h1><div class="post-title__meta"><a href="/archives/2022/03/" class="post-meta__date button">2022-03-20</a> <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">硬盘操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%A1%AC%E7%9B%98%E4%B8%BA-ETX4-%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">格式化硬盘为 ETX4 格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%A1%AC%E7%9B%98%E5%BC%80%E6%9C%BA%E6%8C%82%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">设置硬盘开机挂载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E4%B8%8E%E7%9B%AE%E5%BD%95%E8%BF%81%E7%A7%BB"><span class="toc-number">1.3.</span> <span class="toc-text">备份与目录迁移</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-tar-gz"><span class="toc-number">1.3.1.</span> <span class="toc-text">使用 tar.gz</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HDParm-%E7%A1%AC%E7%9B%98%E4%BC%91%E7%9C%A0"><span class="toc-number">1.4.</span> <span class="toc-text">HDParm 硬盘休眠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD"><span class="toc-number">1.5.</span> <span class="toc-text">硬盘自动挂载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%A1%AC%E7%9B%98%E8%AF%BB%E5%86%99"><span class="toc-number">1.6.</span> <span class="toc-text">测试硬盘读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%9E%E6%97%B6%E7%A1%AC%E7%9B%98%E9%80%9F%E7%8E%87"><span class="toc-number">1.7.</span> <span class="toc-text">查看实时硬盘速率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMB-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB"><span class="toc-number">1.8.</span> <span class="toc-text">SMB 文件共享</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3"><span class="toc-number">2.</span> <span class="toc-text">进程相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9F%90%E4%B8%AA%E8%84%9A%E6%9C%AC"><span class="toc-number">2.1.</span> <span class="toc-text">开机自启动某个脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3"><span class="toc-number">3.</span> <span class="toc-text">网络相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ApacheBench-AB-%E6%8E%A5%E5%8F%A3-QPS-TPS-%E6%B5%8B%E8%AF%95"><span class="toc-number">3.1.</span> <span class="toc-text">ApacheBench AB 接口 QPS&#x2F;TPS 测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenVPN"><span class="toc-number">3.2.</span> <span class="toc-text">OpenVPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%B5%8B%E9%80%9F"><span class="toc-number">3.3.</span> <span class="toc-text">命令行测速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%9E%E6%97%B6%E7%BD%91%E5%8D%A1%E6%B5%81%E9%87%8F"><span class="toc-number">3.4.</span> <span class="toc-text">查看实时网卡流量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E9%80%9F%E7%BD%91%E7%AB%99"><span class="toc-number">3.5.</span> <span class="toc-text">测速网站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FRP"><span class="toc-number">3.6.</span> <span class="toc-text">FRP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="toc-number">3.6.1.</span> <span class="toc-text">服务端配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">3.6.2.</span> <span class="toc-text">客户端</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-configure-proxy"><span class="toc-number">3.7.</span> <span class="toc-text">配置代理 configure proxy</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-%E7%9B%B8%E5%85%B3"><span class="toc-number">4.</span> <span class="toc-text">Shell 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E9%93%BE%E6%8E%A5%E8%B6%85%E6%97%B6%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.1.</span> <span class="toc-text">SSH 链接超时设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E9%85%8D%E7%BD%AE%E5%AF%86%E9%92%A5%E7%99%BB%E9%99%86"><span class="toc-number">4.2.</span> <span class="toc-text">SSH 配置密钥登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E9%99%A4-ssh-%E6%89%80%E6%9C%89%E7%99%BB%E5%BD%95%E6%97%A5%E5%BF%97"><span class="toc-number">4.3.</span> <span class="toc-text">清除 ssh 所有登录日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZSH-%E7%BB%88%E7%AB%AF%E7%BE%8E%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">ZSH 终端美化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E8%AE%BE%E7%BD%AE%E5%AF%86%E9%92%A5%E7%99%BB%E9%99%86%E5%B9%B6%E6%B7%BB%E5%8A%A0-hacker-account"><span class="toc-number">4.5.</span> <span class="toc-text">SSH 设置密钥登陆并添加 hacker account</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-number">5.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">5.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Useful-Command"><span class="toc-number">5.2.</span> <span class="toc-text">Useful Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF-IPV6"><span class="toc-number">5.3.</span> <span class="toc-text">开启 IPV6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Image-%E5%90%84%E7%A7%8D%E9%95%9C%E5%83%8F"><span class="toc-number">5.4.</span> <span class="toc-text">Image 各种镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Portainer-%E7%AE%A1%E7%90%86-UI"><span class="toc-number">5.4.1.</span> <span class="toc-text">Portainer 管理 UI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Frps-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">5.4.2.</span> <span class="toc-text">Frps 服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Frpc-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">5.4.3.</span> <span class="toc-text">Frpc 客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E7%BD%91%E9%80%9F%E6%B5%8B%E8%AF%95"><span class="toc-number">5.4.4.</span> <span class="toc-text">到服务器的网速测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FileBrowser-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">5.4.5.</span> <span class="toc-text">FileBrowser 文件管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NFS-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB"><span class="toc-number">5.4.6.</span> <span class="toc-text">NFS 文件共享</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DDNS-GO"><span class="toc-number">5.4.7.</span> <span class="toc-text">DDNS-GO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AdGuardHome-DNS"><span class="toc-number">5.4.8.</span> <span class="toc-text">AdGuardHome DNS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SmartDNS"><span class="toc-number">5.4.9.</span> <span class="toc-text">SmartDNS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#QBittorent-%E7%A7%8D%E5%AD%90%E4%B8%8B%E8%BD%BD"><span class="toc-number">5.4.10.</span> <span class="toc-text">QBittorent 种子下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Alist"><span class="toc-number">5.4.11.</span> <span class="toc-text">Alist</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Homarr-%E5%AF%BC%E8%88%AA%E9%A1%B5"><span class="toc-number">5.4.12.</span> <span class="toc-text">Homarr 导航页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Aria2-%E4%B8%8B%E8%BD%BD"><span class="toc-number">5.4.13.</span> <span class="toc-text">Aria2 下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mariadb-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">5.4.14.</span> <span class="toc-text">Mariadb 数据库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V2ray-Xray-Server"><span class="toc-number">6.</span> <span class="toc-text">V2ray &#x2F; Xray Server</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-geoip-dat-geosite-dat"><span class="toc-number">6.1.</span> <span class="toc-text">更新 geoip.dat geosite.dat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx"><span class="toc-number">7.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E4%BC%98-Performance-Tuning"><span class="toc-number">7.1.</span> <span class="toc-text">调优 Performance Tuning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">7.2.</span> <span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%AF%81%E4%B9%A6"><span class="toc-number">7.3.</span> <span class="toc-text">添加证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-acme-sh-%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6"><span class="toc-number">7.3.1.</span> <span class="toc-text">使用 acme.sh 申请证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nginx-%E9%85%8D%E7%BD%AE"><span class="toc-number">7.3.2.</span> <span class="toc-text">Nginx 配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F"><span class="toc-number">7.4.</span> <span class="toc-text">跨域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%94%A8%E5%AE%8C%E6%95%B4%E7%9A%84-nginx-conf"><span class="toc-number">7.5.</span> <span class="toc-text">自用完整的 nginx.conf</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenWRT"><span class="toc-number">8.</span> <span class="toc-text">OpenWRT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">9.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Update-latest-Python-version"><span class="toc-number">9.1.</span> <span class="toc-text">Update latest Python version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="toc-number">10.</span> <span class="toc-text">网络安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8-Reference"><span class="toc-number">11.</span> <span class="toc-text">引用 Reference</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E6%93%8D%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">硬盘操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E7%A1%AC%E7%9B%98%E4%B8%BA-ETX4-%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">格式化硬盘为 ETX4 格式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%A1%AC%E7%9B%98%E5%BC%80%E6%9C%BA%E6%8C%82%E8%BD%BD"><span class="toc-number">1.2.</span> <span class="toc-text">设置硬盘开机挂载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E4%B8%8E%E7%9B%AE%E5%BD%95%E8%BF%81%E7%A7%BB"><span class="toc-number">1.3.</span> <span class="toc-text">备份与目录迁移</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-tar-gz"><span class="toc-number">1.3.1.</span> <span class="toc-text">使用 tar.gz</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HDParm-%E7%A1%AC%E7%9B%98%E4%BC%91%E7%9C%A0"><span class="toc-number">1.4.</span> <span class="toc-text">HDParm 硬盘休眠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A1%AC%E7%9B%98%E8%87%AA%E5%8A%A8%E6%8C%82%E8%BD%BD"><span class="toc-number">1.5.</span> <span class="toc-text">硬盘自动挂载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%A1%AC%E7%9B%98%E8%AF%BB%E5%86%99"><span class="toc-number">1.6.</span> <span class="toc-text">测试硬盘读写</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%9E%E6%97%B6%E7%A1%AC%E7%9B%98%E9%80%9F%E7%8E%87"><span class="toc-number">1.7.</span> <span class="toc-text">查看实时硬盘速率</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMB-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB"><span class="toc-number">1.8.</span> <span class="toc-text">SMB 文件共享</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%9B%B8%E5%85%B3"><span class="toc-number">2.</span> <span class="toc-text">进程相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E6%9C%BA%E8%87%AA%E5%90%AF%E5%8A%A8%E6%9F%90%E4%B8%AA%E8%84%9A%E6%9C%AC"><span class="toc-number">2.1.</span> <span class="toc-text">开机自启动某个脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%9B%B8%E5%85%B3"><span class="toc-number">3.</span> <span class="toc-text">网络相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ApacheBench-AB-%E6%8E%A5%E5%8F%A3-QPS-TPS-%E6%B5%8B%E8%AF%95"><span class="toc-number">3.1.</span> <span class="toc-text">ApacheBench AB 接口 QPS&#x2F;TPS 测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenVPN"><span class="toc-number">3.2.</span> <span class="toc-text">OpenVPN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%B5%8B%E9%80%9F"><span class="toc-number">3.3.</span> <span class="toc-text">命令行测速</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%9E%E6%97%B6%E7%BD%91%E5%8D%A1%E6%B5%81%E9%87%8F"><span class="toc-number">3.4.</span> <span class="toc-text">查看实时网卡流量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8B%E9%80%9F%E7%BD%91%E7%AB%99"><span class="toc-number">3.5.</span> <span class="toc-text">测速网站</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FRP"><span class="toc-number">3.6.</span> <span class="toc-text">FRP</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%85%8D%E7%BD%AE"><span class="toc-number">3.6.1.</span> <span class="toc-text">服务端配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">3.6.2.</span> <span class="toc-text">客户端</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86-configure-proxy"><span class="toc-number">3.7.</span> <span class="toc-text">配置代理 configure proxy</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shell-%E7%9B%B8%E5%85%B3"><span class="toc-number">4.</span> <span class="toc-text">Shell 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E9%93%BE%E6%8E%A5%E8%B6%85%E6%97%B6%E8%AE%BE%E7%BD%AE"><span class="toc-number">4.1.</span> <span class="toc-text">SSH 链接超时设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E9%85%8D%E7%BD%AE%E5%AF%86%E9%92%A5%E7%99%BB%E9%99%86"><span class="toc-number">4.2.</span> <span class="toc-text">SSH 配置密钥登陆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%85%E9%99%A4-ssh-%E6%89%80%E6%9C%89%E7%99%BB%E5%BD%95%E6%97%A5%E5%BF%97"><span class="toc-number">4.3.</span> <span class="toc-text">清除 ssh 所有登录日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ZSH-%E7%BB%88%E7%AB%AF%E7%BE%8E%E5%8C%96"><span class="toc-number">4.4.</span> <span class="toc-text">ZSH 终端美化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSH-%E8%AE%BE%E7%BD%AE%E5%AF%86%E9%92%A5%E7%99%BB%E9%99%86%E5%B9%B6%E6%B7%BB%E5%8A%A0-hacker-account"><span class="toc-number">4.5.</span> <span class="toc-text">SSH 设置密钥登陆并添加 hacker account</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker"><span class="toc-number">5.</span> <span class="toc-text">Docker</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">5.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Useful-Command"><span class="toc-number">5.2.</span> <span class="toc-text">Useful Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF-IPV6"><span class="toc-number">5.3.</span> <span class="toc-text">开启 IPV6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Image-%E5%90%84%E7%A7%8D%E9%95%9C%E5%83%8F"><span class="toc-number">5.4.</span> <span class="toc-text">Image 各种镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Portainer-%E7%AE%A1%E7%90%86-UI"><span class="toc-number">5.4.1.</span> <span class="toc-text">Portainer 管理 UI</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Frps-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="toc-number">5.4.2.</span> <span class="toc-text">Frps 服务端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Frpc-%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-number">5.4.3.</span> <span class="toc-text">Frpc 客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E7%BD%91%E9%80%9F%E6%B5%8B%E8%AF%95"><span class="toc-number">5.4.4.</span> <span class="toc-text">到服务器的网速测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#FileBrowser-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86"><span class="toc-number">5.4.5.</span> <span class="toc-text">FileBrowser 文件管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NFS-%E6%96%87%E4%BB%B6%E5%85%B1%E4%BA%AB"><span class="toc-number">5.4.6.</span> <span class="toc-text">NFS 文件共享</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DDNS-GO"><span class="toc-number">5.4.7.</span> <span class="toc-text">DDNS-GO</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AdGuardHome-DNS"><span class="toc-number">5.4.8.</span> <span class="toc-text">AdGuardHome DNS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SmartDNS"><span class="toc-number">5.4.9.</span> <span class="toc-text">SmartDNS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#QBittorent-%E7%A7%8D%E5%AD%90%E4%B8%8B%E8%BD%BD"><span class="toc-number">5.4.10.</span> <span class="toc-text">QBittorent 种子下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Alist"><span class="toc-number">5.4.11.</span> <span class="toc-text">Alist</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Homarr-%E5%AF%BC%E8%88%AA%E9%A1%B5"><span class="toc-number">5.4.12.</span> <span class="toc-text">Homarr 导航页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Aria2-%E4%B8%8B%E8%BD%BD"><span class="toc-number">5.4.13.</span> <span class="toc-text">Aria2 下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Mariadb-%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">5.4.14.</span> <span class="toc-text">Mariadb 数据库</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V2ray-Xray-Server"><span class="toc-number">6.</span> <span class="toc-text">V2ray &#x2F; Xray Server</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-geoip-dat-geosite-dat"><span class="toc-number">6.1.</span> <span class="toc-text">更新 geoip.dat geosite.dat</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx"><span class="toc-number">7.</span> <span class="toc-text">Nginx</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E4%BC%98-Performance-Tuning"><span class="toc-number">7.1.</span> <span class="toc-text">调优 Performance Tuning</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86"><span class="toc-number">7.2.</span> <span class="toc-text">反向代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%AF%81%E4%B9%A6"><span class="toc-number">7.3.</span> <span class="toc-text">添加证书</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-acme-sh-%E7%94%B3%E8%AF%B7%E8%AF%81%E4%B9%A6"><span class="toc-number">7.3.1.</span> <span class="toc-text">使用 acme.sh 申请证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Nginx-%E9%85%8D%E7%BD%AE"><span class="toc-number">7.3.2.</span> <span class="toc-text">Nginx 配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B7%A8%E5%9F%9F"><span class="toc-number">7.4.</span> <span class="toc-text">跨域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%94%A8%E5%AE%8C%E6%95%B4%E7%9A%84-nginx-conf"><span class="toc-number">7.5.</span> <span class="toc-text">自用完整的 nginx.conf</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenWRT"><span class="toc-number">8.</span> <span class="toc-text">OpenWRT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">9.</span> <span class="toc-text">Python</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Update-latest-Python-version"><span class="toc-number">9.1.</span> <span class="toc-text">Update latest Python version</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8"><span class="toc-number">10.</span> <span class="toc-text">网络安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8-Reference"><span class="toc-number">11.</span> <span class="toc-text">引用 Reference</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Linux-Operation-Note-Banner.png"></div><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2022-03-20"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Linux-Operation-Note"><a href="#Linux-Operation-Note" class="headerlink" title="Linux Operation Note"></a>Linux Operation Note</h1><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Linux-Operation-Note-Banner.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Linux-Operation-Note-Banner.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><h2 id="硬盘操作"><a href="#硬盘操作" class="headerlink" title="硬盘操作"></a>硬盘操作</h2><p>了解两个特殊的设备：</p><ol><li>&#x2F;dev&#x2F;null：回收站、无底洞。</li><li>&#x2F;dev&#x2F;zero：产生字符。</li></ol><h3 id="格式化硬盘为-ETX4-格式"><a href="#格式化硬盘为-ETX4-格式" class="headerlink" title="格式化硬盘为 ETX4 格式"></a>格式化硬盘为 ETX4 格式</h3><pre><code class="hljs shell">mkfs.ext4 /dev/*** #将硬盘格式化成 ext4 格式</code></pre><h3 id="设置硬盘开机挂载"><a href="#设置硬盘开机挂载" class="headerlink" title="设置硬盘开机挂载"></a>设置硬盘开机挂载</h3><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">1.通过 lsblk 命令获取磁盘分区，并挂载磁盘到mnts目录。</span>
+lsblk
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">2.通过 blkid 命令获取存储设备UUID</span>
+blkid /dev/sda
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">3.编辑 /etc/fstab 文件，在fstab最后添加存储设备信息，实现开机自动加载</span>
+vim /etc/fstab
+UUID=cdfc0924-7703-40f4-b6ab-8ef3f9adbf06 /mnt/disk ext4 defaults 0 0
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">4.通过mount -a命令重新加载 /etc/fstab 内容</span>
+mount -a
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">常用查询硬盘命令</span>
+fdisk -l
+df -h</code></pre><h3 id="备份与目录迁移"><a href="#备份与目录迁移" class="headerlink" title="备份与目录迁移"></a>备份与目录迁移</h3><h4 id="使用-tar-gz"><a href="#使用-tar-gz" class="headerlink" title="使用 tar.gz"></a>使用 tar.gz</h4><p>备份打包：</p><pre><code class="hljs shell">tar -czvf backup.tar.gz /path/to/directory</code></pre><p>这将使用 <code>tar</code> 命令将指定目录打包成一个压缩文件 <code>backup.tar.gz</code>。你可以将 <code>/path/to/directory</code> 替换为要备份的目录路径。使用 <code>-c</code> 参数表示创建新的备份，<code>-z</code> 参数表示使用 gzip 压缩，<code>-v</code> 参数表示显示备份过程中的详细信息。</p><p>还原备份：</p><pre><code class="hljs shell">tar -xzvf backup.tar.gz -C /path/to/destination</code></pre><p>这将使用 <code>tar</code> 命令解压缩备份文件 <code>backup.tar.gz</code> 并将文件还原到目标目录 <code>/path/to/destination</code>。使用 <code>-x</code> 参数表示解压缩，<code>-z</code> 参数表示使用 gzip 解压缩，<code>-v</code> 参数表示显示还原过程中的详细信息，<code>-C</code> 参数指定还原到的目标目录。</p><h3 id="HDParm-硬盘休眠"><a href="#HDParm-硬盘休眠" class="headerlink" title="HDParm 硬盘休眠"></a>HDParm 硬盘休眠</h3><p>让你的硬盘冷静下来，不要让服务器呼噜呼噜！</p><pre><code class="hljs shell">apt-get install hdparm
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">5 分钟无操作自动休眠</span>
+hdparm -S 60 /dev/sda1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">进入待机</span>
+hdparm -y /dev/sda1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">进入睡眠</span>
+hdparm -Y /dev/sda1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">查看配置</span>
+vim /etc/hdparm.conf</code></pre><h3 id="硬盘自动挂载"><a href="#硬盘自动挂载" class="headerlink" title="硬盘自动挂载"></a>硬盘自动挂载</h3><p>在 <code>/etc/fstab</code> 文件中为硬盘指定了 <code>nofail</code> 选项，系统将忽略找不到硬盘的错误，并继续启动过程。</p><pre><code class="hljs shell">mkdir /mnt/disk/
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">获取分区 UUID 和 Type</span>
+blkid
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">编辑 /etc/fstab</span>
+UUID=7673-85E5 /mnt/disk exfat defaults,nofail 0 2
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">执行全部挂载</span>
+mount -a</code></pre><p>如果不幸 <code>/etc/fstab</code> 没有正确设置时，Ubuntu 仍然会启动，但是文件系统变为只读 read-only，需要把文件系统重新挂载为读写将 <code>/etc/fstab</code> 设置正确后重启保存。</p><pre><code class="hljs shell">mount -o remount rw /</code></pre><h3 id="测试硬盘读写"><a href="#测试硬盘读写" class="headerlink" title="测试硬盘读写"></a>测试硬盘读写</h3><pre><code class="hljs shell">hdparm -Tt /dev/sda</code></pre><h3 id="查看实时硬盘速率"><a href="#查看实时硬盘速率" class="headerlink" title="查看实时硬盘速率"></a>查看实时硬盘速率</h3><h3 id="SMB-文件共享"><a href="#SMB-文件共享" class="headerlink" title="SMB 文件共享"></a>SMB 文件共享</h3><pre><code class="hljs shell">sudo apt update
+sudo apt install samba
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">用户添加</span>
+sudo smbpasswd -a root</code></pre><blockquote><p>NOTE: Whenever you modify this file you should run the command <code>testparm</code> to check that you have not made any basic syntactic errors.</p></blockquote><pre><code class="hljs ini"><span class="hljs-section">[mntReadDir]</span>
+<span class="hljs-attr">comment</span> = Ubuntu mnt dir
+<span class="hljs-attr">path</span> = /mnt/
+read <span class="hljs-attr">only</span> = <span class="hljs-literal">yes</span>
+<span class="hljs-attr">browsable</span> = <span class="hljs-literal">yes</span>
+guest <span class="hljs-attr">ok</span> = <span class="hljs-literal">yes</span>
+create <span class="hljs-attr">mask</span> = <span class="hljs-number">0777</span>
+directory <span class="hljs-attr">mask</span> = <span class="hljs-number">0777</span>
+
+<span class="hljs-section">[tmp]</span>
+<span class="hljs-attr">comment</span> = Ubuntu Tmp
+<span class="hljs-attr">path</span> = /tmp/
+read <span class="hljs-attr">only</span> = <span class="hljs-literal">no</span>
+<span class="hljs-attr">browsable</span> = <span class="hljs-literal">yes</span>
+guest <span class="hljs-attr">ok</span> = <span class="hljs-literal">yes</span>
+create <span class="hljs-attr">mask</span> = <span class="hljs-number">0777</span>
+directory <span class="hljs-attr">mask</span> = <span class="hljs-number">0777</span>
+
+<span class="hljs-section">[mntPrivate]</span>
+<span class="hljs-attr">comment</span> = Ubuntu mnt dir
+<span class="hljs-attr">path</span> = /mnt/
+read <span class="hljs-attr">only</span> = <span class="hljs-literal">no</span>
+<span class="hljs-attr">browsable</span> = <span class="hljs-literal">yes</span>
+guest <span class="hljs-attr">ok</span> = <span class="hljs-literal">no</span>
+create <span class="hljs-attr">mask</span> = <span class="hljs-number">0777</span>
+directory <span class="hljs-attr">mask</span> = <span class="hljs-number">0777</span></code></pre><h2 id="进程相关"><a href="#进程相关" class="headerlink" title="进程相关"></a>进程相关</h2><h3 id="开机自启动某个脚本"><a href="#开机自启动某个脚本" class="headerlink" title="开机自启动某个脚本"></a>开机自启动某个脚本</h3><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">编辑 systemctl 文件</span>
+vim /etc/systemd/system/ttnode.service
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">文件内容</span>
+[Unit]
+Description=Python Task Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/node/ttnode -p /mnt/disk/
+Restart=always
+RestartSec=2
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">重载</span>
+systemctl daemon-reload
+<span class="hljs-meta prompt_"># </span><span class="language-bash">启动</span>
+systemctl start ttnode
+<span class="hljs-meta prompt_"># </span><span class="language-bash">开机自启</span>
+systemctl enable ttnode</code></pre><h2 id="网络相关"><a href="#网络相关" class="headerlink" title="网络相关"></a>网络相关</h2><h3 id="ApacheBench-AB-接口-QPS-TPS-测试"><a href="#ApacheBench-AB-接口-QPS-TPS-测试" class="headerlink" title="ApacheBench AB 接口 QPS&#x2F;TPS 测试"></a>ApacheBench AB 接口 QPS&#x2F;TPS 测试</h3><ul><li><strong>并发数</strong>（concurrent）：并发数只某个时间范围内。同时在使用系统的用户个数。从实际场景来看，并发数就是同时使用该服务器接口的客户端数，这些客户端可能调用不同的 API。严格意义上来说，并发数是指同时请求同一个 API 的用户个数。</li><li><strong>QPS</strong>：<code>Queries Per Second</code> 意思是“每秒查询率”，是接口每秒能够相应的查询次数，是对一个特定的查询服务器在规定时间内所处理流量多少的衡量标准。</li><li><strong>TPS</strong>：是 <code>Transactions Per Second</code> 的缩写，也就是事务数&#x2F;秒。它是软件测试结果的测量单位。一个事务是指一个客户机向服务器发送请求然后服务器做出反应的过程。客户机在发送请求时开始计时，收到服务器响应后结束计时，以此来计算使用的时间和完成的事务个数。</li></ul><p><strong>QPS</strong> 基本类似于 <strong>TPS</strong>，但是不同的是，对于一个页面的一次访问，形成一个 Tps；但一次页面请求，可能产生多次对服务器的请求，服务器对这些请求，就可计入 <strong>QPS</strong> 之中。</p><p>例如：访问一个页面会请求服务器 3 次，一次放，产生一个“T”，产生 3 个“Q”</p><pre><code class="hljs shell">apt-get install apache2-utils
+<span class="hljs-meta prompt_"># </span><span class="language-bash">打开文件限制</span>
+ulimit -SHn 65536
+echo &quot;* soft nofile 65536&quot; &gt;&gt;/etc/security/limits.conf
+echo &quot;* hard nofile 65536&quot; &gt;&gt;/etc/security/limits.conf
+
+ab -n 10000 -c 1000 &quot;http://usa1.whaleluo.top:9810/&quot;</code></pre><h3 id="OpenVPN"><a href="#OpenVPN" class="headerlink" title="OpenVPN"></a>OpenVPN</h3><blockquote><p>参考：<a target="_blank" rel="noopener" href="https://serverfault.com/questions/785767/with-openvpn-how-can-i-only-let-lan-go-through-the-vpn">窗口 - 使用OpenVPN，我如何只能让局域网通过VPN？- 服务器故障 (serverfault.com)</a> <strong>重要</strong></p><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lsgxeva/p/11378768.html">ROUTE: route addition failed - lsgxeva - 博客园 (cnblogs.com)</a></p><p><a target="_blank" rel="noopener" href="https://superuser.com/questions/1608345/how-to-route-only-subnet-in-openvpn-and-not-internet-traffic">networking - How to route only subnet in OpenVPN and not internet traffic - Super User</a></p></blockquote><p>安装脚本:<a target="_blank" rel="noopener" href="https://github.com/Nyr/openvpn-install">Nyr&#x2F;openvpn-install</a></p><p>服务端：<code>server.conf</code></p><pre><code class="hljs ini">server 192.168.255.0 255.255.255.0
+verb 3
+key /etc/openvpn/pki/private/0.0.0.0.key
+ca /etc/openvpn/pki/ca.crt
+cert /etc/openvpn/pki/issued/0.0.0.0.crt
+dh /etc/openvpn/pki/dh.pem
+tls-auth /etc/openvpn/pki/ta.key
+key-direction 0
+keepalive 10 60
+persist-key
+persist-tun
+
+proto tcp
+<span class="hljs-comment"># Rely on Docker to do port mapping, internally always 1194</span>
+port 1194
+dev tun0
+status /tmp/openvpn-status.log
+
+user nobody
+group nogroup
+comp-lzo no
+
+<span class="hljs-comment">### Route Configurations Below</span>
+route 192.168.254.0 225.225.225.0
+
+<span class="hljs-comment">### Push Configurations Below</span></code></pre><p>客户端：<code>client.conf</code></p><pre><code class="hljs ini">client
+nobind
+dev tun
+remote-cert-tls server
+remote tx.cyidz.xyz 11194 tcp
+
+&lt;key&gt;
+-----BEGIN PRIVATE KEY-----
+....
+-----END CERTIFICATE-----
+&lt;/ca&gt;
+key-direction 1
+&lt;tls-auth&gt;
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 2048 bit OpenVPN static key</span>
+<span class="hljs-comment">#</span>
+-----BEGIN OpenVPN Static key V1-----
+....
+-----END OpenVPN Static key V1-----
+&lt;/tls-auth&gt;
+
+<span class="hljs-comment"># redirect-gateway def1  # 注释掉</span>
+dhcp-option DNS 114.114.114.114 <span class="hljs-comment"># 自定义DNS</span>
+route 192.168.1.0 255.255.255.0  <span class="hljs-comment"># 添加路由</span>
+route 192.168.0.0 255.255.255.0</code></pre><h3 id="命令行测速"><a href="#命令行测速" class="headerlink" title="命令行测速"></a>命令行测速</h3><p>使用南开大学的命令行测速： <a target="_blank" rel="noopener" href="https://test.nju.edu.cn/">南大测速 NJU Test</a><br><a target="_blank" rel="noopener" href="https://doc.nju.edu.cn/books/07cdf/page/d1f25">使用命令行工具测速 | e-Science Document</a></p><pre><code class="hljs shell">wget https://github.com/librespeed/speedtest-cli/releases/download/v1.0.10/librespeed-cli_1.0.10_linux_amd64.tar.gz
+tar -xzvf // unpack
+./librespeed-cli --server-json http://test.nju.edu.cn/cli.json --server 1</code></pre><h3 id="查看实时网卡流量"><a href="#查看实时网卡流量" class="headerlink" title="查看实时网卡流量"></a>查看实时网卡流量</h3><p>使用 nload 工具</p><pre><code class="hljs shell">apt-get install nload</code></pre><h3 id="测速网站"><a href="#测速网站" class="headerlink" title="测速网站"></a>测速网站</h3><ol><li>NJU 南大测速 支持命令行：<a target="_blank" rel="noopener" href="https://test.nju.edu.cn/">南大测速 NJU Test</a></li><li>中科大测速：<a target="_blank" rel="noopener" href="https://test.ustc.edu.cn/">中国科学技术大学测速网站</a></li><li>电信宽带测速：<a target="_blank" rel="noopener" href="https://10000.gd.cn/#/speed">10000.gd.cn&#x2F;#&#x2F;speed</a></li><li>台大测速（测海外）：<a target="_blank" rel="noopener" href="http://speed5.ntu.edu.tw/speed5/">NTU Speed5</a></li></ol><h3 id="FRP"><a href="#FRP" class="headerlink" title="FRP"></a>FRP</h3><p>2023&#x2F;12&#x2F;3： 起猛了，FRP 更新到了 0.52.3 版本，2023&#x2F;12&#x2F;3 版本，使用 toml 文件配置。</p><p>GitHub：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp">GitHub - fatedier&#x2F;frp: A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.</a></p><p>完整配置示例：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/tree/dev/conf">conf</a></p><h4 id="服务端配置"><a href="#服务端配置" class="headerlink" title="服务端配置"></a>服务端配置</h4><p>frps.toml</p><pre><code class="hljs toml"><span class="hljs-comment"># frps server config</span>
+<span class="hljs-attr">bindAddr</span> = <span class="hljs-string">&quot;0.0.0.0&quot;</span>
+<span class="hljs-attr">bindPort</span> = <span class="hljs-number">7000</span>
+<span class="hljs-attr">kcpBindPort</span> = <span class="hljs-number">7000</span>
+<span class="hljs-attr">quicBindPort</span> = <span class="hljs-number">7002</span>
+
+<span class="hljs-comment"># TCP MUX</span>
+<span class="hljs-comment"># transport.tcpMux = true</span>
+
+<span class="hljs-comment"># tls </span>
+<span class="hljs-attr">tls.force</span> = <span class="hljs-literal">true</span>
+
+
+<span class="hljs-comment"># If you want to support virtual host, you must set the http port for listening (optional)</span>
+<span class="hljs-comment"># <span class="hljs-doctag">Note:</span> http port and https port can be same with bindPort</span>
+<span class="hljs-attr">vhostHTTPPort</span> = <span class="hljs-number">80</span>
+<span class="hljs-attr">vhostHTTPSPort</span> = <span class="hljs-number">443</span>
+
+<span class="hljs-comment"># admin</span>
+<span class="hljs-attr">webServer.addr</span> = <span class="hljs-string">&quot;0.0.0.0&quot;</span>
+<span class="hljs-attr">webServer.port</span> = <span class="hljs-number">7500</span>
+<span class="hljs-attr">webServer.user</span> = <span class="hljs-string">&quot;admin&quot;</span>
+<span class="hljs-attr">webServer.password</span> = <span class="hljs-string">&quot;admin&quot;</span>
+
+
+<span class="hljs-comment"># log config</span>
+<span class="hljs-attr">log.to</span> = <span class="hljs-string">&quot;./frps.log&quot;</span>
+<span class="hljs-comment"># trace, debug, info, warn, error</span>
+<span class="hljs-attr">log.level</span> = <span class="hljs-string">&quot;info&quot;</span>
+<span class="hljs-attr">log.maxDays</span> = <span class="hljs-number">3</span>
+<span class="hljs-attr">log.disablePrintColor</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">detailedErrorsToClient</span> = <span class="hljs-literal">true</span>
+
+
+<span class="hljs-comment"># auth</span>
+<span class="hljs-attr">auth.method</span> = <span class="hljs-string">&quot;token&quot;</span>
+<span class="hljs-attr">auth.token</span> = <span class="hljs-string">&quot;12345678&quot;</span>
+<span class="hljs-attr">allowPorts</span> = [
+  &#123; start = <span class="hljs-number">2000</span>, end = <span class="hljs-number">3000</span> &#125;,
+  &#123; single = <span class="hljs-number">3001</span> &#125;,
+  &#123; single = <span class="hljs-number">3003</span> &#125;,
+  &#123; start = <span class="hljs-number">4000</span>, end = <span class="hljs-number">50000</span> &#125;
+]
+
+
+<span class="hljs-attr">maxPortsPerClient</span> = <span class="hljs-number">0</span>
+
+<span class="hljs-attr">subDomainHost</span> = <span class="hljs-string">&quot;frps.com&quot;</span>
+
+<span class="hljs-comment"># custom404Page = &quot;/path/to/404.html&quot;</span></code></pre><pre><code class="hljs toml"><span class="hljs-comment"># frps server config</span>
+<span class="hljs-attr">bindAddr</span> = <span class="hljs-string">&quot;0.0.0.0&quot;</span>
+<span class="hljs-attr">bindPort</span> = <span class="hljs-number">43200</span>
+<span class="hljs-attr">kcpBindPort</span> = <span class="hljs-number">43201</span>
+<span class="hljs-attr">quicBindPort</span> = <span class="hljs-number">43202</span>
+
+<span class="hljs-comment"># TCP MUX</span>
+<span class="hljs-comment"># transport.tcpMux = true</span>
+
+<span class="hljs-comment"># tls </span>
+<span class="hljs-attr">tls.force</span> = <span class="hljs-literal">true</span>
+
+
+<span class="hljs-comment"># If you want to support virtual host, you must set the http port for listening (optional)</span>
+<span class="hljs-comment"># <span class="hljs-doctag">Note:</span> http port and https port can be same with bindPort</span>
+<span class="hljs-attr">vhostHTTPPort</span> = <span class="hljs-number">43200</span>
+<span class="hljs-attr">vhostHTTPSPort</span> = <span class="hljs-number">43433</span>
+
+<span class="hljs-comment"># admin</span>
+<span class="hljs-attr">webServer.addr</span> = <span class="hljs-string">&quot;0.0.0.0&quot;</span>
+<span class="hljs-attr">webServer.port</span> = <span class="hljs-number">43100</span>
+<span class="hljs-attr">webServer.user</span> = <span class="hljs-string">&quot;admin&quot;</span>
+<span class="hljs-attr">webServer.password</span> = <span class="hljs-string">&quot;admin123&quot;</span>
+
+
+<span class="hljs-comment"># log config</span>
+<span class="hljs-comment"># log.to = &quot;./frps.log&quot;</span>
+<span class="hljs-comment"># trace, debug, info, warn, error</span>
+<span class="hljs-attr">log.level</span> = <span class="hljs-string">&quot;info&quot;</span>
+<span class="hljs-attr">log.maxDays</span> = <span class="hljs-number">3</span>
+<span class="hljs-attr">log.disablePrintColor</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">detailedErrorsToClient</span> = <span class="hljs-literal">true</span>
+
+
+<span class="hljs-comment"># auth</span>
+<span class="hljs-attr">auth.method</span> = <span class="hljs-string">&quot;token&quot;</span>
+<span class="hljs-attr">auth.token</span> = <span class="hljs-string">&quot;bobo&quot;</span>
+<span class="hljs-comment"># allowPorts =</span>
+<span class="hljs-attr">maxPortsPerClient</span> = <span class="hljs-number">0</span>
+</code></pre><h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>frpc.toml</p><pre><code class="hljs toml"><span class="hljs-comment"># frpc client config</span>
+<span class="hljs-attr">user</span> = <span class="hljs-string">&quot;WF&quot;</span>
+<span class="hljs-attr">serverAddr</span> = <span class="hljs-string">&quot;ifrp.club&quot;</span>
+<span class="hljs-attr">serverPort</span> = <span class="hljs-number">7000</span>
+<span class="hljs-attr">loginFailExit</span> = <span class="hljs-literal">false</span>
+
+<span class="hljs-comment"># log config</span>
+<span class="hljs-comment"># log.to = &quot;./frpc.log&quot;</span>
+<span class="hljs-attr">log.level</span> = <span class="hljs-string">&quot;info&quot;</span>
+<span class="hljs-attr">log.maxDays</span> = <span class="hljs-number">3</span>
+<span class="hljs-attr">log.disablePrintColor</span> = <span class="hljs-literal">false</span>
+
+<span class="hljs-attr">auth.method</span> = <span class="hljs-string">&quot;token&quot;</span>
+<span class="hljs-comment"># auth token</span>
+<span class="hljs-attr">auth.token</span> = <span class="hljs-string">&quot;123456789&quot;</span>
+
+<span class="hljs-comment"># Set admin address for control frpc&#x27;s action by http api such as reload</span>
+<span class="hljs-attr">webServer.addr</span> = <span class="hljs-string">&quot;0.0.0.0&quot;</span>
+<span class="hljs-attr">webServer.port</span> = <span class="hljs-number">7400</span>
+<span class="hljs-attr">webServer.user</span> = <span class="hljs-string">&quot;admin&quot;</span>
+<span class="hljs-attr">webServer.password</span> = <span class="hljs-string">&quot;admin&quot;</span>
+
+<span class="hljs-comment"># tcp Mux</span>
+<span class="hljs-comment"># transport.tcpMux = true</span>
+<span class="hljs-attr">transport.protocol</span> = <span class="hljs-string">&quot;tcp&quot;</span>
+
+<span class="hljs-comment"># tls</span>
+<span class="hljs-attr">transport.tls.enable</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-comment"># Proxy</span>
+<span class="hljs-comment"># transport.proxyURL = &quot;http://user:passwd@192.168.1.128:8080&quot;</span>
+<span class="hljs-comment"># transport.proxyURL = &quot;socks5://user:passwd@192.168.1.128:1080&quot;</span>
+<span class="hljs-comment"># transport.proxyURL = &quot;ntlm://user:passwd@192.168.1.128:2080&quot;</span>
+
+
+<span class="hljs-comment"># dns</span>
+<span class="hljs-attr">dnsServer</span> = <span class="hljs-string">&quot;223.5.5.5&quot;</span>
+
+
+<span class="hljs-section">[[proxies]]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">&quot;ssh&quot;</span>
+<span class="hljs-attr">type</span> = <span class="hljs-string">&quot;tcp&quot;</span>
+<span class="hljs-attr">localIP</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span>
+<span class="hljs-attr">localPort</span> = <span class="hljs-number">22</span>
+<span class="hljs-attr">transport.useEncryption</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">transport.useCompression</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">remotePort</span> = <span class="hljs-number">22220</span>
+
+<span class="hljs-section">[[proxies]]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">&quot;file&quot;</span>
+<span class="hljs-attr">type</span> = <span class="hljs-string">&quot;tcp&quot;</span>
+<span class="hljs-attr">localIP</span> = <span class="hljs-string">&quot;127.0.0.1&quot;</span>
+<span class="hljs-attr">localPort</span> = <span class="hljs-number">5244</span>
+<span class="hljs-attr">transport.useEncryption</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">transport.useCompression</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">remotePort</span> = <span class="hljs-number">22225</span>
+
+<span class="hljs-comment"># socks5 proxy</span>
+<span class="hljs-section">[[proxies]]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">&quot;plugin_socks5&quot;</span>
+<span class="hljs-attr">type</span> = <span class="hljs-string">&quot;tcp&quot;</span>
+<span class="hljs-attr">remotePort</span> = <span class="hljs-number">22228</span>
+<span class="hljs-section">[proxies.plugin]</span>
+<span class="hljs-attr">type</span> = <span class="hljs-string">&quot;socks5&quot;</span>
+<span class="hljs-attr">username</span> = <span class="hljs-string">&quot;root&quot;</span>
+<span class="hljs-attr">password</span> = <span class="hljs-string">&quot;lovehyy9420&quot;</span>
+
+<span class="hljs-comment"># file</span>
+<span class="hljs-section">[[proxies]]</span>
+<span class="hljs-attr">name</span> = <span class="hljs-string">&quot;plugin_static_file&quot;</span>
+<span class="hljs-attr">type</span> = <span class="hljs-string">&quot;tcp&quot;</span>
+<span class="hljs-attr">remotePort</span> = <span class="hljs-number">22230</span>
+<span class="hljs-section">[proxies.plugin]</span>
+<span class="hljs-attr">type</span> = <span class="hljs-string">&quot;static_file&quot;</span>
+<span class="hljs-attr">localPath</span> = <span class="hljs-string">&quot;/mnt/disk/downloads&quot;</span>
+<span class="hljs-attr">stripPrefix</span> = <span class="hljs-string">&quot;static&quot;</span>
+<span class="hljs-attr">httpUser</span> = <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-attr">httpPassword</span> = <span class="hljs-string">&quot;&quot;</span></code></pre><h3 id="配置代理-configure-proxy"><a href="#配置代理-configure-proxy" class="headerlink" title="配置代理 configure proxy"></a>配置代理 configure proxy</h3><p>在 <code>.bash</code> 或 <code>.zshrc</code> 配置 alias：</p><pre><code class="hljs shell">alias setproxy=&quot;export ALL_PROXY=socks5://127.0.0.1:20180&quot; alias unsetproxy=&quot;unset ALL_PROXY&quot;</code></pre><h2 id="Shell-相关"><a href="#Shell-相关" class="headerlink" title="Shell 相关"></a>Shell 相关</h2><h3 id="SSH-链接超时设置"><a href="#SSH-链接超时设置" class="headerlink" title="SSH 链接超时设置"></a>SSH 链接超时设置</h3><p>修改 server 端的 <code>/etc/ssh/sshd_config</code></p><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">server每隔60秒发送一次请求给client，然后client响应，从而保持连接</span>
+ClientAliveInterval 60 
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">server发出请求后，客户端没有响应得次数达到3，就自动断开连接，正常情况下，client不会不响应</span>
+ClientAliveCountMax 3</code></pre><h3 id="SSH-配置密钥登陆"><a href="#SSH-配置密钥登陆" class="headerlink" title="SSH 配置密钥登陆"></a>SSH 配置密钥登陆</h3><p>客户端运行</p><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">WAY1</span>
+ssh-copy-id username@remote_host
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">WAY2</span>
+mkdir -p ~/.ssh
+cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">WAY3</span>
+scp ./file root@192.168.1.1:/path_on_host/</code></pre><p>编辑 <code>/etc/ssh/sshd_config</code> 文件，进行如下设置：</p><pre><code class="hljs shell">RSAAuthentication yes
+PubkeyAuthentication yes</code></pre><p>重启 ssh 服务：</p><pre><code class="hljs shell">service sshd restart</code></pre><h3 id="清除-ssh-所有登录日志"><a href="#清除-ssh-所有登录日志" class="headerlink" title="清除 ssh 所有登录日志"></a>清除 ssh 所有登录日志</h3><p>适用于 Debian 系和 Centos 系等发行版。</p><pre><code class="hljs shell">echo &gt; /var/log/wtmp
+echo &gt; /var/log/btmp
+<span class="hljs-meta prompt_">echo&gt;</span><span class="language-bash">/var/log/lastlog</span>
+echo &gt; /var/log/secure
+echo &gt; /var/log/messages
+<span class="hljs-meta prompt_">echo&gt; </span><span class="language-bash">/var/log/syslog</span>
+<span class="hljs-meta prompt_">echo&gt; </span><span class="language-bash">/var/log/xferlog</span>
+<span class="hljs-meta prompt_">echo&gt; </span><span class="language-bash">/var/log/auth.log</span>
+<span class="hljs-meta prompt_">echo&gt; </span><span class="language-bash">/var/log/user.log</span>
+cat /dev/null &gt; /var/adm/sylog
+cat /dev/null &gt; /var/log/maillog
+cat /dev/null &gt; /var/log/openwebmail.log
+cat /dev/null &gt; /var/log/mail.info
+<span class="hljs-meta prompt_">echo&gt;</span><span class="language-bash">/var/run/utmp</span>
+echo &gt; .bash_history
+history -cw</code></pre><h3 id="ZSH-终端美化"><a href="#ZSH-终端美化" class="headerlink" title="ZSH 终端美化"></a>ZSH 终端美化</h3><p>安装</p><pre><code class="hljs shell">cd ~
+sudo apt-get install git zsh wget -y
+sh -c &quot;$(wget -O- https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)&quot;
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">从马云安装</span>
+export REMOTE=https://gitee.com/mirrors/oh-my-zsh.git 
+sh -c &quot;$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)&quot;
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">原Github安装</span>
+sh -c &quot;$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)&quot;
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">解决 OpenWRT git 异常</span>
+opkg update  
+opkg remove git  
+opkg install git-http  
+opkg install ca-bundle
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">解决收手机字体问题</span>
+sudo apt-get install fonts-powerline
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">安装插件</span>
+cd ~/.oh-my-zsh/plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+git clone https://github.com/zsh-users/zsh-autosuggestions.git
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">编辑配置</span>
+vim ~/.zshrc
+ZSH_THEME=&quot;agnoster&quot; or &quot;ys&quot;
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions sudo)
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">刷新</span>
+source ~/.zshrc
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">设置 ZSH 为默认 shell</span>
+cat /etc/shells
+chsh -s /bin/zsh
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">OpenWRT 设置 ZSH 为默认 shell</span>
+which zsh &amp;&amp; sed -i -- &#x27;s:/bin/ash:&#x27;`which zsh`&#x27;:g&#x27; /etc/passwd
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">迁移到其他用户</span>
+cd ~
+cp .oh-my-zsh /home/wf/.oh-my-zsh -r
+cp .zshrc /home/wf/.zshrc
+cp .vimrc /home/wf/.vimrc
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">修复权限</span>
+sudo chown -R wf /home/wf/.oh-my-zsh
+compaudit | xargs chmod g-w,o-w
+</code></pre><h3 id="SSH-设置密钥登陆并添加-hacker-account"><a href="#SSH-设置密钥登陆并添加-hacker-account" class="headerlink" title="SSH 设置密钥登陆并添加 hacker account"></a>SSH 设置密钥登陆并添加 hacker account</h3><p>用于一键下毒远控。</p><pre><code class="hljs shell">curl -sSL https://raw.githubusercontent.com/WhaleFell/TGBot/main/exc.sh | sudo /bin/bash</code></pre><h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>国内加速: <a target="_blank" rel="noopener" href="https://get.daocloud.io/">https://get.daocloud.io/</a></p><p>官方命令安装：</p><pre><code class="hljs shell">curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh</code></pre><h3 id="Useful-Command"><a href="#Useful-Command" class="headerlink" title="Useful Command"></a>Useful Command</h3><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">强制停止并删除镜像</span>
+docker rm -f 名称
+<span class="hljs-meta prompt_"># </span><span class="language-bash">entry shell and <span class="hljs-built_in">rm</span></span>
+docker run -it --rm --name tgbot /bin/sh
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">复制文件</span>
+docker cp ./TGBot.session tgbot:/wkdir/
+
+docker run -it --rm --name tg_forwardMsgBot -v /wfwork/tgbot_base/:/wkdir/ tgbot_base /bin/sh
+
+docker run -d --name tg_forwardMsgBot -v /wfwork/tgbot_base/:/wkdir/ tgbot_base python3 main.py</code></pre><h3 id="开启-IPV6"><a href="#开启-IPV6" class="headerlink" title="开启 IPV6"></a>开启 IPV6</h3><p><a target="_blank" rel="noopener" href="https://blog.laoda.de/archives/docker-qbittorrent-ipv6/index.html">【有用的小知识】Docker-qBittorrent 开启IPv6 笔记 | 我不是咕咕鸽</a></p><p>编辑 <code>/etc/docker/daemon.json</code> ，添加以下内容：（如果没有这个文件直接创建）</p><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>  
+ <span class="hljs-attr">&quot;ipv6&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>  
+ <span class="hljs-attr">&quot;fixed-cidr-v6&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2001:db8:abc1::/64&quot;</span><span class="hljs-punctuation">,</span>  # IPv6前缀可以自定义，请确保符合规则   
+ <span class="hljs-attr">&quot;experimental&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>  
+ <span class="hljs-attr">&quot;ip6tables&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span>  
+<span class="hljs-punctuation">&#125;</span></code></pre><p>重启：</p><pre><code class="hljs shell">systemctl restart docker</code></pre><h3 id="Image-各种镜像"><a href="#Image-各种镜像" class="headerlink" title="Image 各种镜像"></a>Image 各种镜像</h3><h4 id="Portainer-管理-UI"><a href="#Portainer-管理-UI" class="headerlink" title="Portainer 管理 UI"></a>Portainer 管理 UI</h4><pre><code class="hljs shell">docker run -d -p 9000:9000 \
+--name portainer \
+--restart=always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+portainer/portainer:latest</code></pre><h4 id="Frps-服务端"><a href="#Frps-服务端" class="headerlink" title="Frps 服务端"></a>Frps 服务端</h4><pre><code class="hljs shell">docker run --restart=always --network host -d \
+-v /etc/frp/frps.ini:/etc/frp/frps.ini \
+--name frps snowdreamtech/frps</code></pre><p>frps.ini</p><pre><code class="hljs ini"><span class="hljs-section">[common]</span>
+<span class="hljs-attr">bind_addr</span> = <span class="hljs-number">0.0</span>.<span class="hljs-number">0.0</span>
+<span class="hljs-attr">bind_port</span> = <span class="hljs-number">37700</span>
+<span class="hljs-attr">bind_udp_port</span> = <span class="hljs-number">37711</span>
+
+<span class="hljs-attr">token</span> = lovecyx
+
+<span class="hljs-attr">dashboard_port</span> = <span class="hljs-number">37710</span>
+<span class="hljs-attr">dashboard_user</span> = admin
+<span class="hljs-attr">dashboard_pwd</span> = lovehyy
+
+<span class="hljs-attr">max_pool_count</span> = <span class="hljs-number">9999</span>
+<span class="hljs-attr">max_ports_per_client</span> = <span class="hljs-number">0</span>
+
+<span class="hljs-attr">tls_only</span> = <span class="hljs-literal">true</span>
+<span class="hljs-attr">allow_ports</span> = <span class="hljs-number">30000</span>-<span class="hljs-number">50000</span></code></pre><h4 id="Frpc-客户端"><a href="#Frpc-客户端" class="headerlink" title="Frpc 客户端"></a>Frpc 客户端</h4><p><a target="_blank" rel="noopener" href="https://www.itcoder.tech/posts/docker-frp/">docker frpc 中文文档</a></p><pre><code class="hljs shell">docker run --network host -d \
+-v /root/frpc/frpc.ini:/etc/frp/frpc.ini \
+--name frpc \
+--restart=always \
+snowdreamtech/frpc</code></pre><h4 id="到服务器的网速测试"><a href="#到服务器的网速测试" class="headerlink" title="到服务器的网速测试"></a>到服务器的网速测试</h4><ol><li>使用 html5-speedtest <a target="_blank" rel="noopener" href="https://hub.docker.com/r/ilemonrain/html5-speedtest/">Docker</a></li></ol><pre><code class="hljs shell">sudo docker run --restart=always \
+--name openspeedtest \
+-d -p 6688:80 ilemonrain/html5-speedtest</code></pre><ol><li>使用 HomeBox <a target="_blank" rel="noopener" href="https://github.com/XGHeaven/homebox">GitHub - XGHeaven&#x2F;homebox: A Toolbox for Home Local Networks</a></li></ol><pre><code class="hljs shell">docker run -d -p 3300:3300 --name homebox xgheaven/homebox</code></pre><h4 id="FileBrowser-文件管理"><a href="#FileBrowser-文件管理" class="headerlink" title="FileBrowser 文件管理"></a>FileBrowser 文件管理</h4><p><a target="_blank" rel="noopener" href="https://filebrowser.org/installation">https://filebrowser.org/installation</a></p><pre><code class="hljs sh">docker run \
+    -v /mnt/:/srv \
+    -v /root/filebrowser.db:/database.db \
+    -v /path/.filebrowser.json:/.filebrowser.json \
+    -u $(<span class="hljs-built_in">id</span> -u):$(<span class="hljs-built_in">id</span> -g) \
+    -p 8080:80 \
+    filebrowser/filebrowser</code></pre><h4 id="NFS-文件共享"><a href="#NFS-文件共享" class="headerlink" title="NFS 文件共享"></a>NFS 文件共享</h4><blockquote><p><strong>NFS</strong>，是 <strong>Network File System</strong> 的简写，即网络文件系统。网络文件系统是 FreeBSD 支持的文件系统中的一种，也被称为 NFS. NFS 允许一个系统在网络上与他人共享目录和文件。 通过使用 NFS，用户和程序可以像访问本地文件一样访问远端系统上的文件。</p></blockquote><p>docker hub：<a target="_blank" rel="noopener" href="https://hub.docker.com/r/erichough/nfs-server/">https://hub.docker.com/r/erichough/nfs-server/</a></p><pre><code class="hljs shell">docker pull erichough/nfs-server
+docker run                                            \
+  -v /root/:/file/  \
+  -e NFS_EXPORT_0=&#x27;/file *(rw,no_subtree_check,async)&#x27;        \
+  -e NFS_SERVER_THREAD_COUNT=4 \
+  --privileged                               \
+  --network host \
+  --name=nfs-server \
+  erichough/nfs-server</code></pre><blockquote><p>在 UNIX 和类 UNIX 系统中，&#x2F;etc&#x2F;exports 是一个配置文件，用于指定可以通过 NFS 共享的文件系统和相关参数。该文件定义了服务器上可供客户端挂载的共享目录以及访问权限。以下是&#x2F;etc&#x2F;exports 文件的一般格式和作用：</p><p>每一行代表一个共享目录的定义，具有以下基本格式：</p><pre><code class="hljs plaintext">&lt;目录路径&gt; &lt;允许访问的客户端&gt;(选项)</code></pre><ul><li><p>​<code>&lt;目录路径&gt;</code>​：指定要共享的目录的路径。可以是绝对路径或相对路径。</p></li><li><p>​<code>&lt;允许访问的客户端&gt;</code>​：指定被允许访问该共享目录的客户端。可以使用 IP 地址、域名或子网掩码来指定。也可以使用通配符进行模式匹配，如 <code>*</code>​表示允许所有客户端访问。</p></li><li><p>​<code>(选项)</code>​：可选项，用于指定共享选项。常用的选项包括：</p><ul><li>​<code>rw</code>​：允许读写访问权限。</li><li>​<code>ro</code>​：只允许读取访问权限。</li><li>​<code>noaccess</code>​：禁止访问该共享目录。</li><li>​<code>root_squash</code>​：将客户端的 root 用户映射为匿名用户（通常是 nfsnobody），以增加安全性。</li><li>​<code>all_squash</code>​：将所有用户映射为匿名用户，用于增加安全性。</li><li>​<code>async</code>​：异步写入，提高性能但降低可靠性。</li><li>​<code>sync</code>​：同步写入，确保数据的可靠性但性能较低。</li><li>​<code>insecure</code>​：允许不安全的访问请求，如非特权端口。</li><li>​<code>no_subtree_check</code>​：不进行子树检查。</li></ul></li></ul><p>&#x2F;etc&#x2F;exports 文件的作用是定义 NFS 共享的配置信息，以便服务器将指定的目录和选项提供给客户端进行挂载和访问。每当修改 &#x2F;etc&#x2F;exports 文件后，需要使用 <code>exportfs</code>​命令重新加载 NFS 服务器的配置，以使更改生效。</p></blockquote><p>仅通过 NFSv4 连接，则只需使用 TCP 端口 <code>2049</code>​</p><p>performance-tuning：<a target="_blank" rel="noopener" href="https://github.com/ehough/docker-nfs-server/blob/develop/doc/advanced/performance-tuning.md">https://github.com/ehough/docker-nfs-server/blob/develop/doc/advanced/performance-tuning.md</a></p><p>Set the **<code>NFS_SERVER_THREAD_COUNT</code>**​ environment variable to control how many server threads <code>rpc.nfsd</code>​ will use. A good minimum is one thread per CPU core, but 4 or 8 threads per core is probably better. The default is one thread per CPU core.</p><p>Running the container with <code>--network host</code>​ <em>might</em> improve network performance by 10% - 20% on a heavily-loaded server [<a target="_blank" rel="noopener" href="https://jtway.co/docker-network-performance-b95bce32b4b9">1</a>,<a target="_blank" rel="noopener" href="https://www.percona.com/blog/2016/08/03/testing-docker-multi-host-network-performance/">2</a>], <strong>though this hasn’t been tested.</strong></p><p>查看 CPU 内核数：<code>cat /proc/cpuinfo| grep &quot;cpu cores&quot;| uniq</code>​</p><p>问题：the problem is in the docker-machine. If you want to use nfs mounts you need to run modprobe nfs in the machine itself, not in container. Container uses kernel of the machine. Same with modprobe nfs and nfs server.问题出在码头工人机器上。如果你想使用 nfs 挂载，你需要在机器本身而不是容器中运行 modprobe nfs。容器使用机器的内核。与 modprobe nfs 和 nfs 服务器相同。</p><p>在 Windows 上配置 NFS 客户端： <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1840455">https://cloud.tencent.com/developer/article/1840455</a></p><h4 id="DDNS-GO"><a href="#DDNS-GO" class="headerlink" title="DDNS-GO"></a>DDNS-GO</h4><p>基于 Golang 语言开发的 DDNS 程序。<a target="_blank" rel="noopener" href="https://github.com/jeessy2/ddns-go">GitHub - jeessy2&#x2F;ddns-go: 简单好用的DDNS。自动更新域名解析到公网IP(支持阿里云、腾讯云、Dnspod、Cloudflare、Callback、华为云、百度云、Porkbun、GoDaddy、Google Domain)</a></p><pre><code class="hljs shell">docker run -d --name ddns-go --restart=always --net=host -v /root/configs/ddns-go:/root jeessy/ddns-go</code></pre><h4 id="AdGuardHome-DNS"><a href="#AdGuardHome-DNS" class="headerlink" title="AdGuardHome DNS"></a>AdGuardHome DNS</h4><p><a target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/wiki/Docker">Docker · AdguardTeam&#x2F;AdGuardHome Wiki · GitHub</a></p><pre><code class="hljs shell"></code></pre><h4 id="SmartDNS"><a href="#SmartDNS" class="headerlink" title="SmartDNS"></a>SmartDNS</h4><p><a target="_blank" rel="noopener" href="https://pymumu.github.io/smartdns/">SmartDNS</a></p><p>国内用 UDP DNS 国外用 https tls 的 DNS</p><pre><code class="hljs shell">server 223.5.5.5 -bootstrap-dns
+server 114.114.114.114
+server 202.96.128.166:53
+server-https https://dns.google/dns-query
+server-https https://1.1.1.1/dns-query</code></pre><p>修改本机 DNS：</p><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">编辑 并关闭监听</span>
+vim /etc/systemd/resolved.conf</code></pre><h4 id="QBittorent-种子下载"><a href="#QBittorent-种子下载" class="headerlink" title="QBittorent 种子下载"></a>QBittorent 种子下载</h4><p><a target="_blank" rel="noopener" href="https://github.com/SuperNG6/Docker-qBittorrent-Enhanced-Edition">GitHub - SuperNG6&#x2F;Docker-qBittorrent-Enhanced-Edition: Docker-qBittorrent-Enhanced-Edition</a></p><p>因为涉及大量 UDP 之类的链接，请使用 host 网络。用 <code>id</code> 命令确定用户 UID</p><pre><code class="hljs shell">docker run  \
+    --name=qbittorrentee  \
+    -e WEBUIPORT=8600  \
+    -e PUID=0 \
+    -e PGID=0 \
+    -e TZ=Asia/Shanghai \
+    -v /root/configs/qb:/config  \
+    -v /mnt/disk/downloads:/downloads  \
+    --restart always  \
+    --network host \
+    superng6/qbittorrentee:latest</code></pre><p>或者不使用 IPV6，在后期设置 IPV6<br>需要改成 51782 端口，因为 6881 端口已经被封禁</p><pre><code class="hljs shell">docker create  \
+    --name=qbittorrent  \
+    -e WEBUIPORT=8600  \
+    -e PUID=0 \
+    -e PGID=0 \
+    -e TZ=Asia/Shanghai \
+    -p 51782:51782  \
+    -p 51782:51782/udp  \
+    -p 8600:8600  \
+	-v /root/configs/qb:/config  \
+    -v /mnt/disk/downloads:/downloads  \
+    --restart always  \
+	superng6/qbittorrentee:latest</code></pre><h4 id="Alist"><a href="#Alist" class="headerlink" title="Alist"></a>Alist</h4><p><a target="_blank" rel="noopener" href="https://alist.nn.ci/zh">Home | AList文档</a></p><pre><code class="hljs shell">docker pull xhofe/alist:latest
+
+docker run -d \
+--restart=always \
+-v /root/configs/alist:/opt/alist/data \
+-v /mnt/:/mnt/ \
+-e PUID=0 \
+-e PGID=0 \
+-e UMASK=022 \
+-e HTTP_PROXY=http://127.0.0.1:20181 \
+-e HTTPS_PROXY=http://127.0.0.1:20181 \
+--name=&quot;alist&quot; \
+--network=host \
+xhofe/alist:latest</code></pre><h4 id="Homarr-导航页"><a href="#Homarr-导航页" class="headerlink" title="Homarr 导航页"></a>Homarr 导航页</h4><p>Official Document: <a target="_blank" rel="noopener" href="https://homarr.dev/docs/about">👋 Welcome to Homarr | Homarr Docs</a></p><pre><code class="hljs shell">docker run \
+--name homarr \
+--restart always \
+-p 7575:7575 \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v /root/configs/homarr/configs:/app/data/configs \
+-v /root/configs/homarr/data:/data \
+-v /root/configs/homarr/icons:/app/public/icons \
+-d ghcr.io/ajnart/homarr:latest</code></pre><p>另外，国产的 flare 特别轻量，只不过要编写 yaml 文件。</p><p><a target="_blank" rel="noopener" href="https://github.com/soulteary/docker-flare">GitHub - soulteary&#x2F;docker-flare: Flare ✨ Lightweight, high performance and fast self-hosted navigation pages, resource utilization rate is &lt;1% CPU, MEM &lt;30 M, Docker Image &lt; 10M</a></p><pre><code class="hljs shell">docker pull soulteary/flare
+
+docker run -d -p 5005:5005 -v /root/configs/flare/:/app soulteary/flare</code></pre><h4 id="Aria2-下载"><a href="#Aria2-下载" class="headerlink" title="Aria2 下载"></a>Aria2 下载</h4><p>一个用 C++ 编写的全平台全协议兼容的下载器。</p><ol><li>源 aria2 项目：<a target="_blank" rel="noopener" href="https://github.com/aria2/aria2">GitHub - aria2&#x2F;aria2: aria2 is a lightweight multi-protocol &amp; multi-source, cross platform download utility operated in command-line. It supports HTTP&#x2F;HTTPS, FTP, SFTP, BitTorrent and Metalink.</a></li><li>Docker Aria2 Pro Docker 优化版： <a target="_blank" rel="noopener" href="https://p3terx.com/archives/docker-aria2-pro.html">Aria2 Pro - 更好用的 Aria2 Docker 容器镜像 - P3TERX ZONE</a></li></ol><pre><code class="hljs shell">docker run -d \
+--name aria2-pro \
+--restart always \
+--log-opt max-size=1m \
+--network host \
+-e PUID=$UID \
+-e PGID=$GID \
+-e RPC_SECRET=loveAlways \
+-e RPC_PORT=6800 \
+-e LISTEN_PORT=6888 \
+-e DISK_CACHE=128M \
+-v /root/config/aria2-config:/config \
+-v /mnt/disk/downloads:/downloads \
+p3terx/aria2-pro</code></pre><p>WebGUI AriaNG</p><pre><code class="hljs shell">docker run -d \
+--name ariang \
+--restart always \
+--log-opt max-size=1m \
+-p 6880:6880 \
+p3terx/ariang</code></pre><h4 id="Mariadb-数据库"><a href="#Mariadb-数据库" class="headerlink" title="Mariadb 数据库"></a>Mariadb 数据库</h4><pre><code class="hljs console">docker run --name mariadb -d --restart=always \
+-e MARIADB_ROOT_PASSWORD=lovehyy \
+-e MARIADB_DATABASE=tgforward \
+-v /wfwork/data/mariadb:/var/lib/mysql \
+-p 3310:3306 \
+mariadb:latest</code></pre><h2 id="V2ray-Xray-Server"><a href="#V2ray-Xray-Server" class="headerlink" title="V2ray &#x2F; Xray Server"></a>V2ray &#x2F; Xray Server</h2><p>一个 代理工具，推荐使用 Xray 内核。</p><ol><li><a target="_blank" rel="noopener" href="https://xtls.github.io/document/">Project X Official Docs</a></li></ol><h3 id="更新-geoip-dat-geosite-dat"><a href="#更新-geoip-dat-geosite-dat" class="headerlink" title="更新 geoip.dat geosite.dat"></a>更新 geoip.dat geosite.dat</h3><p><a target="_blank" rel="noopener" href="https://github.com/Loyalsoldier/v2ray-rules-dat">Loyalsoldier&#x2F;v2ray-rules-dat</a></p><pre><code class="hljs shell">wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
+wget https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat</code></pre><h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><p>docker running</p><p>TODO: 这边的 Docker 部署还需要优化</p><pre><code class="hljs sh">docker run -d -p 8080:8080 \
+--name nginx \
+--restart=always \
+-v /wfwork/nginx/conf/:/etc/nginx/ \
+-v /wfwork/nginx/www:/usr/share/nginx/html \
+-v /wfwork/nginx/cert:/usr/local/nginx/cert \
+nginx:latest</code></pre><h3 id="调优-Performance-Tuning"><a href="#调优-Performance-Tuning" class="headerlink" title="调优 Performance Tuning"></a>调优 Performance Tuning</h3><p>在 server 字段下添加</p><pre><code class="hljs nginx"><span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">5G</span>;
+<span class="hljs-attribute">client_header_timeout</span> <span class="hljs-number">1m</span>;
+<span class="hljs-attribute">client_body_timeout</span> <span class="hljs-number">1m</span>;
+<span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">60s</span>;
+<span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">1m</span>;
+<span class="hljs-attribute">proxy_send_timeout</span> <span class="hljs-number">1m</span>;</code></pre><h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><pre><code class="hljs nginx"><span class="hljs-attribute">user</span>  nginx;
+<span class="hljs-attribute">worker_processes</span>  auto;
+
+<span class="hljs-attribute">error_log</span>  /var/log/nginx/<span class="hljs-literal">error</span>.log <span class="hljs-literal">notice</span>;
+<span class="hljs-attribute">pid</span>        /var/run/nginx.pid;
+
+
+<span class="hljs-section">events</span> &#123;
+    <span class="hljs-attribute">worker_connections</span>  <span class="hljs-number">1024</span>;
+&#125;
+
+
+<span class="hljs-section">http</span> &#123;
+    <span class="hljs-attribute">include</span>       /etc/nginx/mime.types;
+    <span class="hljs-attribute">default_type</span>  application/octet-stream;
+
+    <span class="hljs-attribute">log_format</span>  main  <span class="hljs-string">&#x27;<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] &quot;<span class="hljs-variable">$request</span>&quot; &#x27;</span>
+                      <span class="hljs-string">&#x27;<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> &quot;<span class="hljs-variable">$http_referer</span>&quot; &#x27;</span>
+                      <span class="hljs-string">&#x27;&quot;<span class="hljs-variable">$http_user_agent</span>&quot; &quot;<span class="hljs-variable">$http_x_forwarded_for</span>&quot;&#x27;</span>;
+
+    <span class="hljs-attribute">access_log</span>  /var/log/nginx/access.log  main;
+
+    <span class="hljs-attribute">sendfile</span>        <span class="hljs-literal">on</span>;
+    <span class="hljs-comment">#tcp_nopush     on;</span>
+
+    <span class="hljs-attribute">keepalive_timeout</span>  <span class="hljs-number">65</span>;
+
+    <span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>;
+
+    <span class="hljs-comment"># include /etc/nginx/conf.d/*.conf;</span>
+    <span class="hljs-section">server</span> &#123;
+        <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+        <span class="hljs-attribute">server_name</span> _;
+
+        <span class="hljs-comment"># location / &#123;</span>
+        <span class="hljs-comment">#     root   /usr/share/nginx/html;</span>
+        <span class="hljs-comment">#     index  index.html index.htm;</span>
+        <span class="hljs-comment"># &#125;</span>
+
+        <span class="hljs-section">location</span> / &#123;
+            <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+            <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;
+            <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+            <span class="hljs-attribute">proxy_set_header</span> Range <span class="hljs-variable">$http_range</span>;
+            <span class="hljs-attribute">proxy_set_header</span> If-Range <span class="hljs-variable">$http_if_range</span>;
+            <span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;
+            <span class="hljs-attribute">proxy_pass</span> http://172.17.0.1:5244/;
+            <span class="hljs-comment"># the max size of file to upload</span>
+            <span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">20000m</span>;
+        &#125;
+    &#125;
+
+&#125;</code></pre><p>反向代理 ws. <a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/websocket.html">nginx docs</a></p><pre><code class="hljs nginx"><span class="hljs-section">location</span> /chat/ &#123;
+    <span class="hljs-attribute">proxy_pass</span> http://backend;
+    <span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;
+    <span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;
+    <span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;
+&#125;</code></pre><p>解决 WS 反向代理超时问题, 在 server 字段下添加</p><pre><code class="hljs nginx"><span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">60s</span>;
+<span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">60m</span>;
+<span class="hljs-attribute">proxy_send_timeout</span> <span class="hljs-number">60m</span>;</code></pre><p>自动添加 <code>/</code>​ 在 server 字段下添加:</p><pre><code class="hljs nginx"><span class="hljs-attribute">server_name_in_redirect</span> <span class="hljs-literal">off</span>;</code></pre><p><strong>完整支持 WS 的反向代理模板：</strong></p><pre><code class="hljs nginx"><span class="hljs-section">location</span> /note/ &#123;
+     <span class="hljs-attribute">proxy_pass</span> http://192.168.8.1:6806/;
+     <span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+     <span class="hljs-attribute">proxy_set_header</span> x-wiz-real-ip <span class="hljs-variable">$remote_addr</span>;
+     <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+     <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;
+     <span class="hljs-attribute">proxy_set_header</span> X-NginX-Proxy <span class="hljs-literal">true</span>;
+
+     <span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;
+     <span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;
+     <span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;
+     <span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;keep-alive&quot;</span>;
+
+     <span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;
+     <span class="hljs-attribute">proxy_ssl_session_reuse</span> <span class="hljs-literal">off</span>;
+     <span class="hljs-attribute">proxy_cache_bypass</span> <span class="hljs-variable">$http_upgrade</span>;
+     <span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;
+ &#125;</code></pre><h3 id="添加证书"><a href="#添加证书" class="headerlink" title="添加证书"></a>添加证书</h3><h4 id="使用-acme-sh-申请证书"><a href="#使用-acme-sh-申请证书" class="headerlink" title="使用 acme.sh 申请证书"></a>使用 acme.sh 申请证书</h4><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">配置 Docker 为 daemon</span>
+docker run -d \
+-v /root/acme/:/acme.sh \
+-e &quot;CF_Key=e1c57d011aae471eaca549607a2f74154cbe5&quot; \
+-e &quot;CF_Email=whalefall9420@outlook.com&quot; \
+--restart=always \
+--name=acme.sh \
+--net=host \
+neilpang/acme.sh daemon
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">进入 docker shell</span>
+docker exec -it acme.sh sh
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">设置自动更新</span>
+docker exec acme.sh --upgrade --auto-upgrade 
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">使用 letsencrypt 签发证书</span>
+docker exec acme.sh --set-default-ca --server letsencrypt --issue --dns dns_cf -d *.whaleluo.top
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">导出 nginx 使用的证书</span>
+docker exec acme.sh --install-cert -d &quot;*.whaleluo.top&quot; --key-file /acme.sh/private.key --fullchain-file /acme.sh/cert.pem
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">导出 uhttpd 使用的证书</span>
+acme.sh --install-cert -d *.whaleluo.top \
+--cert-file      /acme.sh/uhttpd.crt  \
+--key-file       /acme.sh/uhttpd.key  \
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">容器会自动更新 crantab 每天0点检查证书 `crontab -l`</span>
+/acme.sh # acme.sh --cron --home &quot;/root/.acme.sh&quot; --config-home &quot;/acme.sh&quot;
+[Wed Jul 19 02:31:31 UTC 2023] ===Starting cron===
+[Wed Jul 19 02:31:31 UTC 2023] Already uptodate!
+[Wed Jul 19 02:31:31 UTC 2023] Upgrade success!
+[Wed Jul 19 02:31:31 UTC 2023] Auto upgraded to: 3.0.6
+[Wed Jul 19 02:31:32 UTC 2023] Renew: &#x27;*.whaleluo.top&#x27;
+[Wed Jul 19 02:31:32 UTC 2023] Renew to Le_API=https://acme-v02.api.letsencrypt.org/directory
+[Wed Jul 19 02:31:32 UTC 2023] Skip, Next renewal time is: 2023-09-14T17:18:24Z
+[Wed Jul 19 02:31:32 UTC 2023] Add &#x27;--force&#x27; to force to renew.
+[Wed Jul 19 02:31:32 UTC 2023] Skipped *.whaleluo.top_ecc
+[Wed Jul 19 02:31:32 UTC 2023] ===End cron===
+</code></pre><h4 id="Nginx-配置"><a href="#Nginx-配置" class="headerlink" title="Nginx 配置"></a>Nginx 配置</h4><pre><code class="hljs nginx"><span class="hljs-attribute">user</span>  nginx;
+<span class="hljs-attribute">worker_processes</span>  auto;
+<span class="hljs-attribute">error_log</span>  /var/log/nginx/<span class="hljs-literal">error</span>.log <span class="hljs-literal">notice</span>;
+<span class="hljs-attribute">pid</span>        /var/run/nginx.pid;
+<span class="hljs-section">events</span> &#123;
+    <span class="hljs-attribute">worker_connections</span>  <span class="hljs-number">1024</span>;
+&#125;
+<span class="hljs-section">http</span> &#123;
+    <span class="hljs-attribute">include</span>       /etc/nginx/mime.types;
+    <span class="hljs-attribute">default_type</span>  application/octet-stream;
+
+    <span class="hljs-attribute">log_format</span>  main  <span class="hljs-string">&#x27;<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] &quot;<span class="hljs-variable">$request</span>&quot; &#x27;</span>
+                      <span class="hljs-string">&#x27;<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> &quot;<span class="hljs-variable">$http_referer</span>&quot; &#x27;</span>
+                      <span class="hljs-string">&#x27;&quot;<span class="hljs-variable">$http_user_agent</span>&quot; &quot;<span class="hljs-variable">$http_x_forwarded_for</span>&quot;&#x27;</span>;
+
+    <span class="hljs-attribute">access_log</span>  /var/log/nginx/access.log  main;
+    <span class="hljs-attribute">sendfile</span>        <span class="hljs-literal">on</span>;
+    <span class="hljs-attribute">keepalive_timeout</span>  <span class="hljs-number">65</span>;
+    <span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>;
+
+    <span class="hljs-section">server</span> &#123;
+        <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span> ssl http2;
+        <span class="hljs-attribute">server_name</span> _;
+
+        <span class="hljs-attribute">ssl</span>                      <span class="hljs-literal">on</span>;
+        <span class="hljs-attribute">ssl_certificate</span>     /usr/local/nginx/cert/cert.pem;
+        <span class="hljs-attribute">ssl_certificate_key</span>  /usr/local/nginx/cert/private.key;
+      
+        <span class="hljs-attribute">ssl_session_timeout</span>  <span class="hljs-number">5m</span>;
+        <span class="hljs-attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+        <span class="hljs-attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="hljs-number">1</span> TLSv1.<span class="hljs-number">2</span>;
+        <span class="hljs-attribute">ssl_prefer_server_ciphers</span> <span class="hljs-literal">on</span>;
+
+        <span class="hljs-attribute">error_page</span> <span class="hljs-number">497</span> https://<span class="hljs-variable">$host</span>:8080<span class="hljs-variable">$uris</span>;
+      
+        <span class="hljs-attribute">if</span> (<span class="hljs-variable">$scheme</span> = http) &#123;
+            <span class="hljs-attribute">return</span> <span class="hljs-number">301</span> https://<span class="hljs-variable">$host</span><span class="hljs-variable">$request_uri</span>;
+        &#125;
+
+
+        <span class="hljs-section">location</span> / &#123;
+                <span class="hljs-attribute">root</span>   /usr/share/nginx/html;
+                <span class="hljs-attribute">index</span>  index.html index.htm;
+        &#125;
+
+    &#125;
+&#125;</code></pre><h3 id="跨域"><a href="#跨域" class="headerlink" title="跨域"></a>跨域</h3><pre><code class="hljs nginx"><span class="hljs-attribute">add_header</span> Access-Control-Allow-Origin *;
+<span class="hljs-attribute">add_header</span> Access-Control-Allow-Methods GET,POST,OPTIONS;
+<span class="hljs-attribute">add_header</span> Access-Control-Allow-Headers Content-Type,Authorization;</code></pre><h3 id="自用完整的-nginx-conf"><a href="#自用完整的-nginx-conf" class="headerlink" title="自用完整的 nginx.conf"></a>自用完整的 nginx.conf</h3><p>nginx file format： <a target="_blank" rel="noopener" href="https://nginxbeautifier.github.io/" title="在线整理 nginx 配置文件">https://nginxbeautifier.github.io/</a></p><p>github repo: <a target="_blank" rel="noopener" href="https://github.com/nginxbeautifier/nginxbeautifier.github.io">https://github.com/nginxbeautifier/nginxbeautifier.github.io</a></p><pre><code class="hljs nginx"><span class="hljs-attribute">user</span> nginx;
+<span class="hljs-attribute">worker_processes</span> auto;
+<span class="hljs-attribute">error_log</span> /var/log/nginx/<span class="hljs-literal">error</span>.log <span class="hljs-literal">notice</span>;
+<span class="hljs-attribute">pid</span> /var/run/nginx.pid;
+<span class="hljs-section">events</span> &#123;
+
+	<span class="hljs-attribute">worker_connections</span> <span class="hljs-number">1024</span>;
+&#125;
+<span class="hljs-section">http</span> &#123;
+
+	<span class="hljs-attribute">include</span> /etc/nginx/mime.types;
+	<span class="hljs-attribute">default_type</span> application/octet-stream;
+
+	<span class="hljs-attribute">log_format</span> main <span class="hljs-string">&#x27;<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] &quot;<span class="hljs-variable">$request</span>&quot; &#x27;</span>
+	<span class="hljs-string">&#x27;<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> &quot;<span class="hljs-variable">$http_referer</span>&quot; &#x27;</span>
+	<span class="hljs-string">&#x27;&quot;<span class="hljs-variable">$http_user_agent</span>&quot; &quot;<span class="hljs-variable">$http_x_forwarded_for</span>&quot;&#x27;</span>;
+
+	<span class="hljs-attribute">access_log</span> /var/log/nginx/access.log main;
+	<span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span>;
+	<span class="hljs-attribute">keepalive_timeout</span> <span class="hljs-number">65</span>;
+	<span class="hljs-attribute">gzip</span> <span class="hljs-literal">on</span>;
+
+	<span class="hljs-section">server</span> &#123;
+
+		<span class="hljs-attribute">listen</span> <span class="hljs-number">8080</span> ssl http2;
+		<span class="hljs-attribute">server_name</span> _;
+
+		<span class="hljs-comment"># ssl off;</span>
+		<span class="hljs-attribute">ssl_certificate</span> /usr/local/nginx/cert/cert.pem;
+		<span class="hljs-attribute">ssl_certificate_key</span> /usr/local/nginx/cert/private.key;
+
+		<span class="hljs-attribute">ssl_session_timeout</span> <span class="hljs-number">5m</span>;
+		<span class="hljs-attribute">ssl_ciphers</span> ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+		<span class="hljs-attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="hljs-number">1</span> TLSv1.<span class="hljs-number">2</span>;
+		<span class="hljs-attribute">ssl_prefer_server_ciphers</span> <span class="hljs-literal">on</span>;
+
+		<span class="hljs-attribute">error_page</span> <span class="hljs-number">497</span> https://<span class="hljs-variable">$host</span>:8080<span class="hljs-variable">$request_uri</span>;
+
+		<span class="hljs-attribute">client_max_body_size</span> <span class="hljs-number">5G</span>;
+		<span class="hljs-attribute">client_header_timeout</span> <span class="hljs-number">1m</span>;
+		<span class="hljs-attribute">client_body_timeout</span> <span class="hljs-number">1m</span>;
+		<span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">60s</span>;
+		<span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">60m</span>;
+		<span class="hljs-attribute">proxy_send_timeout</span> <span class="hljs-number">60m</span>;
+
+
+		<span class="hljs-section">location</span> / &#123;
+
+			<span class="hljs-attribute">alias</span> /usr/share/nginx/html;
+			<span class="hljs-attribute">index</span> index.html;
+		&#125;
+
+
+		<span class="hljs-section">location</span> /sdr/ &#123;
+
+			<span class="hljs-attribute">proxy_pass</span> http://192.168.8.1:8073/;
+			<span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> x-wiz-real-ip <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-NginX-Proxy <span class="hljs-literal">true</span>;
+
+			<span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;keep-alive&quot;</span>;
+
+			<span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;
+			<span class="hljs-attribute">proxy_ssl_session_reuse</span> <span class="hljs-literal">off</span>;
+			<span class="hljs-attribute">proxy_cache_bypass</span> <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;
+		&#125;
+
+		<span class="hljs-section">location</span> /wss/ &#123;
+
+			<span class="hljs-attribute">proxy_pass</span> http://192.168.8.1:10000/wss/;
+			<span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> x-wiz-real-ip <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-NginX-Proxy <span class="hljs-literal">true</span>;
+
+			<span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;keep-alive&quot;</span>;
+
+			<span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;
+			<span class="hljs-attribute">proxy_ssl_session_reuse</span> <span class="hljs-literal">off</span>;
+			<span class="hljs-attribute">proxy_cache_bypass</span> <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;
+		&#125;
+
+		<span class="hljs-section">location</span> /dav/ &#123;
+
+			<span class="hljs-attribute">proxy_pass</span> http://192.168.8.1:5244/dav/;
+			<span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> x-wiz-real-ip <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-NginX-Proxy <span class="hljs-literal">true</span>;
+
+			<span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;keep-alive&quot;</span>;
+
+			<span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;
+			<span class="hljs-attribute">proxy_ssl_session_reuse</span> <span class="hljs-literal">off</span>;
+			<span class="hljs-attribute">proxy_cache_bypass</span> <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;
+		&#125;
+
+		<span class="hljs-section">location</span> /test/ &#123;
+
+			<span class="hljs-attribute">proxy_pass</span> http://192.168.8.1:3300/;
+			<span class="hljs-attribute">proxy_set_header</span> X-Real-IP <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> x-wiz-real-ip <span class="hljs-variable">$remote_addr</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Proto <span class="hljs-variable">$scheme</span>;
+			<span class="hljs-attribute">proxy_set_header</span> X-NginX-Proxy <span class="hljs-literal">true</span>;
+
+			<span class="hljs-attribute">proxy_http_version</span> <span class="hljs-number">1</span>.<span class="hljs-number">1</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Upgrade <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;upgrade&quot;</span>;
+			<span class="hljs-attribute">proxy_set_header</span> Connection <span class="hljs-string">&quot;keep-alive&quot;</span>;
+
+			<span class="hljs-attribute">proxy_set_header</span> Host <span class="hljs-variable">$http_host</span>;
+			<span class="hljs-attribute">proxy_ssl_session_reuse</span> <span class="hljs-literal">off</span>;
+			<span class="hljs-attribute">proxy_cache_bypass</span> <span class="hljs-variable">$http_upgrade</span>;
+			<span class="hljs-attribute">proxy_redirect</span> <span class="hljs-literal">off</span>;
+		&#125;
+	&#125;
+&#125;</code></pre><h2 id="OpenWRT"><a href="#OpenWRT" class="headerlink" title="OpenWRT"></a>OpenWRT</h2><p>x86 官方源</p><pre><code class="hljs shell">src/gz openwrt_core http://downloads.openwrt.org/releases/21.02.0/targets/x86/64/packages  
+src/gz openwrt_base https://downloads.openwrt.org/snapshots/packages/x86_64/base  
+src/gz openwrt_luci    https://downloads.openwrt.org/snapshots/packages/x86_64/luci  
+src/gz openwrt_packages https://downloads.openwrt.org/snapshots/packages/x86_64/packages  
+src/gz openwrt_routing https://mirrors.cloud.tencent.com/lede/snapshots/packages/x86_64/routing  
+src/gz openwrt_telephony https://mirrors.cloud.tencent.com/lede/snapshots/packages/x86_64/telephony</code></pre><h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><h3 id="Update-latest-Python-version"><a href="#Update-latest-Python-version" class="headerlink" title="Update latest Python version"></a>Update latest Python version</h3><p><a target="_blank" rel="noopener" href="https://cloudbytes.dev/snippets/upgrade-python-to-latest-version-on-ubuntu-linux">Upgrade Python to latest version (3.12) on Ubuntu Linux or WSL2</a></p><h2 id="网络安全"><a href="#网络安全" class="headerlink" title="网络安全"></a>网络安全</h2><p>webshell 查杀工具：<a target="_blank" rel="noopener" href="https://www.shellpub.com/">SHELLPUB.COM 专注查杀，永久免费</a></p><h2 id="引用-Reference"><a href="#引用-Reference" class="headerlink" title="引用 Reference"></a>引用 Reference</h2><blockquote><p>感谢以下博客的作者和教程网站，如有侵权请及时联系博主删除。</p></blockquote><ol><li>Golang 和 Linux 学习笔记合集 <a target="_blank" rel="noopener" href="https://www.huweihuang.com/">https://www.huweihuang.com/</a></li></ol><p>‍</p></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/linux-note/">https://whaleluo.top/linux-note/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2022-03-20</p></div><div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a></div></article><div class="nav"><div class="nav__prev"><a href="/server-all/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">服务器备忘录✨</div></div></a></div><div class="nav__next"><a href="/wky-help/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">玩客云折腾日志</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

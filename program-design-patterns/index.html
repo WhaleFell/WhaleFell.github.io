@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>程序设计模式 Program Design Patterns | 😊落落のBlog😊</title><meta name="keywords" content="Program, 高级编程, Python, 设计模式, DesignPattern, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="程序设计模式 Design PatternsStart在写一些复杂度、集成度高的程序时，常常会写很多 class 很多 methods，如何将他们很好的组合起来，后期方便扩展和维护，避免写出 屎山代码，这时候就需要一个约定俗称的 程序设计模式 （Program Design Patterns）。 本文以 Python 和 Typescript 为例子，介绍 22 种设计模式的实现和在实际开发中如何"><meta property="og:type" content="article"><meta property="og:title" content="程序设计模式 Program Design Patterns"><meta property="og:url" content="https://whaleluo.top/program-design-patterns/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="程序设计模式 Design PatternsStart在写一些复杂度、集成度高的程序时，常常会写很多 class 很多 methods，如何将他们很好的组合起来，后期方便扩展和维护，避免写出 屎山代码，这时候就需要一个约定俗称的 程序设计模式 （Program Design Patterns）。 本文以 Python 和 Typescript 为例子，介绍 22 种设计模式的实现和在实际开发中如何"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-02-02T17:18:32.000Z"><meta property="article:modified_time" content="2024-02-02T17:18:32.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Program"><meta property="article:tag" content="高级编程"><meta property="article:tag" content="Python"><meta property="article:tag" content="设计模式"><meta property="article:tag" content="DesignPattern"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">程序设计模式 Program Design Patterns</h1><div class="post-title__meta"><a href="/archives/2024/02/" class="post-meta__date button">2024-02-02</a> <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start"><span class="toc-number">1.</span> <span class="toc-text">Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F-factory-method"><span class="toc-number">2.</span> <span class="toc-text">工厂方法模式 factory method</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start"><span class="toc-number">1.</span> <span class="toc-text">Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F-factory-method"><span class="toc-number">2.</span> <span class="toc-text">工厂方法模式 factory method</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2024-02-02"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="程序设计模式-Design-Patterns"><a href="#程序设计模式-Design-Patterns" class="headerlink" title="程序设计模式 Design Patterns"></a>程序设计模式 Design Patterns</h1><h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><p>在写一些复杂度、集成度高的程序时，常常会写很多 class 很多 methods，如何将他们很好的组合起来，后期方便扩展和维护，避免写出 <strong>屎山代码</strong>，这时候就需要一个约定俗称的 <strong>程序设计模式</strong> （Program Design Patterns）。</p><p>本文以 Python 和 Typescript 为例子，介绍 22 种设计模式的实现和在实际开发中如何去高效使用。</p><p>Reference：</p><ol><li>Refactoring guru 图解设计模式&#x2F;重构 教程网站：<a target="_blank" rel="noopener" href="https://refactoringguru.cn/design-patterns/">常用设计模式有哪些？</a></li></ol><h2 id="工厂方法模式-factory-method"><a href="#工厂方法模式-factory-method" class="headerlink" title="工厂方法模式 factory method"></a>工厂方法模式 factory method</h2><p>Python：</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> __future__ <span class="hljs-keyword">import</span> annotations
+<span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABC, abstractmethod
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Creator</span>(<span class="hljs-title class_ inherited__">ABC</span>):
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    The Creator class declares the factory method that is supposed(被假设) to return an</span>
+<span class="hljs-string">    object of a Product class. The Creator&#x27;s subclasses usually provide the</span>
+<span class="hljs-string">    implementation of this method.</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">	Creator 类声明了一个工厂方法，该方法用于返回 Product 类的对象。</span>
+<span class="hljs-string">	工厂方法的子类通常会提供该方法的实现，</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">factory_method</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">        Note that the Creator may also provide some default implementation of</span>
+<span class="hljs-string">        the factory method.</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">		注意：Creator 还可能提供工厂方法的一些默认实现</span>
+<span class="hljs-string">        &quot;&quot;&quot;</span>
+        <span class="hljs-keyword">pass</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">some_operation</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">        Also note that, despite(尽管) its name, the Creator&#x27;s primary responsibility</span>
+<span class="hljs-string">        is not creating products. Usually, it contains(包含) some core business logic(核心业务)</span>
+<span class="hljs-string">        that relies on(依赖于) Product objects, returned by the factory method.</span>
+<span class="hljs-string">        Subclasses(子类) can indirectly(间接) change that business logic by / overriding(重写) the</span>
+<span class="hljs-string">        factory method and returning a different type of product from it.</span>
+<span class="hljs-string">        </span>
+<span class="hljs-string">        注意：Creator 工厂方法的主要职责不是创建产品。</span>
+<span class="hljs-string">        通常，它包含一些依赖于工厂方法返回的 Product 对象的核心业务逻辑。 </span>
+<span class="hljs-string">        子类可以通过重写工厂方法并从中返回不同类型的产品来间接更改该业务逻辑。</span>
+<span class="hljs-string">        &quot;&quot;&quot;</span>
+
+        <span class="hljs-comment"># Call the factory method to create a Product object.</span>
+        <span class="hljs-comment"># 调用工厂方法生产产品</span>
+        product = self.factory_method()
+
+        <span class="hljs-comment"># Now, use the product.</span>
+        <span class="hljs-comment"># 使用工厂方法</span>
+        result = <span class="hljs-string">f&quot;Creator: The same creator&#x27;s code has just worked with <span class="hljs-subst">&#123;product.operation()&#125;</span>&quot;</span>
+
+        <span class="hljs-keyword">return</span> result
+
+<span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">Concrete(具体的) Creators override the factory method in order to change the resulting</span>
+<span class="hljs-string">product&#x27;s type.</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">具体的创建者重写工厂方法以更改生成的产品的类型</span>
+<span class="hljs-string">&quot;&quot;&quot;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteCreator1</span>(<span class="hljs-title class_ inherited__">Creator</span>):
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    Note that the signature of the method still uses the abstract product type,</span>
+<span class="hljs-string">    even though the concrete product is actually returned from the method. This</span>
+<span class="hljs-string">    way the Creator can stay independent of concrete product classes.</span>
+<span class="hljs-string"></span>
+<span class="hljs-string">	</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">factory_method</span>(<span class="hljs-params">self</span>) -&gt; Product:
+        <span class="hljs-keyword">return</span> ConcreteProduct1()
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteCreator2</span>(<span class="hljs-title class_ inherited__">Creator</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">factory_method</span>(<span class="hljs-params">self</span>) -&gt; Product:
+        <span class="hljs-keyword">return</span> ConcreteProduct2()
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span>(<span class="hljs-title class_ inherited__">ABC</span>):
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    The Product interface declares the operations that all concrete products</span>
+<span class="hljs-string">    must implement.</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+
+<span class="hljs-meta">    @abstractmethod</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">operation</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">pass</span>
+
+<span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">Concrete Products provide various implementations of the Product interface.</span>
+<span class="hljs-string">&quot;&quot;&quot;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteProduct1</span>(<span class="hljs-title class_ inherited__">Product</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">operation</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&#123;Result of the ConcreteProduct1&#125;&quot;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ConcreteProduct2</span>(<span class="hljs-title class_ inherited__">Product</span>):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">operation</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&#123;Result of the ConcreteProduct2&#125;&quot;</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">client_code</span>(<span class="hljs-params">creator: Creator</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    The client code works with an instance of a concrete creator, albeit through</span>
+<span class="hljs-string">    its base interface. As long as the client keeps working with the creator via</span>
+<span class="hljs-string">    the base interface, you can pass it any creator&#x27;s subclass.</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Client: I&#x27;m not aware of the creator&#x27;s class, but it still works.\n&quot;</span>
+          <span class="hljs-string">f&quot;<span class="hljs-subst">&#123;creator.some_operation()&#125;</span>&quot;</span>, end=<span class="hljs-string">&quot;&quot;</span>)
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;App: Launched with the ConcreteCreator1.&quot;</span>)
+    client_code(ConcreteCreator1())
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;\n&quot;</span>)
+
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;App: Launched with the ConcreteCreator2.&quot;</span>)
+    client_code(ConcreteCreator2())</code></pre></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/program-design-patterns/">https://whaleluo.top/program-design-patterns/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2024-02-02</p></div><div class="post-entry__tags"><a href="/tags/Program/" class="post-tags__link button"># Program</a><a href="/tags/%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B/" class="post-tags__link button"># 高级编程</a><a href="/tags/Python/" class="post-tags__link button"># Python</a><a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-tags__link button"># 设计模式</a><a href="/tags/DesignPattern/" class="post-tags__link button"># DesignPattern</a></div></article><div class="nav"><div class="nav__prev"><a href="/lightroom-tutorial/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">LightRoom 后期调色学习笔记</div></div></a></div><div class="nav__next"><a href="/javascript/vue3-vite-ts-pinia-electron/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">Vue3 + vite + Ts + pinia 全家桶学习</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

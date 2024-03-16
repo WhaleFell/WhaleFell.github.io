@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>玩客云折腾日志 | 😊落落のBlog😊</title><meta name="keywords" content="Linux, WKY, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="玩客云折腾日志重新烧写玩客云 带螺丝批，拆机短接，双公 ​​**USB** 连接一体机烧写 Armbian5.67直刷包带宝塔.7z  玩客云通过网线直连一体机，参考：树莓派使用网线直连电脑的方法 - 知乎 (zhihu.com)  手机开热点一体机连接  Win10 可以直接从【设置 -&gt;网络和 Internet-&gt;状态 -&gt;更改适配器设置】进入可以看到，我们的本地网络连接方式"><meta property="og:type" content="article"><meta property="og:title" content="玩客云折腾日志"><meta property="og:url" content="https://whaleluo.top/wky-help/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="玩客云折腾日志重新烧写玩客云 带螺丝批，拆机短接，双公 ​​**USB** 连接一体机烧写 Armbian5.67直刷包带宝塔.7z  玩客云通过网线直连一体机，参考：树莓派使用网线直连电脑的方法 - 知乎 (zhihu.com)  手机开热点一体机连接  Win10 可以直接从【设置 -&gt;网络和 Internet-&gt;状态 -&gt;更改适配器设置】进入可以看到，我们的本地网络连接方式"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/old/20220329204745.png"><meta property="article:published_time" content="2021-12-19T19:37:48.000Z"><meta property="article:modified_time" content="2021-12-19T19:37:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Linux"><meta property="article:tag" content="WKY"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/old/20220329204745.png"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">玩客云折腾日志</h1><div class="post-title__meta"><a href="/archives/2021/12/" class="post-meta__date button">2021-12-19</a> <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E7%83%A7%E5%86%99%E7%8E%A9%E5%AE%A2%E4%BA%91"><span class="toc-number">1.</span> <span class="toc-text">重新烧写玩客云</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%AE%A2%E4%BA%91%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">玩客云配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%AE%A2%E4%BA%91%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">玩客云网络配置（重要）</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E7%83%A7%E5%86%99%E7%8E%A9%E5%AE%A2%E4%BA%91"><span class="toc-number">1.</span> <span class="toc-text">重新烧写玩客云</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%AE%A2%E4%BA%91%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">玩客云配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%A9%E5%AE%A2%E4%BA%91%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%EF%BC%88%E9%87%8D%E8%A6%81%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">玩客云网络配置（重要）</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/old/20220329204745.png"></div><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2021-12-19"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="玩客云折腾日志"><a href="#玩客云折腾日志" class="headerlink" title="玩客云折腾日志"></a>玩客云折腾日志</h1><h2 id="重新烧写玩客云"><a href="#重新烧写玩客云" class="headerlink" title="重新烧写玩客云"></a>重新烧写玩客云</h2><ol><li><p>带螺丝批，拆机短接，<strong>双公 ​</strong>​**<code>USB</code>** 连接一体机烧写 <code>Armbian5.67直刷包带宝塔.7z</code></p></li><li><p>玩客云通过网线直连一体机，参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/37761024">树莓派使用网线直连电脑的方法 - 知乎 (zhihu.com)</a></p><ul><li><p>手机开热点一体机连接</p></li><li><p>Win10 可以直接从【设置 -&gt;网络和 Internet-&gt;状态 -&gt;更改适配器设置】进入可以看到，我们的本地网络连接方式有 <strong>WLAN 无线连接</strong> 和 <strong>以太网有线连接</strong> 两种方式。</p></li><li><p>记录当前我们的网络连接状况：<code>arp -a</code></p></li><li><p><strong>共享 WLAN 网络给以太网</strong></p><p>更改适配器设置 界面中选择修改 WLAN 属性。选择共享，设置共享网络给以太网。（其他选项全部选择）</p></li><li><p><strong>查询树莓派的 IP 地址</strong></p><p>将树莓派的网线插到一体机的 PC 端口后再查询一次：<code>arp -a</code></p></li></ul></li><li><p>利用 <strong>Putty</strong> 连接玩客云。</p><p>SSH 远程账号 <code>root</code> ：密码 1234<br>宝塔账号 <code>onecloud</code> ：密码 123456</p></li></ol><h2 id="玩客云配置"><a href="#玩客云配置" class="headerlink" title="玩客云配置"></a>玩客云配置</h2><ol><li><p><strong>换源</strong></p><blockquote><p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42877824/article/details/119332805">玩客云刷armbian更新源报错The repository ‘http://apt.armbian.com stretch Release‘ does not have a Release file</a></p></blockquote><p><strong>修改源配置文件</strong></p></li></ol><pre><code class="hljs shell">vim /etc/apt/sources.list
+
+deb http://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free
+deb http://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free
+deb http://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main contrib non-free
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main contrib non-free
+deb http://mirrors.tuna.tsinghua.edu.cn/debian-security/ stretch/updates main contrib non-free
+deb-src http://mirrors.tuna.tsinghua.edu.cn/debian-security/ stretch/updates main contrib non-free
+
+vim /etc/apt/sources.list.d/armbian.list
+deb [trusted=yes] http://apt.armbian.com bionic main bionic-utils bionic-desktop
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">更新源</span>
+sudo apt update
+sudo apu upgrade</code></pre><ol><li><p><strong>卸载自带的宝塔面板</strong></p><pre><code class="hljs shell">apt-get install wget git nginx -y
+wget http://download.bt.cn/install/bt-uninstall.sh
+sh bt-uninstall.sh</code></pre></li><li><p><strong>部署 ​</strong>​**<code>Frpc</code><strong>​</strong>​ 内网穿透**</p><p><strong>下载并解压</strong></p><pre><code class="hljs shell">cd ~
+wget https://hub.fastgit.org/fatedier/frp/releases/download/v0.38.0/frp_0.38.0_linux_arm.tar.gz
+tar -xzvf frp_0.38.0_linux_arm.tar.gz</code></pre><p><strong>拷贝配置文件：</strong></p><pre><code class="hljs ini"><span class="hljs-section">[common]</span>
+<span class="hljs-attr">server_addr</span> = frps.<span class="hljs-number">420400150</span>.xyz
+<span class="hljs-attr">server_port</span> = <span class="hljs-number">7000</span>
+<span class="hljs-attr">token</span> = <span class="hljs-number">12345678</span>
+<span class="hljs-attr">user</span> = whalefall
+<span class="hljs-attr">login_fail_exit</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">protocol</span> = tcp
+<span class="hljs-attr">tcp_mux</span> = <span class="hljs-literal">true</span>
+<span class="hljs-attr">dns_server</span> = <span class="hljs-number">114.114</span>.<span class="hljs-number">114.114</span>
+<span class="hljs-attr">tls_enable</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-section">[ssh_tcp]</span>
+<span class="hljs-attr">type</span> = tcp
+<span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>
+<span class="hljs-attr">local_port</span> = <span class="hljs-number">22</span>
+<span class="hljs-attr">remote_port</span> = <span class="hljs-number">42202</span>
+<span class="hljs-attr">use_encryption</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">use_compression</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-section">[pi_vpn]</span>
+<span class="hljs-attr">type</span> = tcp
+<span class="hljs-attr">local_ip</span> = <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>
+<span class="hljs-attr">local_port</span> = <span class="hljs-number">1194</span>
+<span class="hljs-attr">remote_port</span> = <span class="hljs-number">41194</span>
+<span class="hljs-attr">use_encryption</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">use_compression</span> = <span class="hljs-literal">true</span></code></pre><p><strong>配置 systemctl 服务并设置开机自启动</strong></p><p>systemctl 配置文件夹在 <code>/etc/systemd/system/frpc.service</code> 目录下</p><p>配置文件：</p><pre><code class="hljs ini"><span class="hljs-section">[Unit]</span>
+<span class="hljs-attr">Description</span>=Frp Client Service
+<span class="hljs-attr">After</span>=network.target
+
+<span class="hljs-section">[Service]</span>
+<span class="hljs-attr">Type</span>=simple
+<span class="hljs-attr">User</span>=root
+<span class="hljs-attr">Restart</span>=<span class="hljs-literal">on</span>-failure
+<span class="hljs-attr">RestartSec</span>=<span class="hljs-number">5</span>s
+<span class="hljs-attr">ExecStart</span>=/root/frp/frpc -c /root/frp/frpc.ini
+<span class="hljs-attr">ExecReload</span>=/root/frp/frpc reload -c /root/frp/frpc.ini
+<span class="hljs-attr">LimitNOFILE</span>=<span class="hljs-number">1048576</span>
+
+<span class="hljs-section">[Install]</span>
+<span class="hljs-attr">WantedBy</span>=multi-user.target</code></pre><p>启动：</p><pre><code class="hljs shell">sudo systemctl start frpc # 开启
+sudo systemctl status frpc  # 查看状态
+sudo systemctl enable frpc  # 设置开机自启</code></pre></li><li><p><strong>Python</strong> 调优</p><p><strong>Python</strong> 更换国内 <code>pip</code> 源：</p><pre><code class="hljs shell">mkdir ~/.pip
+nano ~/.pip/pip.conf
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash">写入</span>
+[global]
+timeout = 5000
+index-url = https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+[install]
+use-mirrors = true
+mirrors = https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+
+python3 -m pip install --upgrade pip  # 更新pip
+pip3 install httpx  # 测试</code></pre></li><li><p>部署<strong>校园网自动登录 ​</strong>​**<code>FRPC</code><strong>​</strong>​ 配置自动获取脚本**</p><blockquote><p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/AdminWhaleFall/rpi-ping">AdminWhaleFall&#x2F;rpi-ping: 树莓派自动上传信息工具. (github.com)</a></p></blockquote><pre><code class="hljs shell">cd ~
+git clone https://hub.fastgit.org/AdminWhaleFall/rpi-ping
+chmod 777 -R rpi-ping
+
+cd rpi-ping
+pip3 install -r req... (Tab补全)
+python3 main.py  # 测试运行</code></pre><p>脚本设置为 systemctl 服务：</p><p>新建 <code>/etc/systemd/system/rpi.service</code> ：</p><pre><code class="hljs ini"><span class="hljs-section">[Unit]</span>
+<span class="hljs-attr">Description</span>=Python Task Service
+<span class="hljs-attr">After</span>=network.target
+
+<span class="hljs-section">[Service]</span>
+<span class="hljs-attr">Type</span>=simple
+<span class="hljs-attr">User</span>=root
+<span class="hljs-attr">Group</span>=root
+<span class="hljs-attr">ExecStart</span>=/usr/bin/python3 /root/rpi-ping/main.py
+<span class="hljs-attr">Restart</span>=always
+<span class="hljs-attr">RestartSec</span>=<span class="hljs-number">2</span>
+<span class="hljs-attr">PrivateTmp</span>=<span class="hljs-literal">true</span>
+
+<span class="hljs-section">[Install]</span>
+<span class="hljs-attr">WantedBy</span>=multi-user.target</code></pre></li></ol><h2 id="玩客云网络配置（重要）"><a href="#玩客云网络配置（重要）" class="headerlink" title="玩客云网络配置（重要）"></a>玩客云网络配置（重要）</h2><ol><li><p>设置静态 ip：</p><blockquote><p>我们学校的校园网没有 dhcp 服务器，要手动设置 IP，教学楼的网段是：<strong>192.168.5.0&#x2F;24</strong></p></blockquote><pre><code class="hljs shell">nano /etc/network/interfaces
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">注释掉</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">iface eth0 inet dhcp</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">添加静态IP</span>
+iface eth0 inet static
+address 192.168.5.12
+netmask 255.255.255.0
+gateway 192.168.5.1
+dns-nameservers 114.114.114.114 192.168.3.3
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">address: 地址；netmask: 子网掩码；gateway:路由</span>
+systemctl restart NetworkManager  # 重启网络服务</code></pre><p>然后把玩客云插到讲台下面的网线处.访问 <code>192.168.5.12</code> 测试</p></li><li><p>永久修改 dns：</p><p>禁用 dhcp 分配的 dns 服务器：</p><pre><code class="hljs shell">nano /etc/dhcp/dhclient.conf
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">最后添加一行</span>
+supersede domain-name-servers 114.114.114.114, 8.8.8.8;
+dhclient</code></pre><p>在 Resolvconf 中设置永久 DNSNameservers ：</p><pre><code class="hljs shell">nano /etc/resolvconf/resolv.conf.d/head
+<span class="hljs-meta prompt_"># </span><span class="language-bash">添加</span>
+nameserver 114.114.114.114
+
+systemctl restart resolvconf.service
+resolvconf -u
+sudo dpkg-reconfigure resolvconf
+
+cat /etc/resolv.conf</code></pre></li></ol></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/wky-help/">https://whaleluo.top/wky-help/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2021-12-19</p></div><div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/WKY/" class="post-tags__link button"># WKY</a></div></article><div class="nav"><div class="nav__prev"><a href="/linux-note/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">Linux 运维笔记(持续更新)</div></div></a></div><div class="nav__next"><a href="/python/flask-web-note/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">Flask Web 框架学习笔记</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Golang 学习笔记——文本和HTML模板 | 😊落落のBlog😊</title><meta name="keywords" content="Golang, Coding, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="GO 文本和 HTML 模板前面的例子，只是最简单的格式化，使用 Printf 是完全足够的。但是有时候会需要复杂的打印格式，这时候一般需要将格式化代码分离出来以便更安全地修改。这写功能是由 text&#x2F;template 和 html&#x2F;template 等模板包提供的，它们提供了一个将变量值填充到一个文本或 HTML 格式的模板的机制。 一个模板是一个字符串或一个文件，里面包含了"><meta property="og:type" content="article"><meta property="og:title" content="Golang 学习笔记——文本和HTML模板"><meta property="og:url" content="https://whaleluo.top/golang/golang-html-note/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="GO 文本和 HTML 模板前面的例子，只是最简单的格式化，使用 Printf 是完全足够的。但是有时候会需要复杂的打印格式，这时候一般需要将格式化代码分离出来以便更安全地修改。这写功能是由 text&#x2F;template 和 html&#x2F;template 等模板包提供的，它们提供了一个将变量值填充到一个文本或 HTML 格式的模板的机制。 一个模板是一个字符串或一个文件，里面包含了"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&webp=true"><meta property="article:published_time" content="2022-12-17T15:17:48.000Z"><meta property="article:modified_time" content="2022-12-17T15:17:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Golang"><meta property="article:tag" content="Coding"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&webp=true"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Golang 学习笔记——文本和HTML模板</h1><div class="post-title__meta"><a href="/archives/2022/12/" class="post-meta__date button">2022-12-17</a> <span class="separate-dot"></span><a href="/categories/Golang/" class="button">Golang</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.</span> <span class="toc-text">生成模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html-template"><span class="toc-number">2.</span> <span class="toc-text">html&#x2F;template</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.</span> <span class="toc-text">生成模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#html-template"><span class="toc-number">2.</span> <span class="toc-text">html&#x2F;template</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&amp;webp=true"></div><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2022-12-17"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="GO-文本和-HTML-模板"><a href="#GO-文本和-HTML-模板" class="headerlink" title="GO 文本和 HTML 模板"></a>GO 文本和 HTML 模板</h1><p>前面的例子，只是最简单的格式化，使用 Printf 是完全足够的。但是有时候会需要复杂的打印格式，这时候一般需要将格式化代码分离出来以便更安全地修改。这写功能是由 text&#x2F;template 和 html&#x2F;template 等模板包提供的，它们提供了一个将变量值填充到一个文本或 HTML 格式的模板的机制。</p><p>一个模板是一个字符串或一个文件，里面包含了一个或多个由双花括号包含的 <code>&#123;&#123;action&#125;&#125;</code> 对象。</p><p>通过 `` 定义字符串字面量。</p><pre><code class="hljs go"><span class="hljs-keyword">const</span> templ = <span class="hljs-string">`&#123;&#123;.TotalCount&#125;&#125; issues:&#123;&#123;range .Items&#125;&#125;----------------------------------------Number: &#123;&#123;.Number&#125;&#125;User: &#123;&#123;.User.Login&#125;&#125;Title: &#123;&#123;.Title | printf &quot;%.64s&quot;&#125;&#125;Age: &#123;&#123;.CreatedAt | daysAgo&#125;&#125; days&#123;&#123;end&#125;&#125;`</span></code></pre><p>对于每一个 action，都有一个当前值的概念，对应点操作符，写作“.”,模板中 <code>&#123;&#123;.TotalCount&#125;&#125;</code> 对应 action 将展开为结构体中 TotalCount 成员</p><p>模板中 <code>&#123;&#123;range .Items&#125;&#125;</code> 和 <code>&#123;&#123;end&#125;&#125;</code> 对应一个循环 action ，因此它们直接的内容可能会被展开多次，循环每次迭代的当前值对应当前的 Items 元素的值。</p><p>在一个 action 中， | 操作符表示将前一个表达式的结果作为后一个函数的输入，类似于 UNIX 中管道的概念。</p><h2 id="生成模板"><a href="#生成模板" class="headerlink" title="生成模板"></a>生成模板</h2><pre><code class="hljs go"><span class="hljs-comment">// 先解析模板</span>
+report, err := template.New(<span class="hljs-string">&quot;report&quot;</span>).Funcs(template.FuncMap&#123;<span class="hljs-string">&quot;daysAgo&quot;</span>: daysAgo&#125;).Parse(templ)
+<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;
+    log.Fatal(err)
+&#125;
+<span class="hljs-comment">// 在执行模板，使用 result 作为输入源，os.Stdout 作为输出源。</span>
+<span class="hljs-keyword">if</span> err := report.Execute(os.Stdout, result); err != <span class="hljs-literal">nil</span> &#123;
+    log.Fatal(err)
+&#125;</code></pre><p><strong>方法调用链</strong> ：template.New 先创建并返回一个模板；Funcs 方法将 daysAgo 等自定义函数注册到模板中，并返回模板；最后调用 Parse 函数分析模板。</p><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">Must</span><span class="hljs-params">(t *Template, err <span class="hljs-type">error</span>)</span></span> *Template &#123;....&#125;
+<span class="hljs-keyword">var</span> report = template.Must(report)</code></pre><p>因为模板通常在编译时就测试好了，如果模板解析失败将是一个致命的错误。template.Must 辅助函数可以简化这个致命错误的处理：它接受一个模板和一个 error 类型的参数，检测 error 是否为 nil（如果不是 nil 则发出 panic 异常），然后返回传入的模板。</p><h2 id="html-template"><a href="#html-template" class="headerlink" title="html&#x2F;template"></a>html&#x2F;template</h2><p>使用和 text&#x2F;template 包相同的 API 和模板语言，但是增加了一个将 <strong>字符串自动转义特性</strong>，这可以避免输入字符串和 HTML JavaScript、CSS 或 URL 语法产生冲突的问题。</p><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+    <span class="hljs-keyword">const</span> templ = <span class="hljs-string">`&lt;p&gt;A: &#123;&#123;.A&#125;&#125;&lt;/p&gt;&lt;p&gt;B: &#123;&#123;.B&#125;&#125;&lt;/p&gt;`</span>
+    t := template.Must(template.New(<span class="hljs-string">&quot;escape&quot;</span>).Parse(templ))
+    <span class="hljs-keyword">var</span> data <span class="hljs-keyword">struct</span> &#123;
+        A <span class="hljs-type">string</span> <span class="hljs-comment">// untrusted plain text</span>
+        B template.HTML <span class="hljs-comment">// trusted HTML</span>
+    &#125;
+    data.A = <span class="hljs-string">&quot;&lt;b&gt;Hello!&lt;/b&gt;&quot;</span>
+    data.B = <span class="hljs-string">&quot;&lt;b&gt;Hello!&lt;/b&gt;&quot;</span>
+    <span class="hljs-keyword">if</span> err := t.Execute(os.Stdout, data); err != <span class="hljs-literal">nil</span> &#123;
+        log.Fatal(err)
+    &#125;
+&#125;</code></pre></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/golang/golang-html-note/">https://whaleluo.top/golang/golang-html-note/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2022-12-17</p></div><div class="post-entry__tags"><a href="/tags/Golang/" class="post-tags__link button"># Golang</a><a href="/tags/Coding/" class="post-tags__link button"># Coding</a></div></article><div class="nav"><div class="nav__prev"><a href="/samba4-config/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">Samba4 服务器配置最佳实践</div></div></a></div><div class="nav__next"><a href="/golang/golang-json-note/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">Golang 学习笔记——JSON的解析</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

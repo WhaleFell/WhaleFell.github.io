@@ -1,0 +1,348 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Pydantic &amp; Typing —— Python 类型注解深入 | 😊落落のBlog😊</title><meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="Pydantic &amp; Typing —— Python 类型注解库深入众所周知，Python 是一门弱类型的语言，在定义变量时不用标注其类型，类型间也可以隐形的转换。这导致了开发时候 IDE 提示不智能，容易出现 BUG 等问题。 JavaScript 也是一门弱类型语言，但衍生出了他的超集 Typescript 拥有更加完善的注释系统。 而 Python3 开始可以显性的添加 funct"><meta property="og:type" content="article"><meta property="og:title" content="Pydantic &amp; Typing —— Python 类型注解深入"><meta property="og:url" content="https://whaleluo.top/python/python-pydantic-tutorial/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Pydantic &amp; Typing —— Python 类型注解库深入众所周知，Python 是一门弱类型的语言，在定义变量时不用标注其类型，类型间也可以隐形的转换。这导致了开发时候 IDE 提示不智能，容易出现 BUG 等问题。 JavaScript 也是一门弱类型语言，但衍生出了他的超集 Typescript 拥有更加完善的注释系统。 而 Python3 开始可以显性的添加 funct"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-09-24T00:41:23.000Z"><meta property="article:modified_time" content="2023-09-24T00:41:23.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Pydantic &amp; Typing —— Python 类型注解深入</h1><div class="post-title__meta"><a href="/archives/2023/09/" class="post-meta__date button">2023-09-24</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vscode-Support-Pydantic"><span class="toc-number">2.</span> <span class="toc-text">Vscode Support Pydantic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Callable-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%AD%BE%E5%90%8D%E6%B3%A8%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text">Callable 回调函数签名注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generics-d%CA%92%C9%99%CB%88ner-%C9%AAk-adj-%E4%B8%80%E8%88%AC%E7%9A%84-%E6%B3%9B%E5%9E%8B%E6%94%AF%E6%8C%81"><span class="toc-number">4.</span> <span class="toc-text">Generics &#x2F;dʒəˈner.ɪk&#x2F; (adj.一般的) 泛型支持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#User-defined-Generics-types-%E7%94%A8%E6%88%B7%E5%AE%9A%E4%B9%89%E7%9A%84%E6%B3%9B%E5%9E%8B"><span class="toc-number">4.1.</span> <span class="toc-text">User-defined Generics types 用户定义的泛型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Annotating-%CB%88aen-%C9%99-te%C9%AAt-v-%E7%BB%99-%E6%B3%A8%E8%A7%A3-tuples-%E6%B3%A8%E9%87%8A%E5%85%83%E7%BB%84"><span class="toc-number">5.</span> <span class="toc-text">Annotating &#x2F;ˈæn.ə.teɪt&#x2F; (v. 给..注解) tuples 注释元组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Order-Typing-Type-%E5%85%B6%E4%BB%96%E6%B3%A8%E9%87%8A%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">Order Typing Type 其他注释类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Union-%E8%81%94%E5%90%88"><span class="toc-number">6.1.</span> <span class="toc-text">Union 联合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Optional-%E5%8F%AF%E9%80%89"><span class="toc-number">6.2.</span> <span class="toc-text">Optional 可选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Annotated-aen%C9%99-teitid-%E6%B3%A8%E9%87%8A"><span class="toc-number">6.3.</span> <span class="toc-text">Annotated &#x2F;&#39;ænə,teitid&#x2F; 注释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sequence-%E8%8B%B1-%CB%88si%CB%90kw%C9%99ns-%E5%BA%8F%E5%88%97-Iterable-%E5%8F%AF%E8%BF%AD%E4%BB%A3-Iterator-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">Sequence[英 &#x2F;ˈsiːkwəns&#x2F; 序列], Iterable (可迭代) &amp; Iterator (迭代器)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Infinite-%E8%8B%B1-%CB%88%C9%AAnf%C9%AAn%C9%99t-%E6%97%A0%E9%99%90-Generators-%E6%97%A0%E9%99%90%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-number">7.1.</span> <span class="toc-text">Infinite[英 &#x2F;ˈɪnfɪnət&#x2F; 无限] Generators 无限生成器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pydantic-BaseModel"><span class="toc-number">8.</span> <span class="toc-text">Pydantic BaseModel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Validator-%E9%AA%8C%E8%AF%81%E5%99%A8"><span class="toc-number">8.1.</span> <span class="toc-text">Validator 验证器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Field-%E8%8B%B1-fi-ld-%E5%AD%97%E6%AE%B5"><span class="toc-number">8.2.</span> <span class="toc-text">Field [英 &#x2F;fi:ld&#x2F; 字段]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96-Serialization-%E8%8B%B1-%CB%88s%C9%AA%C9%99ri-%C9%99%CB%8Cla%C9%AAz"><span class="toc-number">8.3.</span> <span class="toc-text">序列化 Serialization [英 &#x2F;ˈsɪəri:əˌlaɪz&#x2F;]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Read-Environment-value-IN-BaseSettings-%E4%BD%BF%E7%94%A8-Pydantic-%E7%AE%A1%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">9.</span> <span class="toc-text">Read Environment value IN BaseSettings 使用 Pydantic 管理环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-env-%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD"><span class="toc-number">9.1.</span> <span class="toc-text">通过 .env 文件加载</span></a></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vscode-Support-Pydantic"><span class="toc-number">2.</span> <span class="toc-text">Vscode Support Pydantic</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Callable-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%AD%BE%E5%90%8D%E6%B3%A8%E9%87%8A"><span class="toc-number">3.</span> <span class="toc-text">Callable 回调函数签名注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Generics-d%CA%92%C9%99%CB%88ner-%C9%AAk-adj-%E4%B8%80%E8%88%AC%E7%9A%84-%E6%B3%9B%E5%9E%8B%E6%94%AF%E6%8C%81"><span class="toc-number">4.</span> <span class="toc-text">Generics &#x2F;dʒəˈner.ɪk&#x2F; (adj.一般的) 泛型支持</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#User-defined-Generics-types-%E7%94%A8%E6%88%B7%E5%AE%9A%E4%B9%89%E7%9A%84%E6%B3%9B%E5%9E%8B"><span class="toc-number">4.1.</span> <span class="toc-text">User-defined Generics types 用户定义的泛型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Annotating-%CB%88aen-%C9%99-te%C9%AAt-v-%E7%BB%99-%E6%B3%A8%E8%A7%A3-tuples-%E6%B3%A8%E9%87%8A%E5%85%83%E7%BB%84"><span class="toc-number">5.</span> <span class="toc-text">Annotating &#x2F;ˈæn.ə.teɪt&#x2F; (v. 给..注解) tuples 注释元组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Order-Typing-Type-%E5%85%B6%E4%BB%96%E6%B3%A8%E9%87%8A%E7%B1%BB%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">Order Typing Type 其他注释类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Union-%E8%81%94%E5%90%88"><span class="toc-number">6.1.</span> <span class="toc-text">Union 联合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Optional-%E5%8F%AF%E9%80%89"><span class="toc-number">6.2.</span> <span class="toc-text">Optional 可选</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Annotated-aen%C9%99-teitid-%E6%B3%A8%E9%87%8A"><span class="toc-number">6.3.</span> <span class="toc-text">Annotated &#x2F;&#39;ænə,teitid&#x2F; 注释</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Sequence-%E8%8B%B1-%CB%88si%CB%90kw%C9%99ns-%E5%BA%8F%E5%88%97-Iterable-%E5%8F%AF%E8%BF%AD%E4%BB%A3-Iterator-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">7.</span> <span class="toc-text">Sequence[英 &#x2F;ˈsiːkwəns&#x2F; 序列], Iterable (可迭代) &amp; Iterator (迭代器)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Infinite-%E8%8B%B1-%CB%88%C9%AAnf%C9%AAn%C9%99t-%E6%97%A0%E9%99%90-Generators-%E6%97%A0%E9%99%90%E7%94%9F%E6%88%90%E5%99%A8"><span class="toc-number">7.1.</span> <span class="toc-text">Infinite[英 &#x2F;ˈɪnfɪnət&#x2F; 无限] Generators 无限生成器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pydantic-BaseModel"><span class="toc-number">8.</span> <span class="toc-text">Pydantic BaseModel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Validator-%E9%AA%8C%E8%AF%81%E5%99%A8"><span class="toc-number">8.1.</span> <span class="toc-text">Validator 验证器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Field-%E8%8B%B1-fi-ld-%E5%AD%97%E6%AE%B5"><span class="toc-number">8.2.</span> <span class="toc-text">Field [英 &#x2F;fi:ld&#x2F; 字段]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96-Serialization-%E8%8B%B1-%CB%88s%C9%AA%C9%99ri-%C9%99%CB%8Cla%C9%AAz"><span class="toc-number">8.3.</span> <span class="toc-text">序列化 Serialization [英 &#x2F;ˈsɪəri:əˌlaɪz&#x2F;]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Read-Environment-value-IN-BaseSettings-%E4%BD%BF%E7%94%A8-Pydantic-%E7%AE%A1%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">9.</span> <span class="toc-text">Read Environment value IN BaseSettings 使用 Pydantic 管理环境变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-env-%E6%96%87%E4%BB%B6%E5%8A%A0%E8%BD%BD"><span class="toc-number">9.1.</span> <span class="toc-text">通过 .env 文件加载</span></a></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2023-09-24"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Pydantic-Typing-——-Python-类型注解库深入"><a href="#Pydantic-Typing-——-Python-类型注解库深入" class="headerlink" title="Pydantic &amp; Typing —— Python 类型注解库深入"></a>Pydantic &amp; Typing —— Python 类型注解库深入</h1><p>众所周知，Python 是一门弱类型的语言，在定义变量时不用标注其类型，类型间也可以隐形的转换。这导致了开发时候 IDE 提示不智能，容易出现 BUG 等问题。</p><p>JavaScript 也是一门弱类型语言，但衍生出了他的超集 Typescript 拥有更加完善的注释系统。</p><p>而 Python3 开始可以显性的添加 function hint 类似：<code>def cat(age: int, name: str) -&gt; str</code> 等简单的类型，但稍微复杂的类型就需要用到 <code>typing</code> 等模块。</p><p>而 <code>Pydantic</code> 就解决了这个痛点，可以定义一个复杂的类型，集成了 <strong>数据验证，IDE 智能提示、Json 支持</strong> ，等功能，提高开发体验，减少 BUG。</p><p><strong>目前 <code>Pydantic</code> 已从 V1 升级成 V2 相关代码请修改并适配</strong></p><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>Pydantic Official Document：<a target="_blank" rel="noopener" href="https://docs.pydantic.dev/latest/">Welcome to Pydantic - Pydantic</a> <a target="_blank" rel="noopener" href="https://docs.pydantic.dev/latest/usage/models/">Models - Pydantic</a></p><p>Python <code>Typing</code> Official Document：<a target="_blank" rel="noopener" href="https://docs.python.org/3/library/typing.html">typing — Support for type hints — Python 3.11.5 documentation</a></p><h2 id="Vscode-Support-Pydantic"><a href="#Vscode-Support-Pydantic" class="headerlink" title="Vscode Support Pydantic"></a>Vscode Support Pydantic</h2><p>使用 VS Code 的 <strong>Pylance</strong> 扩展。它是推荐的下一代 Python 官方 VS Code 插件。</p><ul><li>Open the “User Settings”<br>打开“用户设置”</li><li>Search for <code>Type Checking Mode</code><br>搜索 <code>Type Checking Mode</code></li><li>You will find an option under <code>Python › Analysis: Type Checking Mode</code><br>您将在 <code>Python › Analysis: Type Checking Mode</code> 下找到一个选项</li><li>Set it to <code>basic</code> or <code>strict</code> (by default it’s <code>off</code>)<br>将其设置为 <code>basic</code> 或 <code>strict</code> （默认情况下为 <code>off</code> ）</li></ul><h2 id="Callable-回调函数签名注释"><a href="#Callable-回调函数签名注释" class="headerlink" title="Callable 回调函数签名注释"></a>Callable 回调函数签名注释</h2><p><code>Callable[[int], str]</code> 表示采用 <code>int</code> 类型的单个参数并返回 <code>str</code> 的函数，例如可以注释以下函数。</p><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params">num: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-built_in">str</span>: ...</code></pre><p>示例：</p><pre><code class="hljs python"><span class="hljs-comment"># Awaitable: 可等待对象</span>
+<span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> <span class="hljs-type">Callable</span>, Awaitable
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">feeder</span>(<span class="hljs-params">get_next_item: <span class="hljs-type">Callable</span>[[], <span class="hljs-built_in">str</span>]</span>) -&gt; <span class="hljs-literal">None</span>:
+    …  <span class="hljs-comment"># Body</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">async_query</span>(<span class="hljs-params">on_success: <span class="hljs-type">Callable</span>[[<span class="hljs-built_in">int</span>], <span class="hljs-literal">None</span>],</span>
+<span class="hljs-params">                on_error: <span class="hljs-type">Callable</span>[[<span class="hljs-built_in">int</span>, Exception], <span class="hljs-literal">None</span>]</span>) -&gt; <span class="hljs-literal">None</span>:
+    …  <span class="hljs-comment"># Body</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">on_update</span>(<span class="hljs-params">value: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-literal">None</span>:
+    …  <span class="hljs-comment"># Body</span>
+
+callback: <span class="hljs-type">Callable</span>[[<span class="hljs-built_in">str</span>], Awaitable[<span class="hljs-literal">None</span>]] = on_update</code></pre><h2 id="Generics-dʒəˈner-ɪk-adj-一般的-泛型支持"><a href="#Generics-dʒəˈner-ɪk-adj-一般的-泛型支持" class="headerlink" title="Generics /dʒəˈner.ɪk/ (adj.一般的) 泛型支持"></a>Generics <code>/dʒəˈner.ɪk/</code> (adj.一般的) 泛型支持</h2><blockquote><p>泛型是一种编程语言特性，允许在编写代码时使用 <strong>一些通用的类型</strong>，而不是特定的类型。它可以让代码更加通用、可重用和安全。<br>比如 <code>def func(parameter:T) -&gt; T</code> T 就是一个泛型，根据传入的参数类型来决定传出的参数类型，而不指定传入是某个类型。</p></blockquote><p>Python 是一种动态类型语言，它没有像 Java 或 C# 那样的严格类型限制。因此，Python 中的泛型并不像 Java 或 C# 中那样显式地定义类型参数。但是，Python 中可以使用 <strong>泛型编程技术</strong> 来实现通用、可重用的代码。</p><p><code>TypeVar()</code> 参考：<a target="_blank" rel="noopener" href="https://docs.python.org/3/library/typing.html#typing.TypeVar">typing — Support for type hints — Python 3.11.5 documentation</a></p><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> TypeVar, <span class="hljs-type">List</span>
+
+
+T = TypeVar(<span class="hljs-string">&#x27;T&#x27;</span>)  <span class="hljs-comment"># 定义泛型类型变量 T T 可以是 Any 任何类型</span>
+S = TypeVar(<span class="hljs-string">&#x27;S&#x27;</span>, bound=<span class="hljs-built_in">str</span>)  <span class="hljs-comment"># 可以是 str 的任何子类型</span>
+A = TypeVar(<span class="hljs-string">&#x27;A&#x27;</span>, <span class="hljs-built_in">str</span>, <span class="hljs-built_in">bytes</span>)  <span class="hljs-comment"># 必须是 str 或者 bytes 相当于 Union[str, bytes]</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">repeat</span>(<span class="hljs-params">x: T, n: <span class="hljs-built_in">int</span></span>) -&gt; <span class="hljs-type">List</span>[T]:
+    <span class="hljs-keyword">return</span> [x] * n
+
+s = repeat(<span class="hljs-string">&#x27;hello&#x27;</span>, <span class="hljs-number">3</span>)  <span class="hljs-comment"># s 的类型为 List[str]</span>
+n = repeat(<span class="hljs-number">42</span>, <span class="hljs-number">4</span>)  <span class="hljs-comment"># n 的类型为 List[int]</span></code></pre><h3 id="User-defined-Generics-types-用户定义的泛型"><a href="#User-defined-Generics-types-用户定义的泛型" class="headerlink" title="User-defined Generics types 用户定义的泛型"></a>User-defined Generics types 用户定义的泛型</h3><p><code>TypeVar()</code> 只支持 bound 绑定一个标准类型，而 <code>Generic</code> 支持绑定用户自定义的类型。</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> TypeVar, <span class="hljs-type">Generic</span>
+<span class="hljs-keyword">from</span> logging <span class="hljs-keyword">import</span> Logger
+
+T = TypeVar(<span class="hljs-string">&#x27;T&#x27;</span>)
+
+<span class="hljs-comment"># 用户定义的类可以定义为泛型类。</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">LoggedVar</span>(<span class="hljs-type">Generic</span>[T]):
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, value: T, name: <span class="hljs-built_in">str</span>, logger: Logger</span>) -&gt; <span class="hljs-literal">None</span>:
+        self.name = name
+        self.logger = logger
+        self.value = value
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">set</span>(<span class="hljs-params">self, new: T</span>) -&gt; <span class="hljs-literal">None</span>:
+        self.log(<span class="hljs-string">&#x27;Set &#x27;</span> + <span class="hljs-built_in">repr</span>(self.value))
+        self.value = new
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get</span>(<span class="hljs-params">self</span>) -&gt; T:
+        self.log(<span class="hljs-string">&#x27;Get &#x27;</span> + <span class="hljs-built_in">repr</span>(self.value))
+        <span class="hljs-keyword">return</span> self.value
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">log</span>(<span class="hljs-params">self, message: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-literal">None</span>:
+        self.logger.info(<span class="hljs-string">&#x27;%s: %s&#x27;</span>, self.name, message)</code></pre><h2 id="Annotating-ˈaen-ə-teɪt-v-给-注解-tuples-注释元组"><a href="#Annotating-ˈaen-ə-teɪt-v-给-注解-tuples-注释元组" class="headerlink" title="Annotating /ˈæn.ə.teɪt/ (v. 给..注解) tuples 注释元组"></a>Annotating <code>/ˈæn.ə.teɪt/</code> (v. 给..注解) tuples 注释元组</h2><p>在 Python 中，类型系统都假定容器的数据类型一样，如 <code>List[str]</code> ，但 <code>Mapping</code> 可以支持多种类型的容器。</p><p><code>Mapping</code> 只接受两个类型参数：<strong>第一个表示键的类型</strong>，<strong>第二个表示值的类型</strong>。</p><p><code>Mapping</code> 类似于 <code>Dict</code> 字典</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> collections.abc <span class="hljs-keyword">import</span> Mapping
+
+x: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">int</span>] = []
+
+<span class="hljs-comment"># Type checker error: ``list`` only accepts a single type argument:</span>
+y: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">str</span>] = [<span class="hljs-number">1</span>, <span class="hljs-string">&#x27;foo&#x27;</span>]
+
+<span class="hljs-comment"># Type checker will infer that all keys in ``z`` are meant to be strings,</span>
+<span class="hljs-comment"># and that all values in ``z`` are meant to be either strings or ints</span>
+z: Mapping[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">str</span> | <span class="hljs-built_in">int</span>] = &#123;
+	<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;cherry&quot;</span>,
+	<span class="hljs-string">&quot;age&quot;</span>:<span class="hljs-built_in">int</span>
+&#125;</code></pre><p><code>tuple</code> 类型天生支持多个参数：</p><pre><code class="hljs python"><span class="hljs-comment"># OK: ``x`` is assigned to a tuple of length 1 where the sole element is an int</span>
+x: <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">int</span>] = (<span class="hljs-number">5</span>,)
+
+<span class="hljs-comment"># OK: ``y`` is assigned to a tuple of length 2;</span>
+<span class="hljs-comment"># element 1 is an int, element 2 is a str</span>
+y: <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">int</span>, <span class="hljs-built_in">str</span>] = (<span class="hljs-number">5</span>, <span class="hljs-string">&quot;foo&quot;</span>)
+
+<span class="hljs-comment"># OK: 省略号表示接收N个 int 参数</span>
+z: <span class="hljs-built_in">tuple</span>[<span class="hljs-built_in">int</span>, ...] = (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</code></pre><h2 id="Order-Typing-Type-其他注释类型"><a href="#Order-Typing-Type-其他注释类型" class="headerlink" title="Order Typing Type 其他注释类型"></a>Order Typing Type 其他注释类型</h2><h3 id="Union-联合"><a href="#Union-联合" class="headerlink" title="Union 联合"></a>Union 联合</h3><p><code>Union[X, Y]</code> 相当于 <code>X | Y</code> ，表示 X 或 Y。</p><p>版本 Python 3.10 中更改：联合现在可以写为 <code>X | Y</code></p><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Union</span>
+
+num: <span class="hljs-type">Union</span>[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">int</span>] = <span class="hljs-string">&quot;1212&quot;</span> <span class="hljs-comment"># OK!</span>
+num: <span class="hljs-type">Union</span>[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">int</span>] = <span class="hljs-number">1212</span> <span class="hljs-comment"># OK!</span>
+
+<span class="hljs-comment"># in &gt;= Python3.10</span>
+num: <span class="hljs-built_in">str</span> | <span class="hljs-built_in">int</span> = <span class="hljs-string">&quot;1212&quot;</span> <span class="hljs-comment"># 使用 | 表示或运算</span>
+</code></pre><h3 id="Optional-可选"><a href="#Optional-可选" class="headerlink" title="Optional 可选"></a>Optional 可选</h3><p><code>Optional[X]</code> 相当于 <code>X | None</code> （或 <code>Union[X, None]</code> ）。</p><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params">arg: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">int</span>] = <span class="hljs-literal">None</span></span>) -&gt; <span class="hljs-literal">None</span>:</code></pre><h3 id="Annotated-aenə-teitid-注释"><a href="#Annotated-aenə-teitid-注释" class="headerlink" title="Annotated /&#39;ænə,teitid/ 注释"></a>Annotated <code>/&#39;ænə,teitid/</code> 注释</h3><p>这个在 FastAPI 中添加 router 注释用的多。用于将 metadata 元数据添加到一个类型中的 <code>__metadata__</code> 属性。</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Annotated
+<span class="hljs-comment"># 接收可变参数，支持定义多个元数据</span>
+<span class="hljs-meta">&gt;&gt;&gt; </span>X = Annotated[<span class="hljs-built_in">int</span>, <span class="hljs-string">&quot;very&quot;</span>, <span class="hljs-string">&quot;important&quot;</span>, <span class="hljs-string">&quot;metadata&quot;</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>X
+typing.Annotated[<span class="hljs-built_in">int</span>, <span class="hljs-string">&#x27;very&#x27;</span>, <span class="hljs-string">&#x27;important&#x27;</span>, <span class="hljs-string">&#x27;metadata&#x27;</span>]
+<span class="hljs-meta">&gt;&gt;&gt; </span>X.__metadata__
+(<span class="hljs-string">&#x27;very&#x27;</span>, <span class="hljs-string">&#x27;important&#x27;</span>, <span class="hljs-string">&#x27;metadata&#x27;</span>)
+
+
+<span class="hljs-comment"># @dataclass 指明这个类是一个储存数据的类</span>
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ctype</span>:
+    kind: <span class="hljs-built_in">str</span>
+
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">ValueRange</span>:
+    lo: <span class="hljs-built_in">int</span>
+    hi: <span class="hljs-built_in">int</span>
+
+Annotated[<span class="hljs-built_in">int</span>, ValueRange(<span class="hljs-number">3</span>, <span class="hljs-number">10</span>), ctype(<span class="hljs-string">&quot;char&quot;</span>)]</code></pre><h2 id="Sequence-英-ˈsiːkwəns-序列-Iterable-可迭代-Iterator-迭代器"><a href="#Sequence-英-ˈsiːkwəns-序列-Iterable-可迭代-Iterator-迭代器" class="headerlink" title="Sequence[英 &#x2F;ˈsiːkwəns&#x2F; 序列], Iterable (可迭代) &amp; Iterator (迭代器)"></a>Sequence[英 &#x2F;ˈsiːkwəns&#x2F; 序列], Iterable (可迭代) &amp; Iterator (迭代器)</h2><pre><code class="hljs python"><span class="hljs-comment"># Sequence</span>
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Sequence</span>
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Model</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    sequence_of_ints: <span class="hljs-type">Sequence</span>[<span class="hljs-built_in">int</span>] = <span class="hljs-literal">None</span>
+<span class="hljs-built_in">print</span>(Model(sequence_of_ints=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]).sequence_of_ints)
+<span class="hljs-comment">#&gt; [1, 2, 3, 4]</span>
+<span class="hljs-built_in">print</span>(Model(sequence_of_ints=(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)).sequence_of_ints)
+<span class="hljs-comment">#&gt; (1, 2, 3, 4)</span></code></pre><h3 id="Infinite-英-ˈɪnfɪnət-无限-Generators-无限生成器"><a href="#Infinite-英-ˈɪnfɪnət-无限-Generators-无限生成器" class="headerlink" title="Infinite[英 &#x2F;ˈɪnfɪnət&#x2F; 无限] Generators 无限生成器"></a>Infinite[英 &#x2F;ˈɪnfɪnət&#x2F; 无限] Generators 无限生成器</h3><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Iterable <span class="hljs-comment"># 可迭代对象</span>
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Model</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    infinite: Iterable[<span class="hljs-built_in">int</span>]
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">infinite_ints</span>():
+	<span class="hljs-comment"># 无限生成器 Infinite Generators</span>
+    i = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-keyword">yield</span> i
+        i += <span class="hljs-number">1</span>
+
+
+<span class="hljs-comment"># 在初始验证期间， `Iterable` 字段仅执行简单的检查以确保所提供的参数是可迭代的。为了防止它被消耗，不会急切地对生成的值进行验证。</span>
+m = Model(infinite=infinite_ints())
+<span class="hljs-built_in">print</span>(m)
+<span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">infinite=ValidatorIterator(index=0, schema=Some(Int(IntValidator &#123; strict: false &#125;)))</span>
+<span class="hljs-string">&quot;&quot;&quot;</span>
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> m.infinite:
+    <span class="hljs-built_in">print</span>(i)
+    <span class="hljs-comment">#&gt; 0</span>
+    <span class="hljs-comment">#&gt; 1</span>
+    <span class="hljs-comment">#&gt; 2</span>
+    <span class="hljs-comment">#&gt; 3</span>
+    <span class="hljs-comment">#&gt; 4</span>
+    <span class="hljs-comment">#&gt; 5</span>
+    <span class="hljs-comment">#&gt; 6</span>
+    <span class="hljs-comment">#&gt; 7</span>
+    <span class="hljs-comment">#&gt; 8</span>
+    <span class="hljs-comment">#&gt; 9</span>
+    <span class="hljs-comment">#&gt; 10</span>
+    <span class="hljs-keyword">if</span> i == <span class="hljs-number">10</span>:
+        <span class="hljs-keyword">break</span>
+</code></pre><h2 id="Pydantic-BaseModel"><a href="#Pydantic-BaseModel" class="headerlink" title="Pydantic BaseModel"></a>Pydantic BaseModel</h2><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserModel</span>(<span class="hljs-title class_ inherited__">BaseModel</span>): 
+	<span class="hljs-built_in">id</span>: <span class="hljs-built_in">int</span> 
+	name: <span class="hljs-built_in">str</span></code></pre><h3 id="Validator-验证器"><a href="#Validator-验证器" class="headerlink" title="Validator 验证器"></a>Validator 验证器</h3><p>Field validators 字段验证器：</p><p>如果您想将验证器附加到模型的特定字段，可以使用 <code>@field_validator</code> 装饰器。</p><ul><li>第一个参数值是 <code>UserModel</code> 类，而不是 <code>UserModel</code> 的实例。所以在 <code>@field_validator</code> 装饰器下方使用 <code>@classmethod</code> 装饰器来进行正确的类型检查。</li><li>第二个参数是要验证的字段值；可以随意命名。</li><li>第三个参数（如果存在）是 <code>pydantic.FieldValidationInfo</code> 的实例，用于记录验证的信息。</li><li>验证器应该返回解析的值或引发 <code>ValueError</code> 或 <code>AssertionError</code>，也可以无脑 <code>assert</code></li></ul><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> (
+    BaseModel,
+    FieldValidationInfo, <span class="hljs-comment"># 字段验证的信息</span>
+    ValidationError,
+    field_validator,
+)
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserModel</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    <span class="hljs-built_in">id</span>: <span class="hljs-built_in">int</span>
+    name: <span class="hljs-built_in">str</span>
+
+	<span class="hljs-comment"># 验证名字</span>
+<span class="hljs-meta">    @field_validator(<span class="hljs-params"><span class="hljs-string">&#x27;name&#x27;</span></span>)</span>
+<span class="hljs-meta">    @classmethod</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">name_must_contain_space</span>(<span class="hljs-params">cls, v: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27; &#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> v:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&#x27;must contain a space&#x27;</span>)
+        <span class="hljs-keyword">return</span> v.title()
+
+    <span class="hljs-comment"># you can select multiple fields, or use &#x27;*&#x27; to select all fields</span>
+<span class="hljs-meta">    @field_validator(<span class="hljs-params"><span class="hljs-string">&#x27;id&#x27;</span>, <span class="hljs-string">&#x27;name&#x27;</span></span>)</span>
+<span class="hljs-meta">    @classmethod</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">check_alphanumeric</span>(<span class="hljs-params">cls, v: <span class="hljs-built_in">str</span>, info: FieldValidationInfo</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(v, <span class="hljs-built_in">str</span>):
+            <span class="hljs-comment"># info.field_name is the name of the field being validated</span>
+            is_alphanumeric = v.replace(<span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>).isalnum()
+            <span class="hljs-keyword">assert</span> is_alphanumeric, <span class="hljs-string">f&#x27;<span class="hljs-subst">&#123;info.field_name&#125;</span> must be alphanumeric&#x27;</span>
+        <span class="hljs-keyword">return</span> v
+</code></pre><p>model_validator 模型验证器，针对整个模型进行验证，并提供几个 Hook 钩子，可用来预处理部分数据。务必 return 出处理完的整个数据。</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>
+
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, ValidationError, model_validator
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">UserModel</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    username: <span class="hljs-built_in">str</span>
+    password1: <span class="hljs-built_in">str</span>
+    password2: <span class="hljs-built_in">str</span>
+
+	<span class="hljs-comment"># 在进入模型之前处理</span>
+<span class="hljs-meta">    @model_validator(<span class="hljs-params">mode=<span class="hljs-string">&#x27;before&#x27;</span></span>)</span>
+<span class="hljs-meta">    @classmethod</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">check_card_number_omitted</span>(<span class="hljs-params">cls, data: <span class="hljs-type">Any</span></span>) -&gt; <span class="hljs-type">Any</span>:
+        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(data, <span class="hljs-built_in">dict</span>):
+            <span class="hljs-keyword">assert</span> (
+                <span class="hljs-string">&#x27;card_number&#x27;</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> data
+            ), <span class="hljs-string">&#x27;card_number should not be included&#x27;</span>
+        <span class="hljs-keyword">return</span> data
+
+	<span class="hljs-comment"># 在进入模型处理之后运行，只在模型成功验证后处理。</span>
+<span class="hljs-meta">    @model_validator(<span class="hljs-params">mode=<span class="hljs-string">&#x27;after&#x27;</span></span>)</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">check_passwords_match</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-string">&#x27;UserModel&#x27;</span>:
+        pw1 = self.password1
+        pw2 = self.password2
+        <span class="hljs-keyword">if</span> pw1 <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> pw2 <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> pw1 != pw2:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&#x27;passwords do not match&#x27;</span>)
+        <span class="hljs-keyword">return</span> self</code></pre><h3 id="Field-英-fi-ld-字段"><a href="#Field-英-fi-ld-字段" class="headerlink" title="Field [英 &#x2F;fi:ld&#x2F; 字段]"></a>Field [英 &#x2F;fi:ld&#x2F; 字段]</h3><p><code>Field</code> 函数用于自定义元数据并将其添加到模型的字段中。用于改变 Pydantic 的行为。</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> BaseModel, Field
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+	<span class="hljs-comment"># 提供默认值</span>
+    name: <span class="hljs-built_in">str</span> = Field(default=<span class="hljs-string">&#x27;John Doe&#x27;</span>)
+	<span class="hljs-comment"># 提供 factory function 生成默认数据</span>
+	<span class="hljs-built_in">id</span>: <span class="hljs-built_in">int</span> = Field(default_factory=<span class="hljs-keyword">lambda</span>: uuid4().<span class="hljs-built_in">hex</span>)
+	<span class="hljs-comment"># alias 别名</span>
+	...
+	<span class="hljs-comment"># constrain 约束 gt/lt/ge 限制大小</span>
+	...
+	<span class="hljs-comment"># </span></code></pre><h3 id="序列化-Serialization-英-ˈsɪəri-əˌlaɪz"><a href="#序列化-Serialization-英-ˈsɪəri-əˌlaɪz" class="headerlink" title="序列化 Serialization [英 &#x2F;ˈsɪəri:əˌlaɪz&#x2F;]"></a>序列化 Serialization [英 &#x2F;ˈsɪəri:əˌlaɪz&#x2F;]</h3><pre><code class="hljs python">m.model_dump() <span class="hljs-comment"># 导出 Python 类型</span>
+m.model_dump_json() <span class="hljs-comment"># 导出 Json 类型</span></code></pre><h2 id="Read-Environment-value-IN-BaseSettings-使用-Pydantic-管理环境变量"><a href="#Read-Environment-value-IN-BaseSettings-使用-Pydantic-管理环境变量" class="headerlink" title="Read Environment value IN BaseSettings 使用 Pydantic 管理环境变量"></a>Read Environment value IN BaseSettings 使用 Pydantic 管理环境变量</h2><p>配置一个 Python 程序的最佳实践不是编写复杂的解析逻辑来解析 ini yaml 等配置文件，而是直接在环境变量读取。使用 <code>pydantic-settings</code> 可以很方便的从环境变量里读取配置信息。</p><ul><li>创建一个定义明确、类型提示的应用程序配置类</li><li>自动从环境变量中读取对配置的修改</li></ul><p>install：安装</p><pre><code class="hljs python">pip install pydantic-settings</code></pre><p>示例：</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Any</span>, <span class="hljs-type">Callable</span>, <span class="hljs-type">Set</span>
+
+<span class="hljs-keyword">from</span> pydantic <span class="hljs-keyword">import</span> (
+    AliasChoices,
+    AmqpDsn,
+    BaseModel,
+    Field,
+    ImportString,
+    PostgresDsn,
+    RedisDsn,
+)
+
+<span class="hljs-keyword">from</span> pydantic_settings <span class="hljs-keyword">import</span> BaseSettings, SettingsConfigDict
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">SubModel</span>(<span class="hljs-title class_ inherited__">BaseModel</span>):
+    foo: <span class="hljs-built_in">str</span> = <span class="hljs-string">&#x27;bar&#x27;</span>
+    apple: <span class="hljs-built_in">int</span> = <span class="hljs-number">1</span>
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Settings</span>(<span class="hljs-title class_ inherited__">BaseSettings</span>):
+	<span class="hljs-comment"># 配置 alias 实际读取 `my_auth_key` 环境变量</span>
+    auth_key: <span class="hljs-built_in">str</span> = Field(validation_alias=<span class="hljs-string">&#x27;my_auth_key&#x27;</span>)  
+
+    api_key: <span class="hljs-built_in">str</span> = Field(alias=<span class="hljs-string">&#x27;my_api_key&#x27;</span>)  
+
+    redis_dsn: RedisDsn = Field(
+        <span class="hljs-string">&#x27;redis://user:pass@localhost:6379/1&#x27;</span>,
+        validation_alias=AliasChoices(<span class="hljs-string">&#x27;service_redis_dsn&#x27;</span>, <span class="hljs-string">&#x27;redis_url&#x27;</span>),  (<span class="hljs-number">3</span>)
+    )
+    pg_dsn: PostgresDsn = <span class="hljs-string">&#x27;postgres://user:pass@localhost:5432/foobar&#x27;</span>
+    amqp_dsn: AmqpDsn = <span class="hljs-string">&#x27;amqp://user:pass@localhost:5672/&#x27;</span>
+
+    special_function: ImportString[<span class="hljs-type">Callable</span>[[<span class="hljs-type">Any</span>], <span class="hljs-type">Any</span>]] = <span class="hljs-string">&#x27;math.cos&#x27;</span>  (<span class="hljs-number">4</span>)
+
+    <span class="hljs-comment"># to override domains:</span>
+    <span class="hljs-comment"># export my_prefix_domains=&#x27;[&quot;foo.com&quot;, &quot;bar.com&quot;]&#x27;</span>
+    domains: <span class="hljs-type">Set</span>[<span class="hljs-built_in">str</span>] = <span class="hljs-built_in">set</span>()
+
+    <span class="hljs-comment"># to override more_settings:</span>
+    <span class="hljs-comment"># export my_prefix_more_settings=&#x27;&#123;&quot;foo&quot;: &quot;x&quot;, &quot;apple&quot;: 1&#125;&#x27;</span>
+    more_settings: SubModel = SubModel()
+
+	<span class="hljs-comment"># model 配置，为所有环境变量设置 prefix [英 /&#x27;priːfɪks/]</span>
+    model_config = SettingsConfigDict(env_prefix=<span class="hljs-string">&#x27;my_prefix_&#x27;</span>)  (<span class="hljs-number">5</span>)
+
+
+<span class="hljs-built_in">print</span>(Settings().model_dump())
+<span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">&#123;</span>
+<span class="hljs-string">    &#x27;auth_key&#x27;: &#x27;xxx&#x27;,</span>
+<span class="hljs-string">    &#x27;api_key&#x27;: &#x27;xxx&#x27;,</span>
+<span class="hljs-string">    &#x27;redis_dsn&#x27;: Url(&#x27;redis://user:pass@localhost:6379/1&#x27;),</span>
+<span class="hljs-string">    &#x27;pg_dsn&#x27;: MultiHostUrl(&#x27;postgres://user:pass@localhost:5432/foobar&#x27;),</span>
+<span class="hljs-string">    &#x27;amqp_dsn&#x27;: Url(&#x27;amqp://user:pass@localhost:5672/&#x27;),</span>
+<span class="hljs-string">    &#x27;special_function&#x27;: math.cos,</span>
+<span class="hljs-string">    &#x27;domains&#x27;: set(),</span>
+<span class="hljs-string">    &#x27;more_settings&#x27;: &#123;&#x27;foo&#x27;: &#x27;bar&#x27;, &#x27;apple&#x27;: 1&#125;,</span>
+<span class="hljs-string">&#125;</span>
+<span class="hljs-string">&quot;&quot;&quot;</span></code></pre><h3 id="通过-env-文件加载"><a href="#通过-env-文件加载" class="headerlink" title="通过 .env 文件加载"></a>通过 .env 文件加载</h3><p>环境变量的优先级＞.env 文件</p><p>.env file:</p><pre><code class="hljs text"># ignore comment
+ENVIRONMENT=&quot;production&quot;
+REDIS_ADDRESS=localhost:6379
+MEANING_OF_LIFE=42
+MY_VAR=&#x27;Hello world&#x27;
+</code></pre><p>在 model_config 处加载：</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> pydantic_settings <span class="hljs-keyword">import</span> BaseSettings, SettingsConfigDict
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Settings</span>(<span class="hljs-title class_ inherited__">BaseSettings</span>):
+    model_config = SettingsConfigDict(env_file=<span class="hljs-string">&#x27;.env&#x27;</span>, env_file_encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)
+</code></pre><p>实例化对象加载：</p><pre><code class="hljs python">settings = Settings(_env_file=<span class="hljs-string">&#x27;prod.env&#x27;</span>, _env_file_encoding=<span class="hljs-string">&#x27;utf-8&#x27;</span>)</code></pre></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/python/python-pydantic-tutorial/">https://whaleluo.top/python/python-pydantic-tutorial/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2023-09-24</p></div><div class="post-entry__tags"></div></article><div class="nav"><div class="nav__prev"><a href="/rortos-flight-simulation-tutorial/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">RFS 安卓模拟飞行 Tutorial 教程</div></div></a></div><div class="nav__next"><a href="/china-documentary/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">纪实、深度、冷门——中国独立纪录片推荐</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Vue3 正式学习笔记 | 😊落落のBlog😊</title><meta name="keywords" content="JavaScript, JS, 前端, Vue, Element-UI, UI, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="Vue3 正式学习笔记经过了前面 Javascript 和 Nodejs 前置知识的铺垫，我想我应该可以正式学习 Vue 这个前端框架了叭。 先看视频放松下过一遍：   【2023最新版】Vue3从入门到精通，零基础小白也能听得懂，写得出，web前端快速入门教程_哔哩哔哩_bilibili  上面的视频虽然说得是 Vue3 但是是按照 组合式 API 讲解的，Vue3 文档推荐使用 响应式 API"><meta property="og:type" content="article"><meta property="og:title" content="Vue3 正式学习笔记"><meta property="og:url" content="https://whaleluo.top/javascript/vue-tutorial/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Vue3 正式学习笔记经过了前面 Javascript 和 Nodejs 前置知识的铺垫，我想我应该可以正式学习 Vue 这个前端框架了叭。 先看视频放松下过一遍：   【2023最新版】Vue3从入门到精通，零基础小白也能听得懂，写得出，web前端快速入门教程_哔哩哔哩_bilibili  上面的视频虽然说得是 Vue3 但是是按照 组合式 API 讲解的，Vue3 文档推荐使用 响应式 API"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2023-08-22T15:35:04.000Z"><meta property="article:modified_time" content="2023-08-22T15:35:04.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="JavaScript"><meta property="article:tag" content="JS"><meta property="article:tag" content="前端"><meta property="article:tag" content="Vue"><meta property="article:tag" content="Element-UI"><meta property="article:tag" content="UI"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Vue3 正式学习笔记</h1><div class="post-title__meta"><a href="/archives/2023/08/" class="post-meta__date button">2023-08-22</a> <span class="separate-dot"></span><a href="/categories/Vue/" class="button">Vue</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-study-vue"><span class="toc-number">1.</span> <span class="toc-text">How to study vue?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fast-Start"><span class="toc-number">2.</span> <span class="toc-text">Fast Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F-API-%E5%92%8C%E7%BB%84%E5%90%88%E5%BC%8F-API"><span class="toc-number">3.</span> <span class="toc-text">响应式 API 和组合式 API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%8A%B6%E6%80%81"><span class="toc-number">4.</span> <span class="toc-text">声明响应式状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7-computed"><span class="toc-number">5.</span> <span class="toc-text">计算属性 computed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watch-%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Watch 监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Vite-%E8%84%9A%E6%89%8B%E6%9E%B6-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">7.</span> <span class="toc-text">使用 Vite 脚手架 创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vite-Build-Single-file"><span class="toc-number">8.</span> <span class="toc-text">Vite Build Single file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8-CSS"><span class="toc-number">9.</span> <span class="toc-text">常用 CSS</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#How-to-study-vue"><span class="toc-number">1.</span> <span class="toc-text">How to study vue?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Fast-Start"><span class="toc-number">2.</span> <span class="toc-text">Fast Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F-API-%E5%92%8C%E7%BB%84%E5%90%88%E5%BC%8F-API"><span class="toc-number">3.</span> <span class="toc-text">响应式 API 和组合式 API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%93%8D%E5%BA%94%E5%BC%8F%E7%8A%B6%E6%80%81"><span class="toc-number">4.</span> <span class="toc-text">声明响应式状态</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7-computed"><span class="toc-number">5.</span> <span class="toc-text">计算属性 computed</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watch-%E7%9B%91%E5%90%AC%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">Watch 监听器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Vite-%E8%84%9A%E6%89%8B%E6%9E%B6-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">7.</span> <span class="toc-text">使用 Vite 脚手架 创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vite-Build-Single-file"><span class="toc-number">8.</span> <span class="toc-text">Vite Build Single file</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8-CSS"><span class="toc-number">9.</span> <span class="toc-text">常用 CSS</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2023-08-22"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Vue3-正式学习笔记"><a href="#Vue3-正式学习笔记" class="headerlink" title="Vue3 正式学习笔记"></a>Vue3 正式学习笔记</h1><p>经过了前面 Javascript 和 Nodejs 前置知识的铺垫，我想我应该可以正式学习 Vue 这个前端框架了叭。</p><p>先看视频放松下过一遍：</p><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Rs4y127j8/">【2023最新版】Vue3从入门到精通，零基础小白也能听得懂，写得出，web前端快速入门教程_哔哩哔哩_bilibili</a></p><blockquote><p>上面的视频虽然说得是 Vue3 但是是按照 <strong>组合式 API</strong> 讲解的，Vue3 文档推荐使用 <strong>响应式 API</strong> 编写代码。不过具体原理大同小异。</p></blockquote><p>reference：<a target="_blank" rel="noopener" href="https://cn.vuejs.org/guide/essentials/application.html">创建一个 Vue 应用 | Vue.js</a></p><p>需要用到的组件库、UI、AJAX 请求库 文档。</p><ol><li>Element-UI 组件库</li><li>axios  <code>/ˈæksɪos/</code> AJAX 请求库<ul><li><a target="_blank" rel="noopener" href="https://www.axios-http.cn/docs/example">基本用例 | Axios 中文文档 | Axios 中文网</a></li><li><a target="_blank" rel="noopener" href="https://www.koderhq.com/tutorial/vue/http-axios/">Vue.js 3 HTTP &amp; Axios Tutorial | KoderHQ</a></li></ul></li><li>Vue Route 路由</li><li>Pinia 全局状态管理，类似于 LocalStore ？<ul><li><a target="_blank" rel="noopener" href="https://pinia.vuejs.org/zh/">Pinia | The intuitive store for Vue.js</a></li><li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/533233367">一文搞懂pinia状态管理（保姆级教程） - 知乎</a></li></ul></li><li>JavaScript ES6 Asynchronous Promise：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions#%E8%BF%94%E5%9B%9E%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F">箭头函数 - JavaScript | MDN</a></li></ol><h2 id="How-to-study-vue"><a href="#How-to-study-vue" class="headerlink" title="How to study vue?"></a>How to study vue?</h2><p>粗略的过了一遍上述文档就可以看这个 《Vue3 入门指南与实战案例》 ：<a target="_blank" rel="noopener" href="https://vue3.chengpeiquan.com/">出版说明 | Vue3 入门指南与实战案例</a></p><p>但是上文没有介绍 axios 请求等操作，请看我的文章：Vue-Project-Start-Tutorial Vue 项目快速搭建指南</p><p>笔者是用了大概 2 周的业余时间看完以上的文档的，理论知识有了，接下来就是具体的项目实践，推荐阅读 <code>Vue-Admin</code> 的源代码和具体的文章：<a target="_blank" rel="noopener" href="https://panjiachen.github.io/vue-element-admin-site/zh/guide/#%E5%89%8D%E5%BA%8F%E5%87%86%E5%A4%87">介绍 | vue-element-admin</a> 这个项目还是用 webpack + vuex 的，待寻找更好的替代品：</p><ol><li><a target="_blank" rel="noopener" href="https://github.com/youlaitech/vue3-element-admin">GitHub - youlaitech&#x2F;vue3-element-admin: 🔥基于 vue3 + vite4 + typescript + element-plus 构建的后台管理系统（配套接口文档和后端源码）。vue-element-admin 的 vue3 版本。</a></li><li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013737132/article/details/130191394">Vue3.3 + Vite4.3 + TypeScript5+ Element-Plus：从零到一构建企业级后台管理系统（前后端开源）_element plus 开源项目-CSDN博客</a></li></ol><p>代码 format 规范：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013737132/article/details/130190788">【vue3-element-admin】ESLint+Prettier+Stylelint+EditorConfig 约束和统一前端代码规范</a></p><p>web full stack：web 全栈开发学习路线 <a target="_blank" rel="noopener" href="https://senior-frontend.pages.dev/guide/">1. 前言(Preface) | web全栈体系</a></p><h2 id="Fast-Start"><a href="#Fast-Start" class="headerlink" title="Fast Start"></a>Fast Start</h2><p>Install vue framework in NodeJS</p><pre><code class="hljs shell">npm install vue@latest -g # 全局安装
+
+npm create vue@latest # 创建 vue3 项目
+
+cd &lt;your-project-name&gt;
+npm install
+npm run dev
+
+npm run build # 发布到生产环境 ./dist</code></pre><h2 id="响应式-API-和组合式-API"><a href="#响应式-API-和组合式-API" class="headerlink" title="响应式 API 和组合式 API"></a>响应式 API 和组合式 API</h2><p>HelloWorld.vue</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>&#123;&#123; msg &#125;&#125; Start Learning Vue Framework<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;switchName&quot;</span>&gt;</span>switchName<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span>
+<span class="language-javascript">  <span class="hljs-comment">// 响应式 API 写法</span></span>
+<span class="language-javascript">  <span class="hljs-keyword">import</span> &#123; ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span></span>
+<span class="language-javascript">  <span class="hljs-keyword">const</span> msg = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&quot;WhaleFall&quot;</span>);</span>
+<span class="language-javascript"></span>
+<span class="language-javascript">  <span class="hljs-comment">// switch name</span></span>
+<span class="language-javascript">  <span class="hljs-keyword">function</span> <span class="hljs-title function_">switchName</span>(<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">      msg.<span class="hljs-property">value</span> = msg.<span class="hljs-property">value</span> == <span class="hljs-string">&quot;WhaleFall&quot;</span> ? <span class="hljs-string">&quot;颖怡&quot;</span> : <span class="hljs-string">&quot;WhaleFall&quot;</span>;</span>
+<span class="language-javascript">  &#125;</span>
+<span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="language-javascript"></span>
+<span class="language-javascript">  <span class="hljs-comment">// 组合式 API 写法</span></span>
+<span class="language-javascript">  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;</span>
+<span class="language-javascript">      <span class="hljs-attr">data</span>: <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">          <span class="hljs-keyword">return</span> &#123;</span>
+<span class="language-javascript">              <span class="hljs-attr">msg</span>: <span class="hljs-string">&quot;Mess&quot;</span></span>
+<span class="language-javascript">          &#125;</span>
+<span class="language-javascript">      &#125;,</span>
+<span class="language-javascript">      <span class="hljs-attr">methods</span>: &#123;</span>
+<span class="language-javascript">          <span class="hljs-title function_">switchName</span>(<span class="hljs-params"></span>) &#123;</span>
+<span class="language-javascript">              <span class="hljs-variable language_">this</span>.<span class="hljs-property">msg</span> = <span class="hljs-variable language_">this</span>.<span class="hljs-property">msg</span> == <span class="hljs-string">&quot;WhaleFall&quot;</span> ? <span class="hljs-string">&quot;颖怡&quot;</span> : <span class="hljs-string">&quot;WhaleFall&quot;</span>;</span>
+<span class="language-javascript">          &#125;</span>
+<span class="language-javascript">      &#125;,</span>
+<span class="language-javascript"></span>
+<span class="language-javascript">  &#125;</span>
+<span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre><p>App.vue</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">HelloWorld</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span>
+<span class="language-javascript"><span class="hljs-keyword">import</span> <span class="hljs-title class_">HelloWorld</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./components/HelloWorld.vue&#x27;</span>;</span>
+<span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">scoped</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre><p>main.js</p><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; createApp &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App.vue&#x27;</span>
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>);
+app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>);</code></pre><h2 id="声明响应式状态"><a href="#声明响应式状态" class="headerlink" title="声明响应式状态"></a>声明响应式状态</h2><p>在组合式 API 中，推荐使用 <a target="_blank" rel="noopener" href="https://cn.vuejs.org/api/reactivity-core.html#ref"><code>ref()</code></a> 函数来声明响应式状态，定义响应式依赖。</p><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123; ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">const</span> count = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>) <span class="hljs-comment">// 初始化数值</span></code></pre><h2 id="计算属性-computed"><a href="#计算属性-computed" class="headerlink" title="计算属性 computed"></a>计算属性 computed</h2><p>返回值为一个<strong>计算属性 ref</strong>，通过 <code>publishedBooksMessage.value</code> 访问计算结果，计算属性 ref 也会在模板中自动解包，因此在模板表达式中引用时无需添加 <code>.value</code>。</p><p><strong>计算属性值会基于其响应式依赖被缓存</strong></p><pre><code class="hljs javascript"><span class="hljs-keyword">const</span> publishedBooksMessage = <span class="hljs-title function_">computed</span>(
+<span class="hljs-comment">// 依赖于 author 对象</span>
+<span class="hljs-comment">// 只要 `author.books` 不改变，无论多少次访问 `publishedBooksMessage` 都会立即返回先前的计算结果，而不用重复执行 getter 函数。</span>
+<span class="hljs-function">() =&gt;</span> &#123; <span class="hljs-keyword">return</span> author.<span class="hljs-property">books</span>.<span class="hljs-property">length</span> &gt; <span class="hljs-number">0</span> ? <span class="hljs-string">&#x27;Yes&#x27;</span> : <span class="hljs-string">&#x27;No&#x27;</span> &#125;
+)</code></pre><p>计算属性默认是只读的。当你尝试修改一个计算属性时，你会收到一个运行时警告。只在某些特殊场景中你可能才需要用到“可写”的属性，你可以通过同时提供 getter 和 setter 来创建。</p><pre><code class="hljs javascript">&lt;script setup&gt;
+<span class="hljs-keyword">import</span> &#123; ref, computed &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+
+<span class="hljs-keyword">const</span> firstName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;John&#x27;</span>)
+<span class="hljs-keyword">const</span> lastName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Doe&#x27;</span>)
+
+<span class="hljs-keyword">const</span> fullName = <span class="hljs-title function_">computed</span>(&#123;
+  <span class="hljs-comment">// getter</span>
+  <span class="hljs-comment">// 应只做计算而没有任何其他的副作用</span>
+  <span class="hljs-comment">// **不要在 getter 中做异步请求或者更改 DOM**！</span>
+  <span class="hljs-title function_">get</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-keyword">return</span> firstName.<span class="hljs-property">value</span> + <span class="hljs-string">&#x27; &#x27;</span> + lastName.<span class="hljs-property">value</span>
+  &#125;,
+  <span class="hljs-comment">// setter</span>
+  <span class="hljs-title function_">set</span>(<span class="hljs-params">newValue</span>) &#123;
+    <span class="hljs-comment">// 注意：我们这里使用的是解构赋值语法</span>
+    [firstName.<span class="hljs-property">value</span>, lastName.<span class="hljs-property">value</span>] = newValue.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>)
+  &#125;
+&#125;)
+&lt;/script&gt;</code></pre><h2 id="Watch-监听器"><a href="#Watch-监听器" class="headerlink" title="Watch 监听器"></a>Watch 监听器</h2><p>每次响应式状态变化时触发回调函数：</p><pre><code class="hljs javascript">&lt;script setup&gt;
+<span class="hljs-keyword">import</span> &#123; ref, watch &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+
+<span class="hljs-keyword">const</span> question = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;&#x27;</span>)
+<span class="hljs-keyword">const</span> answer = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Questions usually contain a question mark. ;-)&#x27;</span>)
+
+<span class="hljs-comment">// 可以直接侦听一个 ref</span>
+<span class="hljs-title function_">watch</span>(question, <span class="hljs-keyword">async</span> (newQuestion, oldQuestion) =&gt; &#123;
+  <span class="hljs-keyword">if</span> (newQuestion.<span class="hljs-title function_">indexOf</span>(<span class="hljs-string">&#x27;?&#x27;</span>) &gt; -<span class="hljs-number">1</span>) &#123;
+    answer.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;Thinking…&#x27;</span>
+    <span class="hljs-keyword">try</span> &#123;
+      <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;https://yesno.wtf/api&#x27;</span>)
+      answer.<span class="hljs-property">value</span> = (<span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()).<span class="hljs-property">answer</span>
+    &#125; <span class="hljs-keyword">catch</span> (error) &#123;
+      answer.<span class="hljs-property">value</span> = <span class="hljs-string">&#x27;Error! Could not reach the API. &#x27;</span> + error
+    &#125;
+  &#125;
+&#125;)
+&lt;/script&gt;
+
+<span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span></span>
+<span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml">    Ask a yes/no question:</span>
+<span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;question&quot;</span> /&gt;</span></span>
+<span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>&#123;&#123; answer &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span></code></pre><h2 id="使用-Vite-脚手架-创建项目"><a href="#使用-Vite-脚手架-创建项目" class="headerlink" title="使用 Vite 脚手架 创建项目"></a>使用 Vite 脚手架 创建项目</h2><pre><code class="hljs shell">npm create vite
+cd myself-vite
+pnpm install
+pnpm run dev
+
+pnpm install -D unplugin-vue-components unplugin-auto-import
+pnpm install -D @types/node
+pnpm install element-plus
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">icons</span>
+pnpm install @element-plus/icons-vue
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">route</span>
+pnpm install vue-route
+</code></pre><h2 id="Vite-Build-Single-file"><a href="#Vite-Build-Single-file" class="headerlink" title="Vite Build Single file"></a>Vite Build Single file</h2><p><a target="_blank" rel="noopener" href="https://github.com/richardtallent/vite-plugin-singlefile">GitHub - richardtallent&#x2F;vite-plugin-singlefile: Vite plugin for inlining JavaScript and CSS resources</a></p><h2 id="常用-CSS"><a href="#常用-CSS" class="headerlink" title="常用 CSS"></a>常用 CSS</h2><p>当谈到 CSS (层叠样式表) 时，有许多常用的属性可用于控制和布局网页元素的外观和行为。以下是几个常用的 CSS 属性的描述：</p><ol><li><p><code>color</code>：<code>color</code> 属性用于设置文本的颜色。可以使用命名颜色（例如 <code>red</code>、<code>blue</code>）或十六进制颜色码（例如 <code>#FF0000</code>）来指定颜色。</p></li><li><p><code>font-size</code>：<code>font-size</code> 属性用于设置文本的大小。它接受像素值、百分比、em 等单位。例如，<code>font-size: 16px;</code> 将文本大小设置为 16 像素。</p></li><li><p><code>margin</code>：<code>margin</code> 属性用于设置元素的外边距。外边距是元素周围的空白区域，用于控制元素与其他元素之间的距离。可以使用单个值设置所有边距，也可以使用上、右、下、左四个值分别设置各个边距。</p></li><li><p><code>padding</code>：<code>padding</code> 属性用于设置元素的内边距。内边距是元素内容与边框之间的空白区域。类似于外边距，可以使用单个值或四个值分别设置各个边的内边距。</p></li><li><p><code>background-color</code>：<code>background-color</code> 属性用于设置元素的背景颜色。可以使用命名颜色或十六进制颜色码来指定颜色。例如，<code>background-color: #FFFFFF;</code> 将背景颜色设置为白色。</p></li><li><p><code>display</code>：<code>display</code> 属性用于定义元素的显示类型。常见的值包括 <code>block</code>、<code>inline</code>、<code>inline-block</code> 和 <code>none</code>。<code>block</code> 元素在页面中以块级元素的形式显示，占据一整行；<code>inline</code> 元素则在行内显示，不独占一行；<code>inline-block</code> 元素则同时具备块级和行内元素的特性；<code>none</code> 则表示元素不显示。</p></li><li><p><code>border</code> 边框</p></li></ol><p>以上只是 CSS 的一小部分常用属性示例。CSS 拥有众多属性，每个属性都有不同的功能和用途，用于控制网页的各个方面，如布局、字体、边框、动画等。</p></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/javascript/vue-tutorial/">https://whaleluo.top/javascript/vue-tutorial/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2023-08-22</p></div><div class="post-entry__tags"><a href="/tags/JavaScript/" class="post-tags__link button"># JavaScript</a><a href="/tags/JS/" class="post-tags__link button"># JS</a><a href="/tags/%E5%89%8D%E7%AB%AF/" class="post-tags__link button"># 前端</a><a href="/tags/Vue/" class="post-tags__link button"># Vue</a><a href="/tags/Element-UI/" class="post-tags__link button"># Element-UI</a><a href="/tags/UI/" class="post-tags__link button"># UI</a></div></article><div class="nav"><div class="nav__prev"><a href="/javascript/typescript-fast-start/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">TypeScript 快速入门☞北</div></div></a></div><div class="nav__next"><a href="/javascript/nodejs-fast-start/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">NodeJS 速通笔记</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

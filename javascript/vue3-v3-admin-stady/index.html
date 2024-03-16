@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Vue3 项目上手学习——V3 Admin | 😊落落のBlog😊</title><meta name="keywords" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="Vue3 项目上手学习——V3 AdminStart学了那么久的 Vue3，终于到上手实战项目的时候了。之前一直是看视频教程，没有真正的上手打开 VSC 摸过项目，是时候写代码了。   这次选用的是 V3 Admin 这个项目，毕竟人家使用了主流技术 Vue3 + Pinia + Router + Vite + Element-Plus 。本文是在官网文档的基础上进一步抽丝剥茧分析这个项目，并提炼"><meta property="og:type" content="article"><meta property="og:title" content="Vue3 项目上手学习——V3 Admin"><meta property="og:url" content="https://whaleluo.top/javascript/vue3-v3-admin-stady/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Vue3 项目上手学习——V3 AdminStart学了那么久的 Vue3，终于到上手实战项目的时候了。之前一直是看视频教程，没有真正的上手打开 VSC 摸过项目，是时候写代码了。   这次选用的是 V3 Admin 这个项目，毕竟人家使用了主流技术 Vue3 + Pinia + Router + Vite + Element-Plus 。本文是在官网文档的基础上进一步抽丝剥茧分析这个项目，并提炼"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-02-29T16:43:20.000Z"><meta property="article:modified_time" content="2024-02-29T16:43:20.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Vue3 项目上手学习——V3 Admin</h1><div class="post-title__meta"><a href="/archives/2024/02/" class="post-meta__date button">2024-02-29</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start"><span class="toc-number">1.</span> <span class="toc-text">Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Technology-Stack-%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-number">2.</span> <span class="toc-text">Technology Stack 技术栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare-%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">Prepare 准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-base-Module"><span class="toc-number">3.1.</span> <span class="toc-text">Install base Module</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-ElementUI-Plus"><span class="toc-number">3.2.</span> <span class="toc-text">Install ElementUI-Plus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5"><span class="toc-number">3.3.</span> <span class="toc-text">安装按需引入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="toc-number">4.</span> <span class="toc-text">Configure 配置项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vscode-code-snippets"><span class="toc-number">4.1.</span> <span class="toc-text">Vscode code snippets</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-specification-%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">5.</span> <span class="toc-text">Code specification 代码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">5.1.</span> <span class="toc-text">命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">5.2.</span> <span class="toc-text">代码规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Annotation-%E6%B3%A8%E9%87%8A%E8%A7%84%E8%8C%83"><span class="toc-number">5.3.</span> <span class="toc-text">Annotation 注释规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-format-and-verify-%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%92%8C%E6%A0%A1%E9%AA%8C"><span class="toc-number">5.4.</span> <span class="toc-text">Code format and verify 代码格式化和校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tsconfig"><span class="toc-number">5.5.</span> <span class="toc-text">.tsconfig</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ESlint"><span class="toc-number">5.5.1.</span> <span class="toc-text">ESlint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Prettier"><span class="toc-number">5.5.2.</span> <span class="toc-text">Prettier</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vite-config-ts"><span class="toc-number">5.6.</span> <span class="toc-text">vite.config.ts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#env"><span class="toc-number">5.7.</span> <span class="toc-text">.env</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#editorConfig"><span class="toc-number">5.8.</span> <span class="toc-text">.editorConfig</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#npmrc"><span class="toc-number">5.8.1.</span> <span class="toc-text">.npmrc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vscode"><span class="toc-number">5.8.2.</span> <span class="toc-text">Vscode</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git-commit-%E8%A7%84%E8%8C%83"><span class="toc-number">5.9.</span> <span class="toc-text">Git commit 规范</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-router-%E8%B7%AF%E7%94%B1"><span class="toc-number">6.</span> <span class="toc-text">vue-router 路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install"><span class="toc-number">6.1.</span> <span class="toc-text">Install</span></a></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start"><span class="toc-number">1.</span> <span class="toc-text">Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Technology-Stack-%E6%8A%80%E6%9C%AF%E6%A0%88"><span class="toc-number">2.</span> <span class="toc-text">Technology Stack 技术栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare-%E5%87%86%E5%A4%87"><span class="toc-number">3.</span> <span class="toc-text">Prepare 准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-base-Module"><span class="toc-number">3.1.</span> <span class="toc-text">Install base Module</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Install-ElementUI-Plus"><span class="toc-number">3.2.</span> <span class="toc-text">Install ElementUI-Plus</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5"><span class="toc-number">3.3.</span> <span class="toc-text">安装按需引入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configure-%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="toc-number">4.</span> <span class="toc-text">Configure 配置项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vscode-code-snippets"><span class="toc-number">4.1.</span> <span class="toc-text">Vscode code snippets</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Code-specification-%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">5.</span> <span class="toc-text">Code specification 代码规范</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="toc-number">5.1.</span> <span class="toc-text">命名规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83"><span class="toc-number">5.2.</span> <span class="toc-text">代码规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Annotation-%E6%B3%A8%E9%87%8A%E8%A7%84%E8%8C%83"><span class="toc-number">5.3.</span> <span class="toc-text">Annotation 注释规范</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Code-format-and-verify-%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%92%8C%E6%A0%A1%E9%AA%8C"><span class="toc-number">5.4.</span> <span class="toc-text">Code format and verify 代码格式化和校验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tsconfig"><span class="toc-number">5.5.</span> <span class="toc-text">.tsconfig</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ESlint"><span class="toc-number">5.5.1.</span> <span class="toc-text">ESlint</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Prettier"><span class="toc-number">5.5.2.</span> <span class="toc-text">Prettier</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vite-config-ts"><span class="toc-number">5.6.</span> <span class="toc-text">vite.config.ts</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#env"><span class="toc-number">5.7.</span> <span class="toc-text">.env</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#editorConfig"><span class="toc-number">5.8.</span> <span class="toc-text">.editorConfig</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#npmrc"><span class="toc-number">5.8.1.</span> <span class="toc-text">.npmrc</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vscode"><span class="toc-number">5.8.2.</span> <span class="toc-text">Vscode</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git-commit-%E8%A7%84%E8%8C%83"><span class="toc-number">5.9.</span> <span class="toc-text">Git commit 规范</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vue-router-%E8%B7%AF%E7%94%B1"><span class="toc-number">6.</span> <span class="toc-text">vue-router 路由</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install"><span class="toc-number">6.1.</span> <span class="toc-text">Install</span></a></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2024-02-29"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Vue3-项目上手学习——V3-Admin"><a href="#Vue3-项目上手学习——V3-Admin" class="headerlink" title="Vue3 项目上手学习——V3 Admin"></a>Vue3 项目上手学习——V3 Admin</h1><h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><p>学了那么久的 Vue3，终于到上手实战项目的时候了。之前一直是看视频教程，没有真正的上手打开 VSC 摸过项目，是时候写代码了。</p><p>这次选用的是 V3 Admin 这个项目，毕竟人家使用了主流技术 <strong>Vue3 + Pinia + Router + Vite + Element-Plus</strong> 。本文是在官网文档的基础上进一步抽丝剥茧分析这个项目，并提炼一些 <strong>通用写法</strong>。</p><p>reference：</p><ol><li>GitHub <a target="_blank" rel="noopener" href="https://github.com/un-pany/v3-admin-vite">v3-admin-vite</a></li><li>项目对应老鸟中文文档：<a target="_blank" rel="noopener" href="https://juejin.cn/post/7089377403717287972">V3 Admin Vite 中文文档 - 掘金</a></li><li>适用于小白的 step by step tutorial <a target="_blank" rel="noopener" href="https://juejin.cn/column/7207659644487139387">V3 Admin Vite - pany的专栏 - 掘金</a></li></ol><h2 id="Technology-Stack-技术栈"><a href="#Technology-Stack-技术栈" class="headerlink" title="Technology Stack 技术栈"></a>Technology Stack 技术栈</h2><ul><li><strong>Vue3</strong>：采用 Vue3 + script setup 最新的 Vue3 组合式 API</li><li><strong>Element Plus</strong>：Element UI 的 Vue3 版本</li><li><strong>Pinia</strong>: 传说中的 Vuex5</li><li><strong>Vite</strong>：真的很快，取代 webpack</li><li><strong>Vue Router</strong>：路由路由</li><li><strong>TypeScript</strong>：JavaScript 语言的超集</li><li><strong>PNPM</strong>：更快速的，节省磁盘空间的包管理工具</li><li><strong>Scss</strong>：和 Element Plus 保持一致</li><li><strong>CSS 变量</strong>：主要控制项目的布局和颜色</li><li><strong>ESlint</strong>：代码校验</li><li><strong>Prettier</strong>：代码格式化</li><li><strong>Axios</strong>：发送网络请求（已封装好）</li><li><strong>UnoCSS</strong>：具有高性能且极具灵活性的即时原子化 CSS 引擎</li><li><strong>注释</strong>：各个配置项都写有尽可能详细的注释</li><li><strong>兼容移动端</strong>: 布局兼容移动端页面分辨率</li></ul><h2 id="Prepare-准备"><a href="#Prepare-准备" class="headerlink" title="Prepare 准备"></a>Prepare 准备</h2><h3 id="Install-base-Module"><a href="#Install-base-Module" class="headerlink" title="Install base Module"></a>Install base Module</h3><p>Proxy first，在 <strong>墙国</strong>，下个 npm 包前提是一个好用的代理：</p><pre><code class="hljs shell">npm config list
+npm config set proxy=socks5://127.0.0.1:10808/
+npm config delete proxy</code></pre><p>Install module</p><pre><code class="hljs shell">npm install -g pnpm
+<span class="hljs-meta prompt_"># </span><span class="language-bash">like npm insall xxx</span>
+pnpm add packageName
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">initiate vite vue3</span>
+pnpm add vite -g 
+pnpm create vite@latest
+pnpm install 
+pnpm add -D typescript ts-node @types/node less
+pnpm add --save-dev --save-exact prettier</code></pre><h3 id="Install-ElementUI-Plus"><a href="#Install-ElementUI-Plus" class="headerlink" title="Install ElementUI-Plus"></a>Install ElementUI-Plus</h3><pre><code class="hljs sh">pnpm install element-plus</code></pre><p>In <code>main.ts</code></p><pre><code class="hljs ts"><span class="hljs-comment">// Element Plus</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">ElementPlus</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;element-plus&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;element-plus/dist/index.css&#x27;</span>
+
+<span class="hljs-keyword">const</span> app = <span class="hljs-title function_">createApp</span>(<span class="hljs-title class_">App</span>)
+
+app.<span class="hljs-title function_">use</span>(<span class="hljs-title class_">ElementPlus</span>)
+app.<span class="hljs-title function_">mount</span>(<span class="hljs-string">&#x27;#app&#x27;</span>)</code></pre><h3 id="安装按需引入"><a href="#安装按需引入" class="headerlink" title="安装按需引入"></a>安装按需引入</h3><pre><code class="hljs sh">pnpm install -D unplugin-vue-components unplugin-auto-import</code></pre><p>向 <code>vite.config.ts</code> 添加插件：</p><pre><code class="hljs ts"><span class="hljs-keyword">import</span> <span class="hljs-title class_">AutoImport</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;unplugin-auto-import/vite&#x27;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Components</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;unplugin-vue-components/vite&#x27;</span>
+<span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">ElementPlusResolver</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;unplugin-vue-components/resolvers&#x27;</span>
+
+<span class="hljs-attr">plugins</span>: [
+    <span class="hljs-comment">// …</span>
+    <span class="hljs-title class_">AutoImport</span>(&#123;
+      <span class="hljs-attr">resolvers</span>: [<span class="hljs-title class_">ElementPlusResolver</span>()],
+    &#125;),
+    <span class="hljs-title class_">Components</span>(&#123;
+      <span class="hljs-attr">resolvers</span>: [<span class="hljs-title class_">ElementPlusResolver</span>()],
+    &#125;),
+  ],</code></pre><p>configure：</p><pre><code class="hljs ts"><span class="hljs-title class_">AutoImport</span>(&#123;
+      <span class="hljs-comment">// 自动导入 Vue 相关函数，如：ref, reactive, toRef 等</span>
+      <span class="hljs-attr">imports</span>: [<span class="hljs-string">&quot;vue&quot;</span>],
+      <span class="hljs-comment">// eslint auto import</span>
+      <span class="hljs-attr">eslintrc</span>: &#123;
+        <span class="hljs-attr">enabled</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否自动生成 eslint 规则，建议生成之后设置 false</span>
+        <span class="hljs-attr">filepath</span>: <span class="hljs-string">&quot;./.eslintrc-auto-import.json&quot;</span>, <span class="hljs-comment">// 指定自动导入函数 eslint 规则的文件</span>
+      &#125;,
+      <span class="hljs-comment">//</span>
+      <span class="hljs-attr">resolvers</span>: [<span class="hljs-title class_">ElementPlusResolver</span>(), <span class="hljs-title class_">IconsResolver</span>(&#123;&#125;)],
+      <span class="hljs-attr">vueTemplate</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 是否在 vue 模板中自动导入</span>
+      <span class="hljs-attr">dts</span>: path.<span class="hljs-title function_">resolve</span>(pathSrc, <span class="hljs-string">&quot;types&quot;</span>, <span class="hljs-string">&quot;auto-imports.d.ts&quot;</span>), <span class="hljs-comment">// 指定自动导入函数TS类型声明文件路径</span>
+    &#125;),
+    <span class="hljs-comment">// 组件</span>
+    <span class="hljs-title class_">Components</span>(&#123;
+      <span class="hljs-attr">resolvers</span>: [
+        <span class="hljs-comment">// 自动导入 Element Plus 组件</span>
+        <span class="hljs-title class_">ElementPlusResolver</span>(),
+        <span class="hljs-comment">// 自动注册图标组件</span>
+        <span class="hljs-title class_">IconsResolver</span>(&#123;
+          <span class="hljs-attr">enabledCollections</span>: [<span class="hljs-string">&quot;ep&quot;</span>],
+        &#125;),
+      ],
+      <span class="hljs-attr">dts</span>: path.<span class="hljs-title function_">resolve</span>(pathSrc, <span class="hljs-string">&quot;types&quot;</span>, <span class="hljs-string">&quot;components.d.ts&quot;</span>), <span class="hljs-comment">// 指定自动导入组件TS类型声明文件路径</span>
+    &#125;),
+    <span class="hljs-comment">// 图标</span>
+    <span class="hljs-title class_">Icons</span>(&#123;
+      <span class="hljs-comment">// 自动安装图标库</span>
+      <span class="hljs-attr">autoInstall</span>: <span class="hljs-literal">true</span>,
+    &#125;),</code></pre><h2 id="Configure-配置项"><a href="#Configure-配置项" class="headerlink" title="Configure 配置项"></a>Configure 配置项</h2><h3 id="Vscode-code-snippets"><a href="#Vscode-code-snippets" class="headerlink" title="Vscode code snippets"></a>Vscode code snippets</h3><p>vue3 code snippet：</p><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;Vue3 SFC template&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;prefix&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue3 SFC&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-string">&quot;&lt;template&gt;&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;\t&lt;div class=\&quot;app-container\&quot;&gt;…&lt;/div&gt;&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;&lt;/template&gt;\n&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;&lt;script lang=\&quot;ts\&quot; setup&gt;&lt;/script&gt;\n&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;&lt;style scoped&gt;&lt;/style&gt;&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;$1&quot;</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue3 SFC&quot;</span>
+  <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre><p>vue3 hook code snippet:</p><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;Vue3 Hook 代码结构一键生成&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;prefix&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue3 Hook&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-string">&quot;import &#123; ref &#125; from \&quot;vue\&quot;\n&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;const refName1 = ref&lt;string&gt;(\&quot;This is a ref variable\&quot;)\n&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;export function useHookName() &#123;&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;\tconst refName2 = ref&lt;string&gt;(\&quot;This is a ref variable\&quot;)\n&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;\tconst fnName = () =&gt; &#123;&#125;\n&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;\treturn &#123; refName1, refName2, fnName &#125;&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;&#125;&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;$1&quot;</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Vue3 Hook&quot;</span>
+  <span class="hljs-punctuation">&#125;</span>
+<span class="hljs-punctuation">&#125;</span></code></pre><h2 id="Code-specification-代码规范"><a href="#Code-specification-代码规范" class="headerlink" title="Code specification 代码规范"></a>Code specification 代码规范</h2><h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><p>Components 组件和 Views 页面命名规范，这样做是为了更好的区分 component 和 view</p><ol><li><strong>Components 组件</strong>：都采用单词大写开头的 <strong>大驼峰</strong> 命名方式 (PascalCase)：<code>@/components/index.vue</code> 、<code>@/components/NotifyList.vue</code></li><li><strong>Views 页面</strong>：页面由 components 组件组成，一律采用 <strong>短横线连接 (kebab-case)</strong> 的命名方式，比如：- <code>@/views/fetch-select.vue</code></li></ol><p><strong>hook 命名</strong>：采用 **小驼峰 (camelCase)**，比如：<code>@/hooks/useTheme.ts</code>。</p><p><strong>Prop 命名</strong>：在声明 prop 的时候，其命名应该始终采用 **小驼峰 (camelCase)**。</p><pre><code class="hljs ts"><span class="hljs-keyword">const</span> props = <span class="hljs-title function_">defineProps</span>(&#123; 
+<span class="hljs-comment">/** 打开全屏提示语 */</span> 
+<span class="hljs-attr">openTips</span>: &#123; <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>, <span class="hljs-attr">default</span>: <span class="hljs-string">&quot;全屏&quot;</span> &#125;, 
+<span class="hljs-comment">/** 关闭全屏提示语 */</span> 
+<span class="hljs-attr">exitTips</span>: &#123; <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>, <span class="hljs-attr">default</span>: <span class="hljs-string">&quot;退出全屏&quot;</span> &#125; 
+&#125;)</code></pre><h3 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h3><ul><li>prop 的定义应该尽量详细，至少需要指定其类型</li><li>在组件上总是必须用 key 配合 v-for，以便维护内部组件及其子树的状态。</li><li>避免 v-if 和 v-for 用在一起。</li></ul><h3 id="Annotation-注释规范"><a href="#Annotation-注释规范" class="headerlink" title="Annotation 注释规范"></a>Annotation 注释规范</h3><p>由于项目采用 TS 5.x 进行开发，为了获得更好的 TS 提示，项目采用了大量的 <code>/** xxx */</code> 注释，它的优点就是鼠标放上去会有注释显示出来。</p><h3 id="Code-format-and-verify-代码格式化和校验"><a href="#Code-format-and-verify-代码格式化和校验" class="headerlink" title="Code format and verify 代码格式化和校验"></a>Code format and verify 代码格式化和校验</h3><h3 id="tsconfig"><a href="#tsconfig" class="headerlink" title=".tsconfig"></a>.tsconfig</h3><p><strong>项目最重要的 ts 配置</strong></p><p><code>.tsconfig</code></p><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span>
+  <span class="hljs-attr">&quot;compilerOptions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+    <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esnext&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-comment">/** https://cn.vitejs.dev/guide/features.html#typescript-compiler-options */</span>
+    <span class="hljs-attr">&quot;useDefineForClassFields&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;module&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esnext&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;moduleResolution&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;bundler&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-comment">/** TS 严格模式 */</span>
+    <span class="hljs-attr">&quot;strict&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;jsx&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;preserve&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;jsxImportSource&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;vue&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;importHelpers&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;experimentalDecorators&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;allowSyntheticDefaultImports&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;sourceMap&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;resolveJsonModule&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-comment">/** https://cn.vitejs.dev/guide/features.html#typescript-compiler-options */</span>
+    <span class="hljs-attr">&quot;isolatedModules&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;esModuleInterop&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;lib&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;esnext&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;dom&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;skipLibCheck&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-literal"><span class="hljs-keyword">true</span></span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;types&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-string">&quot;node&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;vite/client&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-comment">/** Element Plus 的 Volar 插件支持 */</span>
+      <span class="hljs-string">&quot;element-plus/global&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;vitest&quot;</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-comment">/** baseUrl 用来告诉编译器到哪里去查找模块，使用非相对模块时必须配置此项 */</span>
+    <span class="hljs-attr">&quot;baseUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;.&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-comment">/** 非相对模块导入的路径映射配置，根据 baseUrl 配置进行路径计算 */</span>
+    <span class="hljs-attr">&quot;paths&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span>
+      <span class="hljs-attr">&quot;@/*&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;src/*&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">&#125;</span>
+  <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;include&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-string">&quot;src/**/*.ts&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;src/**/*.d.ts&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;src/**/*.tsx&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;src/**/*.vue&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;tests/**/*.ts&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;types/**/*.d.ts&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;vite.config.ts&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-string">&quot;vitest.config.ts&quot;</span>
+  <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-comment">/** 编译器默认排除的编译文件 */</span>
+  <span class="hljs-attr">&quot;exclude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;node_modules&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;dist&quot;</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">&#125;</span></code></pre><h4 id="ESlint"><a href="#ESlint" class="headerlink" title="ESlint"></a>ESlint</h4><ul><li><code>package.json</code> 文件的 <code>devDependencies</code> 中有所需的 ESlint 依赖包。</li><li><code>ESlint</code> 的<strong>配置文件</strong>是根目录下的 <code>.eslintrc.cjs</code>，它里面定义了很多校验规则</li><li><code>ESlint</code> 的<strong>忽略文件</strong>是根目录下的 <code>.eslintignore</code>，它里面定义的目录和文件都不会被 ESlint 检查</li></ul><p>.eslintrc.cjs</p><pre><code class="hljs js"><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;
+  <span class="hljs-attr">root</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">env</span>: &#123;
+    <span class="hljs-attr">browser</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">node</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">es6</span>: <span class="hljs-literal">true</span>
+  &#125;,
+  <span class="hljs-attr">extends</span>: [
+    <span class="hljs-string">&quot;plugin:vue/vue3-essential&quot;</span>,
+    <span class="hljs-string">&quot;eslint:recommended&quot;</span>,
+    <span class="hljs-string">&quot;@vue/typescript/recommended&quot;</span>,
+    <span class="hljs-string">&quot;@vue/prettier&quot;</span>,
+    <span class="hljs-string">&quot;@vue/eslint-config-typescript&quot;</span>
+  ],
+  <span class="hljs-attr">parser</span>: <span class="hljs-string">&quot;vue-eslint-parser&quot;</span>,
+  <span class="hljs-attr">parserOptions</span>: &#123;
+    <span class="hljs-attr">parser</span>: <span class="hljs-string">&quot;@typescript-eslint/parser&quot;</span>,
+    <span class="hljs-attr">ecmaVersion</span>: <span class="hljs-number">2020</span>,
+    <span class="hljs-attr">sourceType</span>: <span class="hljs-string">&quot;module&quot;</span>,
+    <span class="hljs-attr">jsxPragma</span>: <span class="hljs-string">&quot;React&quot;</span>,
+    <span class="hljs-attr">ecmaFeatures</span>: &#123;
+      <span class="hljs-attr">jsx</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-attr">tsx</span>: <span class="hljs-literal">true</span>
+    &#125;
+  &#125;,
+  <span class="hljs-attr">rules</span>: &#123;
+    <span class="hljs-comment">// TS</span>
+    <span class="hljs-string">&quot;@typescript-eslint/no-explicit-any&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;no-debugger&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;@typescript-eslint/explicit-module-boundary-types&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;@typescript-eslint/ban-types&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;@typescript-eslint/ban-ts-comment&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;@typescript-eslint/no-empty-function&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;@typescript-eslint/no-non-null-assertion&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;@typescript-eslint/no-unused-vars&quot;</span>: [
+      <span class="hljs-string">&quot;error&quot;</span>,
+      &#123;
+        <span class="hljs-attr">argsIgnorePattern</span>: <span class="hljs-string">&quot;^_&quot;</span>,
+        <span class="hljs-attr">varsIgnorePattern</span>: <span class="hljs-string">&quot;^_&quot;</span>
+      &#125;
+    ],
+    <span class="hljs-string">&quot;no-unused-vars&quot;</span>: [
+      <span class="hljs-string">&quot;error&quot;</span>,
+      &#123;
+        <span class="hljs-attr">argsIgnorePattern</span>: <span class="hljs-string">&quot;^_&quot;</span>,
+        <span class="hljs-attr">varsIgnorePattern</span>: <span class="hljs-string">&quot;^_&quot;</span>
+      &#125;
+    ],
+    <span class="hljs-comment">// Vue</span>
+    <span class="hljs-string">&quot;vue/no-v-html&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;vue/require-default-prop&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;vue/require-explicit-emits&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;vue/multi-word-component-names&quot;</span>: <span class="hljs-string">&quot;off&quot;</span>,
+    <span class="hljs-string">&quot;vue/html-self-closing&quot;</span>: [
+      <span class="hljs-string">&quot;error&quot;</span>,
+      &#123;
+        <span class="hljs-attr">html</span>: &#123;
+          <span class="hljs-attr">void</span>: <span class="hljs-string">&quot;always&quot;</span>,
+          <span class="hljs-attr">normal</span>: <span class="hljs-string">&quot;always&quot;</span>,
+          <span class="hljs-attr">component</span>: <span class="hljs-string">&quot;always&quot;</span>
+        &#125;,
+        <span class="hljs-attr">svg</span>: <span class="hljs-string">&quot;always&quot;</span>,
+        <span class="hljs-attr">math</span>: <span class="hljs-string">&quot;always&quot;</span>
+      &#125;
+    ],
+    <span class="hljs-comment">// Prettier</span>
+    <span class="hljs-string">&quot;prettier/prettier&quot;</span>: [
+      <span class="hljs-string">&quot;error&quot;</span>,
+      &#123;
+        <span class="hljs-attr">endOfLine</span>: <span class="hljs-string">&quot;auto&quot;</span>
+      &#125;
+    ]
+  &#125;
+&#125;</code></pre><p>.eslintignore：</p><pre><code class="hljs text"># Eslint 会忽略的文件
+
+.DS_Store
+node_modules
+dist
+dist-ssr
+*.local
+.npmrc</code></pre><h4 id="Prettier"><a href="#Prettier" class="headerlink" title="Prettier"></a>Prettier</h4><ul><li><code>package.json</code> 文件的 <code>devDependencies</code> 中有所需的 Prettier 依赖包</li><li><code>Prettier</code> 的<strong>配置文件</strong>是根目录下的 <code>prettier.config.js</code>，它里面定义了很多格式化规则</li><li><code>Prettier</code> 的<strong>忽略文件</strong>是根目录下的 <code>.prettierignore</code>，它里面定义的目录和文件都不会被 Prettier 格式化</li></ul><p><code>prettier.config.js</code>：</p><pre><code class="hljs js"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 修改配置后重启编辑器</span>
+<span class="hljs-comment"> * 配置项文档：https://prettier.io/docs/en/configuration.html</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@type</span> &#123;<span class="hljs-type">import(&quot;prettier&quot;).Config</span>&#125;</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;
+  <span class="hljs-comment">/** 每一行的宽度 */</span>
+  <span class="hljs-attr">printWidth</span>: <span class="hljs-number">120</span>,
+  <span class="hljs-comment">/** 在对象中的括号之间是否用空格来间隔 */</span>
+  <span class="hljs-attr">bracketSpacing</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-comment">/** 箭头函数的参数无论有几个，都要括号包裹 */</span>
+  <span class="hljs-attr">arrowParens</span>: <span class="hljs-string">&quot;always&quot;</span>,
+  <span class="hljs-comment">/** 换行符的使用 */</span>
+  <span class="hljs-attr">endOfLine</span>: <span class="hljs-string">&quot;auto&quot;</span>,
+  <span class="hljs-comment">/** 是否采用单引号 */</span>
+  <span class="hljs-attr">singleQuote</span>: <span class="hljs-literal">false</span>,
+  <span class="hljs-comment">/** 对象或者数组的最后一个元素后面不要加逗号 */</span>
+  <span class="hljs-attr">trailingComma</span>: <span class="hljs-string">&quot;none&quot;</span>,
+  <span class="hljs-comment">/** 是否加分号 */</span>
+  <span class="hljs-attr">semi</span>: <span class="hljs-literal">false</span>
+&#125;</code></pre><p><code>.prettierignore</code></p><pre><code class="hljs text"># Prettier 会忽略的文件
+
+.DS_Store
+node_modules
+dist
+dist-ssr
+*.local
+.npmrc</code></pre><h3 id="vite-config-ts"><a href="#vite-config-ts" class="headerlink" title="vite.config.ts"></a>vite.config.ts</h3><p>项目 Vite 最重要的配置</p><p><code>vite.config.ts</code></p><pre><code class="hljs ts"><span class="hljs-comment">/// &lt;reference types=&quot;vitest&quot; /&gt;</span>
+
+<span class="hljs-keyword">import</span> &#123; <span class="hljs-keyword">type</span> <span class="hljs-title class_">ConfigEnv</span>, <span class="hljs-keyword">type</span> <span class="hljs-title class_">UserConfigExport</span>, loadEnv &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vite&quot;</span>
+<span class="hljs-keyword">import</span> path, &#123; resolve &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;path&quot;</span>
+<span class="hljs-keyword">import</span> vue <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@vitejs/plugin-vue&quot;</span>
+<span class="hljs-keyword">import</span> &#123; createSvgIconsPlugin &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vite-plugin-svg-icons&quot;</span>
+<span class="hljs-keyword">import</span> svgLoader <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vite-svg-loader&quot;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">UnoCSS</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;unocss/vite&quot;</span>
+
+<span class="hljs-comment">/** 配置项文档：https://cn.vitejs.dev/config */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> (<span class="hljs-attr">configEnv</span>: <span class="hljs-title class_">ConfigEnv</span>): <span class="hljs-function"><span class="hljs-params">UserConfigExport</span> =&gt;</span> &#123;
+  <span class="hljs-comment">// 从文件加载环境变量</span>
+  <span class="hljs-keyword">const</span> viteEnv = <span class="hljs-title function_">loadEnv</span>(configEnv.<span class="hljs-property">mode</span>, process.<span class="hljs-title function_">cwd</span>()) <span class="hljs-keyword">as</span> <span class="hljs-title class_">ImportMetaEnv</span>
+  <span class="hljs-keyword">const</span> &#123; <span class="hljs-variable constant_">VITE_PUBLIC_PATH</span> &#125; = viteEnv
+  <span class="hljs-keyword">return</span> &#123;
+    <span class="hljs-comment">/** 打包时根据实际情况修改 base */</span>
+    <span class="hljs-attr">base</span>: <span class="hljs-variable constant_">VITE_PUBLIC_PATH</span>,
+    <span class="hljs-attr">resolve</span>: &#123;
+      <span class="hljs-attr">alias</span>: &#123;
+        <span class="hljs-comment">/** @ 符号指向 src 目录 */</span>
+        <span class="hljs-string">&quot;@&quot;</span>: <span class="hljs-title function_">resolve</span>(__dirname, <span class="hljs-string">&quot;./src&quot;</span>)
+      &#125;
+    &#125;,
+    <span class="hljs-attr">server</span>: &#123;
+      <span class="hljs-comment">/** 设置 host: true 才可以使用 Network 的形式，以 IP 访问项目 */</span>
+      <span class="hljs-attr">host</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// host: &quot;0.0.0.0&quot;</span>
+      <span class="hljs-comment">/** 端口号 */</span>
+      <span class="hljs-attr">port</span>: <span class="hljs-number">3333</span>,
+      <span class="hljs-comment">/** 是否自动打开浏览器 */</span>
+      <span class="hljs-attr">open</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-comment">/** 跨域设置允许 */</span>
+      <span class="hljs-attr">cors</span>: <span class="hljs-literal">true</span>,
+      <span class="hljs-comment">/** 端口被占用时，是否直接退出 */</span>
+      <span class="hljs-attr">strictPort</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-comment">/** 接口代理 */</span>
+      <span class="hljs-attr">proxy</span>: &#123;
+        <span class="hljs-string">&quot;/api/v1&quot;</span>: &#123;
+          <span class="hljs-attr">target</span>: <span class="hljs-string">&quot;https://mock.mengxuegu.com/mock/63218b5fb4c53348ed2bc212&quot;</span>,
+          <span class="hljs-attr">ws</span>: <span class="hljs-literal">true</span>,
+          <span class="hljs-comment">/** 是否允许跨域 */</span>
+          <span class="hljs-attr">changeOrigin</span>: <span class="hljs-literal">true</span>
+        &#125;
+      &#125;,
+      <span class="hljs-comment">/** 预热常用文件，提高初始页面加载速度 */</span>
+      <span class="hljs-attr">warmup</span>: &#123;
+        <span class="hljs-attr">clientFiles</span>: []
+      &#125;
+    &#125;,
+    <span class="hljs-attr">build</span>: &#123;
+      <span class="hljs-comment">/** 单个 chunk 文件的大小超过 2048KB 时发出警告 */</span>
+      <span class="hljs-attr">chunkSizeWarningLimit</span>: <span class="hljs-number">2048</span>,
+      <span class="hljs-comment">/** 禁用 gzip 压缩大小报告 */</span>
+      <span class="hljs-attr">reportCompressedSize</span>: <span class="hljs-literal">false</span>,
+      <span class="hljs-comment">/** 打包后静态资源目录 */</span>
+      <span class="hljs-attr">assetsDir</span>: <span class="hljs-string">&quot;static&quot;</span>,
+      <span class="hljs-attr">rollupOptions</span>: &#123;
+        <span class="hljs-attr">output</span>: &#123;
+          <span class="hljs-comment">/**</span>
+<span class="hljs-comment">           * 分块策略</span>
+<span class="hljs-comment">           * 1. 注意这些包名必须存在，否则打包会报错</span>
+<span class="hljs-comment">           * 2. 如果你不想自定义 chunk 分割策略，可以直接移除这段配置</span>
+<span class="hljs-comment">           */</span>
+          <span class="hljs-attr">manualChunks</span>: &#123;
+            <span class="hljs-attr">vue</span>: [<span class="hljs-string">&quot;vue&quot;</span>, <span class="hljs-string">&quot;vue-router&quot;</span>, <span class="hljs-string">&quot;pinia&quot;</span>],
+            <span class="hljs-attr">element</span>: [<span class="hljs-string">&quot;element-plus&quot;</span>, <span class="hljs-string">&quot;@element-plus/icons-vue&quot;</span>],
+            <span class="hljs-comment">// vxe: [&quot;vxe-table&quot;, &quot;vxe-table-plugin-element&quot;, &quot;xe-utils&quot;]</span>
+          &#125;
+        &#125;
+      &#125;
+    &#125;,
+    <span class="hljs-comment">/** 混淆器 */</span>
+    <span class="hljs-attr">esbuild</span>: &#123;
+      <span class="hljs-comment">/** 打包时移除 console.log */</span>
+      <span class="hljs-attr">pure</span>: [<span class="hljs-string">&quot;console.log&quot;</span>],
+      <span class="hljs-comment">/** 打包时移除 debugger */</span>
+      <span class="hljs-attr">drop</span>: [<span class="hljs-string">&quot;debugger&quot;</span>],
+      <span class="hljs-comment">/** 打包时移除所有注释 */</span>
+      <span class="hljs-attr">legalComments</span>: <span class="hljs-string">&quot;none&quot;</span>
+    &#125;,
+    <span class="hljs-comment">/** Vite 插件 */</span>
+    <span class="hljs-attr">plugins</span>: [
+      <span class="hljs-title function_">vue</span>(),
+      <span class="hljs-comment">// vueJsx(),</span>
+      <span class="hljs-comment">/** 将 SVG 静态图转化为 Vue 组件 */</span>
+      <span class="hljs-title function_">svgLoader</span>(&#123; <span class="hljs-attr">defaultImport</span>: <span class="hljs-string">&quot;url&quot;</span> &#125;),
+      <span class="hljs-comment">/** SVG */</span>
+      <span class="hljs-comment">// createSvgIconsPlugin(&#123;</span>
+        <span class="hljs-attr">iconDirs</span>: [path.<span class="hljs-title function_">resolve</span>(process.<span class="hljs-title function_">cwd</span>(), <span class="hljs-string">&quot;src/icons/svg&quot;</span>)],
+        <span class="hljs-attr">symbolId</span>: <span class="hljs-string">&quot;icon-[dir]-[name]&quot;</span>
+      &#125;),
+      <span class="hljs-comment">/** UnoCSS */</span>
+      <span class="hljs-title class_">UnoCSS</span>()
+    ],
+    <span class="hljs-comment">/** Vitest 单元测试配置：https://cn.vitest.dev/config */</span>
+    <span class="hljs-attr">test</span>: &#123;
+      <span class="hljs-attr">include</span>: [<span class="hljs-string">&quot;tests/**/*.test.ts&quot;</span>],
+      <span class="hljs-attr">environment</span>: <span class="hljs-string">&quot;jsdom&quot;</span>
+    &#125;
+  &#125;
+&#125;
+</code></pre><h3 id="env"><a href="#env" class="headerlink" title=".env"></a>.env</h3><p>环境变量</p><p><code>.env</code></p><pre><code class="hljs text"># 所有环境自定义的环境变量（命名必须以 VITE_ 开头）
+
+## 项目标题
+VITE_APP_TITLE = V3 Admin Vite
+
+##  打包路径（就是网站前缀，例如部署到 https://whaleluo.top/v3-admin-vite/ 域名下，就需要填写 /v3-admin-vite/）
+VITE_PUBLIC_PATH = &#x27;/&#x27;</code></pre><h3 id="editorConfig"><a href="#editorConfig" class="headerlink" title=".editorConfig"></a>.editorConfig</h3><p><strong>editorConfig</strong> 是一个适用于 <strong>多语言</strong>，多 IDE 的代码格式化工具。有利于各种项目 <strong>形成统一的代码格式风格</strong>。<br>建议在所有项目中启动 <strong>editorConfig</strong> 因为真的很好用。</p><p>.editorConfig</p><pre><code class="hljs ini"><span class="hljs-comment"># 修改配置后重启编辑器</span>
+<span class="hljs-comment"># 配置项文档：https://editorconfig.org/</span>
+
+<span class="hljs-comment"># 告知 EditorConfig 插件，当前即是根文件</span>
+<span class="hljs-attr">root</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-comment"># python format config</span>
+<span class="hljs-section">[*.py]</span>
+<span class="hljs-attr">indent_style</span> = space
+<span class="hljs-attr">indent_size</span> = <span class="hljs-number">4</span>
+
+<span class="hljs-comment"># 适用全部文件</span>
+<span class="hljs-section">[*]</span>
+<span class="hljs-comment">## 设置字符集</span>
+<span class="hljs-attr">charset</span> = utf-<span class="hljs-number">8</span>
+<span class="hljs-comment">## 缩进风格 space | tab，建议 space（会自动继承给 Prettier）</span>
+<span class="hljs-attr">indent_style</span> = space
+<span class="hljs-comment">## 缩进的空格数（会自动继承给 Prettier）</span>
+<span class="hljs-attr">indent_size</span> = <span class="hljs-number">2</span>
+<span class="hljs-comment">## 换行符类型 lf | cr | crlf，一般都是设置为 lf</span>
+<span class="hljs-attr">end_of_line</span> = lf
+<span class="hljs-comment">## 是否在文件末尾插入空白行</span>
+<span class="hljs-attr">insert_final_newline</span> = <span class="hljs-literal">true</span>
+<span class="hljs-comment">## 是否删除一行中的前后空格</span>
+<span class="hljs-attr">trim_trailing_whitespace</span> = <span class="hljs-literal">true</span>
+
+<span class="hljs-comment"># 适用 .md 文件</span>
+<span class="hljs-section">[*.md]</span>
+<span class="hljs-attr">insert_final_newline</span> = <span class="hljs-literal">false</span>
+<span class="hljs-attr">trim_trailing_whitespace</span> = <span class="hljs-literal">false</span></code></pre><h4 id="npmrc"><a href="#npmrc" class="headerlink" title=".npmrc"></a>.npmrc</h4><p>npm、cnpm 包管理工具的配置项，设置代理之类的。</p><p><code>.npmrc</code></p><pre><code class="hljs ini"><span class="hljs-comment"># 通过该配置兜底解决组件没有类型提示的问题</span>
+<span class="hljs-attr">shamefully-hoist</span> = <span class="hljs-literal">true</span>
+<span class="hljs-comment"># Proxy</span>
+<span class="hljs-comment"># registry = https://registry.npm.taobao.org</span>
+<span class="hljs-attr">https-proxy</span> = socks5://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">10808</span>
+<span class="hljs-attr">http-proxy</span> = socks5://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">10808</span></code></pre><h4 id="Vscode"><a href="#Vscode" class="headerlink" title="Vscode"></a>Vscode</h4><p>settings.json</p><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.codeActionsOnSave&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;source.fixAll.eslint&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;explicit&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[vue]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[javascript]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[typescript]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[json]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[jsonc]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[html]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[css]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;[scss]&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span> <span class="hljs-attr">&quot;editor.defaultFormatter&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;esbenp.prettier-vscode&quot;</span> <span class="hljs-punctuation">&#125;</span> <span class="hljs-punctuation">&#125;</span></code></pre><h3 id="Git-commit-规范"><a href="#Git-commit-规范" class="headerlink" title="Git commit 规范"></a>Git commit 规范</h3><ul><li><strong>feat:</strong> 增加新的业务功能</li><li><strong>fix:</strong> 修复业务问题&#x2F;BUG</li><li><strong>perf:</strong> 优化性能</li><li><strong>style:</strong> 更改代码风格, 不影响运行结果</li><li><strong>refactor:</strong> 重构代码</li><li><strong>revert:</strong> 撤销更改</li><li><strong>test:</strong> 测试相关, 不涉及业务代码的更改</li><li><strong>docs:</strong> 文档和注释相关</li><li><strong>chore:</strong> 更新依赖&#x2F;修改脚手架配置等琐事</li><li><strong>workflow:</strong> 工作流改进</li><li><strong>ci:</strong> 持续集成相关</li><li><strong>types:</strong> 类型定义文件更改</li><li><strong>wip:</strong> 开发中</li></ul><p><strong>完成一件事情，就提交一次 commit</strong>。而不是等到你写完一整天的代码后，才在下班前只提交一次。</p><h2 id="vue-router-路由"><a href="#vue-router-路由" class="headerlink" title="vue-router 路由"></a>vue-router 路由</h2><p>CH Document：<a target="_blank" rel="noopener" href="https://router.vuejs.org/zh/installation.html">安装 | Vue Router</a></p><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><pre><code class="hljs shell">pnpm add vue-router@4</code></pre></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/javascript/vue3-v3-admin-stady/">https://whaleluo.top/javascript/vue3-v3-admin-stady/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2024-02-29</p></div><div class="post-entry__tags"></div></article><div class="nav"><div class="nav__prev"><a href="/javascript/senior-css/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">CSS 樣式入門</div></div></a></div><div class="nav__next"><a href="/lightroom-tutorial/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">LightRoom 后期调色学习笔记</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

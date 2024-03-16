@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Vue3 + vite + Ts + pinia 全家桶学习 | 😊落落のBlog😊</title><meta name="keywords" content="JavaScript, JS, 前端, Vue, Vue3, 技术,Python,Golang,简中,高中生,鼠鼠,猫猫控"><meta name="description" content="Vue3 + vite + Ts + pinia 全家桶学习Reference BiliBili 小满 ZS VUE3 教程：Vue3 + vite + Ts + pinia + 实战 + 源码 + electron  概述 MMVVM 架构 Options API and Composition API Vue3 的优化：重写双向数据绑定，基于 ES6 Proxy  Computed attri"><meta property="og:type" content="article"><meta property="og:title" content="Vue3 + vite + Ts + pinia 全家桶学习"><meta property="og:url" content="https://whaleluo.top/javascript/vue3-vite-ts-pinia-electron/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Vue3 + vite + Ts + pinia 全家桶学习Reference BiliBili 小满 ZS VUE3 教程：Vue3 + vite + Ts + pinia + 实战 + 源码 + electron  概述 MMVVM 架构 Options API and Composition API Vue3 的优化：重写双向数据绑定，基于 ES6 Proxy  Computed attri"><meta property="og:locale" content="zh_CN"><meta property="article:published_time" content="2024-01-13T15:21:31.000Z"><meta property="article:modified_time" content="2024-01-13T15:21:31.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="JavaScript"><meta property="article:tag" content="JS"><meta property="article:tag" content="前端"><meta property="article:tag" content="Vue"><meta property="article:tag" content="Vue3"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Vue3 + vite + Ts + pinia 全家桶学习</h1><div class="post-title__meta"><a href="/archives/2024/01/" class="post-meta__date button">2024-01-13</a> <span class="separate-dot"></span><a href="/categories/Vue/" class="button">Vue</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Computed-attribute-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">Computed attribute 计算属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watch-listener"><span class="toc-number">4.</span> <span class="toc-text">Watch listener</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-lifespan-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">5.</span> <span class="toc-text">Vue lifespan 生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BEM-%E6%9E%B6%E6%9E%84%E5%92%8C-layout-%E5%B8%83%E5%B1%80%E5%92%8C-sass-CSS-%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">BEM 架构和 layout 布局和 sass CSS 预处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82"><span class="toc-number">7.</span> <span class="toc-text">父子组件传参</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">1.</span> <span class="toc-text">Reference</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Computed-attribute-%E8%AE%A1%E7%AE%97%E5%B1%9E%E6%80%A7"><span class="toc-number">3.</span> <span class="toc-text">Computed attribute 计算属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watch-listener"><span class="toc-number">4.</span> <span class="toc-text">Watch listener</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vue-lifespan-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">5.</span> <span class="toc-text">Vue lifespan 生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BEM-%E6%9E%B6%E6%9E%84%E5%92%8C-layout-%E5%B8%83%E5%B1%80%E5%92%8C-sass-CSS-%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">6.</span> <span class="toc-text">BEM 架构和 layout 布局和 sass CSS 预处理器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E5%8F%82"><span class="toc-number">7.</span> <span class="toc-text">父子组件传参</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>本文最后更新于 &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; 天前，文中部分描述可能已经过时。</p></div><script>(() => {
+            var update = Date.parse("2024-01-13"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Vue3-vite-Ts-pinia-全家桶学习"><a href="#Vue3-vite-Ts-pinia-全家桶学习" class="headerlink" title="Vue3 + vite + Ts + pinia 全家桶学习"></a>Vue3 + vite + Ts + pinia 全家桶学习</h1><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol><li>BiliBili 小满 ZS VUE3 教程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1dS4y1y7vd/?vd_source=8b588c19ea4cd636da362bae86b1564a">Vue3 + vite + Ts + pinia + 实战 + 源码 + electron</a></li></ol><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ol><li>MMVVM 架构</li><li>Options API and Composition API</li><li>Vue3 的优化：重写双向数据绑定，基于 ES6 Proxy</li></ol><h2 id="Computed-attribute-计算属性"><a href="#Computed-attribute-计算属性" class="headerlink" title="Computed attribute 计算属性"></a>Computed attribute 计算属性</h2><pre><code class="hljs javascript"><span class="hljs-comment">// computed-attribute.vue</span>
+<span class="hljs-keyword">import</span> &#123; ref, computed &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>
+<span class="hljs-keyword">let</span> firstName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;John&#x27;</span>)
+<span class="hljs-keyword">let</span> lastName = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Doe&#x27;</span>)
+
+<span class="hljs-comment">// 1. optional computed</span>
+<span class="hljs-keyword">let</span> name = computed&lt;string&gt;(&#123;
+    <span class="hljs-attr">get</span>: <span class="hljs-function">() =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;firstName.value&#125;</span>-<span class="hljs-subst">$&#123;lastName.value&#125;</span>`</span>,
+    <span class="hljs-attr">set</span>: <span class="hljs-function">(<span class="hljs-params">newValue</span>) =&gt;</span> &#123;
+        [firstName.<span class="hljs-property">value</span>, lastName.<span class="hljs-property">value</span>] = newValue.<span class="hljs-title function_">split</span>(<span class="hljs-string">&quot;-&quot;</span>)
+    &#125;
+&#125;)
+
+<span class="hljs-comment">// 2. function computed</span>
+<span class="hljs-comment">// 只支持一个 getter 函数，不允许修改值 readonly</span>
+<span class="hljs-keyword">let</span> name2 = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-string">`<span class="hljs-subst">$&#123;firstName.value&#125;</span>-<span class="hljs-subst">$&#123;lastName.value&#125;</span>`</span>)</code></pre><h2 id="Watch-listener"><a href="#Watch-listener" class="headerlink" title="Watch listener"></a>Watch listener</h2><pre><code class="hljs javascript"><span class="hljs-comment">// vue3 watch listener</span>
+<span class="hljs-keyword">import</span> &#123; ref, watch, watchEffect &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue&quot;</span>;
+
+
+<span class="hljs-keyword">let</span> message = ref&lt;string&gt;(<span class="hljs-string">&quot;hello world&quot;</span>);
+<span class="hljs-keyword">let</span> message2 = ref&lt;string&gt;(<span class="hljs-string">&quot;hello world2&quot;</span>);
+<span class="hljs-keyword">let</span> message3 = ref&lt;object&gt;(&#123; <span class="hljs-string">&quot;foo&quot;</span>: &#123; <span class="hljs-string">&quot;bar&quot;</span>: <span class="hljs-string">&quot;hello world3&quot;</span> &#125; &#125;);
+
+
+<span class="hljs-title function_">watch</span>(message, <span class="hljs-function">(<span class="hljs-params">newValue, oldValue</span>) =&gt;</span> &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;newValue&quot;</span>, newValue);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;oldValue&quot;</span>, oldValue);
+&#125;)
+
+<span class="hljs-comment">// 监听多个数据源</span>
+<span class="hljs-title function_">watch</span>([message, message2], <span class="hljs-function">(<span class="hljs-params">[newMessage, newMessage2], [oldMessage, oldMessage2]</span>) =&gt;</span> &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;newMessage&quot;</span>, newMessage);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;newMessage2&quot;</span>, newMessage2);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;oldMessage&quot;</span>, oldMessage);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;oldMessage2&quot;</span>, oldMessage2);
+&#125;)
+
+<span class="hljs-comment">// 监听一个对象，开启深度监听</span>
+<span class="hljs-comment">// 引用类型返回的 newValue 和 oldValue 是一样的</span>
+<span class="hljs-comment">// 如果用 reactive 不用开启深度监听</span>
+<span class="hljs-comment">// ref: 监听属性的单一值需要用一个 getter 函数</span>
+<span class="hljs-title function_">watch</span>(message3, <span class="hljs-function">(<span class="hljs-params">newValue, oldValue</span>) =&gt;</span> &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;newValue&quot;</span>, newValue);
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;oldValue&quot;</span>, oldValue);
+&#125;, &#123;
+    <span class="hljs-attr">deep</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 开启深度监听</span>
+    <span class="hljs-attr">immediate</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// 立即执行 watch callback 一次</span>
+    <span class="hljs-attr">flush</span>: <span class="hljs-string">&quot;pre&quot;</span> <span class="hljs-comment">// pre: 组件更新前执行，post: 组件更新后执行 sync: 同步执行</span>
+&#125;)
+
+<span class="hljs-comment">// watchEffect 高级监听器</span>
+<span class="hljs-comment">// oninvaildate 消除副作用的函数(回调)</span>
+<span class="hljs-keyword">const</span> stop = <span class="hljs-title function_">watchEffect</span>(<span class="hljs-function">(<span class="hljs-params">oninvaildate</span>) =&gt;</span> &#123;
+    <span class="hljs-comment">// 先执行 oninvaildate 回调执行其他代码 比如防抖</span>
+    <span class="hljs-title function_">oninvaildate</span>(<span class="hljs-function">() =&gt;</span> &#123;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;oninvaildate&quot;</span>);
+    &#125;)
+    <span class="hljs-comment">// console.log(&quot;message&quot;, message.value);</span>
+    <span class="hljs-comment">// console.log(&quot;message2&quot;, message2.value);</span>
+    <span class="hljs-comment">// console.log(&quot;message3&quot;, message3.value);</span>
+    <span class="hljs-comment">// get dom element</span>
+    <span class="hljs-keyword">const</span> <span class="hljs-attr">ipt</span>: <span class="hljs-title class_">HTMLInputElement</span> = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelector</span>(<span class="hljs-string">&quot;#input&quot;</span>) <span class="hljs-keyword">as</span> <span class="hljs-title class_">HTMLInputElement</span>;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;ipt:&#x27;</span>, ipt);
+&#125;, &#123;
+    <span class="hljs-attr">flush</span>: <span class="hljs-string">&quot;post&quot;</span>, <span class="hljs-comment">// before dom loaded</span>
+    <span class="hljs-comment">// debug</span>
+    <span class="hljs-title function_">onTrigger</span>(<span class="hljs-params">e</span>) &#123;
+        <span class="hljs-keyword">debugger</span>;
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;onTrigger&quot;</span>, e);
+    &#125;,
+&#125;)
+
+<span class="hljs-comment">// 调用 watchEffect 返回的 stop 函数可以停止监听</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">stopWatch</span> = (<span class="hljs-params"></span>) =&gt; &#123;
+    <span class="hljs-title function_">stop</span>();
+&#125;
+</code></pre><h2 id="Vue-lifespan-生命周期"><a href="#Vue-lifespan-生命周期" class="headerlink" title="Vue lifespan 生命周期"></a>Vue lifespan 生命周期</h2><p>onBeforeMount(挂载前) -&gt; onMounted(挂载后) -&gt; onBeforeUpdate(更新数据之前) -&gt; onUpdated(更新数据之后) -&gt; onBeforeUnmount(卸载之前) -&gt; onUmounted(卸载之后)</p><p>在 setup 语法糖模式中没有 beforeCreate 和 created 两个生命周期，用 setup(callback) 来代替。</p><p>调试用的两个 hook，<code>onRenderTracked</code>，<code>onRenderTriggered</code>，应该是依赖 effect 依赖收集之类的钩子，具体可以看 Vue3 的响应式 ref reactive 原理。</p><h2 id="BEM-架构和-layout-布局和-sass-CSS-预处理器"><a href="#BEM-架构和-layout-布局和-sass-CSS-预处理器" class="headerlink" title="BEM 架构和 layout 布局和 sass CSS 预处理器"></a>BEM 架构和 layout 布局和 sass CSS 预处理器</h2><p>BEM 架构： block (块)，element (元素)，modify (修饰)，指的是 namespace 的命名风格，在 element-UI 中，<code>el-button__wrapper</code> 表示一个 block 中的 element。<code>el-button--primary</code> 表示 button 的自定义按钮风格 modify。</p><pre><code class="hljs sass">$namespace: &#x27;xm&#x27; !default;
+$block-select: &quot;0&quot; !default;
+$elem-sel: &quot;__&quot; !default;
+$modify-sel: &quot;--&quot; !default;</code></pre><p>Sass.hk 中文网： <a target="_blank" rel="noopener" href="https://sass.hk/docs/">Sass教程 Sass中文文档 | Sass中文网</a></p><blockquote><p>Sass 是一款强化 CSS 的辅助工具，它在 CSS 语法的基础上增加了变量 (variables)、嵌套 (nested rules)、混合 (mixins)、导入 (inline imports) 等高级功能.</p></blockquote><h2 id="父子组件传参"><a href="#父子组件传参" class="headerlink" title="父子组件传参"></a>父子组件传参</h2><p>子组件 children</p><pre><code class="hljs javascript"><span class="hljs-comment">// defineProps 利用 ts 泛型</span>
+<span class="hljs-keyword">const</span> props = defineProps&lt;&#123;
+    <span class="hljs-attr">msg</span>: string
+&#125;&gt;()
+
+<span class="hljs-comment">// 使用 ts 泛型时定义 default</span>
+<span class="hljs-title function_">withDefaults</span>(defineProps&lt;&#123;
+    <span class="hljs-attr">msg</span>: string
+&#125;&gt;(), &#123;
+    <span class="hljs-attr">msg</span>: <span class="hljs-string">&quot;hello world&quot;</span>,
+    <span class="hljs-attr">array</span>: <span class="hljs-function">() =&gt;</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+&#125;
+
+<span class="hljs-comment">// defineProps 传入一个对象</span>
+<span class="hljs-keyword">const</span> props = <span class="hljs-title function_">defineProps</span>(&#123;
+    <span class="hljs-attr">msg</span>: &#123;
+        <span class="hljs-attr">type</span>: <span class="hljs-title class_">String</span>,
+        <span class="hljs-attr">required</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">default</span>: <span class="hljs-string">&quot;hello world&quot;</span>
+    &#125;
+&#125;)
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;props:&quot;</span>, props.<span class="hljs-property">msg</span>);
+
+<span class="hljs-comment">// 给父组件传值使用 emit 自定义事件</span>
+<span class="hljs-comment">// define emit 不使用 ts 泛型,直接传入事件名</span>
+<span class="hljs-keyword">const</span> emit = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&quot;changeMsg&quot;</span>])
+
+<span class="hljs-comment">// define emit 使用 ts 泛型</span>
+<span class="hljs-keyword">const</span> emit = defineEmits&lt;&#123;
+    (<span class="hljs-attr">event</span>: <span class="hljs-string">&quot;changeMsg&quot;</span>, <span class="hljs-attr">msg</span>: string): boolean
+&#125;&gt;()
+
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">changeMsg</span> = (<span class="hljs-params"></span>) =&gt; &#123;
+    <span class="hljs-comment">// emit 事件</span>
+    <span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;changeMsg&quot;</span>, <span class="hljs-string">&quot;hello world2&quot;</span>)
+&#125;
+
+<span class="hljs-comment">// 向父组件暴露方法和属性,用 ref 接收</span>
+<span class="hljs-title function_">defineExpose</span>(&#123;
+    <span class="hljs-attr">msg</span>: props.<span class="hljs-property">msg</span>,
+    changeMsg
+&#125;)
+</code></pre><p>父组件：</p><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123; ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-title class_">Child</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./child-component.vue&#x27;</span>
+
+<span class="hljs-comment">// 1. Define the type of the child component</span>
+<span class="hljs-comment">// 定义一个子组件的类型,通过 component 的 ref 获取</span>
+<span class="hljs-keyword">const</span> childVue = ref&lt;<span class="hljs-title class_">InstanceType</span>&lt;<span class="hljs-keyword">typeof</span> <span class="hljs-title class_">Child</span>&gt;&gt;()
+<span class="hljs-comment">// 2. and then it can use the child component&#x27;s methods and properties which are exposed by defineExpose</span>
+<span class="hljs-comment">// defineExpose 向父组件暴露方法和属性</span>
+<span class="hljs-comment">// 然后就可以使用子组件暴露出来的方法和属性了</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(childVue.<span class="hljs-property">value</span>?.<span class="hljs-property">msg</span>);
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">changeMsg</span> = (<span class="hljs-params">newMsg: string</span>) =&gt; &#123;
+    childVue.<span class="hljs-property">value</span>?.<span class="hljs-title function_">changeMsg</span>()
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;newMsg:&#x27;</span>, newMsg);
+&#125;</code></pre></div><div class="post__license"><p><strong>本文作者：</strong>WhaleFall</p><p><strong>本文链接： </strong><a href="https://whaleluo.top/javascript/vue3-vite-ts-pinia-electron/">https://whaleluo.top/javascript/vue3-vite-ts-pinia-electron/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>更新于 2024-01-13</p></div><div class="post-entry__tags"><a href="/tags/JavaScript/" class="post-tags__link button"># JavaScript</a><a href="/tags/JS/" class="post-tags__link button"># JS</a><a href="/tags/%E5%89%8D%E7%AB%AF/" class="post-tags__link button"># 前端</a><a href="/tags/Vue/" class="post-tags__link button"># Vue</a><a href="/tags/Vue3/" class="post-tags__link button"># Vue3</a></div></article><div class="nav"><div class="nav__prev"><a href="/program-design-patterns/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">上一篇</div><div class="nav__title">程序设计模式 Program Design Patterns</div></div></a></div><div class="nav__next"><a href="/english/english-bgz-verbs/" class="nav__link"><div><div class="nav__label">下一篇</div><div class="nav__title">英语不规则动词规律</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>评论</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="回到顶部" title="回到顶部"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>
