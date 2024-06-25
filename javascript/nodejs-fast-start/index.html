@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>NodeJS 速通笔记 | 😊落落のBlog😊</title><meta name="keywords" content="JavaScript, NodeJS, JS, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="NodeJS 速通笔记Node.js 教程 | 菜鸟教程 Nodejs 是运行在服务端的 JavaScript 环境.速通 NodeJS 也可以为开发 Vue 应用打下基础.使用 NodeJs 时,不仅实现了应用还实现了一整个 HTTP 服务器,可以避免使用 Nginx 进行提供 HTTP 服务.NPM 是 NodeJS 的一个包管理工具,类似 Python pip. NodeJS 是 单线程单进"><meta property="og:type" content="article"><meta property="og:title" content="NodeJS 速通笔记"><meta property="og:url" content="https://www.whaleluo.top/javascript/nodejs-fast-start/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="NodeJS 速通笔记Node.js 教程 | 菜鸟教程 Nodejs 是运行在服务端的 JavaScript 环境.速通 NodeJS 也可以为开发 Vue 应用打下基础.使用 NodeJs 时,不仅实现了应用还实现了一整个 HTTP 服务器,可以避免使用 Nginx 进行提供 HTTP 服务.NPM 是 NodeJS 的一个包管理工具,类似 Python pip. NodeJS 是 单线程单进"><meta property="og:locale"><meta property="article:published_time" content="2023-08-22T06:40:10.000Z"><meta property="article:modified_time" content="2023-08-22T06:40:10.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="JavaScript"><meta property="article:tag" content="NodeJS"><meta property="article:tag" content="JS"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">NodeJS 速通笔记</h1><div class="post-title__meta"><a href="/archives/2023/08/" class="post-meta__date button">2023-08-22</a> <span class="separate-dot"></span><a href="/categories/JavaScript/" class="button">JavaScript</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Npm-%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">Npm 包管理工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nodejs-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">Nodejs 回调函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJS-event-loop-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-number">3.</span> <span class="toc-text">NodeJS event loop 事件循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nodejs-Buffer-%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">4.</span> <span class="toc-text">Nodejs Buffer 缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJs-Module-System-%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F"><span class="toc-number">5.</span> <span class="toc-text">NodeJs Module System 模块系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9D%97"><span class="toc-number">5.1.</span> <span class="toc-text">引入模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJS-steaming-%E6%B5%81-English-Version"><span class="toc-number">6.</span> <span class="toc-text">NodeJS steaming 流 English Version</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Readable-Streams-%E5%8F%AF%E8%AF%BB%E6%B5%81"><span class="toc-number">6.1.</span> <span class="toc-text">Readable Streams 可读流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Two-Reading-Modes-%E4%B8%A4%E7%A7%8D%E8%AF%BB%E5%8F%96%E6%A8%A1%E5%BC%8F"><span class="toc-number">6.1.1.</span> <span class="toc-text">Two Reading Modes: 两种读取模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Writable-Streams-%E5%8F%AF%E5%86%99%E6%B5%81"><span class="toc-number">6.2.</span> <span class="toc-text">Writable Streams 可写流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Writing-to-a-Stream"><span class="toc-number">6.2.1.</span> <span class="toc-text">Writing to a Stream</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Readable-and-Writable-Streams"><span class="toc-number">6.2.2.</span> <span class="toc-text">Readable and Writable Streams</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pipline-%E7%AE%A1%E9%81%93"><span class="toc-number">6.2.3.</span> <span class="toc-text">pipline() 管道</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Stream-Module-%E6%B5%81%E6%A8%A1%E5%9D%97"><span class="toc-number">6.3.</span> <span class="toc-text">The Stream Module 流模块</span></a></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Npm-%E5%8C%85%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">Npm 包管理工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nodejs-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">Nodejs 回调函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJS-event-loop-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-number">3.</span> <span class="toc-text">NodeJS event loop 事件循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nodejs-Buffer-%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">4.</span> <span class="toc-text">Nodejs Buffer 缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJs-Module-System-%E6%A8%A1%E5%9D%97%E7%B3%BB%E7%BB%9F"><span class="toc-number">5.</span> <span class="toc-text">NodeJs Module System 模块系统</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E5%85%A5%E6%A8%A1%E5%9D%97"><span class="toc-number">5.1.</span> <span class="toc-text">引入模块</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NodeJS-steaming-%E6%B5%81-English-Version"><span class="toc-number">6.</span> <span class="toc-text">NodeJS steaming 流 English Version</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Readable-Streams-%E5%8F%AF%E8%AF%BB%E6%B5%81"><span class="toc-number">6.1.</span> <span class="toc-text">Readable Streams 可读流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Two-Reading-Modes-%E4%B8%A4%E7%A7%8D%E8%AF%BB%E5%8F%96%E6%A8%A1%E5%BC%8F"><span class="toc-number">6.1.1.</span> <span class="toc-text">Two Reading Modes: 两种读取模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Writable-Streams-%E5%8F%AF%E5%86%99%E6%B5%81"><span class="toc-number">6.2.</span> <span class="toc-text">Writable Streams 可写流</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Writing-to-a-Stream"><span class="toc-number">6.2.1.</span> <span class="toc-text">Writing to a Stream</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Readable-and-Writable-Streams"><span class="toc-number">6.2.2.</span> <span class="toc-text">Readable and Writable Streams</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pipline-%E7%AE%A1%E9%81%93"><span class="toc-number">6.2.3.</span> <span class="toc-text">pipline() 管道</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-Stream-Module-%E6%B5%81%E6%A8%A1%E5%9D%97"><span class="toc-number">6.3.</span> <span class="toc-text">The Stream Module 流模块</span></a></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2023-08-22"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="NodeJS-速通笔记"><a href="#NodeJS-速通笔记" class="headerlink" title="NodeJS 速通笔记"></a>NodeJS 速通笔记</h1><p><a target="_blank" rel="noopener" href="https://www.runoob.com/nodejs/nodejs-tutorial.html">Node.js 教程 | 菜鸟教程</a></p><p>Nodejs 是运行在服务端的 JavaScript 环境.速通 NodeJS 也可以为开发 <strong>Vue</strong> 应用打下基础.<br>使用 NodeJs 时,不仅实现了应用还实现了一整个 HTTP 服务器,可以避免使用 Nginx 进行提供 HTTP 服务.<br><code>NPM</code> 是 <code>NodeJS</code> 的一个包管理工具,类似 <code>Python pip</code>.</p><p>NodeJS 是 <strong>单线程单进程</strong> 的应用程序,但是 V8 引擎提供了异步执行回调的接口,通过接口可以处理大量并发.</p><pre><code class="hljs shell">node -v
+npm -v</code></pre><h2 id="Npm-包管理工具"><a href="#Npm-包管理工具" class="headerlink" title="Npm 包管理工具"></a>Npm 包管理工具</h2><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">更新 npm 版本</span>
+npm install npm -g
+<span class="hljs-meta prompt_"># </span><span class="language-bash">使用淘宝的 npm 镜像</span>
+npm install -g cnpm --registry=https://registry.npmmirror.com
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">安装模块 web 框架模块 express</span>
+npm install express
+
+npm install express          # 本地安装
+npm install express -g   # 全局安装
+
+npm list -g # 查看安装信息
+npm uninstall express # 卸载模块
+npm ls # 查看安装的模块
+npm update express # 更新模块
+npm search express # 搜索模块
+npm cache clear # 清空 NPM 本地缓存
+npm install</code></pre><p>本地安装好之后,<code>express</code> 包就放在了工程目录下的 <code>node_modules</code> 目录中,因此在代码中只需要通过 <code>require(&#39;express&#39;)</code> 的方式就好,无需指定第三方包路径.</p><pre><code class="hljs js"><span class="hljs-keyword">var</span> express = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;express&quot;</span>)</code></pre><p>npm 的包安装分为本地安装(local)、全局安装(global)两种.使用 <code>-g</code> 指定全局安装.</p><p>在工程目录使用 <code>package.json</code> 定义包的属性,类似 Python 中的 <code>requirements.txt</code></p><h2 id="Nodejs-回调函数"><a href="#Nodejs-回调函数" class="headerlink" title="Nodejs 回调函数"></a>Nodejs 回调函数</h2><p>异步编程依托于 <strong>回调</strong> 来实现.Node 使用了大量的回调函数.</p><p>例如可以一边读取文件一边执行其他命令,在文件读取完成后,可以将文件内容作为回调函数的参数返回,这样在执行代码时候就没有堵塞和等待 I&#x2F;O 操作</p><p>回调函数一般作为函数的最后一个参数出现:</p><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">foo</span>(<span class="hljs-params">name, age, dealine, callback</span>)&#123;
+	<span class="hljs-comment">// 执行 I/O 操作</span>
+	...
+	<span class="hljs-comment">// 执行完毕进行回调</span>
+	<span class="hljs-title function_">callback</span>(content);
+&#125;</code></pre><p>例如读取文件:</p><pre><code class="hljs js"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;fs&quot;</span>) <span class="hljs-comment">// 导入文件操作包</span>
+
+<span class="hljs-keyword">var</span> data = fs.<span class="hljs-title function_">readFileSync</span>(<span class="hljs-string">&quot;input.txt&quot;</span>) <span class="hljs-comment">// 堵塞了</span>
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data.<span class="hljs-title function_">toString</span>())
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;程序执行结束!&quot;</span>)</code></pre><p>非堵塞:</p><pre><code class="hljs js"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;fs&quot;</span>)
+fs.<span class="hljs-title function_">readFile</span>(<span class="hljs-string">&quot;input.txt&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">err, data</span>) &#123;
+  <span class="hljs-comment">// 回调函数</span>
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span> <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(err)
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data.<span class="hljs-title function_">toString</span>())
+&#125;)
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;程序执行结束!&quot;</span>) <span class="hljs-comment">// 先弹出</span></code></pre><p>因此,阻塞是按顺序执行的,而非阻塞是<strong>不需要按顺序</strong>的,所以如果需要处理<strong>回调函数的参数</strong>,我们就需要写在回调函数内.</p><h2 id="NodeJS-event-loop-事件循环"><a href="#NodeJS-event-loop-事件循环" class="headerlink" title="NodeJS event loop 事件循环"></a>NodeJS event loop 事件循环</h2><p>Node.js 单线程类似进入一个 <code>while(true)</code> 的事件循环,直到没有事件观察者退出,每个异步事件都生成一个<strong>事件观察者</strong>,如果有事件发生就调用该 <strong>回调函数</strong>.</p><p>本质上就是一个 <strong>事件驱动程序</strong></p><pre><code class="hljs js"><span class="hljs-comment">// 引入 events 模块</span>
+<span class="hljs-keyword">var</span> events = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;events&quot;</span>)
+<span class="hljs-comment">// 创建 eventEmitter 对象 事件发射器</span>
+<span class="hljs-keyword">var</span> eventEmitter = <span class="hljs-keyword">new</span> events.<span class="hljs-title class_">EventEmitter</span>()
+
+<span class="hljs-comment">// 创建事件处理程序</span>
+<span class="hljs-keyword">var</span> connectHandler = <span class="hljs-keyword">function</span> <span class="hljs-title function_">connected</span>(<span class="hljs-params"></span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;连接成功.&quot;</span>)
+
+  <span class="hljs-comment">// 触发 data_received 事件</span>
+  eventEmitter.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;data_received&quot;</span>)
+&#125;
+
+<span class="hljs-comment">// 绑定 connection 事件处理程序</span>
+eventEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;connection&quot;</span>, connectHandler)
+
+<span class="hljs-comment">// 使用匿名函数绑定 data_received 事件</span>
+eventEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;data_received&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">args</span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;数据接收成功.&quot;</span> + args)
+&#125;)
+
+<span class="hljs-comment">// 触发 connection 事件</span>
+<span class="hljs-comment">// 发射一个 connection 事件到事件队列</span>
+<span class="hljs-comment">// nodejs 触发对应的回调函数,可以跟参数发射到回调函数</span>
+eventEmitter.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;connection&quot;</span>, <span class="hljs-string">&quot;param&quot;</span>)
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;程序执行完毕.&quot;</span>)</code></pre><p>Node.js 所有的异步 I&#x2F;O 操作在完成时都 会<strong>发送一个事件到事件队列</strong>.</p><p>Node.js 里面的许多对象都会分发事件:一个 <code>net.Server</code> 对象会在每次有新连接时触发一个事件, 一个 <code>fs.readStream</code> 对象会在文件被打开的时候触发一个事件. 所有这些产生事件的对象都是 <code>events.EventEmitter</code> 的实例.</p><h2 id="Nodejs-Buffer-缓冲区"><a href="#Nodejs-Buffer-缓冲区" class="headerlink" title="Nodejs Buffer 缓冲区"></a>Nodejs Buffer 缓冲区</h2><p>js 语言没有二进制类型,但是处理 tcp 流或者文件流时候必须使用二进制数据.</p><p>使用 <strong>Buffer</strong> 类(自带的不需要引入),可以创建一个专门存放二进制数据的缓冲区.</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> buf = <span class="hljs-title class_">Buffer</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;runoob&quot;</span>, <span class="hljs-string">&quot;ascii&quot;</span>)
+
+<span class="hljs-comment">// 输出 72756e6f6f62</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&quot;hex&quot;</span>))
+
+<span class="hljs-comment">// 输出 cnVub29i</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(buf.<span class="hljs-title function_">toString</span>(<span class="hljs-string">&quot;base64&quot;</span>))</code></pre><p>详细请参考:<a target="_blank" rel="noopener" href="https://www.runoob.com/nodejs/nodejs-buffer.html">Node.js Buffer(缓冲区) | 菜鸟教程</a></p><h2 id="NodeJs-Module-System-模块系统"><a href="#NodeJs-Module-System-模块系统" class="headerlink" title="NodeJs Module System 模块系统"></a>NodeJs Module System 模块系统</h2><h3 id="引入模块"><a href="#引入模块" class="headerlink" title="引入模块"></a>引入模块</h3><pre><code class="hljs js"><span class="hljs-comment">// 引入当前目录下的 hello.js 文件</span>
+<span class="hljs-keyword">var</span> hello = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./hello&quot;</span>)
+hello.<span class="hljs-title function_">world</span>() <span class="hljs-comment">// 调用 hello.js 文件的 world() 函数</span></code></pre><p>Node.js 提供了 <code>exports</code> 和 <code>require</code> 两个对象,其中 <code>exports</code> 是模块<strong>公开的接口</strong>,<code>require</code> 用于<strong>从外部获取一个模块的接口</strong>,即所获取模块的 exports 对象.</p><p>hello.js</p><pre><code class="hljs js"><span class="hljs-comment">// 可以从外部引入,导出到外部</span>
+<span class="hljs-built_in">exports</span>.<span class="hljs-property">world</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hello World&quot;</span>)
+&#125;
+
+<span class="hljs-comment">// hello.js</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">Hello</span>(<span class="hljs-params"></span>) &#123;
+  <span class="hljs-comment">// object create 对象构造器</span>
+  <span class="hljs-keyword">var</span> name
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">setName</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params">thyName</span>) &#123;
+    name = thyName
+  &#125;
+  <span class="hljs-variable language_">this</span>.<span class="hljs-property">sayHello</span> = <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Hello &quot;</span> + name)
+  &#125;
+&#125;
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = <span class="hljs-title class_">Hello</span> <span class="hljs-comment">// 把一个对象封装到模块中</span></code></pre><p>在以上示例中,hello.js 通过 exports 对象把 world 作为 <strong>模块的访问接口</strong>,在 main.js 中通过 <code>require(&#39;./hello&#39;)</code> 加载这个模块,然后就可以直接访 问 hello.js 中 exports 对象的成员函数了.</p><p>main.js</p><pre><code class="hljs js"><span class="hljs-comment">//main.js</span>
+<span class="hljs-keyword">var</span> <span class="hljs-title class_">Hello</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;./hello&quot;</span>)
+hello = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Hello</span>() <span class="hljs-comment">// 直接引用</span>
+hello.<span class="hljs-title function_">setName</span>(<span class="hljs-string">&quot;BYVoid&quot;</span>)
+hello.<span class="hljs-title function_">sayHello</span>()</code></pre><h2 id="NodeJS-steaming-流-English-Version"><a href="#NodeJS-steaming-流-English-Version" class="headerlink" title="NodeJS steaming 流 English Version"></a>NodeJS steaming 流 English Version</h2><blockquote><p>Streams in Node.js have a reputation(n. 名气) for being hard to work with, and even harder to understand.<br>Node.js 中的流因难以使用而闻名,甚至更难理解.</p></blockquote><p>Advantages:</p><ul><li>Memory efficiency<a href="%E5%86%85%E5%AD%98%E6%95%88%E7%8E%87">&#x2F;i’fiʃәnsi&#x2F;:&#x2F;</a>: 在处理大数据之前,不需要将其全部加载到内存中</li><li>Time efficiency(时间效率): 在数据传输过程中, 可以同时处理数据. 不必等到全部数据传输完毕再处理</li></ul><p>4 types of streams in Node.js:</p><ol><li>Readable(可读流): Used for read operation. e.g. <code>fs.createReadStream()</code></li><li>Writable(可写流): Used for write operation. e.g. <code>fs.createWriteStream()</code></li><li>Duplex(双工流): Used for both read and write operation. e.g. <code>net.Socket</code></li><li>Transform(转换流): A type of duplex stream where the output is computed based on input.</li></ol><h3 id="Readable-Streams-可读流"><a href="#Readable-Streams-可读流" class="headerlink" title="Readable Streams 可读流"></a>Readable Streams 可读流</h3><p>Start:</p><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> stream <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;node:stream&quot;</span>
+<span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs&quot;</span>
+<span class="hljs-keyword">const</span> readableStream = <span class="hljs-keyword">new</span> stream.<span class="hljs-title class_">Readable</span>()
+
+<span class="hljs-comment">// send data to stream</span>
+readableStream.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;Hello&quot;</span>)
+readableStream.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;World!&quot;</span>)
+<span class="hljs-comment">// Can convert the data to Readable stream, even.</span>
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(<span class="hljs-string">&quot;Good morning!&quot;</span>, &#123; <span class="hljs-attr">encoding</span>: <span class="hljs-string">&quot;utf8&quot;</span> &#125;)
+
+<span class="hljs-comment">// It&#x27;s highly recommended to use async iterator(异步迭代器) when working with streams.</span>
+<span class="hljs-comment">// Read chunk(块) from stream</span>
+<span class="hljs-comment">// Note that, in this case, we had to use an async function because we wanted to return a Promise.</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">logChunks</span>(<span class="hljs-params">readableObj: stream.Readable</span>) &#123;
+  <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> readableObj) &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk)
+  &#125;
+&#125;
+<span class="hljs-keyword">const</span> readable = fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">&quot;tmp/test.txt&quot;</span>, &#123; <span class="hljs-attr">encoding</span>: <span class="hljs-string">&quot;utf8&quot;</span> &#125;)
+<span class="hljs-title function_">logChunks</span>(readable)</code></pre><p><code>Readable.from()</code>: Creating readable streams from iterables (从可迭代对象创建可读流)</p><p>从迭代器创建可读流的实用方法, 它保存可迭代器中包含的数据.</p><p>可迭代对象可以是同步可迭代对象, 也可以是异步可迭代对象, 参数选项是可选的,除其他外,可以用于指定文本编码.</p><pre><code class="hljs typescript"><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span>* <span class="hljs-title function_">generate</span>(<span class="hljs-params"></span>) &#123;
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">&quot;hello&quot;</span>
+  <span class="hljs-keyword">yield</span> <span class="hljs-string">&quot;streams&quot;</span>
+&#125;
+
+<span class="hljs-keyword">const</span> readable = <span class="hljs-title class_">Readable</span>.<span class="hljs-title function_">from</span>(<span class="hljs-title function_">generate</span>())
+
+readable.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;data&quot;</span>, <span class="hljs-function">(<span class="hljs-params">chunk</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk)
+&#125;)</code></pre><h4 id="Two-Reading-Modes-两种读取模式"><a href="#Two-Reading-Modes-两种读取模式" class="headerlink" title="Two Reading Modes: 两种读取模式"></a>Two Reading Modes: 两种读取模式</h4><p>flowing(流动) and paused(暂停)</p><ul><li><p>In flowing mode, data is read from the underlying system automatically and provided to an application as quickly as possible using events via the EventEmitter interface.</p><blockquote><p>在流动模式下,数据会自动从底层系统读取, 并通过 EventEmitter 接口使用事件尽快提供给应用程序.</p></blockquote></li><li><p>In paused mode, the <code>stream.read()</code> method must be called explicitly[&#x2F;ɪkˈsplɪsɪt&#x2F;](adv. 明确地) to read chunks of data from the stream.</p><blockquote><p>在暂停模式下,必须显式调用 <code>stream.read()</code> 方法才能从流中读取数据块.</p></blockquote></li></ul><p>In <strong>flowing mode</strong>, data can be read from the stream using events, such as <code>data</code>, <code>end</code>, and <code>error</code>.</p><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs&quot;</span>
+
+<span class="hljs-keyword">var</span> data = <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-comment">// Create a readable stream</span>
+<span class="hljs-keyword">var</span> readerStream = fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">&quot;file.txt&quot;</span>)
+
+<span class="hljs-comment">// Set the encoding to be utf8.</span>
+readerStream.<span class="hljs-title function_">setEncoding</span>(<span class="hljs-string">&quot;UTF8&quot;</span>)
+
+<span class="hljs-comment">// As soon as you listen to data event and attach a callback it starts flowing. 一旦监听数据事件并附加回调, 它就开始流动.</span>
+<span class="hljs-comment">// Handle stream events --&gt; data, end, and error</span>
+readerStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;data&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">chunk</span>) &#123;
+  data += chunk
+&#125;)
+
+readerStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;end&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data)
+&#125;)
+
+readerStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;error&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">err</span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(err.<span class="hljs-property">stack</span>)
+&#125;)
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Program Ended&quot;</span>)</code></pre><p>In <strong>paused mode</strong>, you just need to call <code>read()</code> on the stream instance repeatedly until every chunk of data has been read:</p><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs&quot;</span>
+<span class="hljs-keyword">var</span> readableStream = fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">&quot;file.txt&quot;</span>)
+<span class="hljs-keyword">var</span> data = <span class="hljs-string">&quot;&quot;</span>
+<span class="hljs-keyword">var</span> chunk
+
+<span class="hljs-comment">// Adding a readable event handler automatically make the stream to stop flowing, and the data to be consumed via readable.read().</span>
+readableStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;readable&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;
+  <span class="hljs-keyword">while</span> ((chunk = readableStream.<span class="hljs-title function_">read</span>()) != <span class="hljs-literal">null</span>) &#123;
+    data += chunk
+  &#125;
+&#125;)
+
+readableStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;end&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(data)
+&#125;)</code></pre><p>All Readable streams begin in <strong>paused mode</strong> but can be switched to <strong>flowing mode</strong> in one of the following ways:</p><ul><li>Adding a ‘data’ event handler.</li><li>Calling the <code>stream.resume()</code> method.</li><li>Calling the <code>stream.pipe()</code> method to send the data to a Writable.</li></ul><p>The Readable can switch back to <strong>paused mode</strong> using one of the following:</p><ul><li>If there are no pipe destinations, by calling the <code>stream.pause()</code> method.</li><li>If there are pipe destinations, by removing all pipe destinations. Multiple pipe destinations may be removed by calling the <code>stream.unpipe()</code> method.</li></ul><h3 id="Writable-Streams-可写流"><a href="#Writable-Streams-可写流" class="headerlink" title="Writable Streams 可写流"></a>Writable Streams 可写流</h3><p>start:</p><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs&quot;</span>
+<span class="hljs-keyword">var</span> readableStream = fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">&quot;file1.txt&quot;</span>)
+<span class="hljs-keyword">var</span> writableStream = fs.<span class="hljs-title function_">createWriteStream</span>(<span class="hljs-string">&quot;file2.txt&quot;</span>)
+
+readableStream.<span class="hljs-title function_">setEncoding</span>(<span class="hljs-string">&quot;utf8&quot;</span>)
+
+readableStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;data&quot;</span>, <span class="hljs-keyword">function</span> (<span class="hljs-params">chunk</span>) &#123;
+  <span class="hljs-comment">// This function returns a boolean value.</span>
+  writableStream.<span class="hljs-title function_">write</span>(chunk)
+&#125;)
+<span class="hljs-comment">// Calling th`e writable.end()` method</span>
+<span class="hljs-comment">// signals that no more data will be written to the Writable.</span>
+writableStream.<span class="hljs-title function_">end</span>(<span class="hljs-function">() =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Write completed.&quot;</span>)
+&#125;)
+<span class="hljs-comment">// same as:</span>
+writableStream.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;finish&quot;</span>, <span class="hljs-function">() =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Write completed.&quot;</span>)
+&#125;)</code></pre><h4 id="Writing-to-a-Stream"><a href="#Writing-to-a-Stream" class="headerlink" title="Writing to a Stream"></a>Writing to a Stream</h4><p>Using <code>readable.pipe()</code> to write to a writable stream:</p><p>like it: <code>readableStream.pipe(writableStream)</code></p><p>readableStream —-pipe()—&gt; writableStream</p><pre><code class="hljs typescript"><span class="hljs-keyword">const</span> <span class="hljs-title class_">Stream</span> = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;stream&quot;</span>)
+
+<span class="hljs-keyword">const</span> readableStream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stream</span>.<span class="hljs-title class_">Readable</span>()
+<span class="hljs-keyword">const</span> writableStream = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Stream</span>.<span class="hljs-title class_">Writable</span>()
+
+<span class="hljs-comment">// declare the write function</span>
+writableStream.<span class="hljs-property">_write</span> = <span class="hljs-function">(<span class="hljs-params">chunk, encoding, next</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chunk.<span class="hljs-title function_">toString</span>())
+  <span class="hljs-title function_">next</span>()
+&#125;
+
+readableStream.<span class="hljs-title function_">pipe</span>(writableStream)
+
+readableStream.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;ping!&quot;</span>)
+readableStream.<span class="hljs-title function_">push</span>(<span class="hljs-string">&quot;pong!&quot;</span>)
+
+writableStream.<span class="hljs-title function_">end</span>()</code></pre><p>You can also use <strong>async iterators</strong> to write to a writable stream, which is <strong>recommended</strong></p><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> util <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;util&quot;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> stream <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;stream&quot;</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs&quot;</span>
+<span class="hljs-keyword">import</span> &#123; once &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;events&quot;</span>
+
+<span class="hljs-comment">// The default version of stream.finished() is `callback-based` but can be turned into a `Promise-based` version via `util.promisify()` (line A).</span>
+<span class="hljs-keyword">const</span> finished = util.<span class="hljs-title function_">promisify</span>(stream.<span class="hljs-property">finished</span>)
+<span class="hljs-comment">// same as:</span>
+<span class="hljs-keyword">const</span> finished = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;
+  stream.<span class="hljs-title function_">finished</span>(stream, <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">if</span> (err) <span class="hljs-title function_">reject</span>(err)
+    <span class="hljs-keyword">else</span> <span class="hljs-title function_">resolve</span>()
+  &#125;)
+&#125;)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">writeIterableToFile</span>(<span class="hljs-params">iterable, filePath</span>) &#123;
+  <span class="hljs-keyword">const</span> writable = fs.<span class="hljs-title function_">createWriteStream</span>(filePath, &#123; <span class="hljs-attr">encoding</span>: <span class="hljs-string">&quot;utf8&quot;</span> &#125;)
+
+  <span class="hljs-keyword">for</span> <span class="hljs-keyword">await</span> (<span class="hljs-keyword">const</span> chunk <span class="hljs-keyword">of</span> iterable) &#123;
+    <span class="hljs-keyword">if</span> (!writable.<span class="hljs-title function_">write</span>(chunk)) &#123;
+      <span class="hljs-comment">// (B)</span>
+      <span class="hljs-comment">// Handle backpressure, waiting until it&#x27;s safe to write again.</span>
+      <span class="hljs-comment">// The &#x27;drain&#x27; event is emitted when it&#x27;s safe to write again.</span>
+      <span class="hljs-comment">// 可写流发出 drain 事件时, 表示已经喝干了, 可以继续写入.</span>
+      <span class="hljs-keyword">await</span> <span class="hljs-title function_">once</span>(writable, <span class="hljs-string">&quot;drain&quot;</span>)
+    &#125;
+  &#125;
+  <span class="hljs-comment">// closing a writable stream and waiting until writting is done.</span>
+  writable.<span class="hljs-title function_">end</span>()
+  <span class="hljs-comment">// Wait until done. Throws(抛出) if there are errors.</span>
+  <span class="hljs-keyword">await</span> <span class="hljs-title function_">finished</span>(writable)
+&#125;
+
+<span class="hljs-keyword">await</span> <span class="hljs-title function_">writeIterableToFile</span>([<span class="hljs-string">&quot;One&quot;</span>, <span class="hljs-string">&quot; line of text.\n&quot;</span>], <span class="hljs-string">&quot;tmp/log.txt&quot;</span>)
+assert.<span class="hljs-title function_">equal</span>(
+  fs.<span class="hljs-title function_">readFileSync</span>(<span class="hljs-string">&quot;tmp/log.txt&quot;</span>, &#123; <span class="hljs-attr">encoding</span>: <span class="hljs-string">&quot;utf8&quot;</span> &#125;),
+  <span class="hljs-string">&quot;One line of text.\n&quot;</span>
+)</code></pre><h4 id="Readable-and-Writable-Streams"><a href="#Readable-and-Writable-Streams" class="headerlink" title="Readable and Writable Streams"></a>Readable and Writable Streams</h4><pre><code class="hljs text">X---ReadableStream---output
+                     input---WritableStream---X
+
+input---TransformStream---output
+
+X---ReadableStream---pipe()---WritableStream---X
+
+pipeline(
+  ReadableStream,
+  WritableStream,
+  (err) =&gt; &#123;
+    if (err) &#123;
+      console.error(&quot;Pipeline failed&quot;, err)
+    &#125; else &#123;
+      console.log(&quot;Pipeline succeeded&quot;)
+    &#125;
+  &#125;
+)
+</code></pre><h4 id="pipline-管道"><a href="#pipline-管道" class="headerlink" title="pipline() 管道"></a>pipline() 管道</h4><p><code>pipeline()</code> should be used instead of <code>pipe()</code>, as pipe is unsafe.</p><p>Piping is a way that provide the output of one stream as the input to another stream.</p><blockquote><p>管道是一种方式, 将一个流的输出作为另一个流的输入.</p></blockquote><p>output—-pipeline()—-input</p><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> fs <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;fs&quot;</span>
+<span class="hljs-keyword">import</span> zlib <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;zlib&quot;</span>
+<span class="hljs-keyword">import</span> &#123; pipeline &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;stream&quot;</span>
+
+<span class="hljs-comment">// Use the pipeline API to easily pipe a series of streams</span>
+<span class="hljs-comment">// together and get notified when the pipeline is fully done.</span>
+<span class="hljs-comment">// A pipeline to gzip a large video file efficiently:</span>
+
+<span class="hljs-title function_">pipeline</span>(
+  fs.<span class="hljs-title function_">createReadStream</span>(<span class="hljs-string">&quot;熊出没逆转时空.mp4&quot;</span>),
+  zlib.<span class="hljs-title function_">createGzip</span>(),
+  fs.<span class="hljs-title function_">createWriteStream</span>(<span class="hljs-string">&quot;熊出没逆转时空.mp4.gzip&quot;</span>),
+  <span class="hljs-function">(<span class="hljs-params">err</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">if</span> (err) &#123;
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">&quot;Pipeline failed&quot;</span>, err)
+    &#125; <span class="hljs-keyword">else</span> &#123;
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Pipeline succeeded&quot;</span>)
+    &#125;
+  &#125;
+)</code></pre><h3 id="The-Stream-Module-流模块"><a href="#The-Stream-Module-流模块" class="headerlink" title="The Stream Module 流模块"></a>The Stream Module 流模块</h3><p>The Node.js stream module provides the foundation(基础) upon which all streaming APIs are build.</p><p>The Stream module is a native module that shipped(装船) by default in Node.js. The Stream is an instance of the <code>EventEmitter</code> class which handles events <strong>asynchronously</strong> in Node. Because of this, streams are inherently event-based.</p><blockquote><p>Stream 模块是 Node.js 中默认提供的原生模块. Stream 是 EventEmitter 类的一个实例,它在 Node 中异步处理事件.因此,流本质上是基于事件的.</p></blockquote><p>Here are some important events related to writable streams:</p><ul><li><code>error</code> – Emitted to indicate(v. 指示) that an error has occurred while writing&#x2F;piping.</li><li><code>pipeline</code> – When a <strong>readable stream</strong> is piped into a writable stream, this event is emitted by the writable stream.</li><li><code>unpipe</code> – Emitted when you call unpipe on the readable stream and stop it from piping into the destination stream.</li></ul><pre><code class="hljs typescript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> stream <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;stream&quot;</span></code></pre><p>The stream module is useful for creating new types of stream instances. It is usually not necessary to use the stream module to consume streams.</p></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/javascript/nodejs-fast-start/">https://www.whaleluo.top/javascript/nodejs-fast-start/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2023-08-22</p></div><div class="post-entry__tags"><a href="/tags/JavaScript/" class="post-tags__link button"># JavaScript</a><a href="/tags/NodeJS/" class="post-tags__link button"># NodeJS</a><a href="/tags/JS/" class="post-tags__link button"># JS</a></div></article><div class="nav"><div class="nav__prev"><a href="/javascript/vue-tutorial/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Vue3 正式学习笔记</div></div></a></div><div class="nav__next"><a href="/javascript/javascript-fast-start/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">JavaScript 快速上手指南</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

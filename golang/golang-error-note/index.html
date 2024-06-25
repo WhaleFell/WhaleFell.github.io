@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Golang 学习笔记——Go error 错误 | 😊落落のBlog😊</title><meta name="keywords" content="Coding, Golang, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Go Error 错误Go 使用控制流机制（如 if 和 return）处理异常，这使得编码人员能更多的关注错误处理。 在实际工程项目中，我们希望通过程序的错误信息快速定位问题，但是又不喜欢错误处理代码写的冗余而又啰嗦。Go 语言没有提供像 Java、c# 语言中的 try..catch 异常处理方式，而是通过 函数返回值 逐层往上抛。这种设计，鼓励工程师在代码中 显式的检查错误 ，而非忽略错误，"><meta property="og:type" content="article"><meta property="og:title" content="Golang 学习笔记——Go error 错误"><meta property="og:url" content="https://www.whaleluo.top/golang/golang-error-note/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Go Error 错误Go 使用控制流机制（如 if 和 return）处理异常，这使得编码人员能更多的关注错误处理。 在实际工程项目中，我们希望通过程序的错误信息快速定位问题，但是又不喜欢错误处理代码写的冗余而又啰嗦。Go 语言没有提供像 Java、c# 语言中的 try..catch 异常处理方式，而是通过 函数返回值 逐层往上抛。这种设计，鼓励工程师在代码中 显式的检查错误 ，而非忽略错误，"><meta property="og:locale"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&webp=true"><meta property="article:published_time" content="2022-05-21T16:44:48.000Z"><meta property="article:modified_time" content="2022-05-21T16:44:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Coding"><meta property="article:tag" content="Golang"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&webp=true"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Golang 学习笔记——Go error 错误</h1><div class="post-title__meta"><a href="/archives/2022/05/" class="post-meta__date button">2022-05-22</a> <span class="separate-dot"></span><a href="/categories/Golang/" class="button">Golang</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF-%E5%BC%82%E5%B8%B8"><span class="toc-number">1.</span> <span class="toc-text">错误&amp;异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86-OS-%E6%A8%A1%E5%9D%97%E5%BC%82%E5%B8%B8"><span class="toc-number">2.</span> <span class="toc-text">处理 OS 模块异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B%E8%A1%A8%E7%A4%BA"><span class="toc-number">3.</span> <span class="toc-text">错误类型表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E9%94%99%E8%AF%AF%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%9B%B4%E5%A4%9A%E4%BF%A1%E6%81%AF"><span class="toc-number">3.1.</span> <span class="toc-text">从错误中获取更多信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-struct-%E7%B1%BB%E5%9E%8B%E5%B1%9E%E6%80%A7"><span class="toc-number">3.1.1.</span> <span class="toc-text">使用 struct 类型属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E7%94%A8-struct-%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.2.</span> <span class="toc-text">调用 struct 类型的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E6%AF%94%E8%BE%83"><span class="toc-number">3.1.3.</span> <span class="toc-text">直接比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Error"><span class="toc-number">4.</span> <span class="toc-text">自定义 Error</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%80%9A%E8%BF%87-errors-New-%E6%8F%8F%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">1. 通过 errors.New(&quot;描述&quot;)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%80%9A%E8%BF%87-fmt-Errorf"><span class="toc-number">4.2.</span> <span class="toc-text">2. 通过 fmt.Errorf()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF"><span class="toc-number">4.3.</span> <span class="toc-text">3. 定义错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BD%E9%87%8F%E4%B8%8D%E8%A6%81-%E5%BF%BD%E7%95%A5%E9%94%99%E8%AF%AF"><span class="toc-number">5.</span> <span class="toc-text">尽量不要 _ 忽略错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#panic-%E5%92%8C-recover"><span class="toc-number">6.</span> <span class="toc-text">panic() 和 recover()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF-%E5%BC%82%E5%B8%B8"><span class="toc-number">7.</span> <span class="toc-text">什么时候使用错误&#x2F;异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%B6%E7%84%B6%E5%BC%82%E5%B8%B8%E9%87%8D%E8%AF%95%E6%9C%BA%E5%88%B6"><span class="toc-number">8.</span> <span class="toc-text">偶然异常重试机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E8%BF%90%E8%A1%8C%E7%9A%84%E9%87%8D%E5%A4%A7%E9%94%99%E8%AF%AF"><span class="toc-number">9.</span> <span class="toc-text">无法运行的重大错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%BB%93%E5%B0%BE%E9%94%99%E8%AF%AF%EF%BC%88EOF%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">文件结尾错误（EOF）</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF-%E5%BC%82%E5%B8%B8"><span class="toc-number">1.</span> <span class="toc-text">错误&amp;异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%84%E7%90%86-OS-%E6%A8%A1%E5%9D%97%E5%BC%82%E5%B8%B8"><span class="toc-number">2.</span> <span class="toc-text">处理 OS 模块异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E7%B1%BB%E5%9E%8B%E8%A1%A8%E7%A4%BA"><span class="toc-number">3.</span> <span class="toc-text">错误类型表示</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E9%94%99%E8%AF%AF%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%9B%B4%E5%A4%9A%E4%BF%A1%E6%81%AF"><span class="toc-number">3.1.</span> <span class="toc-text">从错误中获取更多信息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-struct-%E7%B1%BB%E5%9E%8B%E5%B1%9E%E6%80%A7"><span class="toc-number">3.1.1.</span> <span class="toc-text">使用 struct 类型属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B0%83%E7%94%A8-struct-%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">3.1.2.</span> <span class="toc-text">调用 struct 类型的方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E6%AF%94%E8%BE%83"><span class="toc-number">3.1.3.</span> <span class="toc-text">直接比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89-Error"><span class="toc-number">4.</span> <span class="toc-text">自定义 Error</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%80%9A%E8%BF%87-errors-New-%E6%8F%8F%E8%BF%B0"><span class="toc-number">4.1.</span> <span class="toc-text">1. 通过 errors.New(&quot;描述&quot;)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%80%9A%E8%BF%87-fmt-Errorf"><span class="toc-number">4.2.</span> <span class="toc-text">2. 通过 fmt.Errorf()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF"><span class="toc-number">4.3.</span> <span class="toc-text">3. 定义错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BD%E9%87%8F%E4%B8%8D%E8%A6%81-%E5%BF%BD%E7%95%A5%E9%94%99%E8%AF%AF"><span class="toc-number">5.</span> <span class="toc-text">尽量不要 _ 忽略错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#panic-%E5%92%8C-recover"><span class="toc-number">6.</span> <span class="toc-text">panic() 和 recover()</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BD%BF%E7%94%A8%E9%94%99%E8%AF%AF-%E5%BC%82%E5%B8%B8"><span class="toc-number">7.</span> <span class="toc-text">什么时候使用错误&#x2F;异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%81%B6%E7%84%B6%E5%BC%82%E5%B8%B8%E9%87%8D%E8%AF%95%E6%9C%BA%E5%88%B6"><span class="toc-number">8.</span> <span class="toc-text">偶然异常重试机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E8%BF%90%E8%A1%8C%E7%9A%84%E9%87%8D%E5%A4%A7%E9%94%99%E8%AF%AF"><span class="toc-number">9.</span> <span class="toc-text">无法运行的重大错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%BB%93%E5%B0%BE%E9%94%99%E8%AF%AF%EF%BC%88EOF%EF%BC%89"><span class="toc-number">10.</span> <span class="toc-text">文件结尾错误（EOF）</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&amp;webp=true"></div><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2022-05-22"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Go-Error-错误"><a href="#Go-Error-错误" class="headerlink" title="Go Error 错误"></a>Go Error 错误</h1><p>Go 使用控制流机制（如 if 和 return）处理异常，这使得编码人员能更多的关注错误处理。</p><p>在实际工程项目中，我们希望通过程序的错误信息快速定位问题，但是又不喜欢错误处理代码写的冗余而又啰嗦。Go 语言没有提供像 <code>Java</code>、<code>c#</code> 语言中的 <code>try..catch</code> 异常处理方式，而是通过 <strong>函数返回值</strong> 逐层往上抛。这种设计，鼓励工程师在代码中 <strong>显式的检查错误</strong> ，而非忽略错误，好处就是避免漏掉本应处理的错误。但是带来一个弊端，让 <strong>代码啰嗦</strong> 。</p><h2 id="错误-异常"><a href="#错误-异常" class="headerlink" title="错误&amp;异常"></a>错误&amp;异常</h2><ul><li><strong>错误</strong>: 指的是<strong>可能出现问题</strong>的地方出现了问题。比如打开一个文件时失败，这种情况在人们的意料之中。</li><li><strong>异常</strong>: 指的是不<strong>应该出现问题</strong>的地方出现了问题。比如引用了空指针，这种情况<strong>在人们的意料之外</strong>。可见，错误是业务过程的一部分，而异常不是。</li></ul><p>Go 中的错误 <strong>也是一种类型</strong> 。错误用内置的 <code>error</code> 类型表示。就像其他类型的，如 <code>int</code>,<code>floate64</code>.错误值可以<strong>存储在变量中，从函数中返回</strong>，等等。</p><h2 id="处理-OS-模块异常"><a href="#处理-OS-模块异常" class="headerlink" title="处理 OS 模块异常"></a>处理 OS 模块异常</h2><p>如果一个函数或方法返回一个错误，那么按照惯例，它必须是 <strong>函数返回的最后一个值</strong>。因此，<code>Open</code> 函数返回的值是最后一个值。<br>处理错误的惯用方法是将 <strong>返回的错误与 ​</strong>​**<code>nil</code><strong>​</strong>​ 进行比较** 。<code>nil</code> 值表示没有发生错误，而 <code>非nil</code> 值表示出现错误。在我们的例子中，我们检查错误是否为 <code>nil</code>。如果它不是 <code>nil</code> ,我们只需 <strong>打印错误并从主函数返回</strong>。</p><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+<span class="hljs-keyword">import</span> (
+<span class="hljs-string">&quot;os&quot;</span>
+<span class="hljs-string">&quot;fmt&quot;</span>
+<span class="hljs-string">&quot;log&quot;</span>
+)
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+    <span class="hljs-comment">//打开一个文件</span>
+    f,err := os.Open(name:<span class="hljs-string">&quot;test.txt&quot;</span>)
+    <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span>&#123;
+        <span class="hljs-comment">//log.Fatal(err)  //调用日志模块捕捉异常,会自动 return</span>
+        fmt.Println(err) <span class="hljs-comment">//异常信息:open test.txt:no such file directoryreturn</span>
+        <span class="hljs-keyword">return</span>
+    &#125;
+
+  fmt.Println(f.Name(),<span class="hljs-string">&quot;打开文件成功。。&quot;</span>)
+
+&#125;</code></pre><h2 id="错误类型表示"><a href="#错误类型表示" class="headerlink" title="错误类型表示"></a>错误类型表示</h2><p>G0 语言通过 <strong>内置的错误接口</strong> 提供了非常简单的错误处理机制。<br><strong>定义错误类型</strong> 的构建。错误是一个带有以下定义的接口类型:</p><pre><code class="hljs go"><span class="hljs-keyword">type</span> <span class="hljs-type">error</span> <span class="hljs-keyword">interface</span> &#123;
+    Error() <span class="hljs-type">string</span>
+&#125;</code></pre><blockquote><p><code>fmt.Println(err)</code> 会在内部执行 Error() 方法,返回错误的字符串信息.</p></blockquote><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-1.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-1.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h3 id="从错误中获取更多信息"><a href="#从错误中获取更多信息" class="headerlink" title="从错误中获取更多信息"></a>从错误中获取更多信息</h3><blockquote><p><strong>断言判断接口底层类型</strong> ,通过 <code>struct</code> 结构体的属性和方法获取更多的信息</p></blockquote><h4 id="使用-struct-类型属性"><a href="#使用-struct-类型属性" class="headerlink" title="使用 struct 类型属性"></a>使用 <code>struct</code> 类型属性</h4><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-4.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-4.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h4 id="调用-struct-类型的方法"><a href="#调用-struct-类型的方法" class="headerlink" title="调用 struct 类型的方法"></a>调用 <code>struct</code> 类型的方法</h4><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-5.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-5.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h4 id="直接比较"><a href="#直接比较" class="headerlink" title="直接比较"></a>直接比较</h4><p>直接与错误类型的变量进行比较.</p><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+<span class="hljs-keyword">import</span> (
+  <span class="hljs-string">&quot;path/filepath&quot;</span>
+  <span class="hljs-string">&quot;fmt&quot;</span>
+)
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+  files,err := filepath.Glob(<span class="hljs-string">&quot;[&quot;</span>)
+  <span class="hljs-comment">// 直接判断错误的类型</span>
+  <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &amp; err == filepath.ErrBadPattern&#123;
+    fmt.Println(err)<span class="hljs-comment">//syntax error in patternreturn</span>
+    <span class="hljs-keyword">return</span>
+  &#125;
+  fmt.Println(a:<span class="hljs-string">&quot;files:&quot;</span>,files)
+&#125;</code></pre><h2 id="自定义-Error"><a href="#自定义-Error" class="headerlink" title="自定义 Error"></a>自定义 Error</h2><h3 id="1-通过-errors-New-描述"><a href="#1-通过-errors-New-描述" class="headerlink" title="1. 通过 errors.New(&quot;描述&quot;)"></a>1. 通过 <code>errors.New(&quot;描述&quot;)</code></h3><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-2.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-2.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h3 id="2-通过-fmt-Errorf"><a href="#2-通过-fmt-Errorf" class="headerlink" title="2. 通过 fmt.Errorf()"></a>2. 通过 <code>fmt.Errorf()</code></h3><p>也可以使用 <code>fmt.Errorf()</code> 输出的错误更详细,支持格式化输出错误.</p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-3.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/error-3.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h3 id="3-定义错误"><a href="#3-定义错误" class="headerlink" title="3. 定义错误"></a>3. 定义错误</h3><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> (
+ <span class="hljs-string">&quot;fmt&quot;</span>
+ <span class="hljs-string">&quot;math&quot;</span>
+)
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ r := <span class="hljs-number">-2.0</span>
+ area, err := circleArea(r)
+ <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;
+  <span class="hljs-comment">// 打印 err 就是调用错误struct的Error()方法,返回字符串</span>
+        <span class="hljs-comment">//错误值其实就是错误对象调用Error方法执行的结果</span>
+  <span class="hljs-comment">// fmt.Println(err)</span>
+  <span class="hljs-comment">// 通过接口断言判断错误类型,获取错误类型中的属性,运行错误类型中的方法</span>
+  <span class="hljs-keyword">if</span> err, ok := err.(*areaError); ok &#123;
+   fmt.Println(err)
+   fmt.Printf(<span class="hljs-string">&quot;半径是:%.2f\n&quot;</span>, err.radius)
+  &#125; <span class="hljs-keyword">else</span> &#123;
+   fmt.Println(err)
+   fmt.Printf(<span class="hljs-string">&quot;其他错误类型:%s,%T\n&quot;</span>, err, err)
+  &#125;
+  <span class="hljs-keyword">return</span>
+ &#125;
+ fmt.Println(<span class="hljs-string">&quot;圆的的面积是:&quot;</span>, area)
+&#125;
+
+<span class="hljs-comment">//1. 定义一个struct,表示错误类型</span>
+<span class="hljs-keyword">type</span> areaError <span class="hljs-keyword">struct</span> &#123;
+ msg    <span class="hljs-type">string</span> <span class="hljs-comment">// 错误的描述</span>
+ radius <span class="hljs-type">float64</span>  <span class="hljs-comment">//半径</span>
+&#125;
+
+<span class="hljs-comment">//2. 实现error接口，就是实现Error方法，该方法返回字符串</span>
+<span class="hljs-comment">// 需要传入结构体指针</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(e *areaError)</span></span> Error() <span class="hljs-type">string</span> &#123;
+ <span class="hljs-comment">// 返回一个格式化的字符串</span>
+ <span class="hljs-keyword">return</span> fmt.Sprintf(<span class="hljs-string">&quot;error: 半径,%.2f,%s&quot;</span>, e.radius, e.msg)
+&#125;
+
+<span class="hljs-comment">// 3.定义一个求圆面积的函数,注意，第二个返回值是go内置的 error接口实现类型</span>
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">circleArea</span><span class="hljs-params">(r <span class="hljs-type">float64</span>)</span></span> (<span class="hljs-type">float64</span>, <span class="hljs-type">error</span>) &#123;
+ <span class="hljs-keyword">if</span> r &lt; <span class="hljs-number">0</span> &#123;
+  <span class="hljs-comment">// 用 &amp; 返回error对象指针</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>, &amp;areaError&#123;<span class="hljs-string">&quot;半径是非法的&quot;</span>, r&#125;
+ &#125;
+ <span class="hljs-keyword">return</span> math.Pi * r * r, <span class="hljs-literal">nil</span>
+&#125;</code></pre><h2 id="尽量不要-忽略错误"><a href="#尽量不要-忽略错误" class="headerlink" title="尽量不要 _ 忽略错误"></a>尽量不要 <code>_</code> 忽略错误</h2><p><strong>永远不要忽略一个错误。忽视错误会招致麻烦。</strong></p><pre><code class="hljs go">files,_ := filepath.Glob(<span class="hljs-string">&quot;[&quot;</span>)</code></pre><h2 id="panic-和-recover"><a href="#panic-和-recover" class="headerlink" title="panic() 和 recover()"></a><code>panic()</code> 和 <code>recover()</code></h2><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">// 处理 panic 的 defer 匿名函数</span>
+ <span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;
+  <span class="hljs-comment">// reconver() 接受 panic() 的信息</span>
+  <span class="hljs-keyword">if</span> msg := <span class="hljs-built_in">recover</span>(); msg != <span class="hljs-literal">nil</span> &#123;
+   fmt.Println(msg, <span class="hljs-string">&quot;程序恢复啦。。&quot;</span>)
+  &#125;
+ &#125;()
+ <span class="hljs-comment">// funB的panic传递到此处,引起panic时需要执行完所有defer主函数才会报错</span>
+ funB()
+
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">myprint</span><span class="hljs-params">(s <span class="hljs-type">string</span>)</span></span> &#123;
+ fmt.Println(s)
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">funB</span><span class="hljs-params">()</span></span> &#123; <span class="hljs-comment">//外围函数</span>
+ <span class="hljs-comment">// 匿名函数,处理pianic的recover()也可以放在main函数中</span>
+ <span class="hljs-comment">// defer是逆序执行的</span>
+ <span class="hljs-keyword">defer</span> <span class="hljs-function"><span class="hljs-keyword">func</span><span class="hljs-params">()</span></span> &#123;
+  <span class="hljs-comment">// reconver() 接受 panic() 的信息</span>
+  <span class="hljs-keyword">if</span> msg := <span class="hljs-built_in">recover</span>(); msg != <span class="hljs-literal">nil</span> &#123;
+   fmt.Println(msg, <span class="hljs-string">&quot;程序恢复啦。。&quot;</span>)
+  &#125;
+ &#125;()
+
+ fmt.Println(<span class="hljs-string">&quot;我是函数funB()..&quot;</span>)
+ <span class="hljs-keyword">defer</span> myprint(<span class="hljs-string">&quot;defer funB()...1.....&quot;</span>)
+ <span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span>; i &lt;= <span class="hljs-number">10</span>; i++ &#123;
+  fmt.Println(<span class="hljs-string">&quot;i:&quot;</span>, i)
+  <span class="hljs-keyword">if</span> i == <span class="hljs-number">5</span> &#123;
+   <span class="hljs-comment">//让程序中断</span>
+   <span class="hljs-built_in">panic</span>(<span class="hljs-string">&quot;funB函数,恐慌了&quot;</span>)
+  &#125;
+ &#125;
+ <span class="hljs-comment">//当外围函数的代码中发生了运行恐慌，只有其中所有的已经`defer`的函数全部都执行完毕后，</span>
+ <span class="hljs-comment">//该运行恐慌才会真正被扩展至调用处。</span>
+ <span class="hljs-keyword">defer</span> myprint(<span class="hljs-string">&quot;defer funB():2.....&quot;</span>)
+&#125;</code></pre><h2 id="什么时候使用错误-异常"><a href="#什么时候使用错误-异常" class="headerlink" title="什么时候使用错误&#x2F;异常"></a>什么时候使用错误&#x2F;异常</h2><p>什么情况下用错误表达，什么情况下用异常表达，就得有一套规则，否则很容易出现一切皆错误或一切皆异常的情况。<br>以下给出异常处理的作用域（场景）:</p><blockquote><ol><li>空指针引用</li><li>下标越界</li><li>除数为 0</li><li>不应该出现的分支，比如 default</li><li>输入不应该引起函数错误</li></ol></blockquote><p>其他场景我们使用错误处理，这使得我们的函数接口很精炼。对于异常，我们可以选择在一个合适的上游去 <code>recover()</code> .并打印堆栈信息，使得部署后的程序不会终止。</p><h2 id="偶然异常重试机制"><a href="#偶然异常重试机制" class="headerlink" title="偶然异常重试机制"></a>偶然异常重试机制</h2><p>如果错误的发生是偶然性的，或由不可预知的问题导致的。一个明智的选择是重新尝试失败的操作。在重试时，我们需要限制重试的 <strong>时间间隔</strong> 或重试的 <strong>次数</strong>，防止无限制的重试。</p><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">WaitForServer</span><span class="hljs-params">(url <span class="hljs-type">string</span>)</span></span> <span class="hljs-type">error</span> &#123;
+  <span class="hljs-keyword">const</span> timeout = <span class="hljs-number">1</span> * time.Minute
+  deadline := time.Now().Add(timeout)  <span class="hljs-comment">//设定异常最大重试时间</span>
+
+  <span class="hljs-keyword">for</span> tries := <span class="hljs-number">0</span>; time.Now().Before(deadline); tries++ &#123;
+    _, err := http.Head(url)
+    <span class="hljs-keyword">if</span> err == <span class="hljs-literal">nil</span> &#123;
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span> <span class="hljs-comment">// success</span>
+    &#125;
+    log.Printf(<span class="hljs-string">&quot;server not responding (%s);retrying…&quot;</span>, err)
+    time.Sleep(time.Second &lt;&lt; <span class="hljs-type">uint</span>(tries)) <span class="hljs-comment">// exponential back-off</span>
+  &#125;
+
+  <span class="hljs-keyword">return</span> fmt.Errorf(<span class="hljs-string">&quot;server %s failed to respond after %s&quot;</span>, url, timeout)
+&#125;</code></pre><h2 id="无法运行的重大错误"><a href="#无法运行的重大错误" class="headerlink" title="无法运行的重大错误"></a>无法运行的重大错误</h2><p>如果错误发生后，程序无法继续运行，我们就可以采用第三种策略：输出错误信息并结束程序。需要注意的是，这种策略只应在 main 中执行。对库函数而言，<strong>应仅向上传播错误</strong>，除非该错误意味着程序内部包含不一致性，即遇到了 bug，才能在库函数中结束程序。</p><p>log 包中的所有函数会为没有换行符的字符串增加换行符。</p><pre><code class="hljs go"><span class="hljs-comment">// (In function main.)</span>
+<span class="hljs-keyword">if</span> err := WaitForServer(url); err != <span class="hljs-literal">nil</span> &#123;
+  <span class="hljs-comment">// fmt.Fprintf(os.Stderr, &quot;Site is down: %v\n&quot;, err)</span>
+  log.Fatalf(<span class="hljs-string">&quot;Site is down: %v\n&quot;</span>, err)
+  os.Exit(<span class="hljs-number">1</span>)
+&#125;</code></pre><p>只需要输出错误信息就足够了，不需要中断程序的运行。</p><pre><code class="hljs go">log.Printf(<span class="hljs-string">&quot;ping failed: %v; networking disabled&quot;</span>,err)</code></pre><p>或者向标准错误流输出错误信息。</p><pre><code class="hljs go">fmt.Fprintf(os.Stderr, <span class="hljs-string">&quot;ping failed: %v; networking disabled\n&quot;</span>, err)</code></pre><h2 id="文件结尾错误（EOF）"><a href="#文件结尾错误（EOF）" class="headerlink" title="文件结尾错误（EOF）"></a>文件结尾错误（EOF）</h2><p>读取文件时，调用者会重复的读取固定大小的数据直到文件结束，io 包保证任何由文件结束引起的读取失败都返回同一个错误—— <code>io.EOF</code>.</p><pre><code class="hljs go"><span class="hljs-comment">// 标准输入中读取字符，以及判断文件结束。</span>
+in := bufio.NewReader(os.Stdin)
+<span class="hljs-keyword">for</span> &#123;
+  r, _, err := in.ReadRune()
+  <span class="hljs-keyword">if</span> err == io.EOF &#123;
+    <span class="hljs-keyword">break</span> <span class="hljs-comment">// finished reading</span>
+  &#125;
+  <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> &#123;
+    <span class="hljs-keyword">return</span> fmt.Errorf(<span class="hljs-string">&quot;read failed:%v&quot;</span>, err)
+  &#125;
+  <span class="hljs-comment">// ...use r…</span>
+&#125;</code></pre></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/golang/golang-error-note/">https://www.whaleluo.top/golang/golang-error-note/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2022-05-22</p></div><div class="post-entry__tags"><a href="/tags/Coding/" class="post-tags__link button"># Coding</a><a href="/tags/Golang/" class="post-tags__link button"># Golang</a></div></article><div class="nav"><div class="nav__prev"><a href="/golang/golang-project-and-gomod-note/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Golang 学习笔记——Go 项目结构和 Go mod</div></div></a></div><div class="nav__next"><a href="/golang/golang-type-keyword-note/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">Golang 学习笔记——Type关键字</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

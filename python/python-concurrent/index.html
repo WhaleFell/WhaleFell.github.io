@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Python 并发编程笔记 | 😊落落のBlog😊</title><meta name="keywords" content="Coding, Python, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Python并发编程(多线程,多进程,多协程)"><meta property="og:type" content="article"><meta property="og:title" content="Python 并发编程笔记"><meta property="og:url" content="https://www.whaleluo.top/python/python-concurrent/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Python并发编程(多线程,多进程,多协程)"><meta property="og:locale"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630201524.png"><meta property="article:published_time" content="2021-06-18T11:37:48.000Z"><meta property="article:modified_time" content="2021-06-18T11:37:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Coding"><meta property="article:tag" content="Python"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630201524.png"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Python 并发编程笔记</h1><div class="post-title__meta"><a href="/archives/2021/06/" class="post-meta__date button">2021-06-18</a> <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B9%B6%E5%8F%91%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">各并发技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A4%9A%E7%BA%BF%E7%A8%8B-Thread%EF%BC%88threading%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">1. 多线程 Thread（threading）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%99%AE%E9%80%9A%E5%86%99%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">多进程普通写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%8A%80%E6%9C%AF"><span class="toc-number">2.2.</span> <span class="toc-text">利用线程池技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B-Producer-Consumer"><span class="toc-number">2.3.</span> <span class="toc-text">生产者消费者模型 ( Producer, Consumer)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A4%9A%E8%BF%9B%E7%A8%8B-MultiProcess"><span class="toc-number">3.</span> <span class="toc-text">2. 多进程 (MultiProcess)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81-Python-%E7%9A%84%E5%A4%A7%E7%BC%BA%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">全局解释器锁 (Python 的大缺点)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%80%82%E7%94%A8%E4%BA%8E-CPU-%E5%AF%86%E9%9B%86%E5%9E%8B%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.</span> <span class="toc-text">多进程适用于 CPU 密集型计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">利用进程池技术实现多进程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B9%B6%E5%8F%91%E9%94%81-Concurrent-Lock"><span class="toc-number">4.</span> <span class="toc-text">3. 并发锁 (Concurrent Lock)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95-1-try-finally-%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.1.</span> <span class="toc-text">用法 1: try-finally 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95-2-with-%E6%A8%A1%E5%BC%8F-%E6%8E%A8%E8%8D%90%E8%BF%99%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">用法 2: with 模式 (推荐这种方式)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E4%B8%8A%E9%94%81"><span class="toc-number">4.3.</span> <span class="toc-text">什么时候需要上锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5%E5%8D%8F%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">4. 异步协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">5.2.</span> <span class="toc-text">补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E7%A8%8B%E3%80%81%E5%BC%82%E6%AD%A5"><span class="toc-number">5.2.1.</span> <span class="toc-text">1. 什么是协程、异步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-async-await-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.2.</span> <span class="toc-text">2. async \ await 的使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.3.</span> <span class="toc-text">基本实现:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-aiohttp-%E6%A8%A1%E5%9D%97%E5%8F%91%E9%80%81%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82"><span class="toc-number">5.3.1.</span> <span class="toc-text">利用 aiohttp 模块发送网络请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-aiofile-%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6"><span class="toc-number">5.3.2.</span> <span class="toc-text">利用 aiofile 异步操作文件</span></a></li></ol></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%84%E5%B9%B6%E5%8F%91%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">各并发技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%A4%9A%E7%BA%BF%E7%A8%8B-Thread%EF%BC%88threading%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">1. 多线程 Thread（threading）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%99%AE%E9%80%9A%E5%86%99%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">多进程普通写法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%8A%80%E6%9C%AF"><span class="toc-number">2.2.</span> <span class="toc-text">利用线程池技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B-Producer-Consumer"><span class="toc-number">2.3.</span> <span class="toc-text">生产者消费者模型 ( Producer, Consumer)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%A4%9A%E8%BF%9B%E7%A8%8B-MultiProcess"><span class="toc-number">3.</span> <span class="toc-text">2. 多进程 (MultiProcess)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E5%99%A8%E9%94%81-Python-%E7%9A%84%E5%A4%A7%E7%BC%BA%E7%82%B9"><span class="toc-number">3.1.</span> <span class="toc-text">全局解释器锁 (Python 的大缺点)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B%E9%80%82%E7%94%A8%E4%BA%8E-CPU-%E5%AF%86%E9%9B%86%E5%9E%8B%E8%AE%A1%E7%AE%97"><span class="toc-number">3.2.</span> <span class="toc-text">多进程适用于 CPU 密集型计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B1%A0%E6%8A%80%E6%9C%AF%E5%AE%9E%E7%8E%B0%E5%A4%9A%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.3.</span> <span class="toc-text">利用进程池技术实现多进程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%B9%B6%E5%8F%91%E9%94%81-Concurrent-Lock"><span class="toc-number">4.</span> <span class="toc-text">3. 并发锁 (Concurrent Lock)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95-1-try-finally-%E6%A8%A1%E5%BC%8F"><span class="toc-number">4.1.</span> <span class="toc-text">用法 1: try-finally 模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E6%B3%95-2-with-%E6%A8%A1%E5%BC%8F-%E6%8E%A8%E8%8D%90%E8%BF%99%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">4.2.</span> <span class="toc-text">用法 2: with 模式 (推荐这种方式)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E9%9C%80%E8%A6%81%E4%B8%8A%E9%94%81"><span class="toc-number">4.3.</span> <span class="toc-text">什么时候需要上锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%BC%82%E6%AD%A5%E5%8D%8F%E7%A8%8B"><span class="toc-number">5.</span> <span class="toc-text">4. 异步协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">5.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%A5%E5%85%85"><span class="toc-number">5.2.</span> <span class="toc-text">补充</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E7%A8%8B%E3%80%81%E5%BC%82%E6%AD%A5"><span class="toc-number">5.2.1.</span> <span class="toc-text">1. 什么是协程、异步</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-async-await-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.2.</span> <span class="toc-text">2. async \ await 的使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9E%E7%8E%B0"><span class="toc-number">5.3.</span> <span class="toc-text">基本实现:</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-aiohttp-%E6%A8%A1%E5%9D%97%E5%8F%91%E9%80%81%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82"><span class="toc-number">5.3.1.</span> <span class="toc-text">利用 aiohttp 模块发送网络请求</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-aiofile-%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C%E6%96%87%E4%BB%B6"><span class="toc-number">5.3.2.</span> <span class="toc-text">利用 aiofile 异步操作文件</span></a></li></ol></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630201524.png"></div><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2021-06-18"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Python-并发编程"><a href="#Python-并发编程" class="headerlink" title="Python 并发编程"></a>Python 并发编程</h1><h2 id="各并发技术"><a href="#各并发技术" class="headerlink" title="各并发技术"></a>各并发技术</h2><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630200927.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630200927.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h2 id="1-多线程-Thread（threading）"><a href="#1-多线程-Thread（threading）" class="headerlink" title="1. 多线程 Thread（threading）"></a>1. 多线程 Thread（threading）</h2><blockquote><ul><li><p>优点：<strong>相比进程，更轻量级、占用资源少.</strong></p></li><li><p>缺点：</p><ul><li>相比进程：多线程只能<strong>并发执行</strong>，<strong>不能利用多 CPU（GIL）</strong></li><li>相比协程：启动数目<strong>有限制</strong>，占用内存资源，<strong>有线程切换开销</strong></li></ul></li><li><p>适用于：<strong>IO 密集型计算</strong>、同时运行的任务数目要求不多</p></li></ul></blockquote><h3 id="多进程普通写法"><a href="#多进程普通写法" class="headerlink" title="多进程普通写法"></a>多进程普通写法</h3><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading
+threads = [] <span class="hljs-comment"># 线程列表</span>
+
+<span class="hljs-comment"># 为每个url创建一个线程对象并加入线程列表里</span>
+<span class="hljs-comment"># target: 函数名 args: 函数参数(元组格式)</span>
+<span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls:
+    threads.append(
+        threading.Thread(target=craw, args=(url,))
+    )
+
+<span class="hljs-comment"># 遍历线程列表启动线程</span>
+<span class="hljs-keyword">for</span> thread <span class="hljs-keyword">in</span> threads:
+    thread.start()
+
+<span class="hljs-comment"># 等待线程结束再执行主线程</span>
+<span class="hljs-keyword">for</span> thread <span class="hljs-keyword">in</span> threads:
+    thread.join()</code></pre><h3 id="利用线程池技术"><a href="#利用线程池技术" class="headerlink" title="利用线程池技术"></a>利用线程池技术</h3><blockquote><p>好处: 新建线程系统需要<strong>分配资源</strong>、终止线程系统需要回收资源,线程池可以<strong>重用线程</strong>，则可以<strong>减去新建&#x2F;终止的开销</strong></p></blockquote><ul><li><p>原理</p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630204323.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630204323.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630204353.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630204353.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p></li><li><p>代码实现</p><ol><li><strong>map 方式提交</strong></li></ol><blockquote><p><code>map</code> 的结果和入参是顺序对应的,且 map 传入函数参数时要传入<strong>参数列表</strong></p></blockquote><blockquote><p><a target="_blank" rel="noopener" href="https://www.runoob.com/python3/python3-func-zip.html">Python Zip()函数</a></p><blockquote><p><strong>zip()</strong> 函数用于将<strong>可迭代的对象作为参数</strong>，将对象中<strong>对应的元素打包成一个个元组</strong>，然后返回由这些<strong>元组组成的对象</strong>，这样做的好处是<strong>节约了不少的内存</strong>。</p><p>我们可以使用 <code>list()</code> 转换来输出列表。</p><p><strong>元素个数与最短的列表一致</strong>.</p><p>如果各个迭代器的元素个数不一致，则返回列表长度与最短的对象相同，利用 <strong>*</strong> 号操作符，可以将元组解压为列表。</p></blockquote><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630211154.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210630211154.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p></blockquote><pre><code class="hljs python">
+<span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ThreadPoolExecutor
+<span class="hljs-comment"># 可以设置线程数</span>
+<span class="hljs-keyword">with</span> ThreadPoolExecutor(max_workers=<span class="hljs-number">10</span>) <span class="hljs-keyword">as</span> pool:
+    <span class="hljs-comment"># map 向线程池提交任务,传入方法名,以及参数列表</span>
+    htmls = pool.<span class="hljs-built_in">map</span>(craw, urls)
+    <span class="hljs-comment"># htmls urls(列表) 都是可迭代对象,可以用 zip 函数将他们打包成一个元组</span>
+    htmls = <span class="hljs-built_in">list</span>(<span class="hljs-built_in">zip</span>(urls, htmls))
+    <span class="hljs-comment"># 结果和入参是顺序对应的</span>
+    <span class="hljs-keyword">for</span> url, html <span class="hljs-keyword">in</span> htmls:
+        <span class="hljs-built_in">print</span>(url, <span class="hljs-built_in">len</span>(html))</code></pre><ol><li><strong>submit 方式提交</strong></li></ol><blockquote><p><strong>future 模式，更强大</strong>,注意如果用 <code>as_completed</code> 顺序是不定的</p></blockquote><blockquote><p><a target="_blank" rel="noopener" href="https://www.runoob.com/python3/python3-att-dictionary-items.html">Python3 字典 items方法</a></p><blockquote><p>Python 字典 items() 方法以列表<strong>返回视图对象</strong>，是一个<strong>可遍历的 key&#x2F;value 对</strong>。</p></blockquote><p>将: <code>&#123;&#39;Name&#39;: &#39;Runoob&#39;, &#39;Age&#39;: 7&#125;</code> 变为: <code>[(&#39;Age&#39;, 7), (&#39;Name&#39;, &#39;Runoob&#39;)]</code></p></blockquote><ul><li><p><strong>方法一</strong></p><pre><code class="hljs python"><span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ThreadPoolExecutor,as_completed
+<span class="hljs-keyword">with</span> ThreadPoolExecutor() <span class="hljs-keyword">as</span> pool:
+    <span class="hljs-comment"># 利用线程列表启动</span>
+    futures=[
+        pool.submit(craw,url)
+        <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls
+    ]
+
+    <span class="hljs-comment"># 通过遍历线程列表取出结果(要等所有结果运行完才有)</span>
+    <span class="hljs-keyword">for</span> future <span class="hljs-keyword">in</span> futures:
+        <span class="hljs-built_in">print</span>(future.result())
+
+    <span class="hljs-comment"># as_completed 不需要等待所有结果运行完才输出结果</span>
+    <span class="hljs-comment"># 一旦有结果运行完就会输出</span>
+    <span class="hljs-keyword">for</span> future <span class="hljs-keyword">in</span> as_completed(futures):
+        <span class="hljs-built_in">print</span>(future.result())</code></pre></li><li><p><strong>方法二</strong></p><blockquote><p><strong>适合需要与某一个量一一对应建立联系</strong></p></blockquote><pre><code class="hljs python"><span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ThreadPoolExecutor
+<span class="hljs-keyword">with</span> ThreadPoolExecutor() <span class="hljs-keyword">as</span> pool:
+    futures = &#123;&#125;  <span class="hljs-comment"># 字典,便于一一对应</span>
+    <span class="hljs-comment"># htmls格式: ([],[],[],..)</span>
+    <span class="hljs-comment"># 遍历元组的每个列表,把列表中的两个参数赋值给 url,html</span>
+    <span class="hljs-keyword">for</span> url, html <span class="hljs-keyword">in</span> htmls:
+        <span class="hljs-comment"># submwit 提交,传入方法名和单个参数</span>
+        future = pool.submit(parse, html)
+        <span class="hljs-comment"># 使用字典 将 future 对象与链接一一对应</span>
+        futures[future] = url
+
+    <span class="hljs-comment"># 将转化为元组的字典遍历出来</span>
+    <span class="hljs-comment"># future-&gt;线程对象 url-&gt;线程对应的url</span>
+    <span class="hljs-keyword">for</span> future,url <span class="hljs-keyword">in</span> futures.items():
+        <span class="hljs-comment"># 线程对象通过 result 取出运行结果</span>
+        <span class="hljs-built_in">print</span>(url,future.result())</code></pre></li></ul></li></ul><h3 id="生产者消费者模型-Producer-Consumer"><a href="#生产者消费者模型-Producer-Consumer" class="headerlink" title="生产者消费者模型 ( Producer, Consumer)"></a>生产者消费者模型 ( Producer, Consumer)</h3><ol><li><p>多组件的 <code>Pipeline</code> 技术架构</p><blockquote><p>复杂的事情一般都不会一下子做完，而是会分<strong>很多中间步骤一步步完成</strong></p></blockquote><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210703065209.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210703065209.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210703065255.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210703065255.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p></li><li><p><strong>多线程数据通信的</strong>​**<code>queue.Queue</code>**</p><blockquote><p><code>queue.Queue</code> 可以用于<strong>多线程之间</strong>的、<strong>线程安全</strong>的数据通信</p><p><strong>多个线程</strong> 可以 <strong>同时</strong> 读取 <strong>同一个队列</strong></p></blockquote><pre><code class="hljs python"><span class="hljs-comment"># 1、导入类库</span>
+<span class="hljs-keyword">import</span> queue
+<span class="hljs-comment"># 2、创建Queue</span>
+q = queue.Queue()
+<span class="hljs-comment"># 3、添加元素</span>
+q.put(item)
+<span class="hljs-comment"># 4、获取元素</span>
+item = q.get()
+<span class="hljs-comment"># 5、查询状态</span>
+<span class="hljs-comment"># 查看元素的多少</span>
+q.qsize()
+<span class="hljs-comment"># 判断是否为空</span>
+q.empty()
+<span class="hljs-comment"># 判断是否已满</span>
+q.full()</code></pre></li><li><p>实例:</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading
+<span class="hljs-keyword">import</span> queue
+<span class="hljs-keyword">import</span> random,time
+
+<span class="hljs-comment"># 传入 url 队列 和 Html 队列</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">do_craw</span>(<span class="hljs-params">url_queue: queue.Queue, html_queue: queue.Queue</span>):
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># 从 Url 队列里获取一个链接</span>
+        url = url_queue.get()
+        html = blog_spider.craw(url)
+        <span class="hljs-comment"># 将获取到的 html 内容放入 html 队列</span>
+        html_queue.put(html)
+        <span class="hljs-comment"># current_thead: 当前线程 .name: 获取线程的名字</span>
+        <span class="hljs-built_in">print</span>(threading.current_thread().name, <span class="hljs-string">f&quot;craw <span class="hljs-subst">&#123;url&#125;</span>&quot;</span>,
+              <span class="hljs-string">&quot;url_queue.size=&quot;</span>, url_queue.qsize())
+        time.sleep(random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>))
+
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">do_parse</span>(<span class="hljs-params">html_queue: queue.Queue, fout</span>):
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        html = html_queue.get()
+        results = blog_spider.parse(html)
+        <span class="hljs-keyword">for</span> result <span class="hljs-keyword">in</span> results:
+            fout.write(<span class="hljs-built_in">str</span>(result) + <span class="hljs-string">&quot;\n&quot;</span>)
+        <span class="hljs-built_in">print</span>(threading.current_thread().name, <span class="hljs-string">f&quot;results.size&quot;</span>, <span class="hljs-built_in">len</span>(results),
+              <span class="hljs-string">&quot;html_queue.size=&quot;</span>, html_queue.qsize())
+        time.sleep(random.randint(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>))
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    url_queue = queue.Queue() <span class="hljs-comment"># 链接队列</span>
+    html_queue = queue.Queue() <span class="hljs-comment"># Html 文件队列</span>
+    <span class="hljs-comment"># 将所有链接添加到链接队列里面</span>
+    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls:
+        url_queue.put(url)
+
+    <span class="hljs-comment"># 创建链接访问线程</span>
+    <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):
+        t = threading.Thread(target=do_craw, args=(url_queue, html_queue),
+                             name=<span class="hljs-string">f&quot;craw<span class="hljs-subst">&#123;idx&#125;</span>&quot;</span>)
+        t.start()
+
+    <span class="hljs-comment"># 创建 HTML 解析线程</span>
+    fout = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;02.data.txt&quot;</span>, <span class="hljs-string">&quot;w&quot;</span>)
+    <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>):
+        <span class="hljs-comment"># name: 设置线程的名字.</span>
+        t = threading.Thread(target=do_parse, args=(html_queue, fout),
+                             name=<span class="hljs-string">f&quot;parse<span class="hljs-subst">&#123;idx&#125;</span>&quot;</span>)
+        t.start()
+</code></pre></li></ol><h2 id="2-多进程-MultiProcess"><a href="#2-多进程-MultiProcess" class="headerlink" title="2. 多进程 (MultiProcess)"></a>2. 多进程 (MultiProcess)</h2><h3 id="全局解释器锁-Python-的大缺点"><a href="#全局解释器锁-Python-的大缺点" class="headerlink" title="全局解释器锁 (Python 的大缺点)"></a>全局解释器锁 (Python 的大缺点)</h3><ol><li><strong>任何时刻仅有一个线程</strong>在执行。</li><li>在<strong>多核心处理器上</strong>，使用 GIL 的解释器也只允许同一时间执行一个线程</li><li>GIL 目的：为了解决多线程之间<strong>数据完整性</strong>和状态同步问题</li><li>GIL 带来的<strong>问题</strong></li></ol><ul><li>即使使用了多线程，同一时刻也只有<strong>单个线程使用 CPU</strong>，导致多核 CPU 的浪费</li><li>GIL 只会对<strong>CPU 密集型</strong>的程序产生影响</li><li>如果程序主要是在做<strong>I&#x2F;O 操作</strong>，比如<strong>处理网络连接</strong>，那么<strong>多线程技术</strong>常常是一个明智的选择</li></ul><ol><li><strong>规避 GIL</strong>的方法</li></ol><ul><li>规避方法 2： 使用 <code>multiprocessing</code> 多进程，对 CPU 密集型计算，单独启动子进程解释器去执行</li><li>规避方法 2： ﻿将计算密集型的任务转移到<strong>C 语言</strong>中，因为 C 语言比 Python 快得多，注意要在 C 语言中自己释放 GIL</li></ul><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210701000441.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210701000441.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><blockquote><h3 id="多进程适用于-CPU-密集型计算"><a href="#多进程适用于-CPU-密集型计算" class="headerlink" title="多进程适用于 CPU 密集型计算"></a>多进程适用于 CPU 密集型计算</h3><p>多进程的 API 与 <strong>多线程的实现十分类似</strong></p></blockquote><table><thead><tr><th align="left">语法条目</th><th align="center">多线程</th><th align="center">多进程</th></tr></thead><tbody><tr><td align="left">引入模块</td><td align="center">from threading import Thread</td><td align="center">from multiprocessing import Process</td></tr><tr><td align="left">新建 启动 等待结束</td><td align="center">t&#x3D;Thread(target&#x3D;func, args&#x3D;(100, )) t.start() t.join()</td><td align="center">p &#x3D; Process(target&#x3D;f, args&#x3D;(‘bob’,)) p.start() p.join()</td></tr><tr><td align="left">数据通信</td><td align="center">import queue q &#x3D; queue.Queue() q.put(item) item &#x3D; q.get()</td><td align="center">from multiprocessing import Queue q &#x3D; Queue() q.put([42, None, ‘hello’]) item &#x3D; q.get()</td></tr><tr><td align="left">线程安全加锁</td><td align="center">from threading import Lock lock &#x3D; Lock() with lock: # do something</td><td align="center">from multiprocessing import Lock lock &#x3D; Lock() with lock: # do something</td></tr><tr><td align="left">池化技术</td><td align="center">from concurrent.futures import ThreadPoolExecutor with ThreadPoolExecutor() as executor: # 方法 1 results &#x3D; executor.map(func, [1,2,3]) # 方法 2 future &#x3D; executor.submit(func, 1) result &#x3D; future.result()</td><td align="center">from concurrent.futures import ProcessPoolExecutor with ProcessPoolExecutor() as executor: # 方法 1 results &#x3D; executor.map(func, [1,2,3]) # 方法 2 future &#x3D; executor.submit(func, 1) result &#x3D; future.result()</td></tr></tbody></table><h3 id="利用进程池技术实现多进程"><a href="#利用进程池技术实现多进程" class="headerlink" title="利用进程池技术实现多进程"></a><strong>利用进程池技术实现多进程</strong></h3><pre><code class="hljs python"><span class="hljs-keyword">from</span> concurrent.futures <span class="hljs-keyword">import</span> ProcessPoolExecutor
+<span class="hljs-keyword">import</span> time
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">test</span>(<span class="hljs-params">lover</span>):
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;我喜欢:&quot;</span>, lover)
+    time.sleep(<span class="hljs-number">1</span>)
+
+<span class="hljs-comment"># 任何池化技术都需要写程序入口</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-comment"># 喜欢的人列表</span>
+    lovers = [<span class="hljs-string">&quot;颖怡&quot;</span>, <span class="hljs-string">&quot;菲菲&quot;</span>, <span class="hljs-string">&quot;詹天佑&quot;</span>]
+    start_time = time.time()
+    <span class="hljs-comment"># 1. 使用 map 方式提交</span>
+    <span class="hljs-keyword">with</span> ProcessPoolExecutor(max_workers=<span class="hljs-number">10</span>) <span class="hljs-keyword">as</span> pool:
+        <span class="hljs-comment"># map 方式提交进程池需要传入函数名和多参数元组</span>
+        pool.<span class="hljs-built_in">map</span>(test, lovers)
+
+    <span class="hljs-comment"># 2. 使用 submit 方式提交</span>
+    <span class="hljs-keyword">with</span> ProcessPoolExecutor() <span class="hljs-keyword">as</span> pool:
+        <span class="hljs-comment"># 利用进程列表启动</span>
+        futures=[
+            pool.submit(test,lover)
+            <span class="hljs-keyword">for</span> lover <span class="hljs-keyword">in</span> lovers
+        ]
+
+    end_time = time.time()
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;cost Time:&quot;</span>, end_time-start_time)</code></pre><h2 id="3-并发锁-Concurrent-Lock"><a href="#3-并发锁-Concurrent-Lock" class="headerlink" title="3. 并发锁 (Concurrent Lock)"></a>3. 并发锁 (Concurrent Lock)</h2><blockquote><p><strong>线程安全</strong>指某个函数、函数库在<strong>多线程环境</strong>中被调用时，能够正确地处理多个线程之间的<strong>共享变量</strong>，使程序功能正确完成。</p><p>由于<strong>线程的执行随时会发生切换</strong>，就造成了不可预料的结果，出现<strong>线程不安全</strong>(简单来说就是程序串行)</p></blockquote><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702130844.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702130844.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading
+<span class="hljs-comment"># 实例化锁对象</span>
+lock = threading.Lock()
+<span class="hljs-comment"># 上锁</span>
+lock.locked()
+<span class="hljs-comment"># 释放锁</span>
+lock.release()</code></pre><h3 id="用法-1-try-finally-模式"><a href="#用法-1-try-finally-模式" class="headerlink" title="用法 1: try-finally 模式"></a>用法 1: <code>try-finally</code> 模式</h3><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading
+lock = threading.Lock()
+lock.acquire()
+<span class="hljs-keyword">try</span>:
+    <span class="hljs-comment"># do something</span>
+<span class="hljs-keyword">finally</span>:
+    lock.release()</code></pre><h3 id="用法-2-with-模式-推荐这种方式"><a href="#用法-2-with-模式-推荐这种方式" class="headerlink" title="用法 2: with 模式 (推荐这种方式)"></a>用法 2: <code>with</code> 模式 <strong>(推荐这种方式)</strong></h3><pre><code class="hljs python"><span class="hljs-keyword">import</span> threading
+lock = threading.Lock()
+<span class="hljs-keyword">with</span> lock:
+    <span class="hljs-comment"># do something</span></code></pre><h3 id="什么时候需要上锁"><a href="#什么时候需要上锁" class="headerlink" title="什么时候需要上锁"></a>什么时候需要上锁</h3><blockquote><p><strong>多人读,不需要|一读一写要加|多人写要加</strong></p></blockquote><p>只是操作<strong>共享变量</strong>部分的代码要<strong>上锁</strong>,而不是多线程中所有代码都要上锁,并<strong>不影响多线程</strong>的执行效果.</p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702143102.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702143102.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h2 id="4-异步协程"><a href="#4-异步协程" class="headerlink" title="4. 异步协程"></a>4. 异步协程</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><blockquote><p>同步：执行 IO 操作时，<strong>必须等待执行完成才得到返回结果</strong>。<br>异步：执行 IO 操作时，<strong>不必等待执行就能得到返回结果</strong>。</p></blockquote><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702150837.jpeg&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702150837.jpeg&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702143833.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/old/20210702143833.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><blockquote><p>注意：要用在<strong>异步 IO 编程中</strong>,依赖的<strong>库必须支持异步 IO 特性.</strong></p><p>爬虫引用中：<code>requests</code> 不支持异步|需要用 <code>aiohttp</code></p></blockquote><h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><h4 id="1-什么是协程、异步"><a href="#1-什么是协程、异步" class="headerlink" title="1. 什么是协程、异步"></a>1. 什么是协程、异步</h4><p>举个例子：假设有 1 个洗衣房，里面有 10 台洗衣机，有一个洗衣工在负责这 10 台洗衣机。那么<strong>洗衣房就相当于 1 个进程</strong>，洗衣工就相当<strong>1 个线程</strong>。如果有 10 个洗衣工，就相当于<strong>10 个线程</strong>，<strong>1 个进程是可以开多线程的</strong>。这就是多线程！</p><p>那么协程呢？先不急。大家都知道，洗衣机洗衣服是<strong>需要等待时间</strong>的，如果 10 个洗衣工，1 人负责 1 台洗衣机，这样效率肯定会提高，但是不觉得<strong>浪费资源</strong>吗？明明 1 个人能做的事，却要 10 个人来做。只是把衣服放进去，打开开关，<strong>就没事做</strong>了，等衣服洗好再拿出来就可以了。就算很多人来洗衣服，<strong>1 个人也足以应付了</strong>，开好第一台洗衣机，在等待的时候去<strong>开第二台洗衣机，再开第三台</strong>，……直到有衣服洗好了，就回来把衣服取出来，接着<strong>再取另一台</strong>的（哪台洗好先就取哪台，所以<strong>协程是无序的</strong>）。这就是计算机的协程！洗衣机就是<strong>执行的方法</strong>。</p><p>当你程序中方法需要等待时间的话，就可以用<strong>协程</strong>，<strong>效率高，消耗资源少。</strong></p><p><strong>洗衣房 &#x3D;&#x3D;&gt; 进程 | 洗衣工 &#x3D;&#x3D;&gt; 线程 | 洗衣机 &#x3D;&#x3D;&gt; 方法 (函数)</strong></p><h4 id="2-async-await-的使用"><a href="#2-async-await-的使用" class="headerlink" title="2. async \ await 的使用"></a>2. <code>async</code> \ <code>await</code> 的使用</h4><p>正常的函数在执行时是<strong>不会中断</strong>的，所以你要写一个<strong>能够中断</strong>的函数，就需要添加 <code>async</code> 关键字。</p><p><code>async</code> 用来声明一个函数为异步函数，异步函数的特点是<strong>能在函数执行过程中挂起，去执行其他异步函数</strong>，等到<strong>挂起条件</strong>（假设挂起条件是 sleep(5)）消失后，也就是 5 秒到了<strong>再回来执行</strong>。</p><p><code>await</code> 用来用来声明<strong>程序挂起</strong>，比如异步程序执行到<strong>某一步时需要等待的时间很长，就将此挂起</strong>，去<strong>执行其他的异步程序</strong>。<code>await</code> 后面只能跟 <strong>异步函数</strong> 或有 <code>__await__</code> 属性的对象，因为<strong>异步程序与一般程序不同</strong>。</p><p>假设有两个异步函数 <code>async a，async b</code>，a 中的某一步有 <code>await</code>，当程序碰到关键字 <code>await b()</code> 后，异步程序挂起后去执行另一个异步 b 程序，就是从<strong>函数内部跳出去执行其他函数</strong>，<strong>当挂起条件消失后，不管 b 是否执行完，要马上从 b 程序中跳出来</strong>，<strong>回到原程序执行原来</strong>的操作。如果 await 后面跟的<strong>b 函数不是异步函数</strong>，那么操作就<strong>只能等 b 执行完再返回</strong>，无法在<strong>b 执行的过程中返回</strong>。如果要在<strong>b 执行完</strong>才返回，也就<strong>不需要用 await 关键字了</strong>，直接<strong>调用 b 函数</strong>就行。所以这就需要 <code>await</code> 后面跟的是<strong>异步函数</strong>了。在一个异步函数中，可以<strong>不止一次挂起</strong>，也就是可以用多个 <code>await</code>。</p><h3 id="基本实现"><a href="#基本实现" class="headerlink" title="基本实现:"></a><strong>基本实现:</strong></h3><blockquote><ul><li><ol><li>在普通的函数前面加 <strong>async</strong> 关键字；</li></ol></li><li><ol start="2"><li><code>await</code> 表示在这个地方<strong>等待子函数执行完成</strong>，再往下执行。（在并发操作中，把程序控制权交给主程序，让他分配其他协程执行。） <code>await</code> 只能在带有 <code>async</code> 关键字的函数中运行。</li></ol></li></ul></blockquote><pre><code class="hljs python"><span class="hljs-comment"># 异步io简单实现</span>
+<span class="hljs-keyword">import</span> asyncio
+<span class="hljs-keyword">import</span> time
+<span class="hljs-comment"># 获取超级事件循环</span>
+<span class="hljs-comment"># event:事件 loop:环</span>
+loop = asyncio.get_event_loop()
+urls = [
+    <span class="hljs-string">f&quot;https://skyxinye.xyz/#<span class="hljs-subst">&#123;page&#125;</span>&quot;</span>
+    <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">99</span>)
+]
+
+<span class="hljs-comment"># 定义协程函数</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">myfunc</span>(<span class="hljs-params">url</span>):
+    <span class="hljs-keyword">await</span> time.sleep(<span class="hljs-number">2</span>) <span class="hljs-comment"># 这样写不行,因为 time.sleep 不是异步函数,不能中途跳出执行另一个协程.</span>
+    <span class="hljs-keyword">await</span> asyncio.sleep(<span class="hljs-number">2</span>) <span class="hljs-comment"># 用协程函数.</span>
+<span class="hljs-comment"># 创建 task 列表</span>
+<span class="hljs-comment"># create:创造</span>
+tasks = [
+    <span class="hljs-comment"># 在超级循环中创造多个任务,并设置等待任务完成.(如果协程函数中没有同步操作的话就不用设置)</span>
+    <span class="hljs-comment"># 任务没有运行</span>
+    loop.create_task(asyncio.wait(myfunc(url)))
+    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls
+]
+<span class="hljs-comment"># 执行异步事件列表,运行直到完成,如果是协程列表就要设置等待事件完成.</span>
+loop.run_until_complete(asyncio.wait(tasks))</code></pre><h4 id="利用-aiohttp-模块发送网络请求"><a href="#利用-aiohttp-模块发送网络请求" class="headerlink" title="利用 aiohttp 模块发送网络请求"></a>利用 <code>aiohttp</code> 模块发送网络请求</h4><pre><code class="hljs python"><span class="hljs-comment"># 异步模块 aiohttp 使用</span>
+<span class="hljs-keyword">import</span> asyncio
+<span class="hljs-keyword">import</span> aiohttp
+
+
+<span class="hljs-comment"># Http请求 协程函数</span>
+<span class="hljs-comment"># GET</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">async_get</span>(<span class="hljs-params">url</span>):
+    <span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    aiohttp:发送http请求</span>
+<span class="hljs-string">    1.创建一个ClientSession对象</span>
+<span class="hljs-string">    2.通过ClientSession对象去发送请求（get, post, delete等）</span>
+<span class="hljs-string">    3.await 异步等待返回结果</span>
+<span class="hljs-string">    &quot;&quot;&quot;</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Get Url:&quot;</span>, url)
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> se:
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> se.get(url) <span class="hljs-keyword">as</span> resp:
+            result = <span class="hljs-keyword">await</span> resp.text()
+            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">len</span>(result))
+
+urls = [
+    <span class="hljs-string">f&quot;https://skyxinye.xyz/#<span class="hljs-subst">&#123;page&#125;</span>&quot;</span>
+    <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">99999</span>)
+]
+
+<span class="hljs-comment"># 超级循环</span>
+loop = asyncio.get_event_loop()
+<span class="hljs-comment"># 事件列表</span>
+tasks=[
+    loop.create_task(async_get(url))
+    <span class="hljs-keyword">for</span> url <span class="hljs-keyword">in</span> urls
+]
+<span class="hljs-comment"># 用 wait 方法遍历事件列表.协程列表需要设置等待运行完成</span>
+loop.run_until_complete(asyncio.wait(tasks))
+
+<span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-string">    异步协程不用事件列表的另一种实现方法</span>
+<span class="hljs-string">    aiohttp:发送POST请求</span>
+<span class="hljs-string">&quot;&quot;&quot;</span>
+<span class="hljs-comment"># POST</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">main</span>():
+    data = &#123;<span class="hljs-string">&#x27;key1&#x27;</span>: <span class="hljs-string">&#x27;value1&#x27;</span>, <span class="hljs-string">&#x27;key2&#x27;</span>: <span class="hljs-string">&#x27;value2&#x27;</span>&#125;
+    url = <span class="hljs-string">&#x27;http://httpbin.org/post&#x27;</span>
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiohttp.ClientSession() <span class="hljs-keyword">as</span> session:
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.post(url, data=data) <span class="hljs-keyword">as</span> res:
+            <span class="hljs-built_in">print</span>(res.status)
+            <span class="hljs-built_in">print</span>(<span class="hljs-keyword">await</span> res.text())
+loop = asyncio.get_event_loop()
+<span class="hljs-comment"># 如果是单个协程就不需要设置 asyncio.wait()</span>
+task = loop.create_task(main())
+loop.run_until_complete(task)</code></pre><h4 id="利用-aiofile-异步操作文件"><a href="#利用-aiofile-异步操作文件" class="headerlink" title="利用 aiofile 异步操作文件"></a>利用 <code>aiofile</code> 异步操作文件</h4><pre><code class="hljs python"><span class="hljs-keyword">import</span> aiofiles
+<span class="hljs-keyword">import</span> asyncio
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">write</span>():
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiofiles.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;w&quot;</span>,encoding=<span class="hljs-string">&quot;utf8&quot;</span>) <span class="hljs-keyword">as</span> fp:
+        <span class="hljs-keyword">await</span> fp.write(<span class="hljs-string">&quot;异步写入文件&quot;</span>)
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;文件写入成功&quot;</span>)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">read</span>():
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiofiles.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,encoding=<span class="hljs-string">&quot;utf8&quot;</span>) <span class="hljs-keyword">as</span> fp:
+        content = <span class="hljs-keyword">await</span> fp.read()
+        <span class="hljs-built_in">print</span>(content)
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">read2_demo</span>():
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> aiofiles.<span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;text.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>,encoding=<span class="hljs-string">&quot;utf-8&quot;</span>) <span class="hljs-keyword">as</span> fp:
+        <span class="hljs-comment"># 读取每行</span>
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> fp:
+            <span class="hljs-built_in">print</span>(line)
+
+<span class="hljs-keyword">if</span> __name__==<span class="hljs-string">&quot;__main__&quot;</span>:
+    asyncio.run(write())</code></pre></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/python/python-concurrent/">https://www.whaleluo.top/python/python-concurrent/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2021-06-18</p></div><div class="post-entry__tags"><a href="/tags/Coding/" class="post-tags__link button"># Coding</a><a href="/tags/Python/" class="post-tags__link button"># Python</a></div></article><div class="nav"><div class="nav__prev"><a href="/raspberrypi-note-3/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">😜 树莓派折腾手册 (二)——手动搭建LNMP网站服务器环境 🙏</div></div></a></div><div class="nav__next"><a href="/hexo-blog-log/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">博客写作规范约束</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

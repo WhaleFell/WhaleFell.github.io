@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Openwrt LEDE 固件自定义编译笔记 | 😊落落のBlog😊</title><meta name="keywords" content="Linux, OpenWRT, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Openwrt LEDE 固件自定义编译笔记LEDE 有些软件 Openwrt 没有。比如我认为很重要的硬解 nat。lean 对国内用户也比较友善。 LEDE 项目地址：GitHub - coolsnowwolf&#x2F;lede: Lean’s LEDE source 参考看完这篇，自定义 OpenWrt&#x2F;LEDE 路由固件不求人 - 少数派 编译前的准备Dedian11、Uban"><meta property="og:type" content="article"><meta property="og:title" content="Openwrt LEDE 固件自定义编译笔记"><meta property="og:url" content="https://www.whaleluo.top/openwrt-lede-build-note/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Openwrt LEDE 固件自定义编译笔记LEDE 有些软件 Openwrt 没有。比如我认为很重要的硬解 nat。lean 对国内用户也比较友善。 LEDE 项目地址：GitHub - coolsnowwolf&#x2F;lede: Lean’s LEDE source 参考看完这篇，自定义 OpenWrt&#x2F;LEDE 路由固件不求人 - 少数派 编译前的准备Dedian11、Uban"><meta property="og:locale"><meta property="article:published_time" content="2023-07-15T06:49:21.000Z"><meta property="article:modified_time" content="2023-07-15T06:49:21.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Linux"><meta property="article:tag" content="OpenWRT"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Openwrt LEDE 固件自定义编译笔记</h1><div class="post-title__meta"><a href="/archives/2023/07/" class="post-meta__date button">2023-07-15</a> <span class="separate-dot"></span><a href="/categories/OpenWRT/" class="button">OpenWRT</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.</span> <span class="toc-text">参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">编译前的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BA%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">自定义固件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E8%8F%9C%E5%8D%95%E8%87%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">根据菜单自定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E4%BF%AE%E6%94%B9"><span class="toc-number">3.2.</span> <span class="toc-text">源码修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-OpenClash-%E5%B0%8F%E7%8C%AB%E5%92%AA"><span class="toc-number">3.3.</span> <span class="toc-text">编译 OpenClash 小猫咪</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E7%AE%A1%E6%8E%A7"><span class="toc-number">4.</span> <span class="toc-text">行为管控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-number">5.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-GitHub-Action"><span class="toc-number">6.</span> <span class="toc-text">使用 GitHub Action</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text">自定义编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%BA%90"><span class="toc-number">8.</span> <span class="toc-text">官方源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenClash-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">OpenClash 定时任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenClash-Docs"><span class="toc-number">10.</span> <span class="toc-text">OpenClash Docs</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">1.</span> <span class="toc-text">参考</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-number">2.</span> <span class="toc-text">编译前的准备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%9B%BA%E4%BB%B6"><span class="toc-number">3.</span> <span class="toc-text">自定义固件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B9%E6%8D%AE%E8%8F%9C%E5%8D%95%E8%87%AA%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">根据菜单自定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E4%BF%AE%E6%94%B9"><span class="toc-number">3.2.</span> <span class="toc-text">源码修改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91-OpenClash-%E5%B0%8F%E7%8C%AB%E5%92%AA"><span class="toc-number">3.3.</span> <span class="toc-text">编译 OpenClash 小猫咪</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E7%AE%A1%E6%8E%A7"><span class="toc-number">4.</span> <span class="toc-text">行为管控</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91"><span class="toc-number">5.</span> <span class="toc-text">编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-GitHub-Action"><span class="toc-number">6.</span> <span class="toc-text">使用 GitHub Action</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BC%96%E8%AF%91"><span class="toc-number">7.</span> <span class="toc-text">自定义编译</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E6%BA%90"><span class="toc-number">8.</span> <span class="toc-text">官方源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenClash-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1"><span class="toc-number">9.</span> <span class="toc-text">OpenClash 定时任务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenClash-Docs"><span class="toc-number">10.</span> <span class="toc-text">OpenClash Docs</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2023-07-15"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Openwrt-LEDE-固件自定义编译笔记"><a href="#Openwrt-LEDE-固件自定义编译笔记" class="headerlink" title="Openwrt LEDE 固件自定义编译笔记"></a>Openwrt LEDE 固件自定义编译笔记</h1><p>LEDE 有些软件 Openwrt 没有。比如我认为很重要的硬解 nat。lean 对国内用户也比较友善。</p><p>LEDE 项目地址：<a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf/lede">GitHub - coolsnowwolf&#x2F;lede: Lean’s LEDE source</a></p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://sspai.com/post/61463">看完这篇，自定义 OpenWrt&#x2F;LEDE 路由固件不求人 - 少数派</a></p><h2 id="编译前的准备"><a href="#编译前的准备" class="headerlink" title="编译前的准备"></a>编译前的准备</h2><p>Dedian11、Ubantu18 以上的系统，根据文档安装好依赖。保持使用 Clash Tun 模式进行代理，在 Vmare 虚拟机上进行。</p><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">测试编译环境</span>
+
+make defconfig</code></pre><h2 id="自定义固件"><a href="#自定义固件" class="headerlink" title="自定义固件"></a>自定义固件</h2><h3 id="根据菜单自定义"><a href="#根据菜单自定义" class="headerlink" title="根据菜单自定义"></a>根据菜单自定义</h3><pre><code class="hljs shell">make menuconfig</code></pre><pre><code class="hljs text">Target System (x86)  ---&gt;   目标系统（x86）
+Subtarget (x86_64)  ---&gt;   子目标（x86_64）
+Target Profile (Generic)  ---&gt;目标配置文件（通用）
+Target Images  ---&gt; 保存目标镜像的格式
+Global build settings  ---&gt;      全局构建设置
+Advanced configuration options (for developers)  ---- 高级配置选项（适用于开发人员）
+Build the OpenWrt Image Builder 构建OpenWrt图像生成器
+Build the OpenWrt SDK  构建OpenWrt SDK
+Package the OpenWrt-based Toolchain 打包基于OpenWrt的工具链
+Image configuration  ---&gt;图像配置
+Base system  ---&gt;     基本系统
+Administration  ---&gt;     管理
+Boot Loaders  ---&gt; 引导加载程序
+Development  ---&gt;   开发
+Extra packages  ---&gt;  额外包
+Firmware  ---&gt;固件
+Fonts  ---&gt;字体
+Kernel modules  ---&gt;  内核模块
+Languages  ---&gt;语言
+Libraries  ---&gt;  图书馆
+LuCI  ---&gt;      LuCI
+Mail  ---&gt; 邮件
+Multimedia  ---&gt;多媒体
+Network  ---&gt;网络
+Sound  ---&gt; 声音
+Utilities  ---&gt;实用程序
+Xorg  ---&gt;Xorg</code></pre><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 选择系统(以 x86_64 为例)</span></span>
+Target System -&gt; x86
+Subtarget -&gt; x86_64
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 选择固件的文件系统</span></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># https://openwrt.org/docs/techref/filesystems</span></span>
+Target Images -&gt; squashfs
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 选择构建X86_X64的GRUB固件</span></span>
+Target Images -&gt; Build GRUB images (Linux x86 or x86_64 host only)
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 选择更小的压缩格式固件，方便复制</span></span>
+Target Images -&gt; GZip images
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 修改软件包可用空间，默认安装会占用100M左右，建议修改扩大，为后续安装其他软件打基础</span></span>
+Target Images -&gt; Root filesystem partition size
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加web界面(y键选择n键排除)</span></span>
+LuCI &gt; Collections -&gt; Luci
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加兼容性依赖</span></span>
+LuCI &gt; Modules -&gt; luci-compat
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加中文</span></span>
+LuCI &gt; Modules -&gt; Translations -&gt; Chinese Simplified
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加openclash</span></span>
+LuCI &gt; Applications -&gt; luci-app-openclash
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加主题</span></span>
+LuCI -&gt; Themes
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加wget</span></span>
+Nerwork -&gt; File Transfer -&gt; wget-ssl
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 添加kmod-tun，TUN模式必须</span></span>
+Kernel modules -&gt; Network Support -&gt; kmod-tun
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_">#</span><span class="language-bash"><span class="hljs-comment"># 排除dnsmasq，由于默认会安装dnsmasq-full，这里需要排除dnsmasq，否则会冲突报错。</span></span>
+Base system -&gt; dnsmasq
+</code></pre><p>选择 docker</p><p>Base system<br>取消选中 dnsmasq<br>选中 dnsmasq-full<br>因为 dnsmasq-full 支持 ipset 功能，对于基于域名的 xx 很有用。</p><p>Network-&gt;File Transfer 中选中 ssh ntp<br>curl<br>wget<br>【两个下载工具】</p><p>Network-&gt;IP Addresses and Names 中选中<br>bind-dig<br>ddns-scripts_No-IP_com。（用来支持 no-ip.com 的 ddns 服务）<br>一个是测试工具；另一个是某个 ddns 支持，还有其他 ddns 支持，也可以酌情选中。</p><p>Network-&gt;Routing and Rediction 中选中<br>ip-full<br>这个很关键。<br>Network 中选中<br>iperf3<br>ipset<br>一个是测试工具；<br>另一个是 ipset，用于支持基于域名的 xx。</p><p>Network-&gt;Web Servers&#x2F;Proxies 选中那些 SS，如果您需要使用 SS 的话。<br>Utilities-&gt;Editors 中选<br>nano （也可以选 vim）<br>Utilities-&gt;Shells 中选中<br>bash<br>点击 Save，保存为.config。<br>一路 Exit 退出。在输入 make 开始编译。</p><h3 id="源码修改"><a href="#源码修改" class="headerlink" title="源码修改"></a>源码修改</h3><p>修改默认语言主题：<br>修改 vim feeds&#x2F;luci&#x2F;modules&#x2F;luci-base&#x2F;root&#x2F;etc&#x2F;config&#x2F;luci 文件:</p><pre><code class="hljs yaml"><span class="hljs-string">config</span> <span class="hljs-string">core</span> <span class="hljs-string">main</span>
+<span class="hljs-string">option</span> <span class="hljs-string">lang</span> <span class="hljs-string">&quot;zh_cn&quot;</span>
+<span class="hljs-string">option</span> <span class="hljs-string">mediaurlbase</span> <span class="hljs-string">/luci-static/material</span>
+<span class="hljs-string">option</span> <span class="hljs-string">resourcebase</span> <span class="hljs-string">/luci-static/resources</span>
+
+<span class="hljs-string">config</span> <span class="hljs-string">internal</span> <span class="hljs-string">languages</span>
+<span class="hljs-string">option</span> <span class="hljs-string">zh_cn</span> <span class="hljs-string">&quot;普通话 (Chinese)&quot;</span></code></pre><p>修改主机名，设定时区，IP 地址:</p><p>vim package&#x2F;base-files&#x2F;files&#x2F;bin&#x2F;config_generate</p><pre><code class="hljs yaml"><span class="hljs-string">generate_static_system()</span> &#123;
+<span class="hljs-string">uci</span> <span class="hljs-string">-q</span> <span class="hljs-string">batch</span> <span class="hljs-string">&lt;&lt;-EOF</span>
+<span class="hljs-string">delete</span> <span class="hljs-string">system.@system</span>[<span class="hljs-number">0</span>]
+<span class="hljs-string">add</span> <span class="hljs-string">system</span> <span class="hljs-string">system</span>
+<span class="hljs-string">set</span> <span class="hljs-string">system.@system</span>[<span class="hljs-number">-1</span>]<span class="hljs-string">.hostname=&#x27;LEDE&#x27;</span>
+<span class="hljs-string">set</span> <span class="hljs-string">system.@system</span>[<span class="hljs-number">-1</span>]<span class="hljs-string">.timezone=&#x27;CST-8&#x27;</span>                      <span class="hljs-comment">#东八区</span>
+<span class="hljs-string">set</span> <span class="hljs-string">system.@system</span>[<span class="hljs-number">-1</span>]<span class="hljs-string">.zonename=&#x27;Asia/Shanghai&#x27;</span>       <span class="hljs-comment">#这句话要加上，不然还是UTC</span>
+<span class="hljs-string">lan)</span> <span class="hljs-string">ipad=$</span>&#123;<span class="hljs-string">ipaddr:-&quot;192.168.8.1&quot;</span>&#125; <span class="hljs-string">;;</span>       <span class="hljs-comment">#修改默认IP</span></code></pre><p>SSH&#x2F;TELNET 显示信息修改方式:<br>vim package&#x2F;base-files&#x2F;files&#x2F;etc&#x2F;banner</p><p>修改路由连接数<br>vim package&#x2F;base-files&#x2F;files&#x2F;etc&#x2F;sysctl.conf<br>net.netfilter.nf_conntrack_max&#x3D;65535</p><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/27c424562de7">Openwrt 编译，修改lan、wan口，ip，拨号 - 简书</a><br>拨号</p><h3 id="编译-OpenClash-小猫咪"><a href="#编译-OpenClash-小猫咪" class="headerlink" title="编译 OpenClash 小猫咪"></a>编译 OpenClash 小猫咪</h3><p><a target="_blank" rel="noopener" href="https://lhy.life/20200531-openwrt+openclash/">编译带 OpenClash 的 OpenWrt 固件 | 心底的河流</a></p><h2 id="行为管控"><a href="#行为管控" class="headerlink" title="行为管控"></a>行为管控</h2><pre><code class="hljs shell">cd /home/user/lede/package
+git clone https://github.com/destan19/OpenAppFilter.git
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">去除加速模块</span>
+rm package/lean/luci-app-flowoffload -fr
+rm package/lean/shortcut-fe/ -fr
+rm package/lean/luci-app-sfe/ -fr</code></pre><h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><a target="_blank" rel="noopener" href="http://www.laoxu.date/html/202204/1912.html">openwrt编译openclash-老徐小屋</a></p><pre><code class="hljs shell">./scripts/feeds update -a
+./scripts/feeds install -a
+
+make defconfig
+</code></pre><h2 id="使用-GitHub-Action"><a href="#使用-GitHub-Action" class="headerlink" title="使用 GitHub Action"></a>使用 GitHub Action</h2><p>使用 p3terx 大佬的脚本。</p><p><a target="_blank" rel="noopener" href="https://p3terx.com/archives/build-openwrt-with-github-actions.html">GitHub Actions 在线云编译 OpenWrt 固件 - P3TERX ZONE</a></p><p>编译时空间不足问题：</p><p><a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf/lede/issues/11159">OpenWRT在Actions编译过程中因磁盘空间不足从而编译失败，如何清理磁盘空间？ · Issue #11159 · coolsnowwolf&#x2F;lede · GitHub</a></p><p><a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf/lede/issues/7004">减少编译所用空间 · Issue #7004 · coolsnowwolf&#x2F;lede · GitHub</a></p><p>缓存 cache 加速编译：</p><p><a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf/lede/pull/7796">使用github actions cache缓存工具链， 加速你的云编译项目，让你做更快的男人 by stupidloud · Pull Request #7796 · coolsnowwolf&#x2F;lede · GitHub</a></p><h2 id="自定义编译"><a href="#自定义编译" class="headerlink" title="自定义编译"></a>自定义编译</h2><p><a target="_blank" rel="noopener" href="https://github.com/VIKINGYFY/OpenWRT-CI">GitHub - VIKINGYFY&#x2F;OpenWRT-CI: 云编译OpenWRT固件</a></p><h2 id="官方源"><a href="#官方源" class="headerlink" title="官方源"></a>官方源</h2><pre><code class="hljs shell">src/gz openwrt_koolshare_mod_core http://downloads.openwrt.org/snapshots/targets/x86/64/packages
+src/gz openwrt_koolshare_mod_base http://downloads.openwrt.org/snapshots/packages/x86_64/base
+src/gz openwrt_koolshare_mod_luci http://downloads.openwrt.org/snapshots/packages/x86_64/luci
+src/gz openwrt_koolshare_mod_packages http://downloads.openwrt.org/snapshots/packages/x86_64/packages
+src/gz openwrt_koolshare_mod_routing http://downloads.openwrt.org/snapshots/packages/x86_64/routing
+src/gz openwrt_koolshare_mod_telephony http://downloads.openwrt.org/snapshots/packages/x86_64/telephony</code></pre><h2 id="OpenClash-定时任务"><a href="#OpenClash-定时任务" class="headerlink" title="OpenClash 定时任务"></a>OpenClash 定时任务</h2><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">定时重启</span>
+0 0 * * * sh /usr/share/openclash/openclash_rule.sh
+0 7 * * * sh /usr/share/openclash/openclash_ipdb.sh
+0 4 * * * sh /usr/share/openclash/openclash_geosite.sh
+0 8 * * * sh /usr/share/openclash/openclash_geoip.sh
+0 9 * * * sh /usr/share/openclash/openclash_chnroute.sh
+*/10 * * * * sh /usr/share/openclash/openclash.sh
+00 5 * * * sleep 5 &amp;&amp; touch /etc/banner &amp;&amp; reboot</code></pre><h2 id="OpenClash-Docs"><a href="#OpenClash-Docs" class="headerlink" title="OpenClash Docs"></a>OpenClash Docs</h2><p><a target="_blank" rel="noopener" href="https://github.com/Fndroid/clash_for_windows_pkg/wiki/DNS%E6%B1%A1%E6%9F%93%E5%AF%B9Clash%EF%BC%88for-Windows%EF%BC%89%E7%9A%84%E5%BD%B1%E5%93%8D">DNS污染对Clash（for Windows）的影响 · Fndroid&#x2F;clash_for_windows_pkg Wiki · GitHub</a></p></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/openwrt-lede-build-note/">https://www.whaleluo.top/openwrt-lede-build-note/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2023-07-15</p></div><div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/OpenWRT/" class="post-tags__link button"># OpenWRT</a></div></article><div class="nav"><div class="nav__prev"><a href="/how-to-ues-free-chatgpt-in-china/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">【科普向】如何在 China 轻松免费使用 ChatGPT</div></div></a></div><div class="nav__next"><a href="/clash-proxy-tutorial/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">Clash 小猫咪使用备忘</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

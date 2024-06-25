@@ -1,0 +1,324 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Vue3 深度理解(由浅及深) | 😊落落のBlog😊</title><meta name="keywords" content="JavaScript, JS, 前端, Vue, Vue3, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Vue3 深度理解 (由浅及深)写了那么久的 Vue3，理解一下 Vue3 的原理，从浅到深。  Vue3 reactivity system:  双向数据绑定 (Two-way data binding)Vue 是数据双向绑定的框架 (MVVM)，双向绑定由三个重要部分构成:  数据层（Model）：应用的数据及业务逻辑 视图层（View）：应用的展示效果，各类 UI 组件 业务逻辑层（View"><meta property="og:type" content="article"><meta property="og:title" content="Vue3 深度理解(由浅及深)"><meta property="og:url" content="https://www.whaleluo.top/javascript/vue3-deep-understanding/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Vue3 深度理解 (由浅及深)写了那么久的 Vue3，理解一下 Vue3 的原理，从浅到深。  Vue3 reactivity system:  双向数据绑定 (Two-way data binding)Vue 是数据双向绑定的框架 (MVVM)，双向绑定由三个重要部分构成:  数据层（Model）：应用的数据及业务逻辑 视图层（View）：应用的展示效果，各类 UI 组件 业务逻辑层（View"><meta property="og:locale"><meta property="og:image" content="https://www.whaleluo.top/assets/Vue3-Deep-Understanding.png"><meta property="og:image" content="https://www.whaleluo.top/Vue3-Deep-Understanding-1.png"><meta property="og:image" content="https://www.whaleluo.top/Vue3-Deep-Understanding-2.png"><meta property="og:image" content="https://www.whaleluo.top/Vue3-Deep-Understanding-3.png"><meta property="article:published_time" content="2024-01-13T07:21:31.000Z"><meta property="article:modified_time" content="2024-01-13T07:21:31.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="JavaScript"><meta property="article:tag" content="JS"><meta property="article:tag" content="前端"><meta property="article:tag" content="Vue"><meta property="article:tag" content="Vue3"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://www.whaleluo.top/assets/Vue3-Deep-Understanding.png"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Vue3 深度理解(由浅及深)</h1><div class="post-title__meta"><a href="/archives/2024/01/" class="post-meta__date button">2024-01-13</a> <span class="separate-dot"></span><a href="/categories/Vue/" class="button">Vue</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A-Two-way-data-binding"><span class="toc-number">1.</span> <span class="toc-text">双向数据绑定 (Two-way data binding)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewModel"><span class="toc-number">1.1.</span> <span class="toc-text">ViewModel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A-Two-way-data-binding"><span class="toc-number">1.2.</span> <span class="toc-text">实现双向绑定 (Two-way data binding)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86-Dependency-Collection"><span class="toc-number">1.3.</span> <span class="toc-text">依赖收集 (Dependency Collection)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1-Communication-between-components"><span class="toc-number">2.</span> <span class="toc-text">组件间的通信 (Communication between components)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#v-bind-prop-%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81-One-Way-Data-Flow"><span class="toc-number">2.1.</span> <span class="toc-text">v-bind &#x2F; prop 单向数据流 (One-Way Data Flow)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#v-model-%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A-2-way-binding"><span class="toc-number">2.2.</span> <span class="toc-text">v-model 双向数据绑定 (2-way binding)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-EventEmitter-%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">实现 EventEmitter 事件触发器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observer-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">Observer 观察者模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F-Publish-Subscribe"><span class="toc-number">3.2.</span> <span class="toc-text">发布订阅模式 (Publish-Subscribe)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-Simple-EventEmitter"><span class="toc-number">3.3.</span> <span class="toc-text">实现 Simple EventEmitter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A-Two-way-data-binding"><span class="toc-number">1.</span> <span class="toc-text">双向数据绑定 (Two-way data binding)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ViewModel"><span class="toc-number">1.1.</span> <span class="toc-text">ViewModel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E5%8F%8C%E5%90%91%E7%BB%91%E5%AE%9A-Two-way-data-binding"><span class="toc-number">1.2.</span> <span class="toc-text">实现双向绑定 (Two-way data binding)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86-Dependency-Collection"><span class="toc-number">1.3.</span> <span class="toc-text">依赖收集 (Dependency Collection)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1-Communication-between-components"><span class="toc-number">2.</span> <span class="toc-text">组件间的通信 (Communication between components)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#v-bind-prop-%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81-One-Way-Data-Flow"><span class="toc-number">2.1.</span> <span class="toc-text">v-bind &#x2F; prop 单向数据流 (One-Way Data Flow)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#v-model-%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A-2-way-binding"><span class="toc-number">2.2.</span> <span class="toc-text">v-model 双向数据绑定 (2-way binding)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-EventEmitter-%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="toc-number">3.</span> <span class="toc-text">实现 EventEmitter 事件触发器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Observer-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">Observer 观察者模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F-Publish-Subscribe"><span class="toc-number">3.2.</span> <span class="toc-text">发布订阅模式 (Publish-Subscribe)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-Simple-EventEmitter"><span class="toc-number">3.3.</span> <span class="toc-text">实现 Simple EventEmitter</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">4.</span> <span class="toc-text">Reference</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2024-01-13"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Vue3-深度理解-由浅及深"><a href="#Vue3-深度理解-由浅及深" class="headerlink" title="Vue3 深度理解 (由浅及深)"></a>Vue3 深度理解 (由浅及深)</h1><p>写了那么久的 Vue3，理解一下 Vue3 的原理，从浅到深。</p><ul><li>Vue3 reactivity system:</li></ul><h2 id="双向数据绑定-Two-way-data-binding"><a href="#双向数据绑定-Two-way-data-binding" class="headerlink" title="双向数据绑定 (Two-way data binding)"></a>双向数据绑定 (Two-way data binding)</h2><p>Vue 是数据双向绑定的框架 (MVVM)，双向绑定由三个重要部分构成:</p><ul><li>数据层（Model）：应用的数据及业务逻辑</li><li>视图层（View）：应用的展示效果，各类 UI 组件</li><li>业务逻辑层（ViewModel）：框架封装的核心，它负责将数据与视图关联起来</li></ul><h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><pre><code class="hljs text">Model &lt;---&gt; ViewModel &lt;---&gt; View</code></pre><ul><li>数据 (Model) 变化后更新视图 (View)</li><li>视图 (View) 变化后更新数据 (Model)</li></ul><p>它有两个主要部分组成:</p><ol><li>监听器（Observer）：对所有数据的属性进行监听</li><li>解析器（Compiler）：对每个元素节点的指令进行扫描跟解析,根据指令模板替换数据,以及绑定相应的更新函数</li></ol><h3 id="实现双向绑定-Two-way-data-binding"><a href="#实现双向绑定-Two-way-data-binding" class="headerlink" title="实现双向绑定 (Two-way data binding)"></a>实现双向绑定 (Two-way data binding)</h3><p><img src="/./assets/Vue3-Deep-Understanding.png" class="lazy" data-srcset="/./assets/Vue3-Deep-Understanding.png" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="Flow Chart"></p><p>Note:<br>由于 <code>data</code> 的某个 <code>key</code> 在⼀个视图中可能出现多次 (使用了多次 <code>&#123;&#123; name &#125;&#125;</code>)，所以每个 <code>key</code> 都需要⼀个管家 <code>Dep</code> 来管理多个 <code>Watcher</code>. 将来 data 中数据⼀旦发生变化，会首先找到对应的 <code>Dep</code>，通知所有 <code>Watcher</code> 执行更新函数.</p><h3 id="依赖收集-Dependency-Collection"><a href="#依赖收集-Dependency-Collection" class="headerlink" title="依赖收集 (Dependency Collection)"></a>依赖收集 (Dependency Collection)</h3><p>视图中会用到 <code>data</code> 中某 <code>key</code>，这称为依赖。同⼀个 <code>key</code> 可能出现多次，每次都需要收集出来用⼀个 <code>Watcher</code> 来维护它们，此过程称为<strong>依赖收集 (Dependency Collection)</strong>. 多个相同 <code>Key</code> 的 <code>Watcher</code> 需要⼀个 <code>Dep</code> 来管理，需要更新时由 <code>Dep</code> 统⼀通知.</p><p><img src="/Vue3-Deep-Understanding-1.png" class="lazy" data-srcset="/Vue3-Deep-Understanding-1.png" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif"></p><h2 id="组件间的通信-Communication-between-components"><a href="#组件间的通信-Communication-between-components" class="headerlink" title="组件间的通信 (Communication between components)"></a>组件间的通信 (Communication between components)</h2><h3 id="v-bind-prop-单向数据流-One-Way-Data-Flow"><a href="#v-bind-prop-单向数据流-One-Way-Data-Flow" class="headerlink" title="v-bind &#x2F; prop 单向数据流 (One-Way Data Flow)"></a><code>v-bind</code> &#x2F; <code>prop</code> 单向数据流 (One-Way Data Flow)</h3><p>数据从父组件流到子组件, 而子组件不能改变父组件传来的数据. This prevents(v. 预防) child components from accidentally(adv. 意外地) mutating(n. 变化) the parent’s state.</p><pre><code class="hljs ts"><span class="hljs-comment">// Child.vue</span>
+<span class="hljs-keyword">import</span> &#123; ref, defineProps, withDefaults &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;vue&quot;</span>
+<span class="hljs-keyword">interface</span> <span class="hljs-title class_">Props</span> &#123;
+  <span class="hljs-attr">text</span>: <span class="hljs-built_in">string</span>
+&#125;
+
+<span class="hljs-keyword">const</span> props = <span class="hljs-title function_">withDefaults</span>(defineProps&lt;<span class="hljs-title class_">Props</span>&gt;(), &#123;
+  <span class="hljs-attr">text</span>: <span class="hljs-string">&quot;Snack Bar Text&quot;</span>
+&#125;)
+
+<span class="hljs-comment">// or ...</span>
+
+<span class="hljs-comment">// Simple DefineProps</span>
+<span class="hljs-title function_">defineProps</span>(&#123;
+  <span class="hljs-attr">refreshMap</span>: &#123;
+    <span class="hljs-attr">type</span>: <span class="hljs-title class_">Function</span>,
+    <span class="hljs-attr">default</span>: <span class="hljs-function">() =&gt;</span> &#123;
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;refresh map deault function&quot;</span>)
+    &#125;
+  &#125;
+&#125;)
+
+<span class="hljs-comment">// Parent.vue</span>
+&lt;child v-<span class="hljs-attr">bind</span>:text=<span class="hljs-string">&quot;hello&quot;</span>&gt;&lt;/child&gt;
+</code></pre><h3 id="v-model-双向数据绑定-2-way-binding"><a href="#v-model-双向数据绑定-2-way-binding" class="headerlink" title="v-model 双向数据绑定 (2-way binding)"></a><code>v-model</code> 双向数据绑定 (2-way binding)</h3><p>常用于表单数据绑定, 父组件通过 v-model 绑定一个 value. 子组件修改父组件传过来的 value 时通过 emit 一个 <code>update:moduleValue</code> 事件. 父组件接收这个事件后, 修改这个 value.</p><p>修改父组件 value 的, 是父组件本身, 子组件只负责发送一个事件给父组件, 父组件收到子组件的 <code>update</code> Event 后自行更改. 本质上不打破单向数据流原则. (The principle of <strong>One-Way Data Flow</strong>)</p><p>不用 <code>v-model</code> 实现的 2-way binding:</p><pre><code class="hljs vue">// Child.vue
+&lt;script setup&gt;
+const props = defineProps([&quot;modelValue&quot;]);
+const emit = defineEmits([&quot;update:modelValue&quot;]);
+&lt;/script&gt;
+&lt;template&gt;
+  &lt;input
+    :value=&quot;props.modelValue&quot;
+    @input=&quot;emit(&#x27;update:modelValue&#x27;, ($event.target as HTMLInputElement).value)&quot;
+  /&gt;
+&lt;/template&gt;
+
+// Parent.vue
+&lt;Child :modelValue=&quot;foo&quot; @update:modelValue=&quot;($event) =&gt; (foo = $event)&quot; /&gt;</code></pre><p>使用 <code>v-model</code> 和 <code>defineModel</code>, 子组件的 model 是一个 <code>Ref</code> 保持响应式 (Reactivity).</p><pre><code class="hljs vue">// child component: const model = defineModel
+&lt;string&gt;&lt;/string&gt;</code></pre><h2 id="实现-EventEmitter-事件触发器"><a href="#实现-EventEmitter-事件触发器" class="headerlink" title="实现 EventEmitter 事件触发器"></a>实现 EventEmitter 事件触发器</h2><h3 id="Observer-观察者模式"><a href="#Observer-观察者模式" class="headerlink" title="Observer 观察者模式"></a>Observer 观察者模式</h3><p>观察者模式定义了对象间的 <strong>一种一对多</strong> 的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知，并自动更新.</p><p>观察者模式属于<strong>行为型模式</strong>，行为型模式关注的是 <strong>对象之间的通讯</strong>，观察者模式就是观察者和被观察者之间的通讯.</p><p><img src="/Vue3-Deep-Understanding-2.png" class="lazy" data-srcset="/Vue3-Deep-Understanding-2.png" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif"><br>被观察者 be observed object:</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Subject</span> &#123;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span> = [];
+  &#125;
+
+  <span class="hljs-title function_">addObserver</span>(<span class="hljs-params">observer</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">push</span>(observer);
+  &#125;
+
+  <span class="hljs-title function_">removeObserver</span>(<span class="hljs-params">observer</span>) &#123;
+    <span class="hljs-keyword">const</span> index = <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">findIndex</span>(<span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> o.<span class="hljs-property">name</span> === observer.<span class="hljs-property">name</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">observerList</span>.<span class="hljs-title function_">splice</span>(index, <span class="hljs-number">1</span>);
+  &#125;
+
+  <span class="hljs-comment">// notify all observers. Call all the observers `notified()` function</span>
+  <span class="hljs-title function_">notifyObservers</span>(<span class="hljs-params">message</span>) &#123;
+    <span class="hljs-keyword">const</span> observers = <span class="hljs-variable language_">this</span>.<span class="hljs-property">observeList</span>;
+    observers.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">observer</span>) =&gt;</span> observer.<span class="hljs-title function_">notified</span>(message));
+  &#125;
+&#125;</code></pre><p>观察者 observer:</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Observer</span> &#123;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, subject</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    <span class="hljs-keyword">if</span> (subject) &#123;
+      subject.<span class="hljs-title function_">addObserver</span>(<span class="hljs-variable language_">this</span>);
+    &#125;
+  &#125;
+
+  <span class="hljs-title function_">notified</span>(<span class="hljs-params">message</span>) &#123;
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span>, <span class="hljs-string">&quot;got message&quot;</span>, message);
+  &#125;
+&#125;</code></pre><p>used:</p><pre><code class="hljs js"><span class="hljs-keyword">const</span> subject = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Subject</span>();
+<span class="hljs-keyword">const</span> observerA = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Observer</span>(<span class="hljs-string">&quot;observerA&quot;</span>, subject);
+<span class="hljs-keyword">const</span> observerB = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Observer</span>(<span class="hljs-string">&quot;observerB&quot;</span>);
+subject.<span class="hljs-title function_">addObserver</span>(observerB);
+subject.<span class="hljs-title function_">notifyObservers</span>(<span class="hljs-string">&quot;Hello from subject&quot;</span>);
+subject.<span class="hljs-title function_">removeObserver</span>(observerA);
+subject.<span class="hljs-title function_">notifyObservers</span>(<span class="hljs-string">&quot;Hello again&quot;</span>);</code></pre><h3 id="发布订阅模式-Publish-Subscribe"><a href="#发布订阅模式-Publish-Subscribe" class="headerlink" title="发布订阅模式 (Publish-Subscribe)"></a>发布订阅模式 (Publish-Subscribe)</h3><p>发送者不会将信息直接发送给指定的订阅者, 而是将发布的信息 <strong>分为不同的类型</strong>, 发布者无需了解存在哪些订阅者. 订阅者会自己接收指定类型的信息.</p><p>同样的，订阅者可以表达对一个或多个类别的兴趣，只接收感兴趣的消息，无需了解哪些发布者存在.</p><p><img src="/Vue3-Deep-Understanding-3.png" class="lazy" data-srcset="/Vue3-Deep-Understanding-3.png" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif"></p><p>发布者 (publisher) 和订阅者 (subscriber) 需要透过一个 broker(中间人, 也叫发布订阅中心) 进行关联, 但 <strong>发布者的发布动作和订阅者的订阅动作相互独立, 无需关注对方.</strong> 消息派发由发布订阅中心负责.</p><p>broker(发布订阅中心 PubSub):</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PubSub</span> &#123;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-comment">// msg Map like this:</span>
+    <span class="hljs-comment">// &#123; &quot;type&quot;: [&quot;content&quot;, &quot;c2&quot;, &quot;c3&quot;] &#125;</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">messages</span> = &#123;&#125;;
+    <span class="hljs-comment">// listeners Map like:</span>
+    <span class="hljs-comment">// &#123;&quot;type&quot;: [Function, Funtion, Function]&#125;</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">listeners</span> = &#123;&#125;;
+  &#125;
+
+  <span class="hljs-comment">// add publish msg</span>
+  <span class="hljs-comment">// pass msg type and content</span>
+  <span class="hljs-title function_">publish</span>(<span class="hljs-params">type, content</span>) &#123;
+    <span class="hljs-comment">// check whether the msg exists</span>
+    <span class="hljs-keyword">const</span> existContent = <span class="hljs-variable language_">this</span>.<span class="hljs-property">messages</span>[type];
+    <span class="hljs-keyword">if</span> (!existContent) &#123;
+      <span class="hljs-comment">// if the specified type msg does not exist, initialize to empty list []</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">messages</span>[type] = [];
+    &#125;
+    <span class="hljs-comment">// push content to the list</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">messages</span>[type].<span class="hljs-title function_">push</span>(content);
+  &#125;
+
+  <span class="hljs-comment">// add subscriber</span>
+  <span class="hljs-comment">// pass subscriber type and callback function</span>
+  <span class="hljs-title function_">subscribe</span>(<span class="hljs-params">type, cb</span>) &#123;
+    <span class="hljs-comment">// check whether the subscriber exists</span>
+    <span class="hljs-keyword">const</span> existListener = <span class="hljs-variable language_">this</span>.<span class="hljs-property">listeners</span>[type];
+    <span class="hljs-keyword">if</span> (!existListener) &#123;
+      <span class="hljs-comment">// if the specified type subscriber does not exist,</span>
+      <span class="hljs-comment">// initialize to empty list []</span>
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">listeners</span>[type] = [];
+    &#125;
+    <span class="hljs-comment">// push callback to list</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">listeners</span>[type].<span class="hljs-title function_">push</span>(cb);
+  &#125;
+
+  <span class="hljs-comment">// notify specified type subscriber</span>
+  <span class="hljs-title function_">notify</span>(<span class="hljs-params">type</span>) &#123;
+    <span class="hljs-comment">// get msgs</span>
+    <span class="hljs-keyword">const</span> messages = <span class="hljs-variable language_">this</span>.<span class="hljs-property">messages</span>[type];
+    <span class="hljs-comment">// get subscriber callbacks</span>
+    <span class="hljs-keyword">const</span> subscribers = <span class="hljs-variable language_">this</span>.<span class="hljs-property">listeners</span>[type] || [];
+    subscribers.<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">cb, index</span>) =&gt;</span> <span class="hljs-title function_">cb</span>(messages[index]));
+  &#125;
+&#125;</code></pre><p>Publisher 发布者:</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Publisher</span> &#123;
+  <span class="hljs-comment">// content is broker (PubSub 发布订阅者中心)</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, context</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">context</span> = context;
+  &#125;
+  <span class="hljs-title function_">publish</span>(<span class="hljs-params">type, content</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">context</span>.<span class="hljs-title function_">publish</span>(type, content);
+  &#125;
+&#125;</code></pre><p>Subscriber 订阅者:</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Subscriber</span> &#123;
+  <span class="hljs-comment">// content is broker (PubSub 发布订阅者中心)</span>
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">name, context</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">name</span> = name;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">context</span> = context;
+  &#125;
+  <span class="hljs-title function_">subscribe</span>(<span class="hljs-params">type, cb</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">context</span>.<span class="hljs-title function_">subscribe</span>(type, cb);
+  &#125;
+&#125;</code></pre><p>Use:</p><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Subscriber</span>, <span class="hljs-title class_">PubSub</span>, <span class="hljs-title class_">Publisher</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;./EventMitter.js&quot;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">TYPE_A</span> = <span class="hljs-string">&quot;A&quot;</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">TYPE_B</span> = <span class="hljs-string">&quot;B&quot;</span>;
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">TYPE_C</span> = <span class="hljs-string">&quot;C&quot;</span>;
+
+<span class="hljs-keyword">const</span> pubsub = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PubSub</span>();
+
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">print</span> = (<span class="hljs-params"></span>) =&gt; &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`msgs: <span class="hljs-subst">$&#123;<span class="hljs-built_in">JSON</span>.stringify(pubsub.messages)&#125;</span>`</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`subs: <span class="hljs-subst">$&#123;<span class="hljs-built_in">JSON</span>.stringify(pubsub.listeners)&#125;</span>`</span>);
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;----------------------------------------&quot;</span>);
+&#125;;
+
+<span class="hljs-comment">// pubA</span>
+<span class="hljs-keyword">const</span> publisherA = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Publisher</span>(<span class="hljs-string">&quot;publisherA&quot;</span>, pubsub);
+publisherA.<span class="hljs-title function_">publish</span>(<span class="hljs-variable constant_">TYPE_A</span>, <span class="hljs-string">&quot;we are young&quot;</span>);
+publisherA.<span class="hljs-title function_">publish</span>(<span class="hljs-variable constant_">TYPE_A</span>, <span class="hljs-string">&quot;we are young 2&quot;</span>);
+publisherA.<span class="hljs-title function_">publish</span>(<span class="hljs-variable constant_">TYPE_B</span>, <span class="hljs-string">&quot;the silicon valley&quot;</span>);
+
+<span class="hljs-comment">// pubB</span>
+<span class="hljs-keyword">const</span> publisherB = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Publisher</span>(<span class="hljs-string">&quot;publisherB&quot;</span>, pubsub);
+publisherB.<span class="hljs-title function_">publish</span>(<span class="hljs-variable constant_">TYPE_A</span>, <span class="hljs-string">&quot;stronger&quot;</span>);
+
+<span class="hljs-title function_">print</span>();
+
+<span class="hljs-comment">// subA</span>
+<span class="hljs-keyword">const</span> subscriberA = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Subscriber</span>(<span class="hljs-string">&quot;subscriberA&quot;</span>, pubsub);
+subscriberA.<span class="hljs-title function_">subscribe</span>(<span class="hljs-variable constant_">TYPE_A</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;subscriberA received&quot;</span>, res);
+&#125;);
+
+subscriberA.<span class="hljs-title function_">subscribe</span>(<span class="hljs-variable constant_">TYPE_A</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;subscriberA received&quot;</span>, res);
+&#125;);
+
+subscriberA.<span class="hljs-title function_">subscribe</span>(<span class="hljs-variable constant_">TYPE_C</span>, <span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;subscriberA received&quot;</span>, res);
+&#125;);
+
+<span class="hljs-title function_">print</span>();
+
+pubsub.<span class="hljs-title function_">notify</span>(<span class="hljs-variable constant_">TYPE_A</span>);
+pubsub.<span class="hljs-title function_">notify</span>(<span class="hljs-variable constant_">TYPE_B</span>);
+pubsub.<span class="hljs-title function_">notify</span>(<span class="hljs-variable constant_">TYPE_C</span>);</code></pre><h3 id="实现-Simple-EventEmitter"><a href="#实现-Simple-EventEmitter" class="headerlink" title="实现 Simple EventEmitter"></a>实现 Simple EventEmitter</h3><p>EventEmitter 本质上就是只有一个 publisher 的 PUB&#x2F;SUB 模型</p><p><code>Node</code> 采用了事件驱动机制，而 <code>EventEmitter</code> 就是 <code>Node</code> 实现事件驱动的基础.</p><p>在 <code>EventEmitter</code> 的基础上，<code>Node</code> 几乎所有的模块都继承了这个类，这些模块拥有了自己的事件，可以绑定／触发监听器，实现了异步操作</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">EventEmitter</span> &#123;
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span> = &#123;&#125;;
+  &#125;
+
+  <span class="hljs-comment">// register event</span>
+  <span class="hljs-title function_">on</span>(<span class="hljs-params">type, handler</span>) &#123;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type]) &#123;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type] = [];
+    &#125;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type].<span class="hljs-title function_">push</span>(handler);
+  &#125;
+
+  <span class="hljs-title function_">addListener</span>(<span class="hljs-params">type, handler</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(type, handler);
+  &#125;
+
+  <span class="hljs-title function_">prependListener</span>(<span class="hljs-params">type, handler</span>) &#123;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type]) &#123;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type] = [];
+    &#125;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type].<span class="hljs-title function_">unshift</span>(handler);
+  &#125;
+
+  <span class="hljs-title function_">removeListener</span>(<span class="hljs-params">type, handler</span>) &#123;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type]) &#123;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type] = <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type].<span class="hljs-title function_">filter</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> item !== handler);
+  &#125;
+
+  <span class="hljs-title function_">off</span>(<span class="hljs-params">type, handler</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">removeListener</span>(type, handler);
+  &#125;
+
+  <span class="hljs-comment">// trigger event</span>
+  <span class="hljs-title function_">emit</span>(<span class="hljs-params">type, ...args</span>) &#123;
+    <span class="hljs-comment">// run multiple handle</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">events</span>[type].<span class="hljs-title function_">forEach</span>(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> &#123;
+      <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">apply</span>(item, <span class="hljs-variable language_">this</span>, args);
+    &#125;);
+  &#125;
+
+  <span class="hljs-comment">// only excute one time, and then it will be deleted.</span>
+  <span class="hljs-title function_">once</span>(<span class="hljs-params">type, handler</span>) &#123;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">on</span>(type, <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_onceWrap</span>(type, handler, <span class="hljs-variable language_">this</span>));
+  &#125;
+
+  <span class="hljs-title function_">_onceWrap</span>(<span class="hljs-params">type, handler, target</span>) &#123;
+    <span class="hljs-comment">// closure can keep state</span>
+    <span class="hljs-comment">// fired: Has this function ever been executed?</span>
+    <span class="hljs-keyword">const</span> state = &#123; <span class="hljs-attr">fired</span>: <span class="hljs-literal">false</span>, handler, type, target &#125;;
+    <span class="hljs-comment">// bind state context to function</span>
+    <span class="hljs-keyword">const</span> wrapFn = <span class="hljs-variable language_">this</span>.<span class="hljs-property">_onceWrapper</span>.<span class="hljs-title function_">bind</span>(state);
+    state.<span class="hljs-property">wrapFn</span> = wrapFn;
+    <span class="hljs-keyword">return</span> wrapFn;
+  &#125;
+
+  <span class="hljs-title function_">_onceWrapper</span>(<span class="hljs-params">...args</span>) &#123;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">fired</span>) &#123;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">fired</span> = <span class="hljs-literal">true</span>;
+      <span class="hljs-title class_">Reflect</span>.<span class="hljs-title function_">apply</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">handler</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">target</span>, args);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">target</span>.<span class="hljs-title function_">off</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">type</span>, <span class="hljs-variable language_">this</span>.<span class="hljs-property">wrapFn</span>);
+    &#125;
+  &#125;
+&#125;</code></pre><p>used:</p><pre><code class="hljs js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyEmitter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_ inherited__">EventEmitter</span> &#123;&#125;
+<span class="hljs-keyword">const</span> myEmitter = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyEmitter</span>();
+
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">callback</span>(<span class="hljs-params"></span>) &#123;
+  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;触发了event事件！&quot;</span>);
+&#125;
+myEmitter.<span class="hljs-title function_">on</span>(<span class="hljs-string">&quot;event&quot;</span>, callback);
+myEmitter.<span class="hljs-title function_">emit</span>(<span class="hljs-string">&quot;event&quot;</span>);
+myEmitter.<span class="hljs-title function_">removeListener</span>(<span class="hljs-string">&quot;event&quot;</span>, callback);</code></pre><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol><li><a target="_blank" rel="noopener" href="https://logaretm.com/blog/three-ways-to-expose-vue-component-api/">Three ways to expose internal Vue components API - Abdelrahman’s Blog</a></li><li><a target="_blank" rel="noopener" href="https://logaretm.com/blog/making-the-most-out-of-vuejs-injections/#use-typescript">Making the most out of Vue.js Injections - Abdelrahman’s Blog</a></li><li><a target="_blank" rel="noopener" href="https://github.com/semlinker/node-deep/blob/master/event/%E6%B7%B1%E5%85%A5%E5%AD%A6%E4%B9%A0%20Node.js%20EventEmitter.md">node-deep&#x2F;event&#x2F;深入学习 Node.js EventEmitter.md at master · semlinker&#x2F;node-deep · GitHub</a></li></ol></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/javascript/vue3-deep-understanding/">https://www.whaleluo.top/javascript/vue3-deep-understanding/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2024-01-13</p></div><div class="post-entry__tags"><a href="/tags/JavaScript/" class="post-tags__link button"># JavaScript</a><a href="/tags/JS/" class="post-tags__link button"># JS</a><a href="/tags/%E5%89%8D%E7%AB%AF/" class="post-tags__link button"># 前端</a><a href="/tags/Vue/" class="post-tags__link button"># Vue</a><a href="/tags/Vue3/" class="post-tags__link button"># Vue3</a></div></article><div class="nav"><div class="nav__prev"><a href="/program-design-patterns/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">程序设计模式 Program Design Patterns</div></div></a></div><div class="nav__next"><a href="/javascript/vue3-guide/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">Vue3 + vite + Ts + pinia 全家桶学习</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

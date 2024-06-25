@@ -1,0 +1,419 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Onedrive 完全使用指南 | 😊落落のBlog😊</title><meta name="keywords" content="onedrive, 云盘, Rclone, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Onedrive 完全使用指南前言最近一直在寻找一个国内使用的高可用不限速的在线云盘存储，试过了很多国内的云盘存储，不是有内容审查就是网盘限速。这些网盘都拘泥于一个固定的客户端，不能做到 多端可用、随地随用、增量同步。 就选择了 Onedrive 这个云盘，在小咸鱼买了一年 39 CNY 的 office365 家庭版拼车。Onedirve 家庭版可以支持 6 个用户，每个用户有 1T 的 one"><meta property="og:type" content="article"><meta property="og:title" content="Onedrive 完全使用指南"><meta property="og:url" content="https://www.whaleluo.top/onedrive-guide/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Onedrive 完全使用指南前言最近一直在寻找一个国内使用的高可用不限速的在线云盘存储，试过了很多国内的云盘存储，不是有内容审查就是网盘限速。这些网盘都拘泥于一个固定的客户端，不能做到 多端可用、随地随用、增量同步。 就选择了 Onedrive 这个云盘，在小咸鱼买了一年 39 CNY 的 office365 家庭版拼车。Onedirve 家庭版可以支持 6 个用户，每个用户有 1T 的 one"><meta property="og:locale"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615973.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615975.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615976.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615977.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615978.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615979.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615980.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615981.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615982.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615983.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615985.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615986.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615987.png&webp=true"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615988.png&webp=true"><meta property="article:published_time" content="2023-06-03T03:05:50.000Z"><meta property="article:modified_time" content="2023-06-03T03:05:50.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="onedrive"><meta property="article:tag" content="云盘"><meta property="article:tag" content="Rclone"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615973.png&webp=true"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Onedrive 完全使用指南</h1><div class="post-title__meta"><a href="/archives/2023/06/" class="post-meta__date button">2023-06-03</a> <span class="separate-dot"></span><a href="/categories/onedrive/" class="button">onedrive</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-OneDrive-API"><span class="toc-number">2.</span> <span class="toc-text">创建 OneDrive API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-client-id"><span class="toc-number">2.1.</span> <span class="toc-text">获取 client_id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-client-secret"><span class="toc-number">2.2.</span> <span class="toc-text">获取 client_secret</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-API-%E6%9D%83%E9%99%90"><span class="toc-number">2.3.</span> <span class="toc-text">添加 API 权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">2.4.</span> <span class="toc-text">添加身份验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Rclone"><span class="toc-number">3.</span> <span class="toc-text">使用 Rclone</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-number">3.1.</span> <span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%88%E6%9D%83%E4%BF%9D%E6%B4%BB"><span class="toc-number">3.2.</span> <span class="toc-text">授权保活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.3.</span> <span class="toc-text">命令示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E5%90%8C%E6%AD%A5"><span class="toc-number">3.4.</span> <span class="toc-text">双向同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%85%8D%E7%BD%AE%E7%BF%BB%E8%AF%91"><span class="toc-number">3.5.</span> <span class="toc-text">主配置翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%9D%9A%E6%9E%9C%E4%BA%91"><span class="toc-number">3.6.</span> <span class="toc-text">同步坚果云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%AE%B9%E5%99%A8%E5%86%85%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E5%90%8C%E6%AD%A5%E5%91%BD%E4%BB%A4"><span class="toc-number">3.7.</span> <span class="toc-text">在容器内定时运行同步命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-Crantab-%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD"><span class="toc-number">3.8.</span> <span class="toc-text">通过 Crantab 实现定时备份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%90%8C%E6%AD%A5"><span class="toc-number">3.9.</span> <span class="toc-text">简单同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-Rclone-%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.10.</span> <span class="toc-text">查看 Rclone 进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RcloneNg-UI"><span class="toc-number">3.11.</span> <span class="toc-text">RcloneNg UI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-Mount"><span class="toc-number">4.</span> <span class="toc-text">Windows Mount</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Onedrive-Index-%E5%9C%A8%E7%BA%BF%E5%88%97%E5%87%BA%E7%BD%91%E7%9B%98"><span class="toc-number">5.</span> <span class="toc-text">Onedrive Index 在线列出网盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E9%83%A8%E7%BD%B2%E4%B8%80%E5%91%A8%E5%90%8E%E5%87%BA%E7%8E%B0%E7%9A%84-404-%E9%94%99%E8%AF%AF"><span class="toc-number">5.1.</span> <span class="toc-text">解决部署一周后出现的 404 错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OneManager-Serverless"><span class="toc-number">6.</span> <span class="toc-text">OneManager Serverless</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Alist"><span class="toc-number">7.</span> <span class="toc-text">使用 Alist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use-Proxy"><span class="toc-number">8.</span> <span class="toc-text">Use Proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-number">8.1.</span> <span class="toc-text">Windows</span></a></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-OneDrive-API"><span class="toc-number">2.</span> <span class="toc-text">创建 OneDrive API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-client-id"><span class="toc-number">2.1.</span> <span class="toc-text">获取 client_id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-client-secret"><span class="toc-number">2.2.</span> <span class="toc-text">获取 client_secret</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0-API-%E6%9D%83%E9%99%90"><span class="toc-number">2.3.</span> <span class="toc-text">添加 API 权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="toc-number">2.4.</span> <span class="toc-text">添加身份验证</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Rclone"><span class="toc-number">3.</span> <span class="toc-text">使用 Rclone</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-number">3.1.</span> <span class="toc-text">Docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%88%E6%9D%83%E4%BF%9D%E6%B4%BB"><span class="toc-number">3.2.</span> <span class="toc-text">授权保活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.3.</span> <span class="toc-text">命令示例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8C%E5%90%91%E5%90%8C%E6%AD%A5"><span class="toc-number">3.4.</span> <span class="toc-text">双向同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E9%85%8D%E7%BD%AE%E7%BF%BB%E8%AF%91"><span class="toc-number">3.5.</span> <span class="toc-text">主配置翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E6%AD%A5%E5%9D%9A%E6%9E%9C%E4%BA%91"><span class="toc-number">3.6.</span> <span class="toc-text">同步坚果云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8%E5%AE%B9%E5%99%A8%E5%86%85%E5%AE%9A%E6%97%B6%E8%BF%90%E8%A1%8C%E5%90%8C%E6%AD%A5%E5%91%BD%E4%BB%A4"><span class="toc-number">3.7.</span> <span class="toc-text">在容器内定时运行同步命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87-Crantab-%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD"><span class="toc-number">3.8.</span> <span class="toc-text">通过 Crantab 实现定时备份</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E5%90%8C%E6%AD%A5"><span class="toc-number">3.9.</span> <span class="toc-text">简单同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B-Rclone-%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.10.</span> <span class="toc-text">查看 Rclone 进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RcloneNg-UI"><span class="toc-number">3.11.</span> <span class="toc-text">RcloneNg UI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows-Mount"><span class="toc-number">4.</span> <span class="toc-text">Windows Mount</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Onedrive-Index-%E5%9C%A8%E7%BA%BF%E5%88%97%E5%87%BA%E7%BD%91%E7%9B%98"><span class="toc-number">5.</span> <span class="toc-text">Onedrive Index 在线列出网盘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E9%83%A8%E7%BD%B2%E4%B8%80%E5%91%A8%E5%90%8E%E5%87%BA%E7%8E%B0%E7%9A%84-404-%E9%94%99%E8%AF%AF"><span class="toc-number">5.1.</span> <span class="toc-text">解决部署一周后出现的 404 错误</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OneManager-Serverless"><span class="toc-number">6.</span> <span class="toc-text">OneManager Serverless</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Alist"><span class="toc-number">7.</span> <span class="toc-text">使用 Alist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Use-Proxy"><span class="toc-number">8.</span> <span class="toc-text">Use Proxy</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Windows"><span class="toc-number">8.1.</span> <span class="toc-text">Windows</span></a></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2023-06-03"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Onedrive-完全使用指南"><a href="#Onedrive-完全使用指南" class="headerlink" title="Onedrive 完全使用指南"></a>Onedrive 完全使用指南</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近一直在寻找一个国内使用的高可用不限速的在线云盘存储，试过了很多国内的云盘存储，不是有内容审查就是网盘限速。这些网盘都拘泥于一个固定的客户端，不能做到 <strong>多端可用、随地随用、增量同步。</strong></p><p>就选择了 Onedrive 这个云盘，在小咸鱼买了一年 39 CNY 的 office365 家庭版拼车。Onedirve 家庭版可以支持 6 个用户，每个用户有 1T 的 onedrive 空间和 5 台设备的 office365 授权。</p><p>Onedrive 支持将云空间挂载到各种软件上，例如：Rclone、Alist、oneindex。可以支持直链共享，目测在中国大陆的网速也不错。<br>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615973.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615973.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><h2 id="创建-OneDrive-API"><a href="#创建-OneDrive-API" class="headerlink" title="创建 OneDrive API"></a>创建 OneDrive API</h2><h3 id="获取-client-id"><a href="#获取-client-id" class="headerlink" title="获取 client_id"></a>获取 client_id</h3><pre><code class="hljs text">5c160d06-e2cf-4dbf-a987-5b672cd6bb5ehyy</code></pre><p>首先访问 <a target="_blank" rel="noopener" href="https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps">Microsoft Azure 应用注册</a>，登录账号后点击 <strong>应用注册</strong></p><p>填写以下信息：</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615975.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615975.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">点击注册后可以看到你的应用的相关信息，复制好 应用程序 (客户端) ID ，这个就是 client_id。</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615976.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615976.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><h3 id="获取-client-secret"><a href="#获取-client-secret" class="headerlink" title="获取 client_secret"></a>获取 client_secret</h3><pre><code class="hljs text">dHd8Q~Nu8~IRN25ihNt3x-sIGrkE9n1tpFYGYbEohxy</code></pre><p>依次点击 <strong>证书和密码</strong>，<strong>新客户端密码</strong>，在截止期限中将时间选择为最长（即两年）</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615977.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615977.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><p>然后就可以看见值和机密 ID，我们只需要记录下 <strong>值</strong> 就可以，这个就是 client_secret。</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615978.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615978.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><h3 id="添加-API-权限"><a href="#添加-API-权限" class="headerlink" title="添加 API 权限"></a>添加 API 权限</h3><p>依次点击 <strong>API 权限</strong>，<strong>添加权限</strong>，<strong>Microsoft Graph</strong>，在右边栏搜索并添加权限。</p><p>需要 <strong>Files.Read, Files.ReadWrite,Files.Read.All, Files.ReadWrite.All, offline_access, User.Read</strong> 。</p><p>​​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615979.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615979.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><p>添加以下权限：</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615980.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615980.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><h3 id="添加身份验证"><a href="#添加身份验证" class="headerlink" title="添加身份验证"></a>添加身份验证</h3><p>依次点击 <strong>身份验证</strong>，<strong>添加平台</strong>，<strong>Web</strong></p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615981.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615981.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><p>​在重定向 URI 中输入 <a target="_blank" rel="noopener" href="http://localhost/">http://localhost</a></p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615982.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615982.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​至此，OneDrive API 创建完成</p><h2 id="使用-Rclone"><a href="#使用-Rclone" class="headerlink" title="使用 Rclone"></a>使用 Rclone</h2><p>Rclone 是一个用于多个云平台之间同步文件和目录的命令行工具，其支持多种运营商网盘。使用 Golang 编写，<strong>所以跨平台兼容性良好</strong>。</p><p>支持 RC 接口可以通过 API 或 Web UI 操作。</p><ul><li>官网网址：<a target="_blank" rel="noopener" href="https://www.moewah.com/go/aHR0cHM6Ly9yY2xvbmUub3Jn">https://rclone.org</a></li><li>开源地址：<a target="_blank" rel="noopener" href="https://github.com/ncw/rclone">https://github.com/ncw/rclone</a></li><li>中文文档部分翻译： <a target="_blank" rel="noopener" href="https://ld246.com/article/1600853705300">https://ld246.com/article/1600853705300</a></li><li>rclone 中文站点： <a target="_blank" rel="noopener" href="https://rclone.cn/">https://rclone.cn/</a></li></ul><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><p>Rclone can serve a web based GUI. ​<code>rclone rcd --rc-web-gui</code>​​</p><p>53682 为 微软令牌验证端口</p><p><a target="_blank" rel="noopener" href="https://rclone.org/onedrive/">https://rclone.org/onedrive/</a></p><pre><code class="hljs shell">docker pull rclone/rclone:latest</code></pre><pre><code class="hljs shell">docker run -d \
+    -v /root/rclone:/config/rclone \
+    -v /mnt/:/data \
+    -p 5573:5572 \
+    -p 53682:53682 \
+    --name=rclone \
+    --user $(id -u):$(id -g) \
+    rclone/rclone \
+    rcd --rc-web-gui \
+    --rc-web-gui-force-update \
+    --rc-web-gui-no-open-browser \
+    --rc-addr 0.0.0.0:5572 \
+    --rc-user admin \
+    --rc-pass lovehyy9420</code></pre><p>打开 <a target="_blank" rel="noopener" href="http://ip:5573/">http://IP:5573</a> 并登录显示以下页面：</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615983.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615983.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><p>进入 docker bash：<code>docker exec -it rclone sh</code>​, 输入 rclone config ，按照提示进行 onedrive 设置。</p><p>远程 OA 验证：<a target="_blank" rel="noopener" href="https://rclone.org/remote_setup/">https://rclone.org/remote_setup&#x2F;</a></p><p>验证完毕后可以在 Explorer 查看文件：</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615985.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615985.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">### Rclone 常用命令</p><p>语法：</p><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">本地到网盘</span>
+rclone [功能选项] &lt;本地路径&gt; &lt;网盘名称:路径&gt; [参数] [参数] ...
+<span class="hljs-meta prompt_"># </span><span class="language-bash">网盘到本地</span>
+rclone [功能选项] &lt;网盘名称:路径&gt; &lt;本地路径&gt; [参数] [参数] ...
+<span class="hljs-meta prompt_"># </span><span class="language-bash">网盘到网盘</span>
+rclone [功能选项] &lt;网盘名称:路径&gt; &lt;网盘名称:路径&gt; [参数] [参数] ...</code></pre><p>常用功能选项：</p><pre><code class="hljs text">rclone copy - 复制
+rclone move - 移动，如果要在移动后删除空源目录，请加上 --delete-empty-src-dirs 参数
+rclone sync - 同步：将源目录同步到目标目录，只更改目标目录。
+rclone delete - 删除路径下的文件内容。
+rclone purge - 删除路径及其所有文件内容。
+rclone mkdir - 创建目录。
+rclone rmdir - 删除目录。
+rclone rmdirs - 删除指定灵境下的空目录。如果加上 --leave-root 参数，则不会删除根目录。
+rclone check - 检查源和目的地址数据是否匹配。
+rclone ls - 列出指定路径下的所有的文件以及文件大小和路径。
+rclone lsl - 比上面多一个显示上传时间。
+rclone lsd 列出指定路径下的目录
+rclone lsf - 列出指定路径下的目录和文件</code></pre><p>常用参数：</p><pre><code class="hljs text">-n = --dry-run - 测试运行，用来查看 rclone 在实际运行中会进行哪些操作。
+-P = --progress - 显示实时传输进度。
+--cache-chunk-size SizeSuffi - 块的大小，默认 5M，理论上是越大上传速度越快，同时占用内存也越多。如果设置得太大，可能会导致进程中断。
+--cache-chunk-total-size SizeSuffix - 块可以在本地磁盘上占用的总大小，默认 10G。
+--transfers=N - 并行文件数，默认为 4。在比较小的内存的 VPS 上建议调小这个参数，比如 128M 的小鸡上使用建议设置为 1。
+--config string - 指定配置文件路径，string 为配置文件路径。比如在使用宝塔面板输入命令操作时可能会遇到找不到配置文件的问题，这时就需要指定配置文件路径。</code></pre><h3 id="授权保活"><a href="#授权保活" class="headerlink" title="授权保活"></a>授权保活</h3><p>If you don’t use rclone for 90 days the refresh token will expire. This will result in authorization problems. This is easy to fix by running the <code>rclone config reconnect remote:</code>​ command to get a new token and refresh token.</p><p>如果在 90 天内不使用 rclone，刷新令牌将过期。这将导致授权问题。通过运行 rclone config reconnect remote: 命令获取新令牌并刷新令牌，可以轻松解决此问题。</p><p>重新运行授权：</p><pre><code class="hljs shell">docker run --rm -it -v /root/rclone:/config/rclone -v /mnt/:/data --user $(id -u):$(id -g) rclone/rclone config reconnect onedrive:</code></pre><h3 id="命令示例"><a href="#命令示例" class="headerlink" title="命令示例"></a>命令示例</h3><p>将 onedrive 上的全部内容下载到本地：</p><pre><code class="hljs shell">rclone copy source:sourcepath dest:destpsth
+
+rclone copy onedrive:/ /data/sdb1/onedrive_old --transfers=8 -P</code></pre><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615986.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615986.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​​</p><p>速度还行，将旧的 onedrive 文件一同迁移到本地硬盘。</p><h3 id="双向同步"><a href="#双向同步" class="headerlink" title="双向同步"></a>双向同步</h3><pre><code class="hljs shell">rclone bisync remote1:path1 remote2:path2 [flags]
+
+
+--check-access            确保在Path1和Path2文件系统上找到了预期的RCLONE_TEST文件，否则中止操作。
+--check-filename string   用于--check-access的文件名（默认值：RCLONE_TEST）
+--check-sync string       控制最终列表的比较：true|false|only（默认值：true）（默认值 &quot;true&quot;）
+--filters-file string     从文件中读取过滤模式
+--force                   跳过--max-delete安全检查并运行同步。考虑与--verbose一起使用
+-h, --help                    bisync的帮助信息
+--localtime               在列表中使用本地时间（默认值：UTC）
+--no-cleanup              保留工作文件（用于故障排除和测试）。
+--remove-empty-dirs       在最终清理步骤中删除空目录。
+-1, --resync                  执行重新同步操作。Path1文件可能会覆盖Path2版本。首先考虑使用--verbose或--dry-run。
+--workdir string          使用自定义的工作目录 - 用于测试。（默认值：$HOME/.cache/rclone/bisync）</code></pre><pre><code class="hljs shell">rclone bisync /data/sdb1/Yellow/ onedrive:/Yellow/ --check-access --resync --cache-chunk-size 20M --drive-chunk-size 128M --transfers=8</code></pre><p>仅同步备份到云盘，考虑到云盘备份不需要特别高的实时性，不需要双向同步，所以我选择通过 sync 将硬盘内容定时上传到云盘。<a target="_blank" rel="noopener" href="https://rclone.org/commands/rclone_sync/">https://rclone.org/commands/rclone_sync&#x2F;</a></p><p><strong>将源同步到目标，仅更改目标。</strong>不传输源和目标上相同的文件，按大小和修改时间或 MD5SUM 进行测试。</p><p>目标更新以匹配源，<strong>包括在必要时删除文件</strong>（重复对象除外，见下文）。如果不想从目标位置删除文件，请改用复制命令。</p><pre><code class="hljs shell">rclone sync SOURCE remote:DESTINATION</code></pre><pre><code class="hljs shell">rclone sync /data/sdb1/Yellow/ onedrive:/Yellow/ --cache-chunk-size 20M --transfers=8 -P</code></pre><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615987.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615987.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><p>这是一个关于 <code>bisync</code>​ 命令的错误信息。该错误信息表明，在上一次运行 <code>bisync</code>​ 命令时出现了致命错误，导致无法找到先前的 <code>Path1</code>​ 或 <code>Path2</code>​ 列表。因此，<code>bisync</code>​ 命令无法确定哪些文件需要同步，因此它需要使用 <code>--resync</code>​ 选项来恢复同步操作。</p><p>如果您需要在生产环境中进行文件同步操作，建议使用其他可靠的工具，如 <code>rsync</code>​ 或 <code>robocopy</code>​。这些工具已经被广泛使用，并且已经被证明是可靠的文件同步工具。</p><pre><code class="hljs shell">2023/06/12 08:15:59 NOTICE: bisync is EXPERIMENTAL. Don&#x27;t use in production!
+2023/06/12 08:15:59 INFO : Synching Path1 &quot;/data/sdb1/AMediaBack/&quot; with Path2 &quot;onedrive:AMediaBack/&quot;
+2023/06/12 08:15:59 ERROR : Bisync critical error: cannot find prior Path1 or Path2 listings, likely due to critical error on prior run
+2023/06/12 08:15:59 ERROR : Bisync aborted. Must run --resync to recover.</code></pre><h3 id="主配置翻译"><a href="#主配置翻译" class="headerlink" title="主配置翻译"></a>主配置翻译</h3><pre><code class="hljs shell">--ask-password 允许提示输入加密配置的密码（默认为true）
+--auto-confirm 如果启用，不请求控制台确认
+--backup-dir string 将备份制作成基于DIR的层次结构
+--bind string 用于传出连接的本地地址，IPv4、IPv6或名称
+--buffer-size SizeSuffix 每个--transfer读取文件时的内存缓冲区大小（默认为16Mi）
+--bwlimit BwTimetable 带宽限制为KiB/s，或使用后缀B|K|M|G|T|P或完整时间表
+--bwlimit-file BwTimetable 每个文件的带宽限制为KiB/s，或使用后缀B|K|M|G|T|P或完整时间表
+--ca-cert stringArray 用于验证服务器的CA证书
+--cache-dir string rclone将用于缓存的目录（默认为“$HOME/.cache/rclone”）
+--check-first 在开始传输之前执行所有检查
+--checkers int 并行运行的检查程序数（默认为8）
+-c，--checksum 根据校验和（如果可用）和大小跳过，而不是修改时间和大小
+--client-cert string 用于相互TLS身份验证的客户端SSL证书（PEM）
+--client-key string 用于相互TLS身份验证的客户端SSL私钥（PEM）
+--color string 何时显示颜色（和其他ANSI代码）AUTO|NEVER|ALWAYS（默认为“AUTO”）
+--compare-dest stringArray 在比较过程中包括其他逗号分隔的服务器端路径
+--config string 配置文件（默认为“$HOME/.config/rclone/rclone.conf”）
+--contimeout Duration 连接超时（默认为1m0s）
+--copy-dest stringArray 意味着--compare-dest，但也将文件从路径复制到目标
+--cpuprofile string 将CPU配置文件写入文件
+--cutoff-mode string 达到最大传输限制时停止传输的模式HARD|SOFT|CAUTIOUS（默认为“HARD”）
+--delete-after 在同步时，在传输后删除目标上的文件（默认）
+--delete-before 在同步时，在传输之前删除目标上的文件
+--delete-during 在同步时，在传输期间删除文件
+--delete-excluded 删除从同步中排除的目标上的文件
+--disable string 禁用一系列功能的逗号分隔列表（使用--disable help查看列表）
+--disable-http-keep-alives 禁用HTTP保持活动并仅使用每个连接一次。
+--disable-http2 在全局传输中禁用HTTP/2
+-n，--dry-run 进行试运行，没有永久更改
+--dscp string 将DSCP值设置为连接，值或名称，例如CS1、LE、DF、AF21
+--dump DumpFlags 要从中转储存的项目列表：头、主体、请求、响应、身份验证、过滤器、goroutines、openfiles
+--dump-bodies 转储HTTP头和正文-可能包含敏感信息
+--dump-headers 转储HTTP头-可能包含敏感信息
+--error-on-no-transfer 如果没有传输文件，则设置退出代码9，在脚本中很有用
+--exclude stringArray 排除与模式匹配的文件
+--exclude-from stringArray 从文件中读取文件排除模式（使用-从标准输入读取）
+--exclude-if-present stringArray 如果文件名存在，则排除目录
+--expect-continue-timeout Duration：在使用 HTTP 的 expect / 100-continue 时超时的时间（默认为 1 秒）
+--fast-list：如果可用，使用递归列表；使用更多的内存但更少的事务
+--files-from stringArray：从文件中读取源文件名列表（使用 - 从标准输入读取）
+--files-from-raw stringArray：从文件中读取源文件名列表，而不对行进行任何处理（使用 - 从标准输入读取）
+-f, --filter stringArray：添加文件过滤规则
+--filter-from stringArray：从文件中读取文件过滤模式（使用 - 从标准输入读取）
+--fs-cache-expire-duration Duration：缓存远程文件的时间长度（0 表示禁用缓存）（默认为 5 分钟）
+--fs-cache-expire-interval Duration：检查过期远程文件的间隔时间（默认为 1 分钟）
+--header stringArray：为所有事务设置 HTTP 标头
+--header-download stringArray：为下载事务设置 HTTP 标头
+--header-upload stringArray：为上传事务设置 HTTP 标头
+--human-readable：以人类可读的格式打印数字，大小带有后缀 Ki|Mi|Gi|Ti|Pi
+--ignore-case：在过滤器中忽略大小写（不区分大小写）
+--ignore-case-sync：同步时忽略大小写
+--ignore-checksum：跳过校验和的后复制检查
+--ignore-errors：即使存在 I/O 错误，也要删除
+--ignore-existing：跳过所有已存在于目标位置的文件
+--ignore-size：在跳过时忽略大小，使用修改时间或校验和
+-I, --ignore-times：不跳过与大小和时间匹配的文件 - 传输所有文件
+--immutable：不修改文件，如果已修改现有文件，则失败
+--include stringArray：包括匹配模式的文件
+--include-from stringArray：从文件中读取文件包含模式（使用 - 从标准输入读取）
+-i, --interactive：启用交互模式
+--kv-lock-time Duration：进程保持键值数据库锁定的最长时间（默认为 1 秒）
+--log-file string：将所有内容记录到此文件
+--log-format string：日志格式选项的逗号分隔列表（默认为“日期，时间”）
+--log-level string：日志级别 DEBUG|INFO|NOTICE|ERROR（默认为“NOTICE”）
+--log-systemd：激活日志记录器的 systemd 集成
+--low-level-retries int：执行低级别重试的次数（默认为 10）
+--max-age Duration：仅传输比此年龄年轻的文件，单位为 s 或后缀 ms|s|m|h|d|w|M|y（默认为关闭）
+--max-backlog int：同步或检查后台日志中的最大对象数（默认为 10000）
+--max-delete int：在同步时，限制删除的数量（默认为 -1）
+--max-delete-size SizeSuffix：在同步时，限制删除的总大小（默认为关闭）
+--max-depth int：如果设置，将递归深度限制为此（默认为 -1）
+--max-duration Duration：rclone 将传输数据的最长时间（默认为 0 秒）
+--max-size SizeSuffix：仅传输小于此大小的文件，单位为 KiB 或后缀 B|K|M|G|T|P（默认为关闭）
+--max-stats-groups int：在 max 上，最大的统计组数将保留在内存中，最老的将被丢弃（默认为 1000）
+--max-transfer SizeSuffix：要传输的数据的最大大小（默认为关闭）
+--memprofile string：将内存配置文件写入文件
+-M, --metadata：如果设置，复制对象时保留元数据
+--metadata-exclude stringArray：排除与模式匹配的元数据
+--metadata-exclude-from stringArray：从文件中读取元数据排除模式（使用 - 从标准输入读取）
+--metadata-filter stringArray：添加元数据过滤规则
+--metadata-filter-from stringArray：从文件中读取元数据过滤模式（使用 - 从标准输入读取）
+--metadata-include stringArray：包括匹配模式的元数据
+--metadata-include-from stringArray：从文件中读取元数据包含模式（使用 - 从标准输入读取）
+--metadata-set stringArray：上传时添加元数据键=值
+--min-age Duration：仅传输比此年龄更老的文件，单位为 s 或后缀 ms|s|m|h|d|w|M|y（默认为关闭）
+--min-size SizeSuffix：仅传输大于此大小的文件，单位为 KiB 或后缀 B|K|M|G|T|P（默认为关闭）
+--modify-window Duration：被认为是相同的最大时间差异（默认为 1 纳秒）
+--multi-thread-cutoff SizeSuffix：对于文件大小超过此值的文件使用多线程下载（默认为 250Mi）
+--multi-thread-streams int：用于多线程下载的最大流数（默认为 4）
+--no-check-certificate：不验证服务器 SSL 证书（不安全）
+--no-check-dest：不检查目标，无论如何都要复制
+--no-console：隐藏控制台窗口（仅限 Windows）
+--no-gzip-encoding：不设置 Accept-Encoding: gzip
+--no-traverse：不在复制时遍历目标文件系统
+--no-unicode-normalization：不规范化文件名中的 Unicode 字符
+--no-update-modtime：如果文件相同，则不更新目标修改时间
+--order-by string：如何排序传输的指令，例如“size，descending”
+--password-command SpaceSepList        用于提供加密配置密码的命令
+  -P, --progress                             在传输过程中显示进度
+      --progress-terminal-title              在终端标题上显示进度（需要 -P/--progress）
+  -q, --quiet                                尽可能少地打印信息
+      --rc                                   启用远程控制服务器
+      --rc-addr stringArray                  IP 地址:端口或 :端口，用于绑定服务器（默认 [localhost:5572]）
+      --rc-allow-origin string               设置 CORS 的允许来源
+      --rc-baseurl string                    URL 的前缀 - 留空表示根目录
+      --rc-cert string                       TLS PEM 密钥（证书和 CA 证书的串联）
+      --rc-client-ca string                  客户端证书颁发机构，用于验证客户端
+      --rc-enable-metrics                    在 /metrics 上启用 Prometheus 指标
+      --rc-files string                      要在 HTTP 服务器上提供的本地文件的路径
+      --rc-htpasswd string                   htpasswd 文件 - 如果未提供，则不进行身份验证
+      --rc-job-expire-duration Duration      过期完成的异步作业，时间超过此值（默认为 1m0s）
+      --rc-job-expire-interval Duration      检查过期的异步作业的间隔时间（默认为 10s）
+      --rc-key string                        TLS PEM 私钥
+      --rc-max-header-bytes int              请求头的最大大小（默认为 4096）
+      --rc-min-tls-version string            可接受的最低 TLS 版本（默认为 &quot;tls1.0&quot;）
+      --rc-no-auth                           对某些方法不要求身份验证
+      --rc-pass string                       用于身份验证的密码
+      --rc-realm string                      用于身份验证的领域
+      --rc-salt string                       密码哈希盐（默认为 &quot;dlPL2MqE&quot;）
+      --rc-serve                             启用远程对象的服务
+      --rc-server-read-timeout Duration      服务器读取数据的超时时间（默认为 1h0m0s）
+      --rc-server-write-timeout Duration     服务器写入数据的超时时间（默认为 1h0m0s）
+      --rc-template string                   用户指定的模板
+      --rc-user string                       用于身份验证的用户名
+      --rc-web-fetch-url string              获取 WebGUI 发布的 URL（默认为 &quot;https://api.github.com/repos/rclone/rclone-webui-react/releases/latest&quot;）
+      --rc-web-gui                           在本地主机上启动 WebGUI
+      --rc-web-gui-force-update              强制更新到 Web GUI 的最新版本
+      --rc-web-gui-no-open-browser           不自动打开浏览器
+      --rc-web-gui-update                    检查并更新到 Web GUI 的最新版本
+      --refresh-times                        刷新远程文件的修改时间
+      --retries int                          如果操作失败，重试此次数（默认为 3）
+      --retries-sleep Duration               如果操作失败，重试操作之间的间隔时间，例如 500ms、60s、5m（0 表示禁用）（默认为 0s）
+      --server-side-across-configs           允许服务器端操作（例如复制）跨不同的配置工作
+      --size-only                            仅基于大小跳过，而不是基于修改时间或校验和
+      --stats Duration                       打印统计信息的间隔时间，例如 500ms、60s、5m（0 表示禁用）（默认为 1m0s）
+      --stats-file-name-length int           统计信息中文件名的最大长度（0 表示无限制）（默认为 45）
+      --stats-log-level string               显示 --stats 输出的日志级别 DEBUG|INFO|NOTICE|ERROR（默认为 &quot;INFO&quot;）
+      --stats-one-line                       使统计信息适合一行
+      --stats-one-line-date                  启用 --stats-one-line 并添加当前日期/时间前缀
+      --stats-one-line-date-format string    启用 --stats-one-line-date 并使用自定义格式化日期：将日期字符串括在双引号中，参见 https://golang.org/pkg/time/#Time.Format
+      --stats-unit string                    在统计信息中以每秒字节或比特的形式显示数据速率（默认为 &quot;bytes&quot;）
+      --streaming-upload-cutoff SizeSuffix   如果文件大小未知，则切换到分块上传的截止点，在达到截止点或文件结束时开始上传（默认为 100Ki）
+      --suffix string                        添加到更改的文件后缀
+      --suffix-keep-extension                在使用 --suffix 时保留扩展名
+      --syslog                               使用 Syslog 记录日志
+      --syslog-facility string               Syslog 的设施，例如 KERN、USER...（默认为 &quot;DAEMON&quot;）
+      --temp-dir string                      rclone 将用于临时文件的目录（默认为 &quot;/tmp&quot;）
+      --timeout Duration                     IO 空闲超时时间（默认为 5m0s）
+      --tpslimit float                       每秒限制 HTTP 事务数
+      --tpslimit-burst int                   --tpslimit 的最大事务数（默认为 1）
+      --track-renames                        在同步时，跟踪文件重命名并在可能的情况下进行服务器端移动
+      --track-renames-strategy string        使用 track-renames 时同步时使用的策略 hash|modtime|leaf（默认为 &quot;hash&quot;）
+      --transfers int                        并行运行的文件传输数（默认为 4）
+  -u, --update                               跳过在目标位置更新的较新文件
+      --use-cookies                          启用会话 cookiejar
+      --use-json-log                         使用 json 日志格式
+      --use-mmap                             使用 mmap 分配器（请参阅文档）
+      --use-server-modtime                   使用服务器修改时间而不是对象元数据
+      --user-agent string                    将用户代理设置为指定的字符串（默认为 &quot;rclone/v1.62.2&quot;）
+  -v, --verbose count                        打印更多的信息（重复以获得更多）</code></pre><h3 id="同步坚果云"><a href="#同步坚果云" class="headerlink" title="同步坚果云"></a>同步坚果云</h3><p>因为坚果云 Webdav 有并发限制，所以需要限制线程数慢慢拉取。</p><p>将坚果云拉取到本地。</p><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">rclone <span class="hljs-built_in">sync</span> --interactive SOURCE remote:DESTINATION</span>
+
+docker run --rm \
+-v /root/rclone:/config/rclone \
+-v /mnt/:/data \
+-v /root/rclone/bisync:/root/.cache/rclone/bisync \
+--user $(id -u):$(id -g) \
+rclone/rclone sync \
+JGY:/ \
+/data/sdb1/JianGuoYunBack/ \
+--cache-chunk-size 20M \
+--transfers=1 \
+--verbose</code></pre><h3 id="在容器内定时运行同步命令"><a href="#在容器内定时运行同步命令" class="headerlink" title="在容器内定时运行同步命令"></a>在容器内定时运行同步命令</h3><p><a target="_blank" rel="noopener" href="https://meishizaolunzi.com/cron-in-docker/">https://meishizaolunzi.com/cron-in-docker/</a></p><p>Alpine：已经预装，可以使用 <code>which crond</code>​ 查看。</p><p>对于 Docker 容器来说，多用户的作用不大，只需要专注全局的配置文件：<code>/etc/crontab</code>​ 即可。</p><pre><code class="hljs shell">vi /etc/crontab
+
+* * * * * root date</code></pre><h3 id="通过-Crantab-实现定时备份"><a href="#通过-Crantab-实现定时备份" class="headerlink" title="通过 Crantab 实现定时备份"></a>通过 Crantab 实现定时备份</h3><p>写一个备份脚本：rclone_bak.sh</p><p>实测 22000 个文件需要大概 6 分 35 秒 才能完全扫描并同步。</p><p>双向同步前需要先在 Onedrive 创建文件夹。</p><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Website:  https://whalefall.top/</span>
+
+DATE=`date +%Y%m%d`
+
+ARCHIVE_LOG_FILE=/root/backup.log
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Yellow</span>
+docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.cache/rclone/bisync --user $(id -u):$(id -g) rclone/rclone bisync /data/sdb1/Yellow/ onedrive:/Yellow/ --check-access --resync --workdir=/root/.cache/rclone/bisync --cache-chunk-size 20M --transfers=8 --verbose &gt;&gt; $ARCHIVE_LOG_FILE 2&gt;&amp;1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">AMediaBack</span>
+docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.cache/rclone/bisync --user $(id -u):$(id -g) rclone/rclone bisync /data/sdb1/AMediaBack/ onedrive:/AMediaBack/ --check-access --resync --workdir=/root/.cache/rclone/bisync --cache-chunk-size 20M --transfers=8 --verbose &gt;&gt; $ARCHIVE_LOG_FILE 2&gt;&amp;1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Music</span>
+docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.cache/rclone/bisync --user $(id -u):$(id -g) rclone/rclone bisync /data/sdb1/Music/ onedrive:/Music/ --check-access --resync --workdir=/root/.cache/rclone/bisync --cache-chunk-size 20M --transfers=8 --verbose &gt;&gt; $ARCHIVE_LOG_FILE 2&gt;&amp;1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Output <span class="hljs-built_in">log</span> file</span>
+echo -e &quot;\e[1;32m---------------------------------------------\e[0m&quot; &gt;&gt; $ARCHIVE_LOG_FILE
+echo -e &quot;每日备份 Backup date: &quot;$(date +%Y-%m-%d)&quot;\t&quot;&quot;Finish time: &quot;$(date +%H:%M:%S) &gt;&gt; $ARCHIVE_LOG_FILE
+echo -e &quot;\e[1;32m---------------------------------------------\e[0m\n&quot; &gt;&gt; $ARCHIVE_LOG_FILE</code></pre><p>快速备份文件夹，双向同步。<a target="_blank" rel="noopener" href="https://rclone.org/commands/rclone_bisync/">https://rclone.org/commands/rclone_bisync&#x2F;</a></p><blockquote><p>This will effectively make both Path1 and Path2 filesystems contain a matching superset of all files. Path2 files that do not exist in Path1 will be copied to Path1, and the process will then sync the Path1 tree to Path2.</p></blockquote><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Website:  https://whalefall.top/</span>
+
+DATE=`date +%Y%m%d`
+
+ARCHIVE_LOG_FILE=/root/backup_fast.log
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">onedrive_fast</span>
+docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.cache/rclone/bisync --user $(id -u):$(id -g) rclone/rclone bisync /data/sdb1/onedrive_fast/ onedrive:/onedrive_fast/ --check-access --resync --workdir=/root/.cache/rclone/bisync --cache-chunk-size 20M --transfers=8 &gt;&gt; $ARCHIVE_LOG_FILE 2&gt;&amp;1
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Output <span class="hljs-built_in">log</span> file</span>
+echo -e &quot;\e[1;32m---------------------------------------------\e[0m&quot; &gt;&gt; $ARCHIVE_LOG_FILE
+echo -e &quot;快速备份 Backup date: &quot;$(date +%Y-%m-%d)&quot;\t&quot;&quot;Finish time: &quot;$(date +%H:%M:%S) &gt;&gt; $ARCHIVE_LOG_FILE
+echo -e &quot;\e[1;32m---------------------------------------------\e[0m\n&quot; &gt;&gt; $ARCHIVE_LOG_FILE</code></pre><h3 id="简单同步"><a href="#简单同步" class="headerlink" title="简单同步"></a>简单同步</h3><p>将源同步到目标，只修改目标。</p><blockquote><p>参考：<a target="_blank" rel="noopener" href="https://superuser.com/questions/1729603/rclone-to-onedrive-is-excruciatingly-slow">performance - rclone to OneDrive is excruciatingly slow - Super User</a><br><code>--drive-chunk-size 128M</code> 增加上传文件分块的大小。</p></blockquote><pre><code class="hljs shell">docker run --rm \
+-v /root/rclone:/config/rclone \
+-v /mnt/:/data \
+-v /root/rclone/bisync:/root/.cache/rclone/bisync \
+--user $(id -u):$(id -g) \
+rclone/rclone sync \
+/data/sdb1/AMediaBack/ \
+onedrive:/AMediaBack/ \
+--cache-chunk-size 20M \
+--drive-chunk-size 128M \
+--transfers=8 \
+--verbose</code></pre><p>pastes：</p><pre><code class="hljs shell">docker run --rm \
+-v /root/rclone:/config/rclone \
+-v /mnt/:/data \
+-v /root/rclone/bisync:/root/.cache/rclone/bisync \
+--user $(id -u):$(id -g) \
+rclone/rclone sync \
+/data/sdb1/WinEXE/ \
+onedrive:/WinEXE/ \
+--cache-chunk-size 20M \
+--transfers=8 \
+--verbose
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">神秘学资料</span>
+
+docker run --rm \
+-v /root/rclone:/config/rclone \
+-v /mnt/:/data \
+-v /root/rclone/bisync:/root/.cache/rclone/bisync \
+--user $(id -u):$(id -g) \
+rclone/rclone sync \
+/data/sdb1/神秘学资料/ \
+onedrive:/神秘学资料/ \
+--cache-chunk-size 20M \
+--transfers=8 \
+--verbose
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">HamRadio</span>
+
+docker run --rm \
+-v /root/rclone:/config/rclone \
+-v /mnt/:/data \
+-v /root/rclone/bisync:/root/.cache/rclone/bisync \
+--user $(id -u):$(id -g) \
+rclone/rclone sync \
+/data/sdb1/HamRadio/ \
+onedrive:/HamRadio/ \
+--cache-chunk-size 20M \
+--transfers=8 \
+--verbose
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">双向同步 AMediaBack</span>
+<span class="hljs-meta prompt_">$ </span><span class="language-bash">docker run --<span class="hljs-built_in">rm</span> \</span>
+<span class="language-bash">-v /root/rclone:/config/rclone \</span>
+<span class="language-bash">-v /mnt/:/data \</span>
+<span class="language-bash">-v /root/rclone/bisync:/root/.cache/rclone/bisync \</span>
+<span class="language-bash">--user $(<span class="hljs-built_in">id</span> -u):$(<span class="hljs-built_in">id</span> -g) \</span>
+<span class="language-bash">rclone/rclone bisync \</span>
+<span class="language-bash">/data/sdb1/AMediaBack/ \</span>
+<span class="language-bash">onedrive:/AMediaBack/ \</span>
+<span class="language-bash">--cache-chunk-size 20M \</span>
+<span class="language-bash">--transfers=8 \</span>
+<span class="language-bash">--localtime \</span>
+<span class="language-bash">--verbose --resync --check-access</span>
+
+
+rclone --config=&quot;/root/rclone/rclone.conf&quot; \
+--checkers=16 --cache-dir=&quot;/root/rclone/&quot; \
+--transfers=10 --verbose --cache-chunk-size=20M \
+rclone bisync --config=&quot;/root/rclone/rclone.conf&quot; \
+--checkers=80 --cache-dir=&quot;/root/rclone/&quot; \
+--transfers=10 --verbose --cache-chunk-size=20M --check-first --stats=1s --checksum --retries 3 --low-level-retries 10 \
+/mnt/sdb1/Onedrive-Sync \
+onedrive: \
+--resync --check-access --dry-run -vvv --localtime --timeout=10s
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">rclone browser generate <span class="hljs-built_in">command</span></span>
+D:\rclone-v1.62.2-windows-amd64\rclone.exe copy --ignore-existing --verbose --transfers 2 --checkers 80 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s --stats-file-name-length 0 --fast-list jgy:我的坚果云 E:\jgy\我的坚果云\
+</code></pre><h3 id="查看-Rclone-进程"><a href="#查看-Rclone-进程" class="headerlink" title="查看 Rclone 进程"></a>查看 Rclone 进程</h3><pre><code class="hljs shell">ps -ef | grep rclone
+13307 root      727m S    docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.
+13611 root      745m S    rclone sync JGY:/ /data/sdb1/JianGuoYunBack/ --cache-chunk-size 20M --transfers=1 --verbose
+14867 root      727m S    docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.
+15207 root     1134m S    rclone sync /data/sdb1/WinEXE/ onedrive:/WinEXE/ --cache-chunk-size 20M --transfers=8 --verb
+15651 root      726m S    docker run --rm -v /root/rclone:/config/rclone -v /mnt/:/data -v /root/rclone/bisync:/root/.
+16003 root      939m S    rclone sync /data/sdb1/神秘学资料/ onedrive:/神秘学资料/ --cache-chunk-size 20M --
+17596 root      1124 S    grep rclone</code></pre><h3 id="RcloneNg-UI"><a href="#RcloneNg-UI" class="headerlink" title="RcloneNg UI"></a>RcloneNg UI</h3><p><a target="_blank" rel="noopener" href="https://github.com/ElonH/RcloneNg">https://github.com/ElonH/RcloneNg</a></p><h2 id="Windows-Mount"><a href="#Windows-Mount" class="headerlink" title="Windows Mount"></a>Windows Mount</h2><p>使用 Rclone 挂载 Onedrive 盘。</p><blockquote><p>official docs： <a target="_blank" rel="noopener" href="https://rclone.org/commands/rclone_mount/">https://rclone.org/commands/rclone_mount&#x2F;</a><br>fix <a target="_blank" rel="noopener" href="https://forum.rclone.org/t/onedrive-mount-extremely-slow/28267">OneDrive mount - extremely slow</a></p></blockquote><pre><code class="hljs shell">rclone mount onedrive: q: --network-mode --cache-dir E:\onedrive --volname=rclone_od --vfs-cache-mode=minimal --vfs-cache-max-size=20G --vfs-read-chunk-size-limit=256M --user-agent=Chrome --no-checksum --no-modtime --drive-chunk-size=256M</code></pre><p>–vfs-cache-mode writes or full is recommended for this remote as it can’t stream</p><blockquote><p>off： In this mode the cache will read di­rectly from the re­mote and write di­rectly to the re­mote with­out caching any­thing on disk. (本地不做任何缓存，所有文件直接从云端获取并写入。建议网速特别好时使用。)<br>minimal： This is very sim­i­lar to “off” ex­cept that files opened for read AND write will be buffered to disks. This means that files opened for write will be a lot more com­pat­i­ble, but uses the min­i­mal disk space. (和 off 类似，但是已经打开的文件会被缓存到本地。个人推荐，小文件基本够用，但是如果你的网络情况 (梯子) 不是特别好的话，用 writes 也行)<br>writes： In this mode files opened for read only are still read di­rectly from the re­mote, write only and read&#x2F;​write files are buffered to disk first. (如果文件属性为只读则只从云端获取，不然先缓存在本地进行读写操作，随后被同步。个人推荐使用，但是在直接从本地复制文件到 GoogleDrive 时还是看网络情况)<br>full：In this mode all reads and writes are buffered to and from disk. When a file is opened for read it will be down­loaded in its en­tirety first. [所有的读写操作都会缓存到磁盘中。然后才会同步。不是很推荐。会导致所有文件均被缓存到本地。直到达到你缓存总额 (–cache-to­tal-chunk-size，默认大小 10G)。但是你网速特别差时也可以使用。]</p></blockquote><ul><li><code>--allow-other</code>：指的是允许非当前 Rclone 用户外的用户进行访问</li><li><code>--attr-timeout 5m</code>：文件属性缓存，（大小，修改时间等）的时间。如果小鸡配置比较低，建议适当提高这个值，避免过多的和内核交互，占用资源。</li><li><code>-vfs-cache-mode full</code>：开启 VFS 文件缓存，这样可减少 Rclone 与 API 交互，同时可提高文件读写效率</li><li><code>--vfs-cache-max-age 24h</code>：VFS 文件缓存时间，这里设置的 24 小时，如果文件很少更改，建议设置更长的时间</li><li><code>--vfs-cache-max-size 10G</code>：VFS 文件缓存上限大小，建议不超过当前空余磁盘的 50%</li><li><code>vfs-read-chunk-size-limit 100M</code>：分块读取大小，这里设置的是 100M，可提高文件读的效率，比如 1G 的文件，大致分为 10 个块进行读取，但与此同时 API 请求次数也会增多</li><li><code>--buffer-size 100M</code>：内存缓存，如果您内存比较小，可降低此值，如果内存比较大，可适当提高</li><li><code>--daemon</code>：指后台方式运行</li><li><code>--drive-chunk-size 128M</code>：增加上传文件分块的大小。</li></ul><h2 id="Onedrive-Index-在线列出网盘"><a href="#Onedrive-Index-在线列出网盘" class="headerlink" title="Onedrive Index 在线列出网盘"></a>Onedrive Index 在线列出网盘</h2><p><a target="_blank" rel="noopener" href="https://github.com/spencerwooo/onedrive-vercel-index">https://github.com/spencerwooo/onedrive-vercel-index</a></p><p>最大的优点是 Server-less (free) 使用 vercel 免费部署并支持绑定自定义域名。</p><p>Quick Start：<a target="_blank" rel="noopener" href="https://ovi.swo.moe/docs/getting-started">https://ovi.swo.moe/docs/getting-started</a></p><p>申请个人 API：<a target="_blank" rel="noopener" href="https://ovi.swo.moe/docs/advanced#using-your-own-clientid-and-clientsecret-1">https://ovi.swo.moe/docs/advanced#using-your-own-clientid-and-clientsecret-1</a></p><h3 id="解决部署一周后出现的-404-错误"><a href="#解决部署一周后出现的-404-错误" class="headerlink" title="解决部署一周后出现的 404 错误"></a>解决部署一周后出现的 404 错误</h3><p>今天是 2023&#x2F;6&#x2F;6 日，上去云盘看突然显示部署错误了：</p><p>​<img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615988.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/202307191615988.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image">​</p><p>经过 Github Issue 查找，<a target="_blank" rel="noopener" href="https://github.com/spencerwooo/onedrive-vercel-index/discussions/722">#772</a> 也同样存在这个问题，解决方法：</p><blockquote><p>如果一进入首页就显示这个提示的话，请检查下最近是否修改过 <code>Microsoft</code>​ 的账户密码。如有修改请删除 <code>upstash</code>​ 中的 redis 缓存，再刷新你的网站重新进行认证。</p><p>進入<br><a target="_blank" rel="noopener" href="https://console.upstash.com/">https://console.upstash.com/</a><br>首頁會看到<br>Databases<br><a target="_blank" rel="noopener" href="https://console.upstash.com/redis/">onedrive-vercel-index</a></p><p>點進去後點上方的 Data Browser<br>把裡面的 token 都刪除<br>就可以重新認證了</p></blockquote><p>一查是因为 redis 在线网站限额。改用 <a target="_blank" rel="noopener" href="https://app.redislabs.com/">https://app.redislabs.com/</a></p><p>discuss 当站点访问量过大时： <a target="_blank" rel="noopener" href="https://github.com/spencerwooo/onedrive-vercel-index/discussions/595">https://github.com/spencerwooo/onedrive-vercel-index/discussions/595</a> 使用：<a target="_blank" rel="noopener" href="https://redis.com/try-free/">https://redis.com/try-free/</a></p><h2 id="OneManager-Serverless"><a href="#OneManager-Serverless" class="headerlink" title="OneManager Serverless"></a>OneManager Serverless</h2><p><a target="_blank" rel="noopener" href="https://github.com/qkqpttgf/OneManager-php/blob/master/readme_cn.md">OneManager Serverless</a></p><h2 id="使用-Alist"><a href="#使用-Alist" class="headerlink" title="使用 Alist"></a>使用 Alist</h2><p>文档：<a target="_blank" rel="noopener" href="https://alist-doc.nn.ci/docs/driver/onedrive/">https://alist-doc.nn.ci/docs/driver/onedrive/</a></p><h2 id="Use-Proxy"><a href="#Use-Proxy" class="headerlink" title="Use Proxy"></a>Use Proxy</h2><h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><pre><code class="hljs shell">set http_proxy=socks5://127.0.0.1:10808
+set https_proxy=$http_proxy
+set HTTP_PROXY=$http_proxy
+set HTTPS_PROXY=$http_proxy
+
+D:\rclone-v1.62.2-windows-amd64\rclone.exe copy --verbose --transfers 16 --checkers 8 --contimeout 60s --timeout 300s --retries 3 --low-level-retries 10 --stats 1s --stats-file-name-length 0 --fast-list Z:\sdb1\2022.11.26白纸革命 onedrive:政治/2022.11.26白纸革命</code></pre></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/onedrive-guide/">https://www.whaleluo.top/onedrive-guide/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2023-06-03</p></div><div class="post-entry__tags"><a href="/tags/onedrive/" class="post-tags__link button"># onedrive</a><a href="/tags/%E4%BA%91%E7%9B%98/" class="post-tags__link button"># 云盘</a><a href="/tags/Rclone/" class="post-tags__link button"># Rclone</a></div></article><div class="nav"><div class="nav__prev"><a href="/clash-proxy-tutorial/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Clash 小猫咪使用备忘</div></div></a></div><div class="nav__next"><a href="/amateurradio/radio-swshort/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">【业余无线电】中国业余电台常用频率(短波)</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

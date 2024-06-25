@@ -1,0 +1,313 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>CSS 樣式入門 | 😊落落のBlog😊</title><meta name="keywords" content="Design, 前端, CSS, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="CSS 樣式入門Start学了前端那么久，发现 CSS 真是一个 博大精深 的语言，可以简单的实现很多 JS 做不到的效果。故出此专栏，记录一些常用、神奇的 CSS。 Reference：  CSS online CSS Playground MDN CSS Tutorial CSS 入门概述 - 学习 Web 开发 | MDN Tailwind CSS Chinese Tailwind CSS"><meta property="og:type" content="article"><meta property="og:title" content="CSS 樣式入門"><meta property="og:url" content="https://www.whaleluo.top/javascript/senior-css/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="CSS 樣式入門Start学了前端那么久，发现 CSS 真是一个 博大精深 的语言，可以简单的实现很多 JS 做不到的效果。故出此专栏，记录一些常用、神奇的 CSS。 Reference：  CSS online CSS Playground MDN CSS Tutorial CSS 入门概述 - 学习 Web 开发 | MDN Tailwind CSS Chinese Tailwind CSS"><meta property="og:locale"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/JS/Senior-CSS.png&webp=true"><meta property="article:published_time" content="2024-03-03T08:36:23.000Z"><meta property="article:modified_time" content="2024-03-03T08:36:23.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Design"><meta property="article:tag" content="前端"><meta property="article:tag" content="CSS"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/JS/Senior-CSS.png&webp=true"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">CSS 樣式入門</h1><div class="post-title__meta"><a href="/archives/2024/03/" class="post-meta__date button">2024-03-03</a> <span class="separate-dot"></span><a href="/categories/JavaScript/" class="button">JavaScript</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start"><span class="toc-number">1.</span> <span class="toc-text">Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selector-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">Selector 选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function-%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Function 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rule-%E8%A7%84%E5%88%99"><span class="toc-number">4.</span> <span class="toc-text">@ Rule @ 规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%86%99%E5%B1%9E%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">简写属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Box-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">Box 盒子模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flexbox-%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80"><span class="toc-number">7.</span> <span class="toc-text">Flexbox 弹性布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="toc-number">8.</span> <span class="toc-text">响应式设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-%E5%8A%A8%E7%94%BB"><span class="toc-number">9.</span> <span class="toc-text">CSS 动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tailwind-CSS"><span class="toc-number">10.</span> <span class="toc-text">Tailwind CSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install"><span class="toc-number">10.1.</span> <span class="toc-text">Install</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Raw-HTML"><span class="toc-number">10.1.1.</span> <span class="toc-text">Raw HTML</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue3"><span class="toc-number">10.1.2.</span> <span class="toc-text">Vue3</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plugins"><span class="toc-number">10.2.</span> <span class="toc-text">Plugins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Base-%E5%9F%BA%E7%A1%80"><span class="toc-number">10.3.</span> <span class="toc-text">Base 基础</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gsap-Animation"><span class="toc-number">11.</span> <span class="toc-text">Gsap Animation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-number">12.</span> <span class="toc-text">高度塌陷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D-relative-%E5%92%8C%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D-absolute"><span class="toc-number">13.</span> <span class="toc-text">相对定位 (relative) 和绝对定位 (absolute)</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Start"><span class="toc-number">1.</span> <span class="toc-text">Start</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Selector-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">2.</span> <span class="toc-text">Selector 选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function-%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">Function 函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rule-%E8%A7%84%E5%88%99"><span class="toc-number">4.</span> <span class="toc-text">@ Rule @ 规则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E5%86%99%E5%B1%9E%E6%80%A7"><span class="toc-number">5.</span> <span class="toc-text">简写属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Box-%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B"><span class="toc-number">6.</span> <span class="toc-text">Box 盒子模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flexbox-%E5%BC%B9%E6%80%A7%E5%B8%83%E5%B1%80"><span class="toc-number">7.</span> <span class="toc-text">Flexbox 弹性布局</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%BC%8F%E8%AE%BE%E8%AE%A1"><span class="toc-number">8.</span> <span class="toc-text">响应式设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSS-%E5%8A%A8%E7%94%BB"><span class="toc-number">9.</span> <span class="toc-text">CSS 动画</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tailwind-CSS"><span class="toc-number">10.</span> <span class="toc-text">Tailwind CSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Install"><span class="toc-number">10.1.</span> <span class="toc-text">Install</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Raw-HTML"><span class="toc-number">10.1.1.</span> <span class="toc-text">Raw HTML</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Vue3"><span class="toc-number">10.1.2.</span> <span class="toc-text">Vue3</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Plugins"><span class="toc-number">10.2.</span> <span class="toc-text">Plugins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Base-%E5%9F%BA%E7%A1%80"><span class="toc-number">10.3.</span> <span class="toc-text">Base 基础</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Gsap-Animation"><span class="toc-number">11.</span> <span class="toc-text">Gsap Animation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E5%BA%A6%E5%A1%8C%E9%99%B7"><span class="toc-number">12.</span> <span class="toc-text">高度塌陷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%AF%B9%E5%AE%9A%E4%BD%8D-relative-%E5%92%8C%E7%BB%9D%E5%AF%B9%E5%AE%9A%E4%BD%8D-absolute"><span class="toc-number">13.</span> <span class="toc-text">相对定位 (relative) 和绝对定位 (absolute)</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2024-03-03"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="CSS-樣式入門"><a href="#CSS-樣式入門" class="headerlink" title="CSS 樣式入門"></a>CSS 樣式入門</h1><h2 id="Start"><a href="#Start" class="headerlink" title="Start"></a>Start</h2><p>学了前端那么久，发现 CSS 真是一个 <strong>博大精深</strong> 的语言，可以简单的实现很多 JS 做不到的效果。故出此专栏，记录一些常用、神奇的 CSS。</p><p>Reference：</p><ol><li>CSS online <a target="_blank" rel="noopener" href="https://playcode.io/css">CSS Playground</a></li><li>MDN CSS Tutorial <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/First_steps">CSS 入门概述 - 学习 Web 开发 | MDN</a></li><li>Tailwind CSS Chinese <a target="_blank" rel="noopener" href="https://www.w3cschool.cn/tailwind_css/">Tailwind CSS w3cschool</a></li><li>后盾人文档,是一个介绍前端技术栈的博主 <a target="_blank" rel="noopener" href="https://doc.houdunren.com/">后盾人文档</a></li><li>CSS Video Tutorial 通过简明的视频动画阐述 CSS 各种概念 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Rv4y177rj/">BV1Rv4y177rj</a></li></ol><h2 id="Selector-选择器"><a href="#Selector-选择器" class="headerlink" title="Selector 选择器"></a>Selector 选择器</h2><pre><code class="hljs css"><span class="hljs-selector-tag">h1</span> // 选择 <span class="hljs-selector-tag">h1</span> 标签
+<span class="hljs-selector-tag">a</span><span class="hljs-selector-attr">[title]</span> // 选择有 title 属性的标签
+<span class="hljs-selector-tag">a</span><span class="hljs-selector-pseudo">:hover</span> // 伪类(描述元素在某特性状态下的样式)，鼠标悬浮时触发
+<span class="hljs-selector-class">.header</span> // 选择 class=<span class="hljs-selector-tag">header</span>
+<span class="hljs-selector-id">#myid</span> // 选择 id=myid
+* // 全局
+<span class="hljs-selector-class">.box</span> <span class="hljs-selector-tag">p</span> // 选择 box class 下的所有 <span class="hljs-selector-tag">p</span> 标签
+<span class="hljs-selector-class">.box</span> <span class="hljs-selector-tag">p</span><span class="hljs-selector-pseudo">:first</span>-child // 选择 box class 下的第一个 <span class="hljs-selector-tag">p</span> 标签
+<span class="hljs-selector-tag">h1</span>, <span class="hljs-selector-tag">h2</span>, <span class="hljs-selector-class">.intro</span> // , 表示分别设置
+</code></pre><p>选择器 <strong>层叠</strong>（cascade）和 <strong>优先级</strong>（specificity）</p><p>类选择器具有高优先级</p><h2 id="Function-函数"><a href="#Function-函数" class="headerlink" title="Function 函数"></a>Function 函数</h2><p>一个例子是  <code>calc()</code>  函数。这个函数允许在 CSS 中进行简单的计算：</p><pre><code class="hljs css"><span class="hljs-selector-class">.outer</span> &#123;
+  <span class="hljs-attribute">border</span>: <span class="hljs-number">5px</span> solid black;
+&#125;
+
+<span class="hljs-selector-class">.box</span> &#123;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span>;
+  <span class="hljs-attribute">width</span>: <span class="hljs-built_in">calc</span>(<span class="hljs-number">90%</span> - <span class="hljs-number">30px</span>);
+  <span class="hljs-attribute">background-color</span>: rebeccapurple;
+  <span class="hljs-attribute">color</span>: white;
+&#125;</code></pre><p>另一个例子是  <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform"><code>transform</code></a> （变换角度）的不同取值，如  <code>rotate()</code>。</p><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> &#123;
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">30px</span>;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">100px</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100px</span>;
+  <span class="hljs-attribute">background-color</span>: rebeccapurple;
+  <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">rotate</span>(<span class="hljs-number">0.8turn</span>);
+&#125;
+
+<span class="hljs-selector-class">.box</span> &#123;
+  <span class="hljs-comment">/* 圆角 */</span>
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">10px</span>;
+&#125;</code></pre><h2 id="Rule-规则"><a href="#Rule-规则" class="headerlink" title="@ Rule @ 规则"></a>@ Rule @ 规则</h2><p>CSS 的  <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/At-rule"><code>@rules</code></a>（读作“at-rules”）是一些特殊的规则，提供了关于 CSS 应该执行什么或如何表现的指令。有些 @ 规则很简单，只有一个关键词和一个值。例如，<code>@import</code>  将一个样式表导入另一个 CSS 样式表：</p><p>一个常见的@规则是  <code>@media</code>，它被用来创建 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_media_queries">媒体查询</a>。媒体查询使用条件逻辑来应用 CSS 样式。</p><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123;
+  <span class="hljs-attribute">background-color</span>: pink;
+&#125;
+
+<span class="hljs-keyword">@media</span> (<span class="hljs-attribute">min-width</span>: <span class="hljs-number">30em</span>) &#123;
+  <span class="hljs-selector-tag">body</span> &#123;
+    <span class="hljs-attribute">background-color</span>: blue;
+  &#125;
+&#125;</code></pre><h2 id="简写属性"><a href="#简写属性" class="headerlink" title="简写属性"></a>简写属性</h2><p>一些属性，如  <code>font</code>、<code>background</code>、<code>padding</code>、<code>border</code>  和 <code>margin</code>  等属性称为 <strong>简写属性</strong>。它们允许在一行中设置多个属性值，从而节省时间并使代码更整洁。</p><p><code>padding</code>：<strong>设置内边距</strong><br><code>margin</code>: <strong>设置外边距</strong></p><pre><code class="hljs css"><span class="hljs-comment">/* 在像 padding 和 margin 这样的 4 值简写语法中，</span>
+<span class="hljs-comment">   数值的应用顺序是上、右、下、左（从顶部顺时针方向）。</span>
+<span class="hljs-comment">   也有其他的简写类型，例如 2 值简写，</span>
+<span class="hljs-comment">   它为顶部/底部设置 padding/margin，然后是左侧/右侧 */</span>
+<span class="hljs-attribute">padding</span>: <span class="hljs-number">10px</span> <span class="hljs-number">15px</span> <span class="hljs-number">15px</span> <span class="hljs-number">5px</span>;
+
+<span class="hljs-comment">/* same as */</span>
+<span class="hljs-attribute">padding-top</span>: <span class="hljs-number">10px</span>;
+<span class="hljs-attribute">padding-right</span>: <span class="hljs-number">15px</span>;
+<span class="hljs-attribute">padding-bottom</span>: <span class="hljs-number">15px</span>;
+<span class="hljs-attribute">padding-left</span>: <span class="hljs-number">5px</span>;</code></pre><p>同样的还有设置 background：</p><pre><code class="hljs css"><span class="hljs-attribute">background</span>: red <span class="hljs-built_in">url</span>(<span class="hljs-string">bg-graphic.png</span>) <span class="hljs-number">10px</span> <span class="hljs-number">10px</span> repeat-x fixed;
+
+<span class="hljs-comment">/* same as */</span>
+<span class="hljs-attribute">background-color</span>: red;
+<span class="hljs-attribute">background-image</span>: <span class="hljs-built_in">url</span>(<span class="hljs-string">bg-graphic.png</span>);
+<span class="hljs-attribute">background-position</span>: <span class="hljs-number">10px</span> <span class="hljs-number">10px</span>;
+<span class="hljs-comment">/* repeat 控制背景平铺行为 */</span>
+<span class="hljs-attribute">background-repeat</span>: repeat-x;
+<span class="hljs-attribute">background-attachment</span>: fixed;</code></pre><h2 id="Box-盒子模型"><a href="#Box-盒子模型" class="headerlink" title="Box 盒子模型"></a>Box 盒子模型</h2><p><strong>在 CSS 中，所有的元素都被一个个的“盒子”包围着。</strong></p><p>几种类型的盒子，一般分为 <strong>区块盒子</strong>（block boxes）和 <strong>行内盒子</strong>（inline boxes）。</p><p>类型指的是盒子在页面流中的行为方式以及与页面上其他盒子的关系。盒子有<strong>内部显示</strong>（inner display type）和 <strong>外部显示</strong>（outer display type）两种类型。</p><p><code>block</code> <strong>区块盒子</strong> 类型：<strong>独占一行会换行</strong>；高度宽度都起作用；如果不指定宽度，占满一整行。</p><p><code>inline</code> <strong>行内盒子</strong>：<strong>盒子不会换行</strong>；高度宽度都起<strong>不作用</strong></p><p>盒子模型的各个部分：</p><ol><li><strong>内容盒子</strong>：显示内容的区域；使用  <code>inline-size</code>  和  <code>block-size</code> 或  <code>width</code> 和 <code>height</code> 等属性确定其大小。</li><li><strong>内边距盒子</strong>：填充位于内容周围的空白处；使用 <code>padding</code>  和相关属性确定其大小。</li><li><strong>边框盒子</strong>：边框盒子包住内容和任何填充；使用 <code>border</code>  和相关属性确定其大小。</li><li><strong>外边距盒子</strong>：外边距是最外层，其包裹内容、内边距和边框，作为该盒子与其他元素之间的空白；使用 <code>margin</code> 和相关属性确定其大小。</li></ol><p><img src="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/JS/Senior-CSS.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/JS/Senior-CSS.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="Senior-CSS.png"></p><pre><code class="hljs css"><span class="hljs-selector-tag">body</span> &#123;
+  <span class="hljs-attribute">background</span>: <span class="hljs-number">#6e28d9</span>;
+  <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span> <span class="hljs-number">24px</span>; <span class="hljs-comment">/* 内边距 **/</span>
+  <span class="hljs-attribute">color</span>: white; <span class="hljs-comment">/* text color */</span>
+  <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>; <span class="hljs-comment">/* 外边距 **/</span>
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">100vh</span>; <span class="hljs-comment">/* 高度占满 **/</span>
+  <span class="hljs-attribute">display</span>: flex; <span class="hljs-comment">/* 弹性布局 **/</span>
+  <span class="hljs-attribute">justify-content</span>: center; <span class="hljs-comment">/* 内容对齐方式 居中 **/</span>
+  <span class="hljs-attribute">align-items</span>: center; <span class="hljs-comment">/* 元素组对其方式 居中 **/</span>
+  <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">50%</span>;  <span class="hljs-comment">/* 设置圆角 **/</span>
+&#125;</code></pre><h2 id="Flexbox-弹性布局"><a href="#Flexbox-弹性布局" class="headerlink" title="Flexbox 弹性布局"></a>Flexbox 弹性布局</h2><p>建立一个 container div，设置 <code>display: flex</code>，div 内子元素会 <strong>自动排列</strong>，无需手动布局，可以自适应屏幕大小。尤其是在子元素个数和容器尺寸不确定的情况下，非常方便。</p><p>容器属性：</p><ol><li><code>flex-direction</code>：决定主轴的方向（即子项目的排列方向）。 <code>raw</code> 水平 <code>column</code> 垂直</li><li><code>justify-content</code>：定义了子项目在 <strong>主轴</strong> 上的对齐方式 <code>center</code>。 <code>justify</code> vt. 证明…有理；为…辩护 这里指的是 v.对齐</li><li><code>align-items</code>：定义子项目在 <strong>交叉轴</strong> 上如何对齐。 <code>flex-start</code> 默认，交叉轴前对齐 <code>center</code> 交叉轴居中对齐 <code>baseline</code> 文字基线对齐 <code>stretch</code> 拉伸</li><li><code>flex-wrap</code>：定义了子项目在 <strong>超出主轴</strong> 换行时的行为。 <code>nowrap</code> 不换行 <code>wrap</code> 换行 <code>wrap-reverse</code> 反向换行</li><li><code>align-content</code>：定义了多行项目在交叉轴上的对齐方式，只对 <strong>多行项目</strong> 有效。</li></ol><p>项目属性：</p><ol><li><code>order</code>：定义项目的排列顺序。数值越小，排列越靠前，默认为 0。</li><li><code>flex-grow</code>：定义项目的放大比例，默认为 0，即如果存在剩余空间，也不放大。</li><li><code>flex-shrink</code>：定义了项目的缩小比例，默认为 1，即如果空间不足，该项目将缩小。</li><li><code>flex-basis</code>：定义了在分配多余空间之前，项目占据的主轴空间（main size）。</li></ol><h2 id="响应式设计"><a href="#响应式设计" class="headerlink" title="响应式设计"></a>响应式设计</h2><ol><li>媒体查询</li><li>Flexbox 弹性布局</li><li>Grid 网格布局</li><li>相对单位 rem、em、vw、vh<ul><li>em：相对于父元素的字体大小</li><li>rem：相对于根元素的字体大小</li></ul></li></ol><h2 id="CSS-动画"><a href="#CSS-动画" class="headerlink" title="CSS 动画"></a>CSS 动画</h2><p>CSS 动画也叫 <strong>补间动画</strong>（Tweening Animation），确定了元素的起始状态和结束状态，然后计算中间状态，通过过渡动画实现。</p><p><code>@keyframes</code> 动画关键帧，定义动画的开始和结束状态。起点和终点可以使用百分比或关键字（from 和 to）来表示。</p><pre><code class="hljs css"><span class="hljs-selector-class">.box</span> &#123;
+  <span class="hljs-attribute">animation-name</span>: animation-name; <span class="hljs-comment">/* 动画名称 */</span>
+  <span class="hljs-attribute">animation-duration</span>: <span class="hljs-number">4s</span>; <span class="hljs-comment">/* 动画持续时间 */</span>
+  <span class="hljs-attribute">animation-timing-function</span>: ease-in-out; <span class="hljs-comment">/* 动画速度曲线 */</span>
+  <span class="hljs-attribute">animation-delay</span>: <span class="hljs-number">2s</span>; <span class="hljs-comment">/* 动画延迟时间 */</span>
+  <span class="hljs-attribute">animation-iteration-count</span>: infinite; <span class="hljs-comment">/* 动画播放次数 */</span>
+  <span class="hljs-attribute">animation-direction</span>: alternate; <span class="hljs-comment">/* 动画方向 设置动画在每次运行完后是反向运行还是重新回到开始位置重复运行。 */</span>
+  <span class="hljs-comment">/* normal 正向 reverse 反向 alternate 正反交替  */</span>
+&#125;
+
+<span class="hljs-comment">/* 简写 */</span>
+<span class="hljs-comment">/* animation: animation-name 4s ease-in-out 2s infinite alternate; */</span>
+
+<span class="hljs-selector-tag">body</span> <span class="hljs-selector-tag">div</span> &#123;
+  <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;
+  <span class="hljs-attribute">height</span>: <span class="hljs-number">20px</span>;
+  <span class="hljs-attribute">background</span>: <span class="hljs-number">#000</span>;
+  rotate: <span class="hljs-number">1px</span>;
+  <span class="hljs-attribute">animation</span>: animationname <span class="hljs-number">4s</span> ease <span class="hljs-number">2s</span> infinite normal;
+&#125;
+
+<span class="hljs-keyword">@keyframes</span> animationname &#123;
+  <span class="hljs-number">0%</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">0</span>);
+    <span class="hljs-attribute">background-color</span>: red;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">rotate</span>(<span class="hljs-number">0turn</span>);
+  &#125;
+  <span class="hljs-number">25%</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">5vw</span>);
+    <span class="hljs-attribute">background-color</span>: yellow;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">rotate</span>(<span class="hljs-number">0.25turn</span>);
+  &#125;
+  <span class="hljs-number">50%</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">5vw</span>);
+    <span class="hljs-attribute">background-color</span>: blue;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">rotate</span>(<span class="hljs-number">0.5turn</span>);
+  &#125;
+
+  <span class="hljs-number">75%</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">5vw</span>);
+    <span class="hljs-attribute">background-color</span>: blue;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">rotate</span>(<span class="hljs-number">0.75turn</span>);
+  &#125;
+
+  <span class="hljs-number">100%</span> &#123;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">translateX</span>(<span class="hljs-number">5vw</span>);
+    <span class="hljs-attribute">background-color</span>: green;
+    <span class="hljs-attribute">transform</span>: <span class="hljs-built_in">rotate</span>(<span class="hljs-number">1turn</span>);
+  &#125;
+&#125;</code></pre><p>贝塞尔曲线（cubic-bezier），可以自定义动画速度曲线。animation 的第三个参数。</p><ol><li><code>linear</code>：匀速运动</li><li><code>ease</code>：慢速开始，然后加速</li><li><code>ease-in</code>：慢速开始</li><li><code>ease-out</code>：慢速结束</li><li><code>ease-in-out</code>：慢速开始和结束</li><li><code>cubic-bezier(n,n,n,n)</code>：自定义速度曲线</li><li><code>steps(n)</code>：分 n 步完成动画,没有平滑过渡</li></ol><h2 id="Tailwind-CSS"><a href="#Tailwind-CSS" class="headerlink" title="Tailwind CSS"></a>Tailwind CSS</h2><p>Taiwind CSS 无需离开 HTML 通过 <strong>类名</strong> 快速实现各种样式，支持响应式设计和媒体查询。</p><h3 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h3><h4 id="Raw-HTML"><a href="#Raw-HTML" class="headerlink" title="Raw HTML"></a>Raw HTML</h4><pre><code class="hljs shell">pnpm install -D tailwindcss
+npx tailwindcss init</code></pre><p>edit <code>tailwind.config.js</code> file:</p><pre><code class="hljs js"><span class="hljs-string">&quot;./src/**/*.&#123;html,js&#125;&quot;</span>, <span class="hljs-string">&quot;index.html&quot;</span>;</code></pre><p>add in to <code>tail.css</code></p><pre><code class="hljs css"><span class="hljs-keyword">@tailwind</span> base;
+<span class="hljs-keyword">@tailwind</span> components;
+<span class="hljs-keyword">@tailwind</span> utilities;</code></pre><p>run compiler:</p><pre><code class="hljs shell">npx tailwindcss -o ./src/tail.css --watch</code></pre><h4 id="Vue3"><a href="#Vue3" class="headerlink" title="Vue3"></a>Vue3</h4><p><a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/guides/vite#vue">Offial Guides in vue3</a></p><pre><code class="hljs shell">pnpm add -D tailwindcss postcss autoprefixer daisyui@latest
+npx tailwindcss init -p
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">edit tailwind.config.js</span>
+content: [
+    &quot;./index.html&quot;,
+    &quot;./src/**/*.&#123;vue,js,ts,jsx,tsx&#125;&quot;,
+  ],
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">add the tailwind directives to your CSS</span>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">App.vue</span>
+import &quot;./style.css&quot;
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">Start your build process</span>
+pnpm run dev</code></pre><p>也支持使用 TS 进行配置：<code>tailwind.config.ts</code> <a target="_blank" rel="noopener" href="https://tailwindcss.com/docs/configuration#using-esm-or-type-script">configuration#using-esm-or-type-script</a></p><pre><code class="hljs ts"><span class="hljs-comment">// tailwind.config.ts</span>
+<span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">Config</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+<span class="hljs-keyword">import</span> colors <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;tailwindcss/colors&quot;</span>;
+<span class="hljs-keyword">import</span> &#123;
+  createVariableColors,
+  variableColorsPlugin,
+&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;tailwindcss-variable-colors&quot;</span>;
+
+<span class="hljs-keyword">const</span> <span class="hljs-attr">config</span>: <span class="hljs-title class_">Config</span> = &#123;
+  <span class="hljs-attr">content</span>: [<span class="hljs-string">&quot;./index.html&quot;</span>, <span class="hljs-string">&quot;./src/**/*.&#123;vue,js,ts,jsx,tsx&#125;&quot;</span>],
+  <span class="hljs-attr">theme</span>: &#123;
+    <span class="hljs-comment">// You can also not pass the colors parameter,</span>
+    <span class="hljs-comment">// it will use the colors from tailwindcss by default.</span>
+    <span class="hljs-attr">colors</span>: <span class="hljs-title function_">createVariableColors</span>(colors),
+  &#125;,
+  <span class="hljs-attr">plugins</span>: [<span class="hljs-title function_">variableColorsPlugin</span>(colors)],
+&#125;;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> config satisfies <span class="hljs-title class_">Config</span>;</code></pre><p>使用 tailwind ui 组件库：</p><pre><code class="hljs shell">pnpm add @headlessui/vue @heroicons/vue</code></pre><ul><li>headlessui&#x2F;vue: 无样式组件库 <a target="_blank" rel="noopener" href="https://headlessui.com/">headlessui</a></li><li>heroicons&#x2F;vue: 图标库 <a target="_blank" rel="noopener" href="https://heroicons.com/">heroicons</a></li></ul><h3 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h3><p>DaisyUI Tailwind CSS 组件库 (as plugins): <a target="_blank" rel="noopener" href="https://daisyui.com/?lang=zh_hans">https://daisyui.com/?lang=zh_hans</a></p><pre><code class="hljs shell">pnpm i -D daisyui@latest
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">tailwind.config.js</span>
+module.exports = &#123;
+  //...
+  plugins: [require(&quot;daisyui&quot;)],
+&#125;</code></pre><h3 id="Base-基础"><a href="#Base-基础" class="headerlink" title="Base 基础"></a>Base 基础</h3><p>设计一个卡片：</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p-6 max-w-sm mx-auto bg-white rounded-xl shadow-md flex items-center space-x-4&quot;</span></span>
+<span class="hljs-tag">&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex-shrink-0&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;h-12 w-12&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/img/logo.svg&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;ChitChat Logo&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-xl font-medium text-black&quot;</span>&gt;</span>ChitChat<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-gray-500&quot;</span>&gt;</span>You have a new message!<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>Keywords:</p><p>p: padding 内边距<br>m: margin 外边距<br>w: width 宽度<br>x: 水平方向<br>y: 垂直方向</p><p>通过断点使用媒体查询：</p><pre><code class="hljs cs">sm: <span class="hljs-string">&#x27;480px&#x27;</span>, <span class="hljs-comment">// Small screen</span>
+md: <span class="hljs-string">&#x27;768px&#x27;</span>, <span class="hljs-comment">// Medium screen</span>
+lg: <span class="hljs-string">&#x27;976px&#x27;</span>,  <span class="hljs-comment">// Large screen</span>
+xl: <span class="hljs-string">&#x27;1440px&#x27;</span>, <span class="hljs-comment">// Extra large screen</span></code></pre><p><code>p-6</code> 表示设置内边距 (padding) 为 6。<br><code>max-w-sm</code> 表示设置最大宽度为 small(小屏幕) 的宽度。<br><code>mx-auto</code> 表示在水平方向上居中对齐。<br><code>bg-white</code> 表示设置背景颜色为白色。<br><code>rounded-xl</code> 表示设置圆角为 extra large(特别大)。<br><code>shadow-md</code> 表示设置阴影效果，阴影大小为 medium(中等)。<br><code>flex items-center space-x-4</code> 表示使用 Flexbox 布局，子元素水平排列，元素之间的间距为 4。</p><p><code>container</code> 用于创建一个包含内容的容器，通常用于限制内容的最大宽度，使内容在大屏幕上不至于过宽，提高内容的可读性和美观性。</p><p><code>mx-auto</code>: 这个类名用于水平居中元素，将元素的左右外边距设置为 auto，使元素在父容器中水平居中显示。</p><p><code>px-4</code>: 这个类名用于设置元素的水平内边距（padding），px 代表水平方向（左右），4 代表内边距的大小。在这种情况下，px-4 代表水平方向上的内边距为 4 个 CSS 像素。</p><p><code>gap</code>: 这个类名用于设置元素之间的间距，gap-4 代表元素之间的间距为 4 个 CSS 像素。</p><p>Flexbox 布局：</p><p>同时运用这两个可以使得元素在正中间：</p><ul><li><code>items-center</code> 应用于 flex 容器，用于在 <strong>主轴方向</strong> 上将子元素 <strong>垂直居中</strong> 。</li><li><code>justify-center</code> 应用于 flex 容器，用于在 <strong>主轴方向</strong> 上将子元素 <strong>水平居中</strong> 。</li></ul><p>Flex 参数：</p><p><code>flex-wrap</code> 类用于控制 Flex 容器中的项目在一行上 <strong>是否换行</strong> 显示。<br><code>flex-wrap-reverse</code>：允许项目在需要时换行显示，并且反转换行的方向。<br><code>flex-nowrap</code>：阻止项目换行，强制所有项目在一行上显示。<br>举个例子，如果你想要一个 Flex 容器中的项目在需要时自动换行</p><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;m-2 mx-auto flex h-screen flex-wrap content-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 align-middle text-2xl md:container&quot;</span></span>
+<span class="hljs-tag">&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    01
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    02
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    03
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    04
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    01
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    02
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    03
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    04
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    01
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    02
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    03
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span></span>
+<span class="hljs-tag">    <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;flex h-20 w-20 items-center justify-center rounded-full bg-pink-200 hover:shadow-2xl&quot;</span></span>
+<span class="hljs-tag">  &gt;</span>
+    04
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre><p>prettier 自动排序 order</p><pre><code class="hljs shell">pnpm install -D prettier-plugin-tailwindcss
+
+// .prettierrc
+&#123;
+  &quot;plugins&quot;: [&quot;prettier-plugin-tailwindcss&quot;]
+  &quot;tailwindConfig&quot;: &quot;./tailwind.config.js&quot;
+&#125;</code></pre><p>正则安全清除所有暗黑模式：</p><pre><code class="hljs regex">\S*dark:[^&quot; &gt;]*</code></pre><h2 id="Gsap-Animation"><a href="#Gsap-Animation" class="headerlink" title="Gsap Animation"></a>Gsap Animation</h2><p>GSAP 是一个高性能的动画库，可以实现更复杂的动画效果。</p><p>ref:</p><ol><li>GSAP 中文文档 <a target="_blank" rel="noopener" href="https://gsap.framer.wiki/state">GSAP 中文文档</a></li></ol><h2 id="高度塌陷"><a href="#高度塌陷" class="headerlink" title="高度塌陷"></a>高度塌陷</h2><h2 id="相对定位-relative-和绝对定位-absolute"><a href="#相对定位-relative-和绝对定位-absolute" class="headerlink" title="相对定位 (relative) 和绝对定位 (absolute)"></a>相对定位 (relative) 和绝对定位 (absolute)</h2><p>ref: <a target="_blank" rel="noopener" href="https://blog.csdn.net/gnail_oug/article/details/77564684">CSS相对定位和绝对定位详解_css绝对定位代码-CSDN博客</a></p></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/javascript/senior-css/">https://www.whaleluo.top/javascript/senior-css/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2024-03-03</p></div><div class="post-entry__tags"><a href="/tags/Design/" class="post-tags__link button"># Design</a><a href="/tags/%E5%89%8D%E7%AB%AF/" class="post-tags__link button"># 前端</a><a href="/tags/CSS/" class="post-tags__link button"># CSS</a></div></article><div class="nav"><div class="nav__prev"><a href="/amateurradio/tecsun-pl330-radio-bonus/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">德生 PL-330 收音机彩蛋</div></div></a></div><div class="nav__next"><a href="/javascript/vue3-v3-admin-stady/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">Vue3 项目上手学习——V3 Admin</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>
