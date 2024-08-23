@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://whaleluo.top/sitemap.xml

@@ -1,0 +1,161 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Golang 学习笔记——变量 | 😊落落のBlog😊</title><meta name="keywords" content="Coding, Golang, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Golang 变量变量是计算机语言中能储存计算结果或能表示值的抽象概念。不同的变量保存的数据类型可能会不一样。 声明变量G0 语言中的变量需要声明后才能使用，同一作用域内不支持重复声明。并且 G0 语言的变量声明后必须使用。 声明变量的语法var identifier type &#x2F;* var:声明变量关键字 1dent1fier:变量名称 type:变量类型 *&#x2F;  e.g. package ma"><meta property="og:type" content="article"><meta property="og:title" content="Golang 学习笔记——变量"><meta property="og:url" content="https://www.whaleluo.top/golang/golang-variable-note/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Golang 变量变量是计算机语言中能储存计算结果或能表示值的抽象概念。不同的变量保存的数据类型可能会不一样。 声明变量G0 语言中的变量需要声明后才能使用，同一作用域内不支持重复声明。并且 G0 语言的变量声明后必须使用。 声明变量的语法var identifier type &#x2F;* var:声明变量关键字 1dent1fier:变量名称 type:变量类型 *&#x2F;  e.g. package ma"><meta property="og:locale"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&webp=true"><meta property="article:published_time" content="2022-04-25T10:30:48.000Z"><meta property="article:modified_time" content="2022-04-25T10:30:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Coding"><meta property="article:tag" content="Golang"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&webp=true"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Golang 学习笔记——变量</h1><div class="post-title__meta"><a href="/archives/2022/04/" class="post-meta__date button">2022-04-25</a> <span class="separate-dot"></span><a href="/categories/Golang/" class="button">Golang</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">声明变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">声明变量的语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">批量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">变量的初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E6%B3%95"><span class="toc-number">4.1.</span> <span class="toc-text">变量初始化语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD"><span class="toc-number">4.2.</span> <span class="toc-text">类型推断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">批量初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%AD%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">5.</span> <span class="toc-text">短变量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%8F%98%E9%87%8F"><span class="toc-number">6.</span> <span class="toc-text">匿名变量</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">声明变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E5%8F%98%E9%87%8F%E7%9A%84%E8%AF%AD%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">声明变量的语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">3.</span> <span class="toc-text">批量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">变量的初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AF%AD%E6%B3%95"><span class="toc-number">4.1.</span> <span class="toc-text">变量初始化语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD"><span class="toc-number">4.2.</span> <span class="toc-text">类型推断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">4.3.</span> <span class="toc-text">批量初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%AD%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">5.</span> <span class="toc-text">短变量声明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%8F%98%E9%87%8F"><span class="toc-number">6.</span> <span class="toc-text">匿名变量</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/Golang/icon_img.png&amp;webp=true"></div><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2022-04-25"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Golang-变量"><a href="#Golang-变量" class="headerlink" title="Golang 变量"></a>Golang 变量</h1><p>变量是计算机语言中能储存计算结果或能表示值的抽象概念。不同的变量保存的数据类型可能会不一样。</p><h2 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h2><p>G0 语言中的<strong>变量需要声明后才能使用</strong>，同一作用域内不支持重复声明。并且 G0 语言的<strong>变量声明后必须使用</strong>。</p><h2 id="声明变量的语法"><a href="#声明变量的语法" class="headerlink" title="声明变量的语法"></a>声明变量的语法</h2><pre><code class="hljs go"><span class="hljs-keyword">var</span> identifier <span class="hljs-keyword">type</span>
+<span class="hljs-comment">/*</span>
+<span class="hljs-comment">var:声明变量关键字</span>
+<span class="hljs-comment">1dent1fier:变量名称</span>
+<span class="hljs-comment">type:变量类型</span>
+<span class="hljs-comment">*/</span></code></pre><p>e.g.</p><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-keyword">var</span> name <span class="hljs-type">string</span>
+ fmt.Printf(<span class="hljs-string">&quot;name: %v\n&quot;</span>, name)
+&#125;</code></pre><h2 id="批量声明"><a href="#批量声明" class="headerlink" title="批量声明"></a>批量声明</h2><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">// 批量声明</span>
+ <span class="hljs-keyword">var</span> (
+  name <span class="hljs-type">string</span>
+  age  <span class="hljs-type">int</span>
+  b    <span class="hljs-type">bool</span>
+ )
+
+ name = <span class="hljs-string">&quot;hyy&quot;</span>
+ age = <span class="hljs-number">14</span>
+ b = <span class="hljs-literal">false</span>
+
+ fmt.Printf(<span class="hljs-string">&quot;name: %v\n&quot;</span>, name)
+ fmt.Printf(<span class="hljs-string">&quot;age: %v\n&quot;</span>, age)
+ fmt.Printf(<span class="hljs-string">&quot;b: %v\n&quot;</span>, b)
+&#125;</code></pre><h2 id="变量的初始化"><a href="#变量的初始化" class="headerlink" title="变量的初始化"></a>变量的初始化</h2><p>G0 语言在声明变量的时候，会<strong>自动对变量对应的内存区域进行初始化操作</strong>。每个变量会被初始化成其类型的<strong>默认值</strong>，例如：整型和浮点型变量的默认值为 <code>0</code>。字符串变量的默认值为空字符串 <code>&quot;&quot;</code>。布尔型变量默认为 <code>false</code>,切片、函数、指针变量的默认为 <code>nil</code>.</p><h3 id="变量初始化语法"><a href="#变量初始化语法" class="headerlink" title="变量初始化语法"></a>变量初始化语法</h3><pre><code class="hljs go"><span class="hljs-keyword">var</span> 变量名 类型 = 表达式</code></pre><p>e.g.</p><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">//变量初始化 赋初始值</span>
+ <span class="hljs-keyword">var</span> title <span class="hljs-type">string</span> = <span class="hljs-string">&quot;lovehyy&quot;</span>
+ <span class="hljs-keyword">var</span> site <span class="hljs-type">string</span> = <span class="hljs-string">&quot;http://baidu.com&quot;</span>
+ <span class="hljs-keyword">var</span> agge <span class="hljs-type">int</span> = <span class="hljs-number">30</span>
+&#125;</code></pre><h3 id="类型推断"><a href="#类型推断" class="headerlink" title="类型推断"></a>类型推断</h3><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">// 类型推断</span>
+ <span class="hljs-keyword">var</span> name = <span class="hljs-string">&quot;hyy&quot;</span>
+ <span class="hljs-keyword">var</span> age = <span class="hljs-number">20</span>
+ <span class="hljs-keyword">var</span> b = <span class="hljs-literal">true</span>
+ fmt.Printf(<span class="hljs-string">&quot;name: %v\n&quot;</span>, name)
+ fmt.Printf(<span class="hljs-string">&quot;age: %v\n&quot;</span>, age)
+ fmt.Printf(<span class="hljs-string">&quot;b: %v\n&quot;</span>, b)
+&#125;</code></pre><h3 id="批量初始化"><a href="#批量初始化" class="headerlink" title="批量初始化"></a>批量初始化</h3><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">//批量初始化</span>
+ <span class="hljs-keyword">var</span> name, age, b = <span class="hljs-string">&quot;tom&quot;</span>, <span class="hljs-number">20</span>, <span class="hljs-literal">true</span>
+ fmt.Printf(<span class="hljs-string">&quot;name: %v\n&quot;</span>, name)
+ fmt.Printf(<span class="hljs-string">&quot;age: %v\n&quot;</span>, age)
+ fmt.Printf(<span class="hljs-string">&quot;b: %v\n&quot;</span>, b)
+&#125;</code></pre><h2 id="短变量声明"><a href="#短变量声明" class="headerlink" title="短变量声明"></a>短变量声明</h2><p>在函数内部，可以使用 <code>:=</code> 运算符对变量进行声明和初始化。</p><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-comment">// name := &quot;hyy&quot; 不能用于函数外部</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">//短变量声明 := 不能用于函数外部</span>
+ name := <span class="hljs-string">&quot;hyy&quot;</span>
+ age := <span class="hljs-number">51</span>
+ b := <span class="hljs-literal">true</span>
+ fmt.Printf(<span class="hljs-string">&quot;name: %v\n&quot;</span>, name)
+ fmt.Printf(<span class="hljs-string">&quot;age: %v\n&quot;</span>, age)
+ fmt.Printf(<span class="hljs-string">&quot;b: %v\n&quot;</span>, b)
+&#125;</code></pre><blockquote><p><strong>注意：这种方法只适合在函数内部，函数外面不能使用。</strong></p></blockquote><h2 id="匿名变量"><a href="#匿名变量" class="headerlink" title="匿名变量"></a>匿名变量</h2><p>如果我们接收到<strong>多个变量</strong>，有一些<strong>变量使用不到</strong>，可以<strong>使用下划线 _ 表示变量名称</strong>，这种变量叫做匿名变量。e.g.</p><ol><li>函数定义</li></ol><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getNameAndAge</span><span class="hljs-params">()</span></span> (name <span class="hljs-type">string</span>, age <span class="hljs-type">int</span>) &#123;
+ <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hyy&quot;</span>, <span class="hljs-number">30</span>
+&#125;</code></pre><p>等价于：</p><pre><code class="hljs go"><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getNameAndAge</span><span class="hljs-params">()</span></span> (<span class="hljs-type">string</span>, <span class="hljs-type">int</span>) &#123;
+ <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hyy&quot;</span>, <span class="hljs-number">30</span>
+&#125;</code></pre><ol><li>接收函数返回值</li></ol><pre><code class="hljs go"><span class="hljs-keyword">package</span> main
+
+<span class="hljs-keyword">import</span> <span class="hljs-string">&quot;fmt&quot;</span>
+
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getNameAndAge</span><span class="hljs-params">()</span></span> (<span class="hljs-type">string</span>, <span class="hljs-type">int</span>) &#123;
+ <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hyy&quot;</span>, <span class="hljs-number">30</span>
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> &#123;
+ <span class="hljs-comment">// 调用函数,匿名变量,丢弃age</span>
+ name, _ := getNameAndAge()
+ fmt.Printf(<span class="hljs-string">&quot;name: %v\n&quot;</span>, name)
+&#125;</code></pre></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/golang/golang-variable-note/">https://www.whaleluo.top/golang/golang-variable-note/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2022-04-25</p></div><div class="post-entry__tags"><a href="/tags/Coding/" class="post-tags__link button"># Coding</a><a href="/tags/Golang/" class="post-tags__link button"># Golang</a></div></article><div class="nav"><div class="nav__prev"><a href="/golang/golang-map-note/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Golang 学习笔记——map映射数据结构</div></div></a></div><div class="nav__next"><a href="/golang/golang-const-note/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">Golang 学习笔记——const常量</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

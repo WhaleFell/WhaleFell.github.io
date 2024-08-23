@@ -1,0 +1,299 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>个人常用的 Vim 配置 | 😊落落のBlog😊</title><meta name="keywords" content="Linux, Vim, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Vim 常用配置经常在服务端上修改文件，苦于 vim 默认的界面很不友好，又不想重新手捏配置文件，就分享一下个人常用的简单配置吧。 解决乱码问题Reference： Ubuntu的中文乱码问题 [完美解决]_lubuntu 终端乱码-CSDN博客 sudo apt-get install language-pack-zh-hans  export LANG&#x3D;&quot;zh_CN.UTF-8&amp;qu"><meta property="og:type" content="article"><meta property="og:title" content="个人常用的 Vim 配置"><meta property="og:url" content="https://www.whaleluo.top/vim-config/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Vim 常用配置经常在服务端上修改文件，苦于 vim 默认的界面很不友好，又不想重新手捏配置文件，就分享一下个人常用的简单配置吧。 解决乱码问题Reference： Ubuntu的中文乱码问题 [完美解决]_lubuntu 终端乱码-CSDN博客 sudo apt-get install language-pack-zh-hans  export LANG&#x3D;&quot;zh_CN.UTF-8&amp;qu"><meta property="og:locale"><meta property="article:published_time" content="2023-01-28T17:37:48.000Z"><meta property="article:modified_time" content="2023-01-28T17:37:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Vim"><meta name="twitter:card" content="images&#x2F;favicon.ico"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">个人常用的 Vim 配置</h1><div class="post-title__meta"><a href="/archives/2023/01/" class="post-meta__date button">2023-01-29</a> <span class="separate-dot"></span><a href="/categories/Linux/" class="button">Linux</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">解决乱码问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%88%90%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">使用现成的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83-Reference"><span class="toc-number">4.</span> <span class="toc-text">参考 Reference</span></a></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">解决乱码问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%8E%B0%E6%88%90%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">3.</span> <span class="toc-text">使用现成的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83-Reference"><span class="toc-number">4.</span> <span class="toc-text">参考 Reference</span></a></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2023-01-29"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Vim-常用配置"><a href="#Vim-常用配置" class="headerlink" title="Vim 常用配置"></a>Vim 常用配置</h1><p>经常在服务端上修改文件，苦于 vim 默认的界面很不友好，又不想重新手捏配置文件，就分享一下个人常用的简单配置吧。</p><h2 id="解决乱码问题"><a href="#解决乱码问题" class="headerlink" title="解决乱码问题"></a>解决乱码问题</h2><p>Reference： <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39792252/article/details/80415550">Ubuntu的中文乱码问题 [完美解决]_lubuntu 终端乱码-CSDN博客</a></p><pre><code class="hljs shell">sudo apt-get install language-pack-zh-hans
+
+export LANG=&quot;zh_CN.UTF-8&quot;
+export LANGUAGE=&quot;zh_CN:zh:en_US:en&quot;
+export LC_ALL=&quot;zh_CN.UTF-8&quot;
+
+sudo locale-gen
+
+sudo apt-get install fonts-droid-fallback ttf-wqy-zenhei ttf-wqy-microhei fonts-arphic-ukai fonts-arphic-uming</code></pre><h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><blockquote><p><strong>自用 ​</strong>​**<code>.vimrc</code><strong>​</strong>​ 已上传到 GitHub 仓库**<br>参考：<a target="_blank" rel="noopener" href="https://github.com/WhaleFell/vimrc/blob/main/.vimrc">WhaleFell&#x2F;vimrc</a><br>raw: <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/WhaleFell/vimrc/main/.vimrc">https://raw.githubusercontent.com/WhaleFell/vimrc/main/.vimrc</a></p></blockquote><p>设置中文字符集</p><pre><code class="hljs shell">dpkg-reconfigure locales</code></pre><p>在用户目录下创建配置。</p><pre><code class="hljs shell">vim ~/.vimrc</code></pre><p>写入以下配置</p><pre><code class="hljs txt">&quot; 打开语法高亮
+syntax on
+
+&quot; 使用配色方案
+colorscheme desert
+
+&quot; 打开文件类型检测功能
+filetype on
+
+&quot; 不同文件类型采用不同缩进
+filetype indent on
+
+&quot; 允许使用插件
+filetype plugin on
+filetype plugin indent on
+
+&quot; 允许区域选择
+set selection=exclusive
+set selectmode=mouse,key
+
+&quot; 高亮光标所在行
+set cursorline
+
+&quot; 取消光标闪烁
+set novisualbell
+
+&quot; 状态栏显示当前执行的命令
+set showcmd
+
+&quot; 标尺功能，显示当前光标所在行列号
+set ruler
+
+&quot; 粘贴时保持格式
+set paste
+
+&quot; 高亮显示匹配的括号
+set showmatch
+
+&quot; 在搜索的时候忽略大小写
+set ignorecase
+
+&quot; 高亮被搜索的句子
+set hlsearch
+
+&quot; 在搜索时，输入的词句的逐字符高亮（类似firefox的搜索）
+set incsearch
+
+&quot; 继承前一行的缩进方式，特别适用于多行注释
+set autoindent
+
+&quot; 为C程序提供自动缩进
+set smartindent
+
+&quot; 使用C样式的缩进
+set cindent
+
+&quot; 制表符为4
+set tabstop=4
+
+&quot; 统一缩进为4
+set softtabstop=4
+set shiftwidth=4
+set tabstop=4
+
+&quot; 允许使用退格键，或set backspace=2
+set backspace=eol,start,indent
+set whichwrap+=&lt;,&gt;,h,l
+
+&quot; 取消换行
+set nowrap
+
+&quot; 启动的时候不显示那个援助索马里儿童的提示
+set shortmess=atI
+
+&quot; 在被分割的窗口间显示空白，便于阅读
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+
+&quot; 光标移动到buffer的顶部和底部时保持3行距离, 或set so=3
+set scrolloff=3
+
+&quot; 设定默认解码
+set fenc=utf-8
+set fencs=utf-8,usc-bom,euc-jp,gb18030,gbk,gb2312,cp936
+
+&quot; 设定编码
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+set enc=utf-8
+set langmenu=zh_CN.UTF-8
+language message zh_CN.UTF-8
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+&quot; 自动补全
+filetype plugin indent on
+set completeopt=longest,menu
+
+&quot; 自动补全命令时候使用菜单式匹配列表
+set wildmenu
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType java set omnifunc=javacomplete#Complet
+
+&quot; 行号
+set number
+
+&quot; 突出显示
+set cursorline
+
+&quot; 关闭鼠标
+set mouse=c
+
+&quot; 启动鼠标
+&quot; set mouse=a
+
+set selection=exclusive
+set selectmode=mouse,key
+
+&quot; 自动缩进
+set autoindent
+
+&quot; 语法高亮
+syntax enable
+
+&quot; 文件类型检查
+filetype indent on
+
+&quot; status line
+set laststatus=2
+set statusline=\ %&#123;HasPaste()&#125;%F%m%r%h\ %w\ \ CWD:\ %r%&#123;getcwd()&#125;%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+&quot; other
+
+&quot; Set to auto read when a file is changed from the outside
+set autoread
+au FocusGained,BufEnter * checktime
+
+&quot; When searching try to be smart about cases
+set smartcase
+
+&quot; No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+&quot; Turn backup off
+set nobackup
+set nowb
+set noswapfile
+
+&quot; Use spaces instead of tabs
+set expandtab
+
+&quot; Be smart when using tabs ;)
+set smarttab
+
+&quot; Linebreak on 500 characters
+set lbr
+set tw=500
+
+set ai &quot;Auto indent
+set si &quot;Smart indent
+set wrap &quot;Wrap lines
+
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot; =&gt; Helper functions
+&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;&quot;
+&quot; Returns true if paste mode is enabled
+function! HasPaste()
+    if &amp;paste
+        return &#x27;PASTE MODE  &#x27;
+    endif
+    return &#x27;&#x27;
+endfunction
+
+&quot; Don&#x27;t close window, when deleting a buffer
+command! Bclose call &lt;SID&gt;BufcloseCloseIt()
+function! &lt;SID&gt;BufcloseCloseIt()
+    let l:currentBufNum = bufnr(&quot;%&quot;)
+    let l:alternateBufNum = bufnr(&quot;#&quot;)
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr(&quot;%&quot;) == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute(&quot;bdelete! &quot;.l:currentBufNum)
+    endif
+endfunction
+
+function! CmdLine(str)
+    call feedkeys(&quot;:&quot; . a:str)
+endfunction
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @&quot;
+    execute &quot;normal! vgvy&quot;
+
+    let l:pattern = escape(@&quot;, &quot;\\/.*&#x27;$^~[]&quot;)
+    let l:pattern = substitute(l:pattern, &quot;\n$&quot;, &quot;&quot;, &quot;&quot;)
+
+    if a:direction == &#x27;gv&#x27;
+        call CmdLine(&quot;Ack &#x27;&quot; . l:pattern . &quot;&#x27; &quot; )
+    elseif a:direction == &#x27;replace&#x27;
+        call CmdLine(&quot;%s&quot; . &#x27;/&#x27;. l:pattern . &#x27;/&#x27;)
+    endif
+
+    let @/ = l:pattern
+    let @&quot; = l:saved_reg
+endfunction</code></pre><h2 id="使用现成的配置"><a href="#使用现成的配置" class="headerlink" title="使用现成的配置"></a>使用现成的配置</h2><p>利用了 <a target="_blank" rel="noopener" href="https://github.com/amix/vimrc">amix&#x2F;vimrc</a> 这个开源项目。</p><h2 id="参考-Reference"><a href="#参考-Reference" class="headerlink" title="参考 Reference"></a>参考 Reference</h2><p><a target="_blank" rel="noopener" href="http://c.biancheng.net/view/3024.html">Vim配置文件（.vimrc），Vim配置教程</a><br><a target="_blank" rel="noopener" href="https://www.ruanyifeng.com/blog/2018/09/vimrc.html">Vim配置-王遗风</a></p></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/vim-config/">https://www.whaleluo.top/vim-config/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2023-01-29</p></div><div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/Vim/" class="post-tags__link button"># Vim</a></div></article><div class="nav"><div class="nav__prev"><a href="/golang/golang-note-catalogue/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Golang 学习笔记——目录</div></div></a></div><div class="nav__next"><a href="/study/ancient-poems/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">高二上期末考语文小抄</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

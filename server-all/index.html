@@ -1,0 +1,173 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>服务器备忘录✨ | 😊落落のBlog😊</title><meta name="keywords" content="Linux, Server, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="服务器备忘录 2022 年 3 月 19 日 Update.  落落家 X86服务器配置 运行内存 (RAM)：4GB（笔记本 ddr3 内存条）  CPU：4 x Intel(R) Atom(TM) CPU D2550 @ 1.86GHz &#x2F; 512 KB cache 英特尔凌动® 处理器 D2550 (intel.cn) 2 核 4 线程  服务器系统：Ubuntu 18.04 Se"><meta property="og:type" content="article"><meta property="og:title" content="服务器备忘录✨"><meta property="og:url" content="https://www.whaleluo.top/server-all/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="服务器备忘录 2022 年 3 月 19 日 Update.  落落家 X86服务器配置 运行内存 (RAM)：4GB（笔记本 ddr3 内存条）  CPU：4 x Intel(R) Atom(TM) CPU D2550 @ 1.86GHz &#x2F; 512 KB cache 英特尔凌动® 处理器 D2550 (intel.cn) 2 核 4 线程  服务器系统：Ubuntu 18.04 Se"><meta property="og:locale"><meta property="og:image" content="https://images.samsung.com/is/image/samsung/p5/semiconductor/solutions/applications/server/3-kf-energy-efficiency-mobile.jpg?$ORIGIN_JPG$"><meta property="article:published_time" content="2022-03-20T11:37:48.000Z"><meta property="article:modified_time" content="2022-03-20T11:37:48.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="Linux"><meta property="article:tag" content="Server"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://images.samsung.com/is/image/samsung/p5/semiconductor/solutions/applications/server/3-kf-energy-efficiency-mobile.jpg?$ORIGIN_JPG$"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">服务器备忘录✨</h1><div class="post-title__meta"><a href="/archives/2022/03/" class="post-meta__date button">2022-03-20</a> <span class="separate-dot"></span><a href="/categories/Server/" class="button">Server</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">服务器配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">运行服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx"><span class="toc-number">2.1.</span> <span class="toc-text">Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-number">2.2.</span> <span class="toc-text">Docker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-default-config"><span class="toc-number">3.</span> <span class="toc-text">Nginx_default_config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AiraNg-download-config"><span class="toc-number">4.</span> <span class="toc-text">AiraNg_download_config</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-qBittorrent-Command"><span class="toc-number">4.1.</span> <span class="toc-text">Run qBittorrent Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-portainer-command"><span class="toc-number">4.2.</span> <span class="toc-text">run_portainer_command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-wxedge-command"><span class="toc-number">4.3.</span> <span class="toc-text">run_wxedge_command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-openwrt-by-docker"><span class="toc-number">4.4.</span> <span class="toc-text">run_openwrt_by_docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-ttnode-by-docker"><span class="toc-number">4.5.</span> <span class="toc-text">run_ttnode_by_docker</span></a></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">服务器配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">运行服务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Nginx"><span class="toc-number">2.1.</span> <span class="toc-text">Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker"><span class="toc-number">2.2.</span> <span class="toc-text">Docker</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-default-config"><span class="toc-number">3.</span> <span class="toc-text">Nginx_default_config</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AiraNg-download-config"><span class="toc-number">4.</span> <span class="toc-text">AiraNg_download_config</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-qBittorrent-Command"><span class="toc-number">4.1.</span> <span class="toc-text">Run qBittorrent Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-portainer-command"><span class="toc-number">4.2.</span> <span class="toc-text">run_portainer_command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-wxedge-command"><span class="toc-number">4.3.</span> <span class="toc-text">run_wxedge_command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-openwrt-by-docker"><span class="toc-number">4.4.</span> <span class="toc-text">run_openwrt_by_docker</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#run-ttnode-by-docker"><span class="toc-number">4.5.</span> <span class="toc-text">run_ttnode_by_docker</span></a></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post-thumbnail lazy" data-bg="https://images.samsung.com/is/image/samsung/p5/semiconductor/solutions/applications/server/3-kf-energy-efficiency-mobile.jpg?$ORIGIN_JPG$"></div><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2022-03-20"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="服务器备忘录"><a href="#服务器备忘录" class="headerlink" title="服务器备忘录"></a>服务器备忘录</h1><blockquote><p><strong>2022 年 3 月 19 日</strong> Update.</p></blockquote><h1 id="落落家-X86"><a href="#落落家-X86" class="headerlink" title="落落家 X86"></a>落落家 X86</h1><h2 id="服务器配置"><a href="#服务器配置" class="headerlink" title="服务器配置"></a>服务器配置</h2><ul><li><p><strong>运行内存 (RAM)：</strong>4GB（笔记本 ddr3 内存条）</p></li><li><p><strong>CPU：</strong>4 x Intel(R) Atom(TM) CPU D2550 @ 1.86GHz &#x2F; 512 KB cache <a target="_blank" rel="noopener" href="https://www.intel.cn/content/www/cn/zh/products/sku/65470/intel-atom-processor-d2550-1m-cache-1-86-ghz/specifications.html">英特尔凌动® 处理器 D2550 (intel.cn)</a> 2 核 4 线程</p></li><li><p><strong>服务器系统</strong>：Ubuntu 18.04 Server</p><p>Linux whalefall 4.15.0-171-generic #180-Ubuntu SMP Wed Mar 2 17:25:05 UTC 2022 x86_64</p></li><li><p><strong>硬盘：</strong>​<code>df -h</code></p><pre><code class="hljs shell">Filesystem      Size  Used Avail Use% Mounted on
+/dev/sdb2       146G   18G  122G  13% /  # 系统盘 150GB
+/dev/sda1       299G  294G  5.0G  99% /mnt/disk  # 3.5寸硬盘1 300GB (跑wx)
+/dev/sdc1       466G  129G  338G  28% /mnt/mainDisk  # 2.5寸硬盘2 500GB (NAS)</code></pre></li><li><p><strong>网络：</strong> <code>ifconfig</code></p><pre><code class="hljs shell">enp2s0:  # 主网卡
+        inet 192.168.5.123  netmask 255.255.255.0  broadcast 192.168.5.255
+enp1s0:  # 副网卡
+        inet 192.168.5.124  netmask 255.255.255.0  broadcast 192.168.5.255</code></pre><ul><li>enp2s0：主网卡，跑 <strong>qBittorrent</strong></li><li>enp1s0：副网卡，docker network —— macnet （openwrt），网心云 docker</li></ul></li></ul><h2 id="运行服务"><a href="#运行服务" class="headerlink" title="运行服务"></a>运行服务</h2><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><blockquote><p>配置文件：<code>/etc/nginx/conf.d</code>; <code>/etc/nginx/sites-enabled</code></p><p>默认配置：<a href="#Nginx-default-config">Nginx默认配置</a></p></blockquote><ol><li><p>Port: 80</p><p>Desc: 运行探针服务。</p><p>Path: <code>/var/www/html</code></p></li><li><p>Port: 86</p><p>Desc: python3-cookbook 3.0.0 文档。</p><p>Path: <code>/www/openvpn_admin/</code></p></li><li><p>Port: 88</p><p>Desc: 可道云 Kodcloud.</p><p>Path: <code>/www/kodcloud</code></p></li><li><p>Port: 89</p><p>Desc: AiraNg 下载器。（已反向代理 Aira2 6800）<a href="#AiraNg-download-config">配置文件</a></p><p>Path: <code>/www/kodcloud</code></p></li></ol><h3 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h3><ol><li><p>Port：9090</p><p>Desc：Portainer web admin</p><p>command：<a href="#run-portainer-command">source</a></p></li><li><p>Port：8989</p><p>Desc：qBittorrent download</p><p>command：<a href="#run-qbittorrent-command">source</a></p></li><li><p>Port：18888</p><p>Desc：网心云（容器魔方）</p><p>command：<a href="#run-wxedge-command">source</a></p></li><li><p>network：macnet</p><p>ip：192.168.5.66</p><p>Desc：openwrt 软路由</p><p>command：<a href="#run-openwrt-by-docker">source</a></p></li></ol><h1 id="部分配置文件"><a href="#部分配置文件" class="headerlink" title="部分配置文件"></a>部分配置文件</h1><h2 id="Nginx-default-config"><a href="#Nginx-default-config" class="headerlink" title="Nginx_default_config"></a>Nginx_default_config</h2><pre><code class="hljs shell">server &#123;
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /www/;
+        index index.php index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / &#123;
+                try_files $uri $uri/ =404;
+        &#125;
+        location ~ .*\.php(\/.*)*$ &#123;
+                include snippets/fastcgi-php.conf;
+                # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+                # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        &#125;
+&#125;</code></pre><h2 id="AiraNg-download-config"><a href="#AiraNg-download-config" class="headerlink" title="AiraNg_download_config"></a>AiraNg_download_config</h2><pre><code class="hljs plaintext">server &#123;
+        listen 89 default_server;
+        listen [::]:89 default_server;
+        root /www/AiraNg/;
+        index index.php index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / &#123;
+                try_files $uri $uri/ =404;
+        &#125;
+        location ~ .*\.php(\/.*)*$ &#123;
+                include snippets/fastcgi-php.conf;
+                # With php-fpm (or other unix sockets):
+                fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+                # With php-cgi (or other tcp sockets):
+        #       fastcgi_pass 127.0.0.1:9000;
+        &#125;
+        # 反向代理 Aria ws
+        location /jsonrpc &#123;
+        proxy_redirect off;
+        proxy_pass http://127.0.0.1:6800/jsonrpc;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection &quot;upgrade&quot;;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        &#125;
+&#125;</code></pre><h3 id="Run-qBittorrent-Command"><a href="#Run-qBittorrent-Command" class="headerlink" title="Run qBittorrent Command"></a>Run qBittorrent Command</h3><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">运行 qbittorrent docker 版</span>
+ docker create \
+    --name=qbittorrent \
+    -e QB_WEBUI_PORT=8989 \
+    -e QB_EE_BIN=false \
+    -e UID=0 \
+    -e GID=0 \
+    -e QB_TRACKERS_UPDATE_AUTO=true \
+    -e QB_TRACKERS_LIST_URL=https://trackerslist.com/all.txt \
+    -e TZ=Asia/Shanghai \
+    -e UMASK=022 \
+    -p 6881:6881 \
+    -p 6881:6881/udp \
+    -p 8989:8989 \
+    -v /root/qb_config:/config \
+    -v /mnt/mainDisk/download/:/Downloads \
+    --restart unless-stopped \
+    johngong/qbittorrent:latest</code></pre><h3 id="run-portainer-command"><a href="#run-portainer-command" class="headerlink" title="run_portainer_command"></a>run_portainer_command</h3><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">运行汉化版 Portainer</span>
+docker run -d -p 9000:9000
+--name portainer \
+--restart always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v portainer_data:/data \
+-v /root/public:/public \
+portainer/portainer</code></pre><h3 id="run-wxedge-command"><a href="#run-wxedge-command" class="headerlink" title="run_wxedge_command"></a>run_wxedge_command</h3><pre><code class="hljs shell">docker run -d --name=wxedge --restart=always --privileged --net=host  --tmpfs /run --tmpfs /tmp -v /mnt/disk/wxedge_storage:/storage:rw -e NIC=enp2s0  onething1/wxedge</code></pre><blockquote><p>-e NIC：指定网卡</p></blockquote><h3 id="run-openwrt-by-docker"><a href="#run-openwrt-by-docker" class="headerlink" title="run_openwrt_by_docker"></a>run_openwrt_by_docker</h3><pre><code class="hljs shell"><span class="hljs-meta prompt_"># </span><span class="language-bash">新建一个网络 指定网卡</span>
+docker network create -d macvlan --subnet=192.168.5.0/24 --gateway=192.168.5.1 -o parent=enp2s0 macnet
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">运行 openwrt 镜像 指定ip</span>
+docker run --restart always --name openwrt -d --network macnet --ip=192.168.5.66 --privileged openwrt_myself:latest
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">进入容器命令行，修改 /etc/network/config</span>
+config interface &#x27;loopback&#x27;
+        option proto &#x27;static&#x27;
+        option ipaddr &#x27;127.0.0.1&#x27;
+        option netmask &#x27;255.0.0.0&#x27;
+        option device &#x27;lo&#x27;
+
+config interface &#x27;lan&#x27;
+        option type &#x27;bridge&#x27;
+        option ifname &#x27;eth0&#x27;
+        option proto &#x27;static&#x27;
+        option netmask &#x27;255.255.255.0&#x27;
+        option gateway &#x27;192.168.5.1&#x27;
+        option dns &#x27;192.168.5.1&#x27;
+        option ipaddr &#x27;192.168.5.66&#x27;
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">openwrt 防火墙自定义规则添加</span>
+iptables -t nat -I POSTROUTING -o eth0 -jMASQUERADE</code></pre><h3 id="run-ttnode-by-docker"><a href="#run-ttnode-by-docker" class="headerlink" title="run_ttnode_by_docker"></a>run_ttnode_by_docker</h3><pre><code class="hljs shell">sudo docker run -d \
+  -v /tiptime_dir:/mnt/data/ttnode \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  --name ttnode \
+  --hostname ttnode \
+  --net=host \
+  --restart=always \
+  tiptime/ttnode:latest</code></pre></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/server-all/">https://www.whaleluo.top/server-all/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2022-03-20</p></div><div class="post-entry__tags"><a href="/tags/Linux/" class="post-tags__link button"># Linux</a><a href="/tags/Server/" class="post-tags__link button"># Server</a></div></article><div class="nav"><div class="nav__prev"><a href="/golang/golang-envbuild-note/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Golang 学习笔记——Go环境搭建</div></div></a></div><div class="nav__next"><a href="/linux-note/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">Linux 运维笔记(持续更新)</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>

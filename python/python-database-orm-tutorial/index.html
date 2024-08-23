@@ -1,0 +1,577 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="renderer" content="webkit"><meta name="force-rendering" content="webkit"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"><meta name="HandheldFriendly" content="True"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><link rel="shortcut icon" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico"><link rel="mask-icon" href="/images/favicon.ico"><title>Python database 数据库 ORM 框架 | 😊落落のBlog😊</title><meta name="keywords" content="databases, python, ORM, mysql, 编程,博客,记录,技术,生活,前端,摄影,LGBT,计算机,网络安全,Life,Cybersecurity,Python,Golang,Vue,Javascript,Java,Linux"><meta name="description" content="Python database 数据库 ORM 框架ORM (Oobject Relational Mapper) 对象关系映射,用于在 Code 中通过 Object 来操作关系型数据库,将用户定义的 Python 类映射到数据库表和其他构造 ,而不用直接手撕 SQL 语句.增加安全性和可维护性. SQLAlchemy (SQL 炼金术 &#x2F;ˈæl.kə.mi&#x2F; )是 Python 中用于操作各种"><meta property="og:type" content="article"><meta property="og:title" content="Python database 数据库 ORM 框架"><meta property="og:url" content="https://www.whaleluo.top/python/python-database-orm-tutorial/index.html"><meta property="og:site_name" content="😊落落のBlog😊"><meta property="og:description" content="Python database 数据库 ORM 框架ORM (Oobject Relational Mapper) 对象关系映射,用于在 Code 中通过 Object 来操作关系型数据库,将用户定义的 Python 类映射到数据库表和其他构造 ,而不用直接手撕 SQL 语句.增加安全性和可维护性. SQLAlchemy (SQL 炼金术 &#x2F;ˈæl.kə.mi&#x2F; )是 Python 中用于操作各种"><meta property="og:locale"><meta property="og:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Python-database-ORM-tutorial-components.png&webp=true"><meta property="article:published_time" content="2023-09-09T00:13:04.000Z"><meta property="article:modified_time" content="2023-09-09T00:13:04.000Z"><meta property="article:author" content="WhaleFall"><meta property="article:tag" content="databases"><meta property="article:tag" content="python"><meta property="article:tag" content="ORM"><meta property="article:tag" content="mysql"><meta name="twitter:card" content="images&#x2F;favicon.ico"><meta name="twitter:image" content="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Python-database-ORM-tutorial-components.png&webp=true"><link rel="stylesheet" href="/css/style/main.css"><link rel="stylesheet" id="hl-default-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-light.css" media="none"><link rel="stylesheet" id="hl-dark-theme" href="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/highlight.js@10.1.2/styles/atom-one-dark.css" media="none"><link rel="stylesheet" href="/css/style/dark.css"><script src="/js/darkmode.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"><meta name="google-site-verification" content="bka9Mdyvo7g1v-jQq8CzqcaY9zE2QGltMwsvO63rAUw"><meta name="generator" content="Hexo 7.1.1"><link rel="alternate" href="/atom.xml" title="😊落落のBlog😊" type="application/atom+xml"></head><body><div id="app" tabindex="-1"><header class="header"><div class="header__left"><a href="/" class="button"><span class="logo__text">落落のBlog</span></a></div><div class="header__right"><div class="navbar__menus"><a href="/" class="navbar-menu button">首页</a> <a href="/tags/" class="navbar-menu button">标签</a> <a href="/archives/" class="navbar-menu button">归档</a> <a href="/categories/" class="navbar-menu button">主题</a> <a href="/friends/" class="navbar-menu button">友链</a> <a href="/about/" class="navbar-menu button">关于</a> <a href="/event/" class="navbar-menu button">大事记</a> <a href="/atom.xml" class="navbar-menu button">RSS</a></div><a href="/search/" id="btn-search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="32"><path d="M192 448c0-141.152 114.848-256 256-256s256 114.848 256 256-114.848 256-256 256-256-114.848-256-256z m710.624 409.376l-206.88-206.88A318.784 318.784 0 0 0 768 448c0-176.736-143.264-320-320-320S128 271.264 128 448s143.264 320 320 320a318.784 318.784 0 0 0 202.496-72.256l206.88 206.88 45.248-45.248z"></path></svg> </a><a href="javaScript:void(0);" id="btn-toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg> </a><a class="dropdown-icon button" id="btn-dropdown" tabindex="0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" width="24" height="24" fill="none" stroke="currentColor" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" d="M3.314,4.8h13.372c0.41,0,0.743-0.333,0.743-0.743c0-0.41-0.333-0.743-0.743-0.743H3.314c-0.41,0-0.743,0.333-0.743,0.743C2.571,4.467,2.904,4.8,3.314,4.8z M16.686,15.2H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,15.2,16.686,15.2z M16.686,9.257H3.314c-0.41,0-0.743,0.333-0.743,0.743s0.333,0.743,0.743,0.743h13.372c0.41,0,0.743-0.333,0.743-0.743S17.096,9.257,16.686,9.257z"></path></svg></a><div class="dropdown-menus" id="dropdown-menus"><a href="/" class="dropdown-menu button">首页</a> <a href="/tags/" class="dropdown-menu button">标签</a> <a href="/archives/" class="dropdown-menu button">归档</a> <a href="/categories/" class="dropdown-menu button">主题</a> <a href="/friends/" class="dropdown-menu button">友链</a> <a href="/about/" class="dropdown-menu button">关于</a> <a href="/event/" class="dropdown-menu button">大事记</a> <a href="/atom.xml" class="dropdown-menu button">RSS</a></div></div></header><main class="main"><div class="post-title"><h1 class="post-title__text">Python database 数据库 ORM 框架</h1><div class="post-title__meta"><a href="/archives/2023/09/" class="post-meta__date button">2023-09-09</a> <span class="separate-dot"></span><a href="/categories/Python/" class="button">Python</a> <span id="busuanzi_container_page_pv" hidden><span class="separate-dot"></span> <span></span> <span id="busuanzi_value_page_pv"></span> <span>Views</span></span></div></div><aside class="post-side"><div class="post-side__toc"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Establish-Connectivity-%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5"><span class="toc-number">2.</span> <span class="toc-text">Establish Connectivity 建立链接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-mysql-server"><span class="toc-number">2.1.</span> <span class="toc-text">Connect mysql server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transactions-%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">Transactions 事务操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Core-Engine-Connect"><span class="toc-number">3.1.</span> <span class="toc-text">Core Engine Connect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ORM-Engine-Session"><span class="toc-number">3.2.</span> <span class="toc-text">ORM Engine Session</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Metadata-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%83%E6%95%B0%E6%8D%AE-ORM"><span class="toc-number">4.</span> <span class="toc-text">Database Metadata 数据库元数据 ORM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Declarative-base-%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9F%BA%E7%A1%80"><span class="toc-number">4.1.</span> <span class="toc-text">Declarative base 声明式基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Table-Reflection-%E8%A1%A8%E5%8F%8D%E5%B0%84"><span class="toc-number">4.2.</span> <span class="toc-text">Table Reflection 表反射</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-Data-%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE"><span class="toc-number">5.</span> <span class="toc-text">Working with Data 处理数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Working-with-sql-core-%E6%8B%BC%E6%8E%A5%E6%9E%84%E9%80%A0-sql-%E8%AF%AD%E5%8F%A5"><span class="toc-number">5.1.</span> <span class="toc-text">Working with sql core 拼接构造 sql 语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Insert-%E6%8F%92%E5%85%A5"><span class="toc-number">5.1.1.</span> <span class="toc-text">Insert 插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Select-%E9%80%89%E6%8B%A9%E6%9F%A5%E8%AF%A2"><span class="toc-number">5.1.2.</span> <span class="toc-text">Select 选择查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Update-%E6%9B%B4%E6%96%B0"><span class="toc-number">5.1.3.</span> <span class="toc-text">Update 更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Delete-%E5%88%A0%E9%99%A4"><span class="toc-number">5.1.4.</span> <span class="toc-text">Delete 删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Count-%E8%AE%A1%E6%95%B0"><span class="toc-number">5.1.5.</span> <span class="toc-text">Count 计数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Woking-with-ORM"><span class="toc-number">5.2.</span> <span class="toc-text">Woking with ORM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AsyncIO-Support"><span class="toc-number">6.</span> <span class="toc-text">AsyncIO Support</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Complete-example-%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"><span class="toc-number">6.1.</span> <span class="toc-text">Complete example 完整示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Legacy-query-API-%E6%97%A7%E7%89%88%E6%9F%A5%E8%AF%A2-API"><span class="toc-number">7.</span> <span class="toc-text">Legacy query API 旧版查询 API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLAlchemy-Extansion-%E6%89%A9%E5%B1%95"><span class="toc-number">8.</span> <span class="toc-text">SQLAlchemy Extansion 扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sqlalchemy-utils"><span class="toc-number">8.1.</span> <span class="toc-text">Sqlalchemy-utils</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-A"><span class="toc-number">9.</span> <span class="toc-text">Q&amp;A</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Is-the-Session-thread-safe-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8-Is-AsyncSession-safe-%E5%BC%82%E6%AD%A5%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8-to-share-in-concurrent-tasks-%C2%B6"><span class="toc-number">9.1.</span> <span class="toc-text">Is the Session thread-safe (线程安全)? Is AsyncSession safe(异步并发安全) to share in concurrent tasks?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlalchemy-exc-CompileError-VARCHAR-varchar-%E5%8F%98%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2-Requires-a-length-on-dialect-%E6%96%B9%E8%A8%80-mysql"><span class="toc-number">9.2.</span> <span class="toc-text">sqlalchemy.exc.CompileError: VARCHAR(varchar 变长字符串) Requires a length on dialect(方言) mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Default-timestamp"><span class="toc-number">9.3.</span> <span class="toc-text">Default timestamp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Optimize"><span class="toc-number">9.4.</span> <span class="toc-text">Optimize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#relationship-%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD"><span class="toc-number">9.5.</span> <span class="toc-text">relationship 延迟加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DatabaseURL-%E6%95%B0%E6%8D%AE%E5%BA%93-URL"><span class="toc-number">9.6.</span> <span class="toc-text">DatabaseURL 数据库 URL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Alembic-%E8%8B%B1-%C9%99%E2%80%99lemb%C9%AAk-%E8%92%B8%E9%A6%8F%E5%99%A8-sqlalchemy-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB-Migration"><span class="toc-number">10.</span> <span class="toc-text">Alembic [英 &#x2F;ə’lembɪk&#x2F; 蒸馏器] sqlalchemy 数据库迁移 Migration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-alembic-%E4%BB%93%E5%BA%93"><span class="toc-number">10.1.</span> <span class="toc-text">初始化 alembic 仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9E%8B%E7%B1%BB"><span class="toc-number">10.2.</span> <span class="toc-text">创建模型类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">10.3.</span> <span class="toc-text">设置数据库连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-target-metadata"><span class="toc-number">10.4.</span> <span class="toc-text">设置 target_metadata</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E8%BF%81%E7%A7%BB%E6%96%87%E4%BB%B6"><span class="toc-number">10.5.</span> <span class="toc-text">自动生成迁移文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">10.6.</span> <span class="toc-text">更新数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%92%8C%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="toc-number">10.7.</span> <span class="toc-text">命令和参数解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E9%94%99%E8%AF%AF"><span class="toc-number">10.8.</span> <span class="toc-text">经典错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Is-it-possible-to-store-the-alembic-connect-string-outside-of-alembic-ini"><span class="toc-number">10.9.</span> <span class="toc-text">Is it possible to store the alembic connect string outside of alembic.ini</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alembic-for-asynchronous-database-support"><span class="toc-number">10.10.</span> <span class="toc-text">Alembic for asynchronous database support</span></a></li></ol></li></ol></div></aside><a class="btn-toc button" id="btn-toc" tabindex="0"><svg viewBox="0 0 1024 1024" width="32" height="32" xmlns="http://www.w3.org/2000/svg"><path d="M128 256h64V192H128zM320 256h576V192H320zM128 544h64v-64H128zM320 544h576v-64H320zM128 832h64v-64H128zM320 832h576v-64H320z" fill="currentColor"></path></svg></a><div class="toc-menus" id="toc-menus"><div class="toc-title">Article Directory</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Install"><span class="toc-number">1.</span> <span class="toc-text">Install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Establish-Connectivity-%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5"><span class="toc-number">2.</span> <span class="toc-text">Establish Connectivity 建立链接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Connect-mysql-server"><span class="toc-number">2.1.</span> <span class="toc-text">Connect mysql server</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transactions-%E4%BA%8B%E5%8A%A1%E6%93%8D%E4%BD%9C"><span class="toc-number">3.</span> <span class="toc-text">Transactions 事务操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Core-Engine-Connect"><span class="toc-number">3.1.</span> <span class="toc-text">Core Engine Connect</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ORM-Engine-Session"><span class="toc-number">3.2.</span> <span class="toc-text">ORM Engine Session</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Database-Metadata-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%85%83%E6%95%B0%E6%8D%AE-ORM"><span class="toc-number">4.</span> <span class="toc-text">Database Metadata 数据库元数据 ORM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Declarative-base-%E5%A3%B0%E6%98%8E%E5%BC%8F%E5%9F%BA%E7%A1%80"><span class="toc-number">4.1.</span> <span class="toc-text">Declarative base 声明式基础</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Table-Reflection-%E8%A1%A8%E5%8F%8D%E5%B0%84"><span class="toc-number">4.2.</span> <span class="toc-text">Table Reflection 表反射</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Working-with-Data-%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE"><span class="toc-number">5.</span> <span class="toc-text">Working with Data 处理数据</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Working-with-sql-core-%E6%8B%BC%E6%8E%A5%E6%9E%84%E9%80%A0-sql-%E8%AF%AD%E5%8F%A5"><span class="toc-number">5.1.</span> <span class="toc-text">Working with sql core 拼接构造 sql 语句</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Insert-%E6%8F%92%E5%85%A5"><span class="toc-number">5.1.1.</span> <span class="toc-text">Insert 插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Select-%E9%80%89%E6%8B%A9%E6%9F%A5%E8%AF%A2"><span class="toc-number">5.1.2.</span> <span class="toc-text">Select 选择查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Update-%E6%9B%B4%E6%96%B0"><span class="toc-number">5.1.3.</span> <span class="toc-text">Update 更新</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Delete-%E5%88%A0%E9%99%A4"><span class="toc-number">5.1.4.</span> <span class="toc-text">Delete 删除</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Count-%E8%AE%A1%E6%95%B0"><span class="toc-number">5.1.5.</span> <span class="toc-text">Count 计数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Woking-with-ORM"><span class="toc-number">5.2.</span> <span class="toc-text">Woking with ORM</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AsyncIO-Support"><span class="toc-number">6.</span> <span class="toc-text">AsyncIO Support</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Complete-example-%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"><span class="toc-number">6.1.</span> <span class="toc-text">Complete example 完整示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Legacy-query-API-%E6%97%A7%E7%89%88%E6%9F%A5%E8%AF%A2-API"><span class="toc-number">7.</span> <span class="toc-text">Legacy query API 旧版查询 API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SQLAlchemy-Extansion-%E6%89%A9%E5%B1%95"><span class="toc-number">8.</span> <span class="toc-text">SQLAlchemy Extansion 扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Sqlalchemy-utils"><span class="toc-number">8.1.</span> <span class="toc-text">Sqlalchemy-utils</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-A"><span class="toc-number">9.</span> <span class="toc-text">Q&amp;A</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Is-the-Session-thread-safe-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8-Is-AsyncSession-safe-%E5%BC%82%E6%AD%A5%E5%B9%B6%E5%8F%91%E5%AE%89%E5%85%A8-to-share-in-concurrent-tasks-%C2%B6"><span class="toc-number">9.1.</span> <span class="toc-text">Is the Session thread-safe (线程安全)? Is AsyncSession safe(异步并发安全) to share in concurrent tasks?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sqlalchemy-exc-CompileError-VARCHAR-varchar-%E5%8F%98%E9%95%BF%E5%AD%97%E7%AC%A6%E4%B8%B2-Requires-a-length-on-dialect-%E6%96%B9%E8%A8%80-mysql"><span class="toc-number">9.2.</span> <span class="toc-text">sqlalchemy.exc.CompileError: VARCHAR(varchar 变长字符串) Requires a length on dialect(方言) mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Default-timestamp"><span class="toc-number">9.3.</span> <span class="toc-text">Default timestamp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Optimize"><span class="toc-number">9.4.</span> <span class="toc-text">Optimize</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#relationship-%E5%BB%B6%E8%BF%9F%E5%8A%A0%E8%BD%BD"><span class="toc-number">9.5.</span> <span class="toc-text">relationship 延迟加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DatabaseURL-%E6%95%B0%E6%8D%AE%E5%BA%93-URL"><span class="toc-number">9.6.</span> <span class="toc-text">DatabaseURL 数据库 URL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Alembic-%E8%8B%B1-%C9%99%E2%80%99lemb%C9%AAk-%E8%92%B8%E9%A6%8F%E5%99%A8-sqlalchemy-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%81%E7%A7%BB-Migration"><span class="toc-number">10.</span> <span class="toc-text">Alembic [英 &#x2F;ə’lembɪk&#x2F; 蒸馏器] sqlalchemy 数据库迁移 Migration</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-alembic-%E4%BB%93%E5%BA%93"><span class="toc-number">10.1.</span> <span class="toc-text">初始化 alembic 仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9E%8B%E7%B1%BB"><span class="toc-number">10.2.</span> <span class="toc-text">创建模型类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5"><span class="toc-number">10.3.</span> <span class="toc-text">设置数据库连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-target-metadata"><span class="toc-number">10.4.</span> <span class="toc-text">设置 target_metadata</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E8%BF%81%E7%A7%BB%E6%96%87%E4%BB%B6"><span class="toc-number">10.5.</span> <span class="toc-text">自动生成迁移文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">10.6.</span> <span class="toc-text">更新数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E5%92%8C%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="toc-number">10.7.</span> <span class="toc-text">命令和参数解释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%8F%E5%85%B8%E9%94%99%E8%AF%AF"><span class="toc-number">10.8.</span> <span class="toc-text">经典错误</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Is-it-possible-to-store-the-alembic-connect-string-outside-of-alembic-ini"><span class="toc-number">10.9.</span> <span class="toc-text">Is it possible to store the alembic connect string outside of alembic.ini</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Alembic-for-asynchronous-database-support"><span class="toc-number">10.10.</span> <span class="toc-text">Alembic for asynchronous database support</span></a></li></ol></li></ol></div><article class="post post__with-toc content-card"><div class="post__header"><div class="post__expire" id="post-expired-notify"><p>This article was last updated on &lt;span id=&#34;expire-date&#34;&gt;&lt;/span&gt; days ago, the information described in the article may be outdated.</p></div><script>(() => {
+            var update = Date.parse("2023-09-09"),
+                date = new Date(),
+                now = date.getTime(),
+                expire = now - update,
+                expire_days = Math.floor(expire/(24*3600*1000));
+            if (expire_days >= 120) {
+                document.querySelectorAll('#expire-date')[0].innerHTML = expire_days;
+                document.querySelectorAll('#post-expired-notify')[0].style.display = 'block';
+            }
+        })();</script></div><div class="post__content"><h1 id="Python-database-数据库-ORM-框架"><a href="#Python-database-数据库-ORM-框架" class="headerlink" title="Python database 数据库 ORM 框架"></a>Python database 数据库 ORM 框架</h1><p><strong>ORM</strong> (<strong>O</strong>object <strong>R</strong>elational <strong>M</strong>apper) 对象关系映射,用于在 Code 中通过 Object 来操作<strong>关系型数据库</strong>,将用户定义的 Python 类映射到数据库表和其他构造 ,而不用直接手撕 SQL 语句.增加安全性和可维护性.</p><p>SQLAlchemy (SQL 炼金术 <code>/ˈæl.kə.mi/</code> )是 Python 中用于操作各种 <strong>关系型数据库</strong> 的 <strong>ORM</strong></p><p><a target="_blank" rel="noopener" href="https://yifei.me/note/2652">SQLAlchemy 2.0 教程 - Yifei’s Notes</a></p><p><a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/intro.html">SQLAlchemy Offical Tutorial</a></p><p><img src="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Python-database-ORM-tutorial-components.png&webp=true" class="lazy" data-srcset="https://api.whaleluo.top/onedrive/file/?path=/picstorage/blog/img/Python-database-ORM-tutorial-components.png&webp=true" srcset="https://api.whaleluo.top/onedrive/file/?path=/PicStorage/blog/loading.gif" alt="image"></p><p>SQLAlchemy 包含 对象关系映射器 <strong>ORM</strong> 和 核心 <strong>Core</strong> 两部分 API,ORM 构建于 Core 之上,如上图.<strong>DBAPI</strong> 代表底层数据库的驱动,例如:<code>pymysql</code> <code>sqlite3</code> 与特定数据库交互的第三方驱动程序.</p><h2 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h2><pre><code class="hljs shell">pip install SQLAlchemy</code></pre><h2 id="Establish-Connectivity-建立链接"><a href="#Establish-Connectivity-建立链接" class="headerlink" title="Establish Connectivity 建立链接"></a>Establish Connectivity 建立链接</h2><p><code>Engine</code> 对象通过 <code>create_engine()</code> 方法来构造,是只用创建一次的全局对象.<br><code>create_engine()</code> 首次返回不会链接到数据库,仅在调用 Engine 对象执行数据库操作时才链接到数据库 (被称为 <strong>Lazy loading</strong> 的设计模式),<a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/glossary.html#term-lazy-initialization">lazy initialization</a></p><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> create_engine
+engine = create_engine(<span class="hljs-string">&quot;sqlite+pysqlite:///:memory:&quot;</span>, echo=<span class="hljs-literal">True</span>)</code></pre><h3 id="Connect-mysql-server"><a href="#Connect-mysql-server" class="headerlink" title="Connect mysql server"></a>Connect mysql server</h3><p>reference: <a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/dialects/mysql.html">MySQL and MariaDB — SQLAlchemy 2.0 Documentation</a></p><h2 id="Transactions-事务操作"><a href="#Transactions-事务操作" class="headerlink" title="Transactions 事务操作"></a>Transactions 事务操作</h2><h3 id="Core-Engine-Connect"><a href="#Core-Engine-Connect" class="headerlink" title="Core Engine Connect"></a>Core Engine Connect</h3><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> text
+
+<span class="hljs-comment"># 获取数据库游标</span>
+<span class="hljs-keyword">with</span> engine.connect() <span class="hljs-keyword">as</span> conn:
+
+    <span class="hljs-comment"># 返回 Result 对象</span>
+    result = conn.execute(text(<span class="hljs-string">&quot;select &#x27;hello world&#x27;&quot;</span>))
+    <span class="hljs-built_in">print</span>(result.<span class="hljs-built_in">all</span>())
+
+    <span class="hljs-comment"># 提交变更</span>
+    conn.commit()
+	result = conn.execute(text(<span class="hljs-string">&quot;SELECT x, y FROM some_table&quot;</span>))
+	<span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> result:
+		<span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;x: <span class="hljs-subst">&#123;row.x&#125;</span>  y: <span class="hljs-subst">&#123;row.y&#125;</span>&quot;</span>)
+
+	<span class="hljs-comment"># 带参数的 sql 语句拼接</span>
+    result = conn.execute(text(<span class="hljs-string">&quot;SELECT x, y FROM some_table WHERE y &gt; :y&quot;</span>), &#123;<span class="hljs-string">&quot;y&quot;</span>: <span class="hljs-number">2</span>&#125;)
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> result:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;x: <span class="hljs-subst">&#123;row.x&#125;</span>  y: <span class="hljs-subst">&#123;row.y&#125;</span>&quot;</span>)
+
+	<span class="hljs-comment"># 多参数 executemany</span>
+	conn.execute(
+         text(<span class="hljs-string">&quot;INSERT INTO some_table (x, y) VALUES (:x, :y)&quot;</span>),
+         [&#123;<span class="hljs-string">&quot;x&quot;</span>: <span class="hljs-number">11</span>, <span class="hljs-string">&quot;y&quot;</span>: <span class="hljs-number">12</span>&#125;, &#123;<span class="hljs-string">&quot;x&quot;</span>: <span class="hljs-number">13</span>, <span class="hljs-string">&quot;y&quot;</span>: <span class="hljs-number">14</span>&#125;],
+     )
+</code></pre><h3 id="ORM-Engine-Session"><a href="#ORM-Engine-Session" class="headerlink" title="ORM Engine Session"></a>ORM Engine Session</h3><p>使用 ORM 时的基本事务&#x2F;数据库交互对象称为 <code>Session</code>.<br><code>Session</code> 在结束事务后实际上并不保留 <code>Connection</code> 对象.下次需要对数据库执行 SQL 时,它会从 <code>Engine</code> 获取新的 <code>Connection</code> .</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> Session
+
+stmt = text(<span class="hljs-string">&quot;SELECT x, y FROM some_table WHERE y &gt; :y ORDER BY x, y&quot;</span>)
+<span class="hljs-keyword">with</span> Session(engine) <span class="hljs-keyword">as</span> session:
+    result = session.execute(stmt, &#123;<span class="hljs-string">&quot;y&quot;</span>: <span class="hljs-number">6</span>&#125;)
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> result:
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;x: <span class="hljs-subst">&#123;row.x&#125;</span>  y: <span class="hljs-subst">&#123;row.y&#125;</span>&quot;</span>)
+
+    result = session.execute(
+         text(<span class="hljs-string">&quot;UPDATE some_table SET y=:y WHERE x=:x&quot;</span>),
+        [&#123;<span class="hljs-string">&quot;x&quot;</span>: <span class="hljs-number">9</span>, <span class="hljs-string">&quot;y&quot;</span>: <span class="hljs-number">11</span>&#125;, &#123;<span class="hljs-string">&quot;x&quot;</span>: <span class="hljs-number">13</span>, <span class="hljs-string">&quot;y&quot;</span>: <span class="hljs-number">15</span>&#125;],
+   )
+    session.commit()</code></pre><p>通过 with 语句构建 begin 开始、rollback 回滚、commit 提交 语句.</p><pre><code class="hljs python"><span class="hljs-comment"># verbose version of what a context manager will do</span>
+<span class="hljs-keyword">with</span> Session(engine) <span class="hljs-keyword">as</span> session:
+    <span class="hljs-comment"># session.begin() auto commit database</span>
+    <span class="hljs-comment"># create session and add objects</span>
+	<span class="hljs-keyword">with</span> session.begin():
+		session.add(some_object)
+        session.add(some_other_object)
+	    <span class="hljs-comment"># inner context calls session.commit(), if there were no exceptions</span>
+		<span class="hljs-comment"># outer context calls session.close()</span>
+    <span class="hljs-keyword">try</span>:
+        session.add(some_object)
+        session.add(some_other_object)
+    <span class="hljs-keyword">except</span>:
+        session.rollback()
+        <span class="hljs-keyword">raise</span>
+    <span class="hljs-keyword">else</span>:
+        session.commit()</code></pre><p>更简洁的实现:</p><pre><code class="hljs python"><span class="hljs-comment"># create session and add objects</span>
+<span class="hljs-keyword">with</span> Session(engine) <span class="hljs-keyword">as</span> session, session.begin():
+    session.add(some_object)
+    session.add(some_other_object)
+	<span class="hljs-comment"># inner context calls session.commit(), if there were no exceptions</span>
+	<span class="hljs-comment"># outer context calls session.close()</span></code></pre><p>或者使用 session macker(会话生成器):</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> create_engine
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> sessionmaker
+
+<span class="hljs-comment"># an Engine, which the Session will use for connection</span>
+<span class="hljs-comment"># resources</span>
+engine = create_engine(<span class="hljs-string">&quot;postgresql+psycopg2://scott:tiger@localhost/&quot;</span>)
+
+<span class="hljs-comment"># a sessionmaker(), also in the same scope as the engine</span>
+Session = sessionmaker(engine)
+
+<span class="hljs-comment"># we can now construct a Session() and include begin()/commit()/rollback()</span>
+<span class="hljs-comment"># at once</span>
+<span class="hljs-keyword">with</span> Session.begin() <span class="hljs-keyword">as</span> session:
+    session.add(some_object)
+    session.add(some_other_object)
+	<span class="hljs-comment"># commits the transaction, closes the session</span></code></pre><h2 id="Database-Metadata-数据库元数据-ORM"><a href="#Database-Metadata-数据库元数据-ORM" class="headerlink" title="Database Metadata 数据库元数据 ORM"></a>Database Metadata 数据库元数据 ORM</h2><p>SQLAlchemy 中数据库元数据最常见的基础对象称为 <code>MetaData</code> 、 <code>Table</code> 和 <code>Column</code>.<br>一种创建表的方式是 <strong>显性使用 MetaData</strong> 表集合来创建:</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> Table, Column, Integer, String
+<span class="hljs-comment"># `MetaData` 对象是表的集合</span>
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> MetaData
+metadata_obj = MetaData()
+
+<span class="hljs-comment"># 用户表</span>
+user_table = Table(
+    <span class="hljs-string">&quot;user_account&quot;</span>,
+    metadata_obj,
+    Column(<span class="hljs-string">&quot;id&quot;</span>, Integer, primary_key=<span class="hljs-literal">True</span>),
+    Column(<span class="hljs-string">&quot;name&quot;</span>, String(<span class="hljs-number">30</span>)),
+    Column(<span class="hljs-string">&quot;fullname&quot;</span>, String),
+)
+
+<span class="hljs-comment"># 新建表</span>
+metadata_obj.create_all(engine)</code></pre><h3 id="Declarative-base-声明式基础"><a href="#Declarative-base-声明式基础" class="headerlink" title="Declarative base 声明式基础"></a>Declarative base 声明式基础</h3><p>一种是使用 <strong>对象</strong> 的方式来创建表.</p><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> DeclarativeBase
+<span class="hljs-comment"># 创建一个 DeclarativeBase 的子类 Base</span>
+<span class="hljs-comment"># 可以基于这个子类 Base 来映射 mapper 数据</span>
+<span class="hljs-comment"># 构造声明性类定义的基类 相当于已经弃用的 Base = declarative_base()</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Base</span>(<span class="hljs-title class_ inherited__">DeclarativeBase</span>):
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-comment"># 建立 `Base` 类后,可以基于 Base 类 定义 ORM 映射类</span>
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Optional</span>
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> Mapped
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> mapped_column
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> relationship
+
+<span class="hljs-comment"># ORM 映射类</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    __tablename__ = <span class="hljs-string">&quot;user_account&quot;</span>
+    <span class="hljs-comment"># 为了指示 `Table` 中的列,使用 `mapped_column()` 构造,并结合基于 `Mapped` 类型的键入注释.该对象将生成应用于 `Table` 构造的 `Column` 对象.</span>
+    <span class="hljs-built_in">id</span>: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(primary_key=<span class="hljs-literal">True</span>)
+    name: Mapped[<span class="hljs-built_in">str</span>] = mapped_column(String(<span class="hljs-number">30</span>))
+
+	<span class="hljs-comment"># 对于具有简单数据类型且没有其他选项的列,我们可以单独指示 `Mapped` 类型注释,使用简单的 Python 类型</span>
+    fullname: Mapped[<span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>]]
+    addresses: Mapped[<span class="hljs-type">List</span>[<span class="hljs-string">&quot;Address&quot;</span>]] = relationship(back_populates=<span class="hljs-string">&quot;user&quot;</span>)
+
+	<span class="hljs-comment"># 获得可读的字符串输出</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__repr__</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;User(id=<span class="hljs-subst">&#123;self.<span class="hljs-built_in">id</span>!r&#125;</span>, name=<span class="hljs-subst">&#123;self.name!r&#125;</span>, fullname=<span class="hljs-subst">&#123;self.fullname!r&#125;</span>)&quot;</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Address</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    __tablename__ = <span class="hljs-string">&quot;address&quot;</span>
+    <span class="hljs-built_in">id</span>: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(primary_key=<span class="hljs-literal">True</span>)
+    email_address: Mapped[<span class="hljs-built_in">str</span>]
+    user_id = mapped_column(ForeignKey(<span class="hljs-string">&quot;user_account.id&quot;</span>))
+    user: Mapped[User] = relationship(back_populates=<span class="hljs-string">&quot;addresses&quot;</span>)
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__repr__</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;Address(id=<span class="hljs-subst">&#123;self.<span class="hljs-built_in">id</span>!r&#125;</span>, email_address=<span class="hljs-subst">&#123;self.email_address!r&#125;</span>)&quot;</span>
+
+<span class="hljs-comment"># 向数据库构建表</span>
+<span class="hljs-comment"># 运行 PRAGMA 语句,但不会生成新表,因为发现它们已经存在</span>
+Base.metadata.create_all(engine)
+</code></pre><h3 id="Table-Reflection-表反射"><a href="#Table-Reflection-表反射" class="headerlink" title="Table Reflection 表反射"></a>Table Reflection 表反射</h3><p>用于识别已有数据库的映射.</p><pre><code class="hljs python"><span class="hljs-comment"># `MetaData` 对象是表的集合,元数据</span>
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> MetaData
+metadata_obj = MetaData()
+<span class="hljs-comment"># 将创建一个新的 `Table` 对象 自动识别</span>
+some_table = Table(<span class="hljs-string">&quot;some_table&quot;</span>, metadata_obj, autoload_with=engine)</code></pre><h2 id="Working-with-Data-处理数据"><a href="#Working-with-Data-处理数据" class="headerlink" title="Working with Data 处理数据"></a>Working with Data 处理数据</h2><h3 id="Working-with-sql-core-拼接构造-sql-语句"><a href="#Working-with-sql-core-拼接构造-sql-语句" class="headerlink" title="Working with sql core 拼接构造 sql 语句"></a>Working with sql core 拼接构造 sql 语句</h3><p>reference: <a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/tutorial/data_select.html">Using SELECT Statements — SQLAlchemy 2.0 Documentation</a></p><h4 id="Insert-插入"><a href="#Insert-插入" class="headerlink" title="Insert 插入"></a>Insert 插入</h4><pre><code class="hljs python"><span class="hljs-keyword">with</span> engine.connect() <span class="hljs-keyword">as</span> conn:
+	<span class="hljs-comment"># insert(user_table).values(name=&quot;spongebob&quot;, fullname=&quot;Spongebob Squarepants&quot;)</span>
+    result = conn.execute(
+        insert(user_table),
+        [
+            &#123;<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;sandy&quot;</span>, <span class="hljs-string">&quot;fullname&quot;</span>: <span class="hljs-string">&quot;Sandy Cheeks&quot;</span>&#125;,
+            &#123;<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;patrick&quot;</span>, <span class="hljs-string">&quot;fullname&quot;</span>: <span class="hljs-string">&quot;Patrick Star&quot;</span>&#125;,
+        ],
+    )
+    conn.commit()</code></pre><h4 id="Select-选择查询"><a href="#Select-选择查询" class="headerlink" title="Select 选择查询"></a>Select 选择查询</h4><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> select
+stmt = select(user_table).where(user_table.c.name == <span class="hljs-string">&quot;spongebob&quot;</span>)
+<span class="hljs-built_in">print</span>(stmt) <span class="hljs-comment"># 生成一段 mysql 语句</span>
+<span class="hljs-comment"># SELECT user_account.id, user_account.name, user_account.fullname FROM user_account WHERE user_account.name = :name_1</span>
+
+<span class="hljs-comment"># first() 第一个数据</span>
+row = session.execute(select(User)).first()
+
+<span class="hljs-comment"># all() 全部数据</span>
+session.execute(
+    select(User.name, Address).where(User.<span class="hljs-built_in">id</span> == Address.user_id).order_by(Address.<span class="hljs-built_in">id</span>)
+).<span class="hljs-built_in">all</span>()
+
+<span class="hljs-comment"># where 语句 c: column</span>
+user_table.c.name == <span class="hljs-string">&quot;squidward&quot;</span>
+select(user_table).where(user_table.c.name == <span class="hljs-string">&quot;squidward&quot;</span>)
+
+<span class="hljs-comment"># 多查</span>
+<span class="hljs-built_in">print</span>(
+    select(address_table.c.email_address)
+    .where(user_table.c.name == <span class="hljs-string">&quot;squidward&quot;</span>)
+    .where(address_table.c.user_id == user_table.c.<span class="hljs-built_in">id</span>)
+)
+<span class="hljs-built_in">print</span>(
+    select(address_table.c.email_address).where(
+        user_table.c.name == <span class="hljs-string">&quot;squidward&quot;</span>,
+        address_table.c.user_id == user_table.c.<span class="hljs-built_in">id</span>,
+    )
+)
+
+<span class="hljs-comment"># AND OR 语句</span>
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> and_, or_
+<span class="hljs-built_in">print</span>(
+    select(Address.email_address).where(
+        and_(
+            or_(User.name == <span class="hljs-string">&quot;squidward&quot;</span>, User.name == <span class="hljs-string">&quot;sandy&quot;</span>),
+            Address.user_id == User.<span class="hljs-built_in">id</span>,
+        )
+    )
+)
+
+<span class="hljs-comment"># ORDER BY 排序依据</span>
+<span class="hljs-built_in">print</span>(select(user_table).order_by(user_table.c.name))</code></pre><h4 id="Update-更新"><a href="#Update-更新" class="headerlink" title="Update 更新"></a>Update 更新</h4><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> update
+stmt = (
+    update(user_table)
+    .where(user_table.c.name == <span class="hljs-string">&quot;patrick&quot;</span>)
+    .values(fullname=<span class="hljs-string">&quot;Patrick the Star&quot;</span>)
+)
+<span class="hljs-built_in">print</span>(stmt)
+
+
+<span class="hljs-keyword">with</span> engine.begin() <span class="hljs-keyword">as</span> conn:
+    result = conn.execute(
+        update(user_table)
+        .values(fullname=<span class="hljs-string">&quot;Patrick McStar&quot;</span>)
+        .where(user_table.c.name == <span class="hljs-string">&quot;patrick&quot;</span>)
+    )
+    <span class="hljs-built_in">print</span>(result.rowcount)
+
+update_stmt = (
+    update(user_table)
+    .where(user_table.c.name == <span class="hljs-string">&quot;patrick&quot;</span>)
+    .values(fullname=<span class="hljs-string">&quot;Patrick the Star&quot;</span>)
+    .returning(user_table.c.<span class="hljs-built_in">id</span>, user_table.c.name) <span class="hljs-comment"># 定义返回的数据</span>
+)
+
+
+<span class="hljs-built_in">print</span>(update_stmt)
+delete_stmt = (
+    delete(user_table)
+    .where(user_table.c.name == <span class="hljs-string">&quot;patrick&quot;</span>)
+    .returning(user_table.c.<span class="hljs-built_in">id</span>, user_table.c.name)
+)
+<span class="hljs-built_in">print</span>(delete_stmt)</code></pre><h4 id="Delete-删除"><a href="#Delete-删除" class="headerlink" title="Delete 删除"></a>Delete 删除</h4><pre><code class="hljs python">delete_stmt = (
+    delete(user_table)
+    .where(user_table.<span class="hljs-built_in">id</span> == address_table.user_id)
+    .where(address_table.email_address == <span class="hljs-string">&quot;patrick@aol.com&quot;</span>)
+)</code></pre><h4 id="Count-计数"><a href="#Count-计数" class="headerlink" title="Count 计数"></a>Count 计数</h4><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/12941416/how-to-count-rows-with-select-count-with-sqlalchemy/76155009#76155009?newreg=931f85ad102d493db5aaa753479640f9">python - How to count rows with SELECT COUNT(*) with SQLAlchemy? - Stack Overflow</a></p><pre><code class="hljs python"><span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> func, select
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">MyModel</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    ...
+
+statement = select(func.count()).select_from(MyModel)
+count: <span class="hljs-built_in">int</span> = session.execute(statement).scalar()</code></pre><h3 id="Woking-with-ORM"><a href="#Woking-with-ORM" class="headerlink" title="Woking with ORM"></a>Woking with ORM</h3><p>Instances of Classes represent Rows 表类的实例代表行.</p><pre><code class="hljs python">squidward = User(name=<span class="hljs-string">&quot;squidward&quot;</span>, fullname=<span class="hljs-string">&quot;Squidward Tentacles&quot;</span>)
+krabs = User(name=<span class="hljs-string">&quot;ehkrabs&quot;</span>, fullname=<span class="hljs-string">&quot;Eugene H. Krabs&quot;</span>)
+session = Session(engine)
+session.add(squidward)
+session.commit()</code></pre><p>从主键获取对象:</p><pre><code class="hljs python">some_squidward = session.get(User, <span class="hljs-number">4</span>) <span class="hljs-comment"># 直接返回数据库对象类型</span>
+some_squidward = User(<span class="hljs-built_in">id</span>=<span class="hljs-number">4</span>, name=<span class="hljs-string">&#x27;squidward&#x27;</span>, fullname=<span class="hljs-string">&#x27;Squidward Tentacles&#x27;</span>)</code></pre><p>从 execute 获取对象:<code>scalar()</code> scalar &#x2F;ˈskeɪ.lər&#x2F; adj. 标量的</p><pre><code class="hljs python">sandy = session.execute(select(User).filter_by(name=<span class="hljs-string">&quot;sandy&quot;</span>)).scalar_one()
+
+session.execute(
+  select(User)
+).scalars().<span class="hljs-built_in">all</span>()
+
+<span class="hljs-comment"># or</span>
+
+session.scalars(
+  select(User)
+).<span class="hljs-built_in">all</span>()</code></pre><h2 id="AsyncIO-Support"><a href="#AsyncIO-Support" class="headerlink" title="AsyncIO Support"></a>AsyncIO Support</h2><p>对异步 IO 的支持:<a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/intro.html#asyncio-support">Overview — SQLAlchemy 2.0 Documentation</a></p><p>reference: <a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html">Asynchronous I&#x2F;O (asyncio) — SQLAlchemy 2.0 Documentation</a></p><p>install:</p><pre><code class="hljs shell">pip install sqlalchemy[asyncio]</code></pre><p>install Asynchronous DBAPI:</p><pre><code class="hljs python">
+<span class="hljs-comment"># SQLTIE3 sqlite+aiosqlite:///database.db  # 数据库文件名为 database.db 不存在的新建一个</span>
+<span class="hljs-comment"># 异步 mysql+aiomysql://user:password@host:port/dbname</span>
+DB_URL = <span class="hljs-string">&quot;mysql+aiomysql://root:123456@localhost:3306/tgconfigs&quot;</span></code></pre><p>uses:</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> asyncio
+
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> Column
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> MetaData
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> select
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> String
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> Table
+<span class="hljs-keyword">from</span> sqlalchemy.ext.asyncio <span class="hljs-keyword">import</span> create_async_engine
+
+meta = MetaData()
+t1 = Table(<span class="hljs-string">&quot;t1&quot;</span>, meta, Column(<span class="hljs-string">&quot;name&quot;</span>, String(<span class="hljs-number">50</span>), primary_key=<span class="hljs-literal">True</span>))
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Base</span>(AsyncAttrs, DeclarativeBase):
+    <span class="hljs-keyword">pass</span>
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">async_main</span>() -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-comment"># 创建异步数据库 engine</span>
+    engine = create_async_engine(
+        <span class="hljs-string">&quot;postgresql+asyncpg://scott:tiger@localhost/test&quot;</span>,
+        echo=<span class="hljs-literal">True</span>,
+    )
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> engine.begin() <span class="hljs-keyword">as</span> conn:
+        <span class="hljs-comment"># `run_sync()` 方法可用于调用特殊的 DDL 函数,例如不包含可等待挂钩的 `MetaData.create_all()`</span>
+        <span class="hljs-keyword">await</span> conn.run_sync(meta.create_all)
+
+        <span class="hljs-keyword">await</span> conn.execute(
+            t1.insert(), [&#123;<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;some name 1&quot;</span>&#125;, &#123;<span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;some name 2&quot;</span>&#125;]
+        )
+
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> engine.connect() <span class="hljs-keyword">as</span> conn:
+        <span class="hljs-comment"># select a Result, which will be delivered with buffered</span>
+        <span class="hljs-comment"># results</span>
+        result = <span class="hljs-keyword">await</span> conn.execute(select(t1).where(t1.c.name == <span class="hljs-string">&quot;some name 1&quot;</span>))
+
+        <span class="hljs-built_in">print</span>(result.fetchall())
+
+    <span class="hljs-comment"># for AsyncEngine created in function scope, close and</span>
+    <span class="hljs-comment"># clean-up pooled connections</span>
+    <span class="hljs-comment"># 当在超出上下文并被垃圾回收的作用域中使用 `AsyncEngine` 对象时,建议使用 `await` 调用 `AsyncEngine.dispose()` 方法,如上例中的 `async_main` 函数.这确保了连接池保持打开的任何连接都将在可等待上下文中得到正确处理.</span>
+    <span class="hljs-keyword">await</span> engine.dispose()
+
+
+asyncio.run(async_main())</code></pre><h3 id="Complete-example-完整示例"><a href="#Complete-example-完整示例" class="headerlink" title="Complete example 完整示例"></a>Complete example 完整示例</h3><pre><code class="hljs python"><span class="hljs-keyword">from</span> __future__ <span class="hljs-keyword">import</span> annotations
+
+<span class="hljs-keyword">import</span> asyncio
+<span class="hljs-keyword">import</span> datetime
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>
+
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> ForeignKey
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> func
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> select
+<span class="hljs-keyword">from</span> sqlalchemy.ext.asyncio <span class="hljs-keyword">import</span> AsyncAttrs
+<span class="hljs-keyword">from</span> sqlalchemy.ext.asyncio <span class="hljs-keyword">import</span> async_sessionmaker
+<span class="hljs-keyword">from</span> sqlalchemy.ext.asyncio <span class="hljs-keyword">import</span> AsyncSession
+<span class="hljs-keyword">from</span> sqlalchemy.ext.asyncio <span class="hljs-keyword">import</span> create_async_engine
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> DeclarativeBase
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> Mapped
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> mapped_column
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> relationship
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> selectinload
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Base</span>(AsyncAttrs, DeclarativeBase):
+    <span class="hljs-keyword">pass</span>
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">A</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    __tablename__ = <span class="hljs-string">&quot;a&quot;</span>
+
+    <span class="hljs-built_in">id</span>: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(primary_key=<span class="hljs-literal">True</span>)
+    data: Mapped[<span class="hljs-built_in">str</span>]
+    create_date: Mapped[datetime.datetime] = mapped_column(server_default=func.now())
+    bs: Mapped[<span class="hljs-type">List</span>[B]] = relationship()
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">B</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    __tablename__ = <span class="hljs-string">&quot;b&quot;</span>
+    <span class="hljs-built_in">id</span>: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(primary_key=<span class="hljs-literal">True</span>)
+    a_id: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(ForeignKey(<span class="hljs-string">&quot;a.id&quot;</span>))
+    data: Mapped[<span class="hljs-built_in">str</span>]
+
+<span class="hljs-comment"># 类型注释一个函数</span>
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">insert_objects</span>(<span class="hljs-params">async_session: async_sessionmaker[AsyncSession]</span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-comment"># 使用 async session maker 构造 session</span>
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> async_session() <span class="hljs-keyword">as</span> session:
+        <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> session.begin():
+            session.add_all(
+                [
+                    A(bs=[B(), B()], data=<span class="hljs-string">&quot;a1&quot;</span>),
+                    A(bs=[], data=<span class="hljs-string">&quot;a2&quot;</span>),
+                    A(bs=[B(), B()], data=<span class="hljs-string">&quot;a3&quot;</span>),
+                ]
+            )
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">select_and_update_objects</span>(<span class="hljs-params"></span>
+<span class="hljs-params">    async_session: async_sessionmaker[AsyncSession],</span>
+<span class="hljs-params"></span>) -&gt; <span class="hljs-literal">None</span>:
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> async_session() <span class="hljs-keyword">as</span> session:
+        stmt = select(A).options(selectinload(A.bs))
+
+        result = <span class="hljs-keyword">await</span> session.execute(stmt)
+
+        <span class="hljs-keyword">for</span> a1 <span class="hljs-keyword">in</span> result.scalars():
+            <span class="hljs-built_in">print</span>(a1)
+            <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;created at: <span class="hljs-subst">&#123;a1.create_date&#125;</span>&quot;</span>)
+            <span class="hljs-keyword">for</span> b1 <span class="hljs-keyword">in</span> a1.bs:
+                <span class="hljs-built_in">print</span>(b1)
+
+        result = <span class="hljs-keyword">await</span> session.execute(select(A).order_by(A.<span class="hljs-built_in">id</span>).limit(<span class="hljs-number">1</span>))
+
+        a1 = result.scalars().one()
+
+        a1.data = <span class="hljs-string">&quot;new data&quot;</span>
+
+        <span class="hljs-keyword">await</span> session.commit()
+
+        <span class="hljs-comment"># access attribute subsequent to commit; this is what</span>
+        <span class="hljs-comment"># expire_on_commit=False allows</span>
+        <span class="hljs-built_in">print</span>(a1.data)
+
+        <span class="hljs-comment"># alternatively, AsyncAttrs may be used to access any attribute</span>
+        <span class="hljs-comment"># as an awaitable (new in 2.0.13)</span>
+        <span class="hljs-keyword">for</span> b1 <span class="hljs-keyword">in</span> <span class="hljs-keyword">await</span> a1.awaitable_attrs.bs:
+            <span class="hljs-built_in">print</span>(b1)
+
+
+<span class="hljs-keyword">async</span> <span class="hljs-keyword">def</span> <span class="hljs-title function_">async_main</span>() -&gt; <span class="hljs-literal">None</span>:
+    engine = create_async_engine(
+        <span class="hljs-string">&quot;postgresql+asyncpg://scott:tiger@localhost/test&quot;</span>,
+        echo=<span class="hljs-literal">True</span>,
+    )
+
+    <span class="hljs-comment"># async_sessionmaker: a factory for new AsyncSession objects.</span>
+    <span class="hljs-comment"># expire_on_commit - don&#x27;t expire objects after transaction commit</span>
+    async_session = async_sessionmaker(engine, expire_on_commit=<span class="hljs-literal">False</span>)
+
+    <span class="hljs-comment"># 异步使用同步方法</span>
+    <span class="hljs-keyword">async</span> <span class="hljs-keyword">with</span> engine.begin() <span class="hljs-keyword">as</span> conn:
+        <span class="hljs-keyword">await</span> conn.run_sync(Base.metadata.create_all)
+
+    <span class="hljs-keyword">await</span> insert_objects(async_session)
+    <span class="hljs-keyword">await</span> select_and_update_objects(async_session)
+
+    <span class="hljs-comment"># for AsyncEngine created in function scope, close and</span>
+    <span class="hljs-comment"># clean-up pooled connections</span>
+    <span class="hljs-keyword">await</span> engine.dispose()
+
+
+asyncio.run(async_main())</code></pre><h2 id="Legacy-query-API-旧版查询-API"><a href="#Legacy-query-API-旧版查询-API" class="headerlink" title="Legacy query API 旧版查询 API"></a>Legacy query API 旧版查询 API</h2><p><a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/orm/queryguide/query.html#legacy-query-api">Legacy Query API — SQLAlchemy 2.0 Documentation</a></p><p>多年来,它是使用 SQLAlchemy ORM 时唯一的 SQL 接口.从版本 2.0 开始,一种全新的工作方式现已成为标准方法,其中适用于 Core 的相同 <code>select()</code> 构造也适用于 ORM,为构建查询提供一致的接口.</p><p>从旧版本迁移到 2.0 <a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/changelog/migration_20.html#migration-20-query-usage">SQLAlchemy 2.0 - Major Migration Guide — SQLAlchemy 2.0 Documentation</a></p><p>SQLAlchemy 2.0 中最大的明显变化是使用 <code>Session.execute()</code> 与 <code>select()</code> 结合使用来运行 ORM 查询,而不是使用 <code>Session.query()</code> .正如其他地方提到的,没有计划实际删除 <code>Session.query()</code> API 本身,因为它现在是通过在内部使用新 API 来实现的,它将保留为旧版 API,并且这两个 API 都可以自由使用.</p><h2 id="SQLAlchemy-Extansion-扩展"><a href="#SQLAlchemy-Extansion-扩展" class="headerlink" title="SQLAlchemy Extansion 扩展"></a>SQLAlchemy Extansion 扩展</h2><h3 id="Sqlalchemy-utils"><a href="#Sqlalchemy-utils" class="headerlink" title="Sqlalchemy-utils"></a>Sqlalchemy-utils</h3><p>看样子比较老了.</p><p><a target="_blank" rel="noopener" href="https://github.com/kvesteri/sqlalchemy-utils">GitHub - kvesteri&#x2F;sqlalchemy-utils: Various utility functions and datatypes for SQLAlchemy.</a></p><blockquote><p>Various utility <strong>functions</strong> and <strong>datatypes</strong> for SQLAlchemy. SQLAlchemy 的各种实用函数和数据类型.</p></blockquote><h2 id="Q-A"><a href="#Q-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h2><h3 id="Is-the-Session-thread-safe-线程安全-Is-AsyncSession-safe-异步并发安全-to-share-in-concurrent-tasks-¶"><a href="#Is-the-Session-thread-safe-线程安全-Is-AsyncSession-safe-异步并发安全-to-share-in-concurrent-tasks-¶" class="headerlink" title="Is the Session thread-safe (线程安全)? Is AsyncSession safe(异步并发安全) to share in concurrent tasks?¶"></a>Is the Session thread-safe (线程安全)? Is AsyncSession safe(异步并发安全) to share in concurrent tasks?<a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/orm/session_basics.html#is-the-session-thread-safe-is-asyncsession-safe-to-share-in-concurrent-tasks" title="Permalink to this heading">¶</a></h3><p><code>Session</code> 是一个可变的、有状态的对象,<code>session</code> 的实例就无法在并发线程或异步任务之间共享. <code>Session</code> 旨在以非并发方式使用.</p><p>在设计并发数据库应用程序时,适当的模型是 <strong>每个并发任务&#x2F;线程都处理自己的数据库事务 <code>Session</code></strong>.</p><p>确保这种使用的最佳方法是在线程或任务内部的顶级 Python 函数中本地使用 <strong>标准上下文管理器</strong> 模式.</p><h3 id="sqlalchemy-exc-CompileError-VARCHAR-varchar-变长字符串-Requires-a-length-on-dialect-方言-mysql"><a href="#sqlalchemy-exc-CompileError-VARCHAR-varchar-变长字符串-Requires-a-length-on-dialect-方言-mysql" class="headerlink" title="sqlalchemy.exc.CompileError: VARCHAR(varchar 变长字符串) Requires a length on dialect(方言) mysql"></a>sqlalchemy.exc.CompileError: VARCHAR(varchar 变长字符串) Requires a length on dialect(方言) mysql</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/16472725/invalidrequesterror-varchar-requires-a-length-on-dialect-mysql">python - InvalidRequestError: VARCHAR requires a length on dialect mysql - Stack Overflow</a></p><p>official docs: <a target="_blank" rel="noopener" href="https://docs.sqlalchemy.org/en/20/orm/mapping_styles.html#imperative-mapping">ORM Mapped Class Overview — SQLAlchemy 2.0 Documentation</a></p><p>在 mysql 中使用 <strong>变长字符串</strong> 时需要使用 <code>String(100)</code> 来定义字符串长度:</p><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TGForwardConfig</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    __tablename__ = <span class="hljs-string">&#x27;forward_config&#x27;</span>
+
+    <span class="hljs-built_in">id</span>: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(primary_key=<span class="hljs-literal">True</span>, doc=<span class="hljs-string">&quot;主键&quot;</span>)
+    source: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(doc=<span class="hljs-string">&quot;源群聊ID&quot;</span>)
+    dest: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(doc=<span class="hljs-string">&quot;目标群聊ID&quot;</span>)
+    forward_history_count: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(doc=<span class="hljs-string">&quot;转发历史信息的数量&quot;</span>)
+    interval_second: Mapped[<span class="hljs-built_in">int</span>] = mapped_column(doc=<span class="hljs-string">&quot;间隔时间单位 s&quot;</span>, default=<span class="hljs-number">20</span>)
+
+    remove_word: Mapped[<span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>]] = mapped_column(
+        String(<span class="hljs-number">100</span>), doc=<span class="hljs-string">&quot;删除的文字,用,分隔&quot;</span>, nullable=<span class="hljs-literal">True</span>)
+    cut_word: Mapped[<span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>]] = mapped_column(
+        String(<span class="hljs-number">100</span>), doc=<span class="hljs-string">&quot;截断词,用 , 分隔&quot;</span>, nullable=<span class="hljs-literal">True</span>)
+    skip_word: Mapped[<span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>]] = mapped_column(
+        String(<span class="hljs-number">100</span>), doc=<span class="hljs-string">&quot;跳过词,用 , 分隔&quot;</span>, nullable=<span class="hljs-literal">True</span>)
+    add_text: Mapped[<span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>]] = mapped_column(
+        String(<span class="hljs-number">100</span>), doc=<span class="hljs-string">&quot;跳过语,用 , 分隔&quot;</span>, nullable=<span class="hljs-literal">True</span>)</code></pre><h3 id="Default-timestamp"><a href="#Default-timestamp" class="headerlink" title="Default timestamp"></a>Default timestamp</h3><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13370317/sqlalchemy-default-datetime">python - SQLAlchemy default DateTime - Stack Overflow</a></p><p>使用 <code>server_default</code> 而不是 <code>default</code> ,因此值将由数据库本身处理.</p><pre><code class="hljs python">create_at: Mapped[datetime] = mapped_column(
+    server_default=func.now(), default=<span class="hljs-literal">None</span>, nullable=<span class="hljs-literal">False</span>
+)</code></pre><h3 id="Optimize"><a href="#Optimize" class="headerlink" title="Optimize"></a>Optimize</h3><p>数据库连接方面,可以避免出现 <code>sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (2013, &#39;Lost connection to MySQL server during query&#39;)</code> 的错误,reference: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/goldsunshine/p/17304427.html">sqlalchemy 报错 Lost connection to MySQL server during query 解决 - 金色旭光 - 博客园</a></p><pre><code class="hljs python">engine = create_async_engine(DB_URL, pool_pre_ping=<span class="hljs-literal">True</span>, pool_recycle=<span class="hljs-number">600</span>)</code></pre><h3 id="relationship-延迟加载"><a href="#relationship-延迟加载" class="headerlink" title="relationship 延迟加载"></a><code>relationship</code> 延迟加载</h3><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span>(<span class="hljs-title class_ inherited__">Base</span>):
+    __tablename__ = <span class="hljs-string">&#x27;user&#x27;</span>
+    __table_args__ = &#123;<span class="hljs-string">&#x27;comment&#x27;</span>: <span class="hljs-string">&#x27;转载用户表&#x27;</span>&#125;
+
+    <span class="hljs-built_in">id</span>: Mapped[<span class="hljs-built_in">str</span>] = mapped_column(
+        String(<span class="hljs-number">20</span>), primary_key=<span class="hljs-literal">True</span>, comment=<span class="hljs-string">&quot;用户 ID&quot;</span>)
+       
+    <span class="hljs-comment"># lazy=&#x27;subquery&#x27;</span>
+    configs: Mapped[<span class="hljs-type">List</span>[<span class="hljs-string">&quot;TGForwardConfig&quot;</span>]] = relationship(
+        <span class="hljs-string">&#x27;TGForwardConfig&#x27;</span>, backref=<span class="hljs-string">&#x27;user&#x27;</span>, lazy=<span class="hljs-string">&#x27;subquery&#x27;</span>)
+   
+    reg_at: Mapped[datetime] = mapped_column(
+        nullable=<span class="hljs-literal">False</span>, server_default=func.now(), comment=<span class="hljs-string">&#x27;注册时间&#x27;</span>
+    )
+
+    auth_time: Mapped[datetime] = mapped_column(
+        default=<span class="hljs-keyword">lambda</span>: datetime.now() + timedelta(days=<span class="hljs-number">7</span>), nullable=<span class="hljs-literal">True</span>, comment=<span class="hljs-string">&#x27;授权时间&#x27;</span>)
+
+    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__repr__</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-keyword">return</span> <span class="hljs-string">f&#x27;&lt;User(user_id=<span class="hljs-subst">&#123;self.<span class="hljs-built_in">id</span>&#125;</span>, reg_at=<span class="hljs-subst">&#123;self.reg_at&#125;</span>, auth_time=<span class="hljs-subst">&#123;self.auth_time&#125;</span>)&gt;&#x27;</span></code></pre><h3 id="DatabaseURL-数据库-URL"><a href="#DatabaseURL-数据库-URL" class="headerlink" title="DatabaseURL 数据库 URL"></a>DatabaseURL 数据库 URL</h3><pre><code class="hljs python"><span class="hljs-comment"># SQLTIE3 sqlite+aiosqlite:///database.db  # 数据库文件名为 database.db 不存在的新建一个</span>
+<span class="hljs-comment"># 异步 mysql+aiomysql://user:password@host:port/dbname</span>
+DB_URL = os.environ.get(<span class="hljs-string">&quot;DB_URL&quot;</span>) <span class="hljs-keyword">or</span> <span class="hljs-string">&quot;mysql+aiomysql://root:123456@localhost/tgforward?charset=utf8mb4&quot;</span></code></pre><h2 id="Alembic-英-ə’lembɪk-蒸馏器-sqlalchemy-数据库迁移-Migration"><a href="#Alembic-英-ə’lembɪk-蒸馏器-sqlalchemy-数据库迁移-Migration" class="headerlink" title="Alembic [英 &#x2F;ə’lembɪk&#x2F; 蒸馏器] sqlalchemy 数据库迁移 Migration"></a>Alembic [英 &#x2F;ə’lembɪk&#x2F; 蒸馏器] sqlalchemy 数据库迁移 Migration</h2><p>reference:</p><ol><li><a target="_blank" rel="noopener" href="https://testdriven.io/blog/fastapi-sqlmodel/">FastAPI with Async SQLAlchemy, SQLModel, and Alembic | TestDriven.io</a></li><li>using asyncio with alembic(异步支持): <a target="_blank" rel="noopener" href="https://alembic.sqlalchemy.org/en/latest/cookbook.html#using-asyncio-with-alembic">Cookbook — Alembic 1.12.0 documentation</a></li><li>官方文档: <a target="_blank" rel="noopener" href="https://alembic.sqlalchemy.org/en/latest/index.html">https://alembic.sqlalchemy.org/en/latest/index.html</a></li><li>相关项目: <a target="_blank" rel="noopener" href="https://github.com/python-gino/gino">https://github.com/python-gino/gino</a> - <a target="_blank" rel="noopener" href="https://www.bookstack.cn/read/gino-1.0-zh/3d56d5fe80ab5932.md">文档</a></li></ol><p>migration[&#x2F;maɪˈɡreɪʃn&#x2F;] (migr-&#x3D;remove 迁移 + ate(动词) + tion (名词))</p><p>immigrant[&#x2F;ˈɪmɪɡrənt&#x2F;] 移民(imm-&#x3D;in 进入 -ant 表名词,”…人”.)</p><p>merge[&#x2F;mɜːdʒ&#x2F;]: 合并</p><p>alembic [英 &#x2F;ə’lembɪk&#x2F;] 是 sqlalchemy 的作者开发的.用来做 OMR 模型与数据库的迁移与映射.<code>alembic</code> 使用方式跟 <code>git</code> 有点了类似,表现在两个方面,第一个,<code>alembic</code> 的所有命令都是以 <code>alembic</code> 开头;第二,<code>alembic</code> 的迁移文件也是通过版本进行控制的.首先,通过 <code>pip install alembic</code> 进行安装.以下将解释 <code>alembic</code> 的用法:</p><h3 id="初始化-alembic-仓库"><a href="#初始化-alembic-仓库" class="headerlink" title="初始化 alembic 仓库"></a>初始化 alembic 仓库</h3><p>在终端中,<code>cd</code> 到你的项目目录中,然后执行命令 <code>alembic init alembic</code>,创建一个名叫 <code>alembic</code> 的仓库.</p><h3 id="创建模型类"><a href="#创建模型类" class="headerlink" title="创建模型类"></a>创建模型类</h3><p>创建一个 <code>models.py</code> 模块,然后在里面定义你的模型类,示例代码如下:</p><pre><code class="hljs python"><span class="hljs-keyword">import</span> asyncio
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Dict</span>, <span class="hljs-type">Optional</span>, Mapping, <span class="hljs-type">Type</span>, TypeVar, <span class="hljs-type">Tuple</span>
+<span class="hljs-keyword">import</span> typing
+<span class="hljs-keyword">from</span> typing_extensions <span class="hljs-keyword">import</span> Annotated
+<span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime, timedelta
+
+<span class="hljs-comment"># sqlalchemy type</span>
+<span class="hljs-keyword">import</span> sqlalchemy.orm
+<span class="hljs-keyword">from</span> sqlalchemy <span class="hljs-keyword">import</span> (
+    ForeignKey,
+    func,
+    select,
+    update,
+    String,
+    DateTime,
+    Integer,
+    Float,
+    Boolean,
+)
+
+<span class="hljs-comment"># sqlalchemy asynchronous support</span>
+<span class="hljs-keyword">from</span> sqlalchemy.ext.asyncio <span class="hljs-keyword">import</span> (
+    AsyncAttrs,
+    async_sessionmaker,
+    AsyncSession,
+    create_async_engine,
+)
+
+<span class="hljs-comment"># sqlalchemy ORM</span>
+<span class="hljs-keyword">from</span> sqlalchemy.orm <span class="hljs-keyword">import</span> (
+    DeclarativeBase,
+    Mapped,
+    mapped_column,
+    relationship,
+)
+
+<span class="hljs-keyword">import</span> inspect
+
+<span class="hljs-keyword">from</span> .string_template <span class="hljs-keyword">import</span> StringTemplate, CustomParam, getBeijingTime
+
+IDPK = Annotated[
+    <span class="hljs-built_in">int</span>,
+    mapped_column(primary_key=<span class="hljs-literal">True</span>, autoincrement=<span class="hljs-literal">True</span>, comment=<span class="hljs-string">&quot;ID主键&quot;</span>),
+]
+
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Base</span>(AsyncAttrs, DeclarativeBase):
+    <span class="hljs-string">&quot;&quot;&quot;ORM 基类 | 详见[1]、[3]&quot;&quot;&quot;</span>
+
+    __table_args__ = &#123;
+        <span class="hljs-string">&quot;mysql_engine&quot;</span>: <span class="hljs-string">&quot;InnoDB&quot;</span>,  <span class="hljs-comment"># MySQL引擎</span>
+        <span class="hljs-string">&quot;mysql_charset&quot;</span>: <span class="hljs-string">&quot;utf8mb4&quot;</span>,  <span class="hljs-comment"># 设置表的字符集</span>
+        <span class="hljs-string">&quot;mysql_collate&quot;</span>: <span class="hljs-string">&quot;utf8mb4_general_ci&quot;</span>,  <span class="hljs-comment"># 设置表的校对集</span>
+    &#125;
+</code></pre><h3 id="设置数据库连接"><a href="#设置数据库连接" class="headerlink" title="设置数据库连接"></a>设置数据库连接</h3><p>在 <a target="_blank" rel="noopener" href="https://alembic.sqlalchemy.org/en/latest/tutorial.html#editing-the-ini-file" title="alembic.ini">alembic.ini</a> 中设置数据库的连接,<code>sqlalchemy.url = driver://user:pass@localhost/dbname</code>,比如以 mysql 数据库为例,则配置后的代码为:</p><p><code>sqlalchemy.url = mysql+mysqldb://root:root@localhost/alembic_demo?charset=utf8</code></p><h3 id="设置-target-metadata"><a href="#设置-target-metadata" class="headerlink" title="设置 target_metadata"></a>设置 target_metadata</h3><p>为了使用模型类更新数据库,需要在 <code>env.py</code> 文件中设置 <a target="_blank" rel="noopener" href="https://alembic.sqlalchemy.org/en/latest/ops.html?highlight=target_metadata#alembic.operations.Operations.f" title="target_metadata">target_metadata</a>,默认为 <code>target_metadata=None</code>.使用 <code>sys</code> 模块把当前项目的路径导入到 <code>path</code> 中:</p><pre><code class="hljs python"><span class="hljs-comment"># add your model&#x27;s MetaData object here</span>
+<span class="hljs-comment"># for &#x27;autogenerate&#x27; support</span>
+<span class="hljs-comment"># from myapp import mymodel</span>
+<span class="hljs-comment"># target_metadata = mymodel.Base.metadata</span>
+<span class="hljs-keyword">from</span> app.database.model <span class="hljs-keyword">import</span> Base
+target_metadata = Base.metadata</code></pre><p>test connect:</p><pre><code class="hljs shell">alembic current</code></pre><h3 id="自动生成迁移文件"><a href="#自动生成迁移文件" class="headerlink" title="自动生成迁移文件"></a>自动生成迁移文件</h3><p>使用 <code>alembic revision --autogenerate -m &quot;message&quot;</code> 将当前模型中的状态生成迁移文件.</p><p>异步 Base 支持:</p><pre><code class="hljs shell">alembic init -t async alembic</code></pre><h3 id="更新数据库"><a href="#更新数据库" class="headerlink" title="更新数据库"></a>更新数据库</h3><p>使用 <code>alembic upgrade head</code> 将刚刚生成的迁移文件,真正映射到数据库中.同理,如果要降级,那么使用 <code>alembic downgrade head</code>.</p><h3 id="命令和参数解释"><a href="#命令和参数解释" class="headerlink" title="命令和参数解释"></a>命令和参数解释</h3><ol><li><code>init</code>:创建一个 alembic 仓库.</li><li><code>revision</code>:创建一个新的版本文件.</li><li><code>–autogenerate</code>:自动将当前模型的修改,生成迁移脚本.</li><li><code>-m</code>:本次迁移做了哪些修改,用户可以指定这个参数,方便回顾.</li><li><code>upgrade</code>:将指定版本的迁移文件映射到数据库中,会执行版本文件中的 upgrade 函数.如果有多个迁移脚本没有被映射到数据库中,那么会执行多个迁移脚本.</li><li><code>[head]</code>:代表最新的迁移脚本的版本号.</li><li><code>downgrade</code>:会执行指定版本的迁移文件中的 downgrade 函数.</li><li><code>heads</code>:展示 head 指向的脚本文件版本号.</li><li><code>history</code>:列出所有的迁移版本及其信息.</li><li><code>current</code>:展示当前数据库中的版本号.</li></ol><p>另外,在你第一次执行 <code>upgrade</code> 的时候,就会在数据库中创建一个名叫 <code>alembic_version</code> 表,这个表只会有一条数据,记录当前数据库映射的是哪个版本的迁移文件.</p><h3 id="经典错误"><a href="#经典错误" class="headerlink" title="经典错误"></a>经典错误</h3><table><thead><tr><th>错误描述</th><th>原因</th><th>解决办法</th></tr></thead><tbody><tr><td><code>FAILED: Target database is not up to date.</code></td><td>主要是 <code>heads</code> 和 <code>current</code> 不相同.<code>current</code> 落后于 heads 的版本.</td><td>将 <code>current</code> 移动到 <code>head</code> 上.<code>alembic upgrade head</code></td></tr><tr><td><code>FAILED: Can&#39;t locate revision identified by &#39;77525ee61b5b&#39;</code></td><td>数据库中存的版本号不在迁移脚本文件中</td><td>删除数据库的 <code>alembic_version</code> 表中的数据,重新执行 <code>alembic upgrade head</code></td></tr></tbody></table><h3 id="Is-it-possible-to-store-the-alembic-connect-string-outside-of-alembic-ini"><a href="#Is-it-possible-to-store-the-alembic-connect-string-outside-of-alembic-ini" class="headerlink" title="Is it possible to store the alembic connect string outside of alembic.ini"></a>Is it possible to store the alembic connect string outside of <code>alembic.ini</code></h3><p>ref: <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/22178339/is-it-possible-to-store-the-alembic-connect-string-outside-of-alembic-ini">python - Is it possible to store the alembic connect string outside of alembic.ini? - Stack Overflow</a></p><pre><code class="hljs python"><span class="hljs-comment"># this is the Alembic Config object, which provides</span>
+<span class="hljs-comment"># access to the values within the .ini file in use.</span>
+config = context.config
+
+<span class="hljs-comment"># this will overwrite the ini-file sqlalchemy.url path</span>
+<span class="hljs-comment"># with the path given in the config of the main code</span>
+<span class="hljs-keyword">import</span> config <span class="hljs-keyword">as</span> ems_config
+config.set_main_option(<span class="hljs-string">&#x27;sqlalchemy.url&#x27;</span>, ems_config.config.get(<span class="hljs-string">&#x27;sql&#x27;</span>, <span class="hljs-string">&#x27;database&#x27;</span>))</code></pre><h3 id="Alembic-for-asynchronous-database-support"><a href="#Alembic-for-asynchronous-database-support" class="headerlink" title="Alembic for asynchronous database support"></a>Alembic for asynchronous database support</h3><p>Alembic[&#x2F;ə’lembɪk&#x2F;] migration[&#x2F;maɪˈɡreɪʃn&#x2F;] 蒸馏器迁移工具异步支持.</p><p>Reference: <a target="_blank" rel="noopener" href="https://dev.to/matib/alembic-with-async-sqlalchemy-1ga">https://dev.to/matib/alembic-with-async-sqlalchemy-1ga</a></p><pre><code class="hljs shell">alembic init alembic
+alembic init -t async alembic # for asynchronous support
+<span class="hljs-meta prompt_"># </span><span class="language-bash"><span class="hljs-built_in">test</span> connect</span>
+alembic current
+<span class="hljs-meta prompt_"></span>
+<span class="hljs-meta prompt_"># </span><span class="language-bash">revision 修正 (re向后 + vis看 + ion名词)</span>
+alembic revision --autogenerate -m &quot;Initial tables&quot;
+
+alembic upgrade head</code></pre></div><div class="post__license"><p><strong>Author: </strong>WhaleFall</p><p><strong>Permalink: </strong><a href="https://www.whaleluo.top/python/python-database-orm-tutorial/">https://www.whaleluo.top/python/python-database-orm-tutorial/</a></p><strong><p>文章默认使用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a> 协议进行许可，使用时请注意遵守协议。</p></strong></div><div class="post-footer__meta"><p>updated at 2023-09-09</p></div><div class="post-entry__tags"><a href="/tags/databases/" class="post-tags__link button"># databases</a><a href="/tags/python/" class="post-tags__link button"># python</a><a href="/tags/ORM/" class="post-tags__link button"># ORM</a><a href="/tags/mysql/" class="post-tags__link button"># mysql</a></div></article><div class="nav"><div class="nav__prev"><a href="/vscode-shortcut-key/" class="nav__link"><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M589.088 790.624L310.464 512l278.624-278.624 45.248 45.248L400.96 512l233.376 233.376z" fill="#808080"></path></svg></div><div><div class="nav__label">Previous Post</div><div class="nav__title">Vscode 常用快捷键</div></div></a></div><div class="nav__next"><a href="/javascript/typescript-fast-start/" class="nav__link"><div><div class="nav__label">Next Post</div><div class="nav__title">TypeScript 快速入门☞北</div></div><div><svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M434.944 790.624l-45.248-45.248L623.04 512l-233.376-233.376 45.248-45.248L713.568 512z" fill="#808080"></path></svg></div></a></div></div><div class="post__comments post__with-toc content-card" id="comment"><h4>Comments</h4><div id="gitalk-container"></div></div></main><footer class="footer"><a href="#" class="button" id="b2t" aria-label="Back to Top" title="Back to Top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="32" height="32"><path d="M233.376 722.752L278.624 768 512 534.624 745.376 768l45.248-45.248L512 444.128zM192 352h640V288H192z" fill="currentColor"></path></svg> </a><span id="busuanzi_container_site_uv" hidden><span></span> <span id="busuanzi_value_site_uv"></span> <span>Viewers</span> <span>|</span> </span><span id="busuanzi_container_site_pv" hidden><span></span> <span id="busuanzi_value_site_pv"></span> <span>Views</span></span><p class="footer-copyright">Copyright © 2018&nbsp;-&nbsp;2024 <a href="/">😊落落のBlog😊</a></p><p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p></footer></div><script defer src="https://api.whaleluo.top/file/?url=https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.1.0/dist/lazyload.min.js"></script><script>window.lazyLoadOptions={elements_selector:".lazy",threshold:0}</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e052e3fc47004feab6ae8122cfeec660"}'></script><script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script><link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"><script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js"></script><script>let lazyloadT = Boolean('true'),
+            auto_fancybox = Boolean('true')
+        if (auto_fancybox) {
+            $(".post__content").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        } else {
+            $(".post__content").find("fancybox").find('img').each(function () {
+                var element = document.createElement("a");
+                $(element).attr("data-fancybox", "gallery");
+                $(element).attr("href", $(this).attr("src"));
+                if (lazyloadT) {
+                    $(element).attr("href", $(this).attr("data-srcset"));
+                }
+                $(this).wrap(element);
+            });
+        }</script><script>function loadComment() {
+            let e, i;
+            (e = document.createElement("script")).src = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js',
+            document.body.appendChild(e);
+            e.onload = () => {
+                var gitalk = new Gitalk({
+                    clientID: 'b2fd920dada050fed5b3',
+                    clientSecret: '5c847cefe7df2df634886eafa178877899404378',
+                    repo: 'WhaleFell.github.io',
+                    owner: 'WhaleFell',
+                    admin: 'WhaleFell',
+                    id: window.location.pathname,
+                    distractionFreeMode: false
+                });
+                gitalk.render('gitalk-container');
+            };
+            (i = document.createElement("link")).rel = "stylesheet",
+            i.href = 'https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css',
+            document.head.appendChild(i);
+        }
+    
+        var runningOnBrowser = typeof window !== "undefined";
+        var isBot = runningOnBrowser && !("onscroll" in window) || typeof navigator !== "undefined" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
+        var supportsIntersectionObserver = runningOnBrowser && "IntersectionObserver" in window;
+    
+        setTimeout(function () {
+            if (!isBot && supportsIntersectionObserver) {
+                var comment_observer = new IntersectionObserver(function(entries) {
+                    if (entries[0].isIntersecting) {
+                        loadComment();
+                        comment_observer.disconnect();
+                    }
+                }, { threshold: [0] });
+                comment_observer.observe(document.getElementById('comment'));
+            } else {
+                loadComment();
+            }
+        }, 1);</script></body></html>
